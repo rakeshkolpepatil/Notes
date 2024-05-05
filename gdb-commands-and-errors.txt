@@ -1,0 +1,733 @@
+##==================================================================================================================================
+One of the best websites for gaining knowledge of the gdb is 
+########################################################################
+https://sourceware.org/gdb/onlinedocs/gdb/Languages.html#Languages 
+########################################################################
+http://www.tutorialspoint.com/gnu_debugger/installing_gdb.htm
+########################################################################
+
+http://www.yolinux.com/TUTORIALS/GDB-Commands.html                    --> GDB commands summarised.
+####################################################################################################################################
+1]  When this error comes - 
+    "Cannot resolve method simt_core_cluster::get_n_active_sms to any overloaded instance"
+    Issue this command - 
+    set overload-resolution off
+=====================================================================================================================================
+
+2] Windows
+
+    info win           
+    This command will give all the details of the windows related to gdb.
+
+    focus src
+    Make the source window active for scrolling.
+
+    focus asm
+    Make the assembly window active for scrolling.
+
+    focus regs
+    Make the register window active for scrolling.
+
+    focus cmd
+    Make the command window active for scrolling.
+
+    refresh
+    Refresh the screen. This is similar to typing C-L. 
+
+    ctr+x o 
+    To change the focus on different available windows.
+
+    set width 70
+    sets width of window to 70.
+
+    winheight name +count
+    winheight name -count   name can be "src/cmd/asm/regs"
+    			    Change the height of the window name by count lines. Positive counts increase the height, while negative counts decrease it. 
+    The name parameter can be one of src (the source window), cmd (command window), asm (disassembly window), or regs (register display window).
+    
+    for screen size see following website
+    https://sourceware.org/gdb/onlinedocs/gdb/Screen-Size.html
+
+
+=====================================================================================================================================
+
+2.1] Format of Layout command 
+
+     If the output of gdb is getting cluttered or sometimes successive lines are printed starting from random pixel of new line then
+     following commands might correct that problem as I think it restores gdb to standard settings.
+
+     layout next   -  Display the next layout.
+
+     layout prev   -  Display the next layout.
+
+     layout src    -  Display the source and command windows.
+
+     layout asm    -  Display the assembly and command windows.
+
+     layout split  -  Display the source, assembly, and command windows.
+    
+     layout regs   -  When in src layout display the register, source, and command windows. When in asm or split layout display the register, assembler,
+		      and command windows. 
+=====================================================================================================================================
+
+3]  Change Size of windows-
+
+     
+
+=====================================================================================================================================
+4] info win    -  List and give the size of all displayed windows.
+   
+   info frame  -  info frame displays information about the current stack frame. 
+
+   info locals -  displays the list of local variables and their values for the current stack frame
+
+   info args   -  displays the list of arguments. 
+
+   backtrace   -  With backtrace you can check in which function you are currently in and from which funciton it was called and so on backwards..
+
+   show commands  -  shows last 10 commads you issued and you can select any one of them by using array keys.
+  
+   info args   -  view all function arguments.
+
+=====================================================================================================================================
+
+5] Debugging With multiple threads
+
+   thread apply all bt 
+(OR)
+   thread apply all print $pc 
+(OR)
+   t a a bt                     -->             For finding out quickly what all threads are doing.
+=====================================================================================================================================
+
+6] ptype <var_name/expression>   -  Gives data type of the var_name or expression.
+=====================================================================================================================================
+
+8] The printf command
+
+    This is even better, as it works like C's function of the same name. For example, suppose you have two integer variables, X and Y,
+    which you would like to have printed out. You can give gdb the command:
+
+	printf "X = %d, Y = %d\n",X,Y
+
+    Note that "\n" is important to get output printed to output screen while single stepping.
+=====================================================================================================================================
+
+9] assign or set command
+set variable node->_data = 5
+assign node->_data = 5
+=====================================================================================================================================
+
+10] TUI Single key mode :- This will display code window and gdb commands window simultaneously.
+   Ctrl-x s := is used to switch in and out of this mode.
+	c    continue
+	d    down
+	f    finish
+	n    next
+	q    exit the SingleKey mode.
+	r    run
+	s    step
+	u    up
+	v    info locals
+	w    where
+    
+    gdb ./programExecutable.o --tui    :- Command to run a program in TUI mode so that code and command window can be seen simultaneously.
+====================================================================================================================================================
+
+11] tb:<line_no>
+    sets breakpoint at line_no in current file.
+
+====================================================================================================================================================
+
+11.1] display x
+      undisplay x
+
+	Constantly display value of variable x, which is shown after every step or pause. Useful if you are constantly checking for a certain value.
+      Use undisplay to remove the constant display.
+
+====================================================================================================================================================
+
+12] Setting The breakpoint
+
+(OR) break <file_name>:<line_no>      -->   sets breakpoint at "line_no" in file named "file_name".
+
+(OR) break line_no if condition      -->   It will stop the program at line line_no only if condition gets true.
+
+(OR) break func1   -->    settng breakpoint for a c-function as it donot have polymorphism.
+
+(OR) break TestClass::testFunc(int)  -->  settng breakpoint for a cpp-function as it has polymorphism.
+
+(OR) tbreak <file_name>:<line_no>    -->  A temporary breakpoint stops the program only once, and is then removed. 
+
+(OR) rbreak        -->    break on a funcion matching regular expression.
+
+(OR) tb:<line_no>  -->    sets breakpoint at line_no in current file.
+
+(OR) ignore 2 5    -->    ignore break point 2 for 5 times.
+
+(OR) disable 2     -->    disable breakpoint 2. again issue enable command to make it active again.
+
+(gdb) condition <breakpoint#> <condition>      -->      Set/change the condition of an existing breakpoint or watchpoint
+======================================================================================================================================================
+
+12.1]  Dumping contents to a file. I think file should be in directory where gdb is run.
+
+     dump value <FILE> <EXPRESSION>  		Writes the value of EXPRESSION to the specified FILE in raw target ordered bytes.
+
+     dump binary memory <FILE> <START> <STOP>   Writes the contents of memory within the range [START .. STOP) to the specified FILE in binary format.
+     dump binary value <FILE> <EXPRESSION> 	Writes the value of EXPRESSION to the specified FILE in raw target ordered bytes.
+
+     dump ihex memory/value			has 2 subcommands same as "dump binary" but this command prints output to file in 
+						intel hex format. 
+
+     dump srec memory/value			This command also has two subcommands like "dump binary" but it prints content to the file 
+ 						in "srec" format.
+
+     dump tekhex memory/value			This command also has two subcommands like "dump binary" but it prints content to the file 
+ 						in "tekhex" format.
+
+     dump memory <FILE> <START> <STOP>		Writes the contents of memory within the range [START .. STOP) to the specified FILE in 
+						raw target ordered bytes.
+======================================================================================================================================================
+
+12.2] See help for these commands from gdb. These might be helpful commands to you.
+
+	define 
+	detach 
+	directory    
+	disassemble
+	disconnect
+	display
+	dont-repeat
+	down-silently	
+	dprintf
+======================================================================================================================================================
+
+12.3] Debugging macros (or) how to tell compiler to generate debug symbols specially optimized for gdb, you can use -ggdb3 switch.
+
+      make KCFLAGS=-ggdb3
+
+======================================================================================================================================================
+
+13] watch point.
+
+(OR) If you add a local variable to watch point, gdb deletes corresponding watchpoint immediately after its scope is over. To avoid 
+     this add option '-location' along with variable name.
+
+     watch -location <object>
+
+(OR) rwatch    for read watch
+(OR) awatch    watch for both read and write to the variable. It is same as watch command.
+
+=====================================================================================================================================
+
+13.1] call xyz()
+
+     This will make a call to a function xyz().
+
+=====================================================================================================================================
+
+13.2] list
+(OR) list +10
+(OR) list -10
+     This command will list code lines below from the line to which program control is pointing.
+=====================================================================================================================================
+
+13.3] when you want to print the value associated with a enum variable in gdb then use this format __
+
+(gdb) P (int) <your_enum_variable>
+(gdb) p /d <your_enum_variable> 
+
+=====================================================================================================================================
+
+14] Output redirection in gdb
+    
+    A simple method to log gdb output to a file while still seeing the output (which eases writing commands) is to use tee
+
+    gdb command |& tee gdb.log
+    
+    But I think this option donot work for gebtui mode. There is one more option to start logging.
+
+(OR)
+    set logging on
+    set logging file my_god_object.log
+    show logging
+
+(OR)
+    http://stackoverflow.com/questions/5941158/gdb-print-to-file-instead-of-stdout
+
+(OR)
+    run > outfile
+
+(OR)
+    tty file.txt
+
+    First create the "file.txt" in the directory in which you are running gdb. If you type this command when you are in gdbtui mode, 
+    It will redirect output of gdb to file "file.txt" but it won't show that output to console. Now if you want to see live changes 
+    being made to "file.txt" in another terminal issue one of the follwing commands.
+
+    tail -f file.txt
+    tailf   file.txt
+
+=====================================================================================================================================
+
+14.1] To see output of the printf on gdb console
+
+    Due to buffering, we do not see output of printf statement on gdb output terminal immediately after stepping over printf statement.
+    gdb buffers output of printf statement till it encounter \n in printf statement. so if you want to see output of printf statement 
+    on gdb console put \n in it. 
+
+    issue
+
+(or) fflush(stdout)     flushes buffer to stdout stream.
+(or) fflush(0)          flushes all the buffers.
+     immediately after the printf statement.
+
+(or) call flush_all()
+=====================================================================================================================================
+
+15] To know the file in which currently program control is there -
+ 
+    (gdb) f
+OR
+    (gdb) frame
+=======================================================================================================================================================
+
+16] To know print settings in gdb and to see output of gdb in desired format on console, go through this document-
+
+    https://sourceware.org/gdb/onlinedocs/gdb/Print-Settings.html
+
+    Use "show <variable/preference name>" command to 
+
+info set                                   To know all the environment variables (or preferences) of gdb which control editing, history of gdb.
+
+show print symbol			   To know current value of symbol is on or off.
+
+set print symbol on/off                    gdb will print the symbol corresponding to the address, if exists.
+
+set print array on/off                     Printing array               
+
+set print array-indices on/off             Printing array-indices       
+
+set print elements no-of-elements/0        Setting limit on number of elements an a data type like array or string to be printed on console.        
+                                           0 meaning unlimited i.e. all the elements in data structure      
+
+set print null-stop on/off       	   stop displaying array elements when first null element is encountered.
+
+set print pretty on/off 		   print structures in indented format which is more easy to read.
+
+set print union on/off                     print union that are contained in the structures.
+
+set print object on/off			   When displaying a pointer to an object, identify the actual (derived) type of the object rather than the declared type,
+				 using the virtual function table. Note that the virtual function table is required—this feature can only work for objects that
+                                 have run-time type identification; a single virtual method in the object's declared type is sufficient.
+
+set print static-members                   print static members when displaying a c++ object.
+
+
+set print vtbl on/off                      pretty print c++ virtual function tables.
+
+set history save on                        To save history of commands issued in gdb across all the sessions i.e it saves commands issued
+                                           in file .gdb_history in current directory after you close gdb.
+======================================================================================================================================================
+
+17] KEY BINDINGS AND Entering in gdbtui mode 
+ 
+  when in you type minus sign while running gdb you can enter into the gdbtui mode.
+(then)
+  ctr+x a            -	This key binding can also be used for switchng between tui mode and normal gdb without tui.
+  ctr+x 2  	     -	This will split source window into two viz source and assembly window.
+  ctr+x o  	     -	This is used to switch between different windows 
+  setpi,nexti  	     -	This instructions are used to move one assembly instruction at a time.
+  Ctrl+b	     -	This moves cursor backwards, one by one character.
+  Ctrl+f   	     -	This moves cursor forward, one by one character.
+  Ctrl+x or Ctrl+u   -  Undo the last editing of the command.
+=====================================================================================================================================================
+
+18] Examining Memory contents
+
+
+=====================================================================================================================================================
+18.1] command 
+
+    In addition to conditional breakpoints, the command command lets you specify commands to be run every time you hit a breakpoint.
+    In following example composes the list of commands that will be executed when breakpoint 1 is hit.
+
+(gdb) command 1
+Type commands for when breakpoint 1 is hit, one per line.
+End with a line saying just "end".
+>print addr
+>print len
+>print prot
+>end
+(gdb)
+
+     If the first command in command list is silent then usual message of stopping at the breakpoint is not printed.
+=====================================================================================================================================================
+18.2] save breakpoints <filename.txt>
+
+      This will save all breakpoint definitions together with their commands and ignore counts, into a file filename suitable for 
+      use in a later debugging session. This includes all types of breakpoints (breakpoints, watchpoints, catchpoints, tracepoints).
+      To read the saved breakpoint definitions, use the source command (see Command Files)
+
+=====================================================================================================================================================
+18.2] The define command
+
+      This saves you typing. You can put together one or more commands into a macro. For instance, recall our example from above,
+
+		printf "X = %d, Y = %d\n",X,Y
+
+      If you wanted to frequently use this command during your debugging session, you could do:
+
+(gdb) define pxy
+Type commands for definition of "pxy".
+End with a line saying just "end".
+>printf "%X = %d, Y = %d\n",X,Y
+>end
+
+Then you could invoke it just by typing ``pxy''. 
+
+=====================================================================================================================================================
+18.2] gdb --args
+
+This one is simple, but a huge timesaver if you didn't know it. If you just want to start a program under gdb, passing some arguments 
+on the command line, you can just build your command-line like usual, and then put "gdb --args" in front to launch gdb with the target 
+program and the argument list both set:
+
+$ gdb --args pizzamaker --deep-dish --toppings=pepperoni
+  ...
+(gdb) show args
+  Argument list to give program being debugged when it is started is
+  " --deep-dish --toppings=pepperoni".
+(gdb) b main
+  Breakpoint 1 at 0x45467c: file oven.c, line 123.
+(gdb) run
+
+=====================================================================================================================================================
+
+19] Running linux commands inside gdb
+  
+    shell <linux_command>
+    type shell follwed by your linux command you need not leave the gdb for that.
+
+=====================================================================================================================================================
+20] Recompiling the Source Without Exiting gdb (OR) Make command inside gdb
+
+    For issueing make command you need not leave gdb envirnment, you can issue it inside the gdb itself.
+=====================================================================================================================================================
+
+20.1] Running program in backward direction in gdb
+
+      see this link "https://sourceware.org/gdb/onlinedocs/gdb/Reverse-Execution.html"
+
+=====================================================================================================================================================
+
+21] The x command (Examine)
+    x (for "examine") is used to output regions of memory in various formats. It takes two arguments in a slightly unusual syntax:-
+
+
+(gdb) x/FMT ADDRESS
+
+ADDRESS, unsurprisingly, is the address to examine; It can be an arbitrary expression, like the argument to print.
+
+FMT controls how the memory should be dumped, and consists of (up to) three components:
+
+    A numeric COUNT of how many elements to dump
+    A single-character FORMAT, indicating how to interpret and display each element
+    A single-character SIZE, indicating the size of each element to display.
+
+
+There are many valid "format" arguments; help x in gdb will give you the full list, so here's my favorites:
+
+x/x displays elements in hex, x/d displays them as signed decimals, x/c displays characters, x/i disassembles memory as 
+instructions, and x/s interprets memory as C strings.
+
+The SIZE argument can be one of: b, h, w, and g, for one-, two-, four-, and eight-byte blocks, respectively.
+
+If you have debug symbols so that GDB knows the types of everything you might want to inspect, p is usually a better choice,
+but if not, x is invaluable for taking a look at memory.
+=====================================================================================================================================================
+
+21.0] Output Format
+
+      By default, gdb prints a value according to its data type.
+
+  The simplest use of output formats is to say how to print a value already computed. This is done by starting the arguments of the print command with
+  a slash and a format letter. The format letters supported are:
+
+  x   -->    Regard the bits of the value as an integer, and print the integer in hexadecimal.
+  d   -->    Print as integer in signed decimal.
+  u   -->     Print as integer in unsigned decimal.
+  o   -->     Print as integer in octal.
+  t   -->     Print as integer in binary. The letter ‘t’ stands for “two”.
+
+  for more info visit --> https://sourceware.org/gdb/onlinedocs/gdb/Output-Formats.html
+=====================================================================================================================================================
+
+21.1] The printf command
+
+      This is even better, as it works like C's function of the same name. For example, suppose you have two integer variables, X and Y,
+      which you would like to have printed out. You can give gdb the command:
+
+      printf "X = %d, Y = %d\n",X,Y
+
+=====================================================================================================================================================
+
+21.2] 
+      IF you want to have a conditional breakpoint on the return value of a function which is not assigned to any of the local variables, put condition
+      on contents of $eax. This is the register where return values of most of the functions are stored. 
+
+=====================================================================================================================================================
+
+22] How to check Segmentation Fault ?
+
+x/i is invaluable as a quick way to disassemble memory:
+
+(gdb) x/5i schedule
+   0xffffffff8154804a <schedule>:   push   %rbp
+   0xffffffff8154804b <schedule+1>: mov    $0x11ac0,%rdx
+   0xffffffff81548052 <schedule+8>: mov    %gs:0xb588,%rax
+   0xffffffff8154805b <schedule+17>:    mov    %rsp,%rbp
+   0xffffffff8154805e <schedule+20>:    push   %r15
+
+If I'm stopped at a segfault in unknown code, one of the first things I try is something like x/20i $ip-40, to get a look at what
+the code I'm stopped at looks like.
+
+=====================================================================================================================================================
+
+23] To view elements positioned in the middle of a vector in c++ :
+
+(gdb) p *&a[0]@10
+$1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+This prints the first 10 elements in the vector. Looks ugly, but is not so complicated really: '&a[0]' gets the address of the
+first element. '*' dereferences the address back to the vector's data type. Finally '@10' pulls out 10 elements.
+
+Of course, to view elements 550-553 in a long vector, all you do is 'p *&a[550]@4'.
+
+=====================================================================================================================================================
+
+24] To print elements of a vector 
+
+(gdb) p myvector@N
+      This will print first N elements of the vector.
+
+(gdb) This is probably heavily dependent on your compiler version, but for GCC 4.1.2, the pointer to the internal array is given by
+      following function:
+
+      myVector._M_impl._M_start
+
+      so you can access members of vector by using "[]" operator.
+
+ e.g. myVector._M_impl._M_start[0]  - 0th element 
+      myVector._M_impl._M_start[1]  - 1st element 
+
+=====================================================================================================================================================
+
+24.0]
+     -> In stl, dequeue data structure would have been implemented by means of some other data structure like list or array. Now 
+     -> "myVector" is a vector type variable, "myVector._M_impl" will point to its implementated data structure, 
+     -> "_M_start & _M_finish" are pointers to begin and end of this data structure
+     -> Each pointer "_M_start" & "_M_finish" has following pointer fields -
+  	  1) _M_cur 
+	  2) _M_first 
+	  3) _M_last 
+	  4) _M_node	
+=======================================================================================================================================================
+
+24.1] 
+ p (*iterator).(member_variable)
+ (or)
+ p *(iter._M_current)             -->         To print iterator contents
+ 
+ p strcture_name[0]               -->         To print members of a struct variable and their values issue -
+
+ p /s <string_variable>           -->         To print String variable or varible in the form of string.
+
+=======================================================================================================================================================
+
+24.3] Printing contents of stl containers in readable format --
+
+      To print the contents of stl containers micros written in file "stl-views.gdb" in home directory and copied from website
+      "https://sourceware.org/ml/gdb/2008-02/msg00064/stl-views.gdb" are useful.
+=======================================================================================================================================================
+
+24.4] To manipulate history in the gdb, issue following commands - 
+
+      https://sourceware.org/gdb/onlinedocs/gdb/Commands-For-History.html
+
+previous-history (Ctrl-p)      Move `back' through the history list, fetching the previous command. 
+next-history (Ctrl-n)          Move `forward' through the history list, fetching the next command. 
+reverse-search-history (C-r)   Search backward starting at the current line and moving `up' through the history as necessary. 
+                               This is an incremental search.
+forward-search-history (C-s)   Search forward starting at the current line and moving `down' through the the history as necessary.
+                               This is an incremental search. 
+=======================================================================================================================================================
+
+24.5] "source" command
+
+      A command file for gdb is a text file made of lines that are gdb commands. Comments (lines starting with #) may also be included.
+      An empty line in a command file does nothing; it does not mean to repeat the last command, as it would from the terminal. 
+
+      You can request the execution of a command file with the source command.
+
+      source [-s] [-v] <filename>               > Executes the command file named filename.
+						> '-s' option will search for the filename in path variable "PATH"
+						> '-v' option is used to display the commands as they are executed from command file.
+
+
+      In command file you can use following control flow commmands.
+
+      if else, while, loop_break, loop_continue, end 
+========================================================================================================================================================
+25] To print bitset of any size I have written a function "rbitset" in "~/stl-views.gdb" file. There I have manipulated some member functions of the 
+    bitset, to just have an idea of the member functions please go through this webpage
+  
+    "https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-4.2/bitset-source.html"
+
+========================================================================================================================================================
+
+25.1] Please have look at "cgdb". cgdb it is very close to gdb, it is textmode but has a source window above with syntax highlight on the code.	
+
+
+========================================================================================================================================================
+
+26] Writting functions in gdb
+
+    write these functions in .gdbinit file in home directory and call when breakpoint is hit.
+    Functions in gdb are written using "gdb script" through it to avoid syntax error in functions.
+
+    also look at this website - "https://www.praetorian.com/blog/building-a-basic-fuzzer-with-gdb-the-five-minute-gdb-scripting-tutorial"
+
+
+********** arg0 is array name, arg1 starting index, arg2 end index ******************
+define pra
+  set $head = $arg1
+  set $final = $arg2
+  while $head < $final
+      printf "%d:", $arg0[$head]
+      set $head = $head + 1
+  end
+  printf "\n"
+end
+
+document pra
+  Print the array pointed to by first argument from index second arg to third
+  argument.
+end
+
+************************************************************************************
+define prl
+  set $head = $arg0
+  while $head != 0
+      printf "%d:", $head->$arg1
+      set $head = $head->next
+  end
+  printf "\n"
+end
+
+document prl
+  Print the linked list pointed to by first parameter and data field pointed
+  by second parameter.
+end
+
+************************************************************************************
+
+        ============================================================================================================================================
+							Python along with GDB
+        ============================================================================================================================================
+
+You can write python scripts to interact with GDB.
+
+python gdb.execute('next')                    --> gdb.execute() is used to run gdb commands with python 
+
+python bp = gdb.Breakpoint('test.cpp:23')     --> A breakpoint is created at line no 23 in test.cpp
+
+python bp.enabled = False                     --> Disable the breakpoint.
+
+python bps = gdb.breakpoints()                --> It stores list of breakpoints in variable bps.
+print (bps)                                   --> Print all the breakpoints.
+print (bps[0].location)                       --> Print location at which breakpoint 0 was created.
+
+var_i = gdb.parse_and_eval('i')               --> This will read the value of i from the program and put it into the var_i variable in python script.
+				                  For latest value of i, you need to read it again before using it in python script.
+
+python help(gdb)                              --> It displays help pages for gdb.
+python help(gdb.breakpoints)                  --> It displays help for gdb.breakpoints.
+
+
+
+
+############################################################################################################################################################
+        ============================================================================================================================================
+							GDB PRETTY PRINTING FOR PRINTING STL CONTAINERS.
+        ============================================================================================================================================
+############################################################################################################################################################
+
+-> To print the contents of the stl containers properly in the gdb you need to use python pretty printing library.
+
+-> I think there are many python libraries for printing stl containers, you can use the one from this url - https://gcc.gnu.org/svn/gcc/branches/gcc-4_6-branch/libstdc++-v3/python/
+
+-> Use following command to save this library locally - svn co  https://gcc.gnu.org/svn/gcc/branches/gcc-4_6-branch/libstdc++-v3/python/
+   It will create a folder named python in the directory where you run the above command.
+
+-> Then change the path of this python folder in following code and add it to your .gdbinit file.
+
+	python
+	import sys
+	sys.path.insert(0, '/home/ghost/Build/python')
+	from libstdcxx.v6.printers import register_libstdcxx_printers
+	register_libstdcxx_printers (None)
+	end 
+
+############################################################################################################################################################
+        ============================================================================================================================================
+							GDB ERRORS AND SOLUTIONS
+        ============================================================================================================================================
+############################################################################################################################################################
+
+1] gdb Could not find operator[] & same procedure applies if you are not able to access some of the functions of the stl library.
+
+   see this webpage "http://stackoverflow.com/questions/24130093/gdb-could-not-find-operator"
+
+ This error happens because compiler has not instantiated "operator[]" method of the dequeue class. By default compiler will instantiate 
+ only thoes methods of the class thoes are used in vector.
+  
+ so, if you want to use all the methods of the standard template library class, delcare that class explicitly in the begining of the file.
+
+ In my case, I was not able to access "[]" method of the dequeue type variable declared inside a class as "std::deque<shd_warp_t*> m_pending_warps"
+ so, what I did was, to declare this deque class as explicitly as "template class std::deque<shd_warp_t*>;" But as compiler do not know "shd_warp_t"
+ type variable, I added "class shd_warp_t;" declaration before it.
+
+  class shd_warp_t;
+  template class std::deque< shd_warp_t* >;
+============================================================================================================================================================
+
+2] gdb <incomplete type> error while printing a variable value in gdb then you can type cast it to some data type.
+   e.g. 
+      (gdb) print x
+
+      gives error then use
+ 
+      (gdb) print (string)x  //It typecasts x to data type string.
+============================================================================================================================================================
+
+ Attempt to take address of value not located in memory.
+	 GDB gives this error when you try to get content of iterator of the stl object (By using * operator) which is storing pointers of a object. And this 
+         is nothing but GDB bug.
+
+############################################################################################################################################################
+        ============================================================================================================================================
+							GCC FLAGS FOR GDB  
+          see gcc documentation "https://gcc.gnu.org/onlinedocs/gcc-4.6.4/gcc/Optimize-Options.html#Optimize-Options"
+        ============================================================================================================================================
+                Mostly gcc/g++ switches are specified using these standard variables in makefile - CXXFLAGS, OPTFLAGS
+############################################################################################################################################################
+
+ "-fno-inline-small-functions" 
+   add this switch to CXXFLAGS variable in make files to avoid small function inlining i.e. when function code is small, function call is actually 
+   replaced by the function code itself.
+
+-fno-default-inline
+   By default functions defined inside the class are inlined and it becomes difficult to access through gdb, to prevent this add this switch while compiling.
+
