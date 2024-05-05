@@ -1,0 +1,318 @@
+=====================================================================================================================================================
+=====================================================================================================================================================
+					     Rakesh's  Notes about Makefile
+				          Tutorial :     http://www.tutorialspoint.com/makefile/makefile_macros.htm
+					                    http://makepp.sourceforge.net/1.19/makepp_tutorial.html
+					                    http://www.gnu.org/software/make/manual/html_node/Include.html#Include   (Best Tutorial)
+                                             For understanding make file you need to learn bash scripting also.
+=====================================================================================================================================================
+=====================================================================================================================================================
+
+     0] Go through this website to understand working of the make file.
+        http://www.codeproject.com/Articles/31488/Makefiles-in-Linux-An-Overview
+
+_____________________________________________________________________________________________________________________________________________________
+     1]   To comment out a line in make file you need to preceed it with #.
+          By default execution of make file will start from the first target but not with the targets whose name start with '.'
+_____________________________________________________________________________________________________________________________________________________
+     1.1] To tell make command ignore the erros and continue, compilation process use -i flag after make command.
+
+          If you want to skip over the failed builds. That is if you are building so many files and some of the files throw some 
+          error, in such cases compilation is aborted. so, if you do the following command compilation will continue till end.
+
+          make -i
+_____________________________________________________________________________________________________________________________________________________
+     1.2]  This is very very useful utility -
+
+           If you want to override a defination of a variable inside make file, specify that variable along with make call. Like this -
+
+               sudo make CUDA_INSTALL_PATH=/home/rakesh/cuda_4.2/cuda
+
+           Here value of "CUDA_INSTALL_PATH" variable specified while calling make is used while compilation and all other values are ignored. 
+_____________________________________________________________________________________________________________________________________________________
+
+     2] By default make file is named as "Makefile".
+        The makefile often resides in the same directory as other source files and it can have any name you want. For instance, if your makefile is 
+        called run.mk then to execute make command type:
+
+        make -f run.mk
+
+        -f option tells make command the makefile name that should be processed.
+
+        There are also two special names that makes -f option not necessary:  makefile and Makefile. If you run make not passing a file name it will look 
+        first for a file called  makefile. If that does not exist it will look for a file called Makefile. If you have two files in your directory one 
+        called makefile and other called Makefile and type:
+
+        make <enter>
+
+        make command will process the file called makefile. In that case, you should use -f option if you want make command processes Makefile.
+
+        Some options used along with make command --
+        -C <dir>     --> this option when used along with make command means change to directory 'dir' before reading any of the make files or doing 
+                         anything else.	 
+_____________________________________________________________________________________________________________________________________________________
+
+     2.0] To specify particular version of gcc and g++ to use while doing make, using following options - 
+
+          For example, to compile you driver, if gcc 4.6 is needed, you can do "CC=gcc-4.6 ./NVIDIA-Linux-x86_64-xxxxxx.run"
+
+          And when you compile the SDK, if you need gcc 4.4, just do "CC=gcc-4.4 make". I'm not sure, but you might also need CXX=g++-4.4 in addition.
+_____________________________________________________________________________________________________________________________________________________
+
+     2.1] A make file consists of a set of targets, dependencies and rules. A target most of time is a file to be created/updated. target depends upon 
+          a set of source files or even others targets described in Dependency List. Rules are the necessary commands to create the target file by using 
+          Dependency List.
+
+          target: dependency1 dependency2 dependency3
+          <tab>   command1 i.e. rule1
+          <tab>   command2 i.e. rule2
+
+          Each command in the Rules, must be on lines that start with a TAB character. Space issue errors. Also, a space at end of the rule line may cause
+          make issues an error message.
+_____________________________________________________________________________________________________________________________________________________
+
+     2.2] Phony Targets, Macros and special characters
+
+          sometimes a target does not mean a file but it might represent an action to be performed. When a target  is not related to a file it is called 
+          phony target.
+     eg.
+          getobj:
+     	mv obj/*.o .  2>/dev/null
+
+          getobj target move all files with .o extension from obj directory to current directory. If there is no a single .o file in obj/ directory then 
+          mv command will return error which is passed to make command. 
+_____________________________________________________________________________________________________________________________________________________
+
+     2.3] There is a special phony target called 'all' where you can group several main targets and phony targets. 'all' phony target  is often used to lead 
+          make command while   
+          reading makefile. 
+
+          all: getobj app install putobj
+
+          The make command will execute the targets in sequence: getobj, app, install and putobj. 
+
+          Another interesting feature, make command supports is the concept of MACRO in makefiles. We can define a MACRO by writing:
+
+_____________________________________________________________________________________________________________________________________________________
+
+     2.4] By default make file will print the commands to the console, before executing it. To avoid this you can do -
+
+      	1) on a case-by-case basis, by adding @ at the beginning of the command.
+     	2) globally, by adding the .SILENT built-in target.
+     	3) somewhere along the make process, by invoking sub-make(s) with one of the flags -s, --silent or --quiet, as in $(MAKE) --silent -C someDir, 
+     	   for example. From that moment on, command echoing is suppressed in the sub-make. 
+_____________________________________________________________________________________________________________________________________________________
+
+     2.5] Ignoring the errors while processing rules.
+          By default make command will abort it's execution when some error is detected while processing rules. 
+          Ex:- 
+                getobj:
+          	-mv obj/*.o .  2>/dev/null
+               minus sign before rule tells make command to ignore the errors occured while processing rule.
+
+               getobj:
+          	-@mv obj/*.o .  2>/dev/null
+
+               - Tells the make to ignore errors. 
+               There is another special character: @ - Tells make not to print the command to standard output before executing.
+_____________________________________________________________________________________________________________________________________________________
+
+     3] all: 
+        install:
+          are called as targets and are given as arguments while executing make file. e.g.- make all, make install etc.
+          This ensures that only code of these targets and their dependencies is executed.
+_____________________________________________________________________________________________________________________________________________________
+
+     4] If you want to write a command in make file, so that it is executed when make file is executed, you should give space of one tab before it.
+          Ex:-
+
+          all: filename.cpp header.cpp
+          	gcc filename.cpp header.cpp 
+
+          In above example "all:" is target, "gcc filename.cpp header.cpp" is command that we want to execute and it depends on two files filename.cpp and 
+          header.cpp
+_____________________________________________________________________________________________________________________________________________________
+
+     5] What does 2>/dev/null mean…?
+
+          The > operator redirects the output usually to a file but it can be to a device. You can also use >> to append.
+
+          If you don't specify a number then the standard output stream is assumed but you can also redirect errors
+
+          > file redirects stdout to file
+          1> file redirects stdout to file
+          2> file redirects stderr to file
+          &> file redirects stdout and stderr to file
+
+          /dev/null is the null device it takes any input you want and throws it away. It can be used to suppress any output.
+
+          In short, it redirects stderr (fd 2) to the black hole (discard output of the command).
+
+          Some more common use case
+
+              command > /dev/null 2>&1 &          ---------->    run command in background, discard stdout and stderr
+
+              command >> /path/to/log 2>&1 &      ---------->    run command and redirect stdout and stderr to log file
+_____________________________________________________________________________________________________________________________________________________
+
+     6] Suffix Rules
+
+          .c.o:
+              cc -c $<
+     
+          When make file contans this suffix rule and it is invoked by giving papameter like abc.o then this suffix rule is processed as if follwing target was
+          defined in makefile.
+     
+          make -f <name_of_makefile> <name_of_target_file_that_you_want_to_create>
+     
+          abc.o: abc.c
+              cc -c abc.c
+_____________________________________________________________________________________________________________________________________________________
+
+     7]  Special characters
+
+         What is that $< defined in suffix rule? That means name of current dependency. In the case of .c.o suffix rule,  $< is replaced by xxxxx.c file 
+         when rule is executed. There are others:
+
+         $? 	list of dependencies changed more recently than current target.
+         $@	name of current target.
+         $<	name of current dependency.
+         $*	name of current dependency without extension.
+_____________________________________________________________________________________________________________________________________________________
+
+     8]  The include Directive
+     
+         http://www.gnu.org/software/make/manual/html_node/Include.html#Include
+
+         The include directive tells the make to suspend reading the current makefile and read one or more other makefiles before continuing. The directive
+         is a line in the makefile that looks follows −
+
+         include filenames...
+
+         The file names can contain shell file name patterns. Extra spaces are allowed and ignored at the beginning of the line, but a tab is not allowed.
+_____________________________________________________________________________________________________________________________________________________
+
+     9]  The override Directive
+     
+         If a variable has been set with a command argument, then ordinary assignments in the makefile are ignored. If you want to set the variable in
+         the makefile even though it was set with a command argument, you can use an override directive, which is a line that looks follows−
+     
+         override variable = value
+     
+     (or)
+     
+         override variable := value
+_____________________________________________________________________________________________________________________________________________________
+
+     10]  Difference between = and :=(or ::=) and ?= in makefile.
+
+          http://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors
+_____________________________________________________________________________________________________________________________________________________
+
+     11]  $(OBJS): | $(OBJDIR)
+
+          You should see here the usage of the | pipe operator, defining an order only prerequisite. Meaning that the $(OBJDIR) target should be existent
+          (instead of more recent) in order to build the current target. So if $(OBJDIR) is absent then it is first created and then S(OBJS) is created.
+_____________________________________________________________________________________________________________________________________________________
+
+     12]  $(strip string)
+
+         Removes leading and trailing whitespace from string and replaces each internal sequence of one or more whitespace characters with a single space.
+         Thus, ‘$(strip a b c )’ results in ‘a b c’. 
+_____________________________________________________________________________________________________________________________________________________
+
+     13] $(findstring find,in)
+
+         Searches in for an occurrence of find. If it occurs, the value is find; otherwise, the value is empty. You can use this function in a conditional
+         to test for the presence of a specific substring in a given string.
+
+         $(findstring a,a b c)
+         $(findstring a,b c)
+         produce the values ‘a’ and ‘’ (the empty string), respectively
+_____________________________________________________________________________________________________________________________________________________
+
+     14] For more functions on string substution and analysis like given below, see website
+
+         http://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions
+
+         $(filter pattern…,text)
+         $(filter-out pattern…,text)
+         $(sort list)
+         $(word n,text)
+         $(wordlist s,e,text)
+_____________________________________________________________________________________________________________________________________________________
+
+     15] Wildcard Examples
+         http://www.gnu.org/software/make/manual/html_node/Wildcard-Examples.html#Wildcard-Examples
+_____________________________________________________________________________________________________________________________________________________
+
+     16]  The Function wildcard
+          http://www.gnu.org/software/make/manual/html_node/Wildcard-Function.html#Wildcard-Function
+_____________________________________________________________________________________________________________________________________________________
+
+     17]  Changing directory before doing anything
+
+           $(MAKE) -C ./sample1/  clean
+           $(MAKE) -C ./sample1/
+
+          The first command is translated to "make -C ./sample1/  clean". It will change to directory ./sample1 before executing the clean target from 
+          the default makefile of ./sample1 directory and again will return to current working directory after finishing the job.
+     
+          Next command will get translated to "make -C ./sample1/" it will initiate second instance of make file, change to the directory ./sample1 and 
+          execute default makefile there.
+_____________________________________________________________________________________________________________________________________________________
+
+     18]  $(MAKE) <target>
+
+          This command will start new instance of the make command, it will print the message of entering into the directory, then execute rules of 
+          specified target from makefile of that directory and again return to the present working directory.
+_____________________________________________________________________________________________________________________________________________________
+
+     19]  filter function in make file
+
+          How do you perform a logical OR using make's ifeq operator?  
+
+          ifeq ($(GCC_MINOR), 4)
+         	CFLAGS += -fno-strict-overflow
+          endif
+          ifeq ($(GCC_MINOR), 5)
+         	CFLAGS += -fno-strict-overflow
+          endif
+
+     (soln)
+
+          ifeq ($(GCC_MINOR),$(filter $(GCC_MINOR),4 5))
+
+          	filter X, A B will return those of A,B that are equal X.
+
+          A variation of this is
+
+          	 ifneq (,$(filter $(GCC_MINOR),4 5))
+
+          where a negative comparison against an empty string is used instead (filter will return en empty string if GCC_MINOR doesn't match the arguments)
+
+          The downside to those methods is the arguments have to be single words.
+_____________________________________________________________________________________________________________________________________________________
+
+     20]  The shell, foreach, origin functions see this website.
+               https://www.chemie.fu-berlin.de/chemnet/use/info/make/make_8.html#SEC73
+_____________________________________________________________________________________________________________________________________________________
+
+     21]  "-o, -d, !, -n" these are the bash scripting options which are used in if condition of the makefile. Know more about them.
+
+          http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html  
+
+          EXPR1 -a EXPR2   -->   True if both EXPR1 and EXPR2 are true.
+          EXPR1 -o EXPR2   -->   True if either EXPR1 or EXPR2 is true.
+          -n String        -->   True if length of string is non-zero.
+_____________________________________________________________________________________________________________________________________________________
+
+     22]  makedepend
+
+     	 makedepend -- $(CFLAGS) -- $(SRCS)
+
+          This is the utility which creates dependencies in makefile. It will go through all the files in $(SRCS) variable and read #include directives to
+          find out dependencies. for more info man makedepend.
+_____________________________________________________________________________________________________________________________________________________
+
+     23]

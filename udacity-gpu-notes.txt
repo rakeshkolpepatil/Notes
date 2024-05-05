@@ -1,0 +1,30 @@
+=========================================================================================================================================================================
+																												Udacity GPU Notes
+=========================================================================================================================================================================
+##
+ [67th Lecture] Map transpose and stensil operations are performed on each element in data set i.e. there is not any if condition on the thread_id so that only particular
+                threads will process it. On the contrary scatter and gather operations can be performed on any selective elements.
+
+  Transpose operation =>
+
+	out[i + j*128] = in [j + i*128];
+		as input array's (j,i) indices are translated to output array's (i,j) indices, it is transpose operator.
+=========================================================================================================================================================================
+
+ [68th Lecture]
+        conceptually 
+	map access patterns --> one-to-one.
+        transpose access pattern --> one-to-one.
+	gather access pattern --> many-to-one.
+        scatter access pattern --> one-to-many.
+ 	reduce access pattern --> all-to-one.
+	stencil access pattern --> several-to-one.
+ 	scan/sort access pattern --> all-to-all.
+=========================================================================================================================================================================
+
+  Quizz questions are at Lecture 74, please go through it as they are very interesting questions. 
+
+=========================================================================================================================================================================
+
+
+

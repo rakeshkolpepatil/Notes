@@ -1,0 +1,358 @@
+=====================================================================================================================================
+						               MERCURIAL TUTORIAL				
+=====================================================================================================================================
+				Visit "www.hgtip.com"                   :-   website for more understanding of mercurial 
+		          IMPORTANT BOOK ON MERCURIAL             :-   http://hgbook.red-bean.com/read/finding-and-fixing-mistakes.html
+			     Tutorial for more understanding         :-   http://hginit.com/05.html
+	               For understanding mercurial branching   :-   http://stevelosh.com/blog/2009/08/a-guide-to-branching-in-mercurial/
+=====================================================================================================================================
+
+0) To start tracking files in a folder, first go to that folder directory and issue following commands,
+   hg init             .hg 
+   hg add <filenames>  Write the names of the files thoes which you want to track.
+   hg status           This will show status of each file and whether mercurial is tracking that file or not. 	
+   hg status --all     will list all the files in the tree, with a letter indicating its status: M for modified, C for clean (owned by hg),
+		       and I for ignored.
+
+   hg status -i     	   For just ignored files.
+   hg status -a      	   For just added files.
+   hg status --change 2    shows all the files that were changed in revision 2.
+
+If you want to list only the files in a folder, you can provide a path
+
+   hg sta -i <MyFolder>        – just ignored files in MyFolder.
+______________________________________________________________________________________________________________________________________
+0.1) hg addremove
+     this command will add the files which are not tracked currently by mercurial for tracking and remove missing files from being 
+     tracked. 
+______________________________________________________________________________________________________________________________________
+
+1) hg log 
+   It will list all the saved changesets in mercurial.
+
+(OR) hg log -l 3
+     It will display last 3 changesets.
+______________________________________________________________________________________________________________________________________
+
+2) hg log -r <arguments> e.g. hg log -r 1+5
+   It will list the 1st and 5th changeset.
+______________________________________________________________________________________________________________________________________
+
+3) To go to a particular state of code defined by changeset 0.
+ 
+     hg update -r 0
+(OR) hg update REV
+
+     It will restore software status to the changeset 0 or to changeset named 'REV'.
+______________________________________________________________________________________________________________________________________
+3.1) TO know changes made by a particular changeset
+
+     hg diff -c REV
+
+     View differences between two changesets for a given file.
+
+     hg diff -r firstrevisionnumber:otherrevnumber filename
+
+     e.g  hg diff -r 0:1 default.aspx
+
+(OR) 
+
+     If you explicitly want to know the difference between the current tip of the branch, and it's previous, you can use shortcuts.
+
+     hg diff -r -1:. filename
+
+     The -1 says previous changeset on this branch. the '.' means the current changeset. You can use -2, -3 etc, but once you hit
+     a merge point, it gets a little more interesting.
+
+(OR)
+
+     hg diff
+
+     Use this command to see what modifications you have done after the last commit.
+______________________________________________________________________________________________________________________________________
+
+4) hg status 
+   It shows status of the files in the working directory i.e. whether they were modified or were clean depending upon options provided 
+   like -c, -A, -M etc. 
+   see "man hg" for more information.
+______________________________________________________________________________________________________________________________________
+
+5) hg st -un | grep$ orig | xargs rm 
+   To delete .orig files from directory.
+______________________________________________________________________________________________________________________________________
+
+6) hg resolve --all
+   This command will open all the files that were not merged properly.
+______________________________________________________________________________________________________________________________________
+
+7) hg commit
+   It will commit all the changes you made till now. Before commiting it will ask to type message to be associated with version of code.
+   Type it as you are typing in vim editor.
+______________________________________________________________________________________________________________________________________
+
+7.1) hg commit --amend
+
+     If you commited the software then found out that there was some mistake in it, so after correcting that mistake donot go for one more 
+     commit instead append those changes to last commit. It saves the un-necessary commits.
+ 
+     The same command can be used to change the message associated with changeset.
+______________________________________________________________________________________________________________________________________
+
+7.2) hg commit -A -m 'commit with addremove'
+     This -A option will perform addremove operation before performing commit. 
+______________________________________________________________________________________________________________________________________
+
+7.3) hg cat a.txt        -To see currently what are the contents of a.txt file.
+     hg cat -r 1 a.txt   -To see what were the contents of a.txt in changeset 1.
+     type a.txt          -It is linux command to type the contents of the a.txt
+______________________________________________________________________________________________________________________________________
+
+8) Cloning the Repository
+
+   hg clone gpgpu-sim_distribution-master gpgpu_sim_temp_code_changes
+
+   Now, If you are in "gpgpu-sim_distribution-master" directory and you want to make it's clone repository with "gpgpu_sim_temp_code_changes"
+   then  use above command.
+
+(OR)
+
+   hg clone <local repo> <new repo> -r <revision> 
+
+   This command is used to clone up to a certain revision only.
+
+______________________________________________________________________________________________________________________________________
+9) Removing the changeset
+
+ To remove a changeset that was already committed and pushed use :-
+
+ 	hg backout -r (changeset number)
+
+ To remove a changeset that was committed but not pushed along with its descendants from the repository use (I think this is useful for me) :
+ The hg backout command lets you “undo” the effects of an entire changeset in an automated fashion. Because Mercurial's history is immutable, 
+ this command does not get rid of the changeset you want to undo. Instead, it creates a new changeset that reverses the effect of the 
+ to-be-undone changeset.
+
+(OR)    hg backout -r <changeset_number> --merge
+
+	Give --merge option to backout command if you want to undo the effect of changeset other than last one. And it is adviced to use this
+        option always for safety.
+
+        To know more about backout command == http://hgbook.red-bean.com/read/finding-and-fixing-mistakes.html
+
+
+ 	hg strip -r (changeset number)
+(OR)    hg strip (hash tag)
+
+ To remove the working directory's parent from the repository, but keep the changes from that changeset in the working directory:
+
+	hg strip --keep .    
+ The above command is useful to delete a particular changeset from the hg log.
+______________________________________________________________________________________________________________________________________
+10)  
+______________________________________________________________________________________________________________________________________
+11) HASHES
+
+    changeset:   5:938194ff430c
+
+    hashes are useful when you want to tell somebody else about particular changeset because you can not talk in terms of changesets as they 
+     Whenever you commit something Mercurial will record your name along with the commit so you have a record of who made each change.
+    are locally unique.  
+
+    When mercurial gives us information about changesets, it first tells us local changest number follwed by ':' and unique hash of that
+    revision as identifier.
+______________________________________________________________________________________________________________________________________
+
+12) Tags
+
+  You can use a tag name anywhere you can use a revision number. If you have a tag named 1.0 that points to revision 30 you can use hg update
+  1.0 and it will have the same effect as hg update 30.
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+13) Setting the username:
+
+     To specify your username, you’ll want to edit your ~/.hgrc file to contain something like this:
+
+     [ui]
+     username = steve Losh <steve@stevelosh.com>
+
+
+14) setting of the mercurial are stored in .hgrc file in home directory.
+
+    Here in this file you can specify the alias commands, or enable hg extentions like color, mq. Please read some document on hg extentions.
+______________________________________________________________________________________________________________________________________
+
+15) hg glog
+
+    When there are branches and merges in the code it becomes difficult to understand output of "hg log" command and here comes "hg glog"
+    command for help.
+
+    To make the log easier to understand, you can enable the graphlog extension by editing your ~/.hgrc file to contain:
+	
+	[extensions]
+	graphlog =
+______________________________________________________________________________________________________________________________________
+
+15.1] hg annotate <filename>
+      It shows changeset information for each line of a file.
+______________________________________________________________________________________________________________________________________
+
+15.2] hg forget 
+
+       Mark the specified files so they will no longer be tracked after the next commit.
+
+       This only removes files from the current branch, not from the entire project history, and it does not delete them from the working directory.
+______________________________________________________________________________________________________________________________________
+
+16) Branching with clones
+
+     ************** Branching with Clones ***************
+
+     The slowest, safest way to create a branch with Mercurial is to make a new clone of the repository. So if you are working on <test-project> 
+     directory then go to it's parent directory and issue below command to create new folder named <test-project-feature-branch>.
+
+     	$ hg clone <test-project> <test-project-feature-branch>
+     eg.     $ hg clone gpgpu-sim gpgpu-sim-copy
+
+     It is like having two copies of your project. To delete this branch is very easy just go to parent directory of both of these projects and 
+     issue following command.
+
+     	$ rm -rf <test-project-feature-branch>
+
+     But if you find that these changes are useful and want to add to main branch, then issue "hg push" command in cloned branch, it will push 
+     these changes to the default directory from which this folder was cloned. To see this default directory issue the command "hg path".
+
+______________________________________________________________________________________________________________________________________
+
+16.1) Branching with bookmark 
+
+       website = https://www.mercurial-scm.org/wiki/BookmarksExtension 
+
+       Bookmarks are lables on changesets to help track line of development. They are unversioned and can be moved, renamed or deleted.
+       Deleting a bookmark has no effect on associated changeset.
+     
+     $ cd <path_to_your_project>
+     $ hg bookmark <branch_name1>
+     $ hg bookmark <branch_name2>
+     $ hg bookmark <branch_name3>
+
+     	So here you have got two branches at the current changeset. Now you can switch between one of these branches by using command 
+          hg update <branch_name1> 
+     (OR) hg update <branch_name2>
+     (OR) hg update <branch_name3>
+
+          NOW when you are in first branch and issue commit command a new changeset is created and bookmark associated with that branch points 
+     to this new changeset. Only one bookmark is active at a time.
+
+     $ hg bookmarks   		 -To view the available bookmarks. 
+     $ hg bookmark -d production 	 -It will delete the bookmark named production.
+
+______________________________________________________________________________________________________________________________________
+
+ 16.2) Branching with Branch command 
+
+     Branches are global and permanant, so if you want temperary branch go for bookmarks. 
+
+     $ hg branch <production>     This will create the new branch named production just by renaming current working directory as "production". Now if you
+                                  issue command "hg branches" you will see only one branch i.e. default branch. But after you issue a commit command in 
+                                  this "production branch" hg will create new changeset and it's tag information will show it as a branch and now you will
+                                  be able to see available branches i.e. 1] default and 2] production. You can switch between these available branches by 
+                                  issuing commands given below. To see actual branching with "hg glog" command you need to issue single commit on each 
+                                  branch.
+
+     $ hg update <branch2>        This command is used to switch between the branches.
+                                  "default" is the original branch.
+
+       Commands to close a branch "branch2"
+
+     $ hg update branch2
+     $ hg commit --close-branch -m "This branch was not useful."
+     $ hg update default 
+
+       Now if you will not be able to see branch2 name in output of "hg branches" command.
+     
+     $ hg branches --closed       Issue this command to see the branches you have closed.  
+     
+______________________________________________________________________________________________________________________________________
+
+16.1) hg outgoing
+
+      show a list of changes that are waiting to be sent up to the central repository. These are the changes that hg push would send, if we 
+      issue hg push. It shows the changes that are in current repository but not in central repository.
+______________________________________________________________________________________________________________________________________
+
+17) COMMANDS ADDED BY ME IN ~/.hgrc:
+
+	command to show coloured output of "hg log" command.	
+	"show = hg log --color=always -pr" This part was added in the [alias] part of the ~/.hgrc file.
+	so command "hg show rev" will be interpreted like this "hg log --color=always -pr rev"
+
+	clog = glog --style compact 
+        this command will give compact output of the glog command and can be used instead of glog
+______________________________________________________________________________________________________________________________________
+
+18) hg merge
+
+         see this website for how to merge - http://hginit.com/02.html
+
+     (OR)
+          hg merge --tool kdiff3
+          hg merge -t kdiff3
+     
+          You can use "--tool" or "-t" option to use mergetool of your choice.
+
+     (OR)
+          hg merge -r <REV>   Specify the revision <REV> to merge with.
+
+     (OR)
+          hg merge -P         Review revisions to be merged (no merge is performed).
+
+______________________________________________________________________________________________________________________________________
+
+19) hg parent 
+
+    To know, on which changeset you are currently working issue this command.
+______________________________________________________________________________________________________________________________________
+
+20) hg revert <filename>    It will discard the local changes to a file and restore it to a state, as it was at last commit. 
+______________________________________________________________________________________________________________________________________
+
+21) hg update --clean .
+
+    To undo the uncommited merge this command is used. Especially when you close the merge operation in the middle then use this command.
+______________________________________________________________________________________________________________________________________
+
+21.1] Merging with kdiff
+
+     The local copy i.e. B version will be from the current version of the software, while other version i.e. C file will be showing 
+     target version of the software. This scenario happens while issuing "hg update -r <version_no>" command.
+
+______________________________________________________________________________________________________________________________________
+
+22) Changeset Phases
+
+    visit this website for more info :- https://www.mercurial-scm.org/wiki/Phases 
+______________________________________________________________________________________________________________________________________
+
+23) ERROR 1:
+
+     remote has heads on branch 'default' that are not known locally: 012fa24a0a5d
+     abort: push creates new remote head 4a723eab87c3!
+     (pull and merge or see "hg help push" for details about pushing new heads)
+
+     	If you get follwing error while pushing the data on the server that means you and somebody else have made changes to the same file 
+         taken from the same changeset and that other person has pushed his changes to the central repository. So you are getting this error.
+         You need to first pull the changes from server, perform merge operation and then push the changes to the server.
+______________________________________________________________________________________________________________________________________
+
+24) ERROR 2:
+
+     rakesh@Rama:~/recipes$ hg commit --amend
+     abort: cannot amend public changesets
+
+     To convert the current commit from "public" to "draft" commit in order to allow amending, use
+
+     hg phase --draft --force .
+______________________________________________________________________________________________________________________________________
+
+

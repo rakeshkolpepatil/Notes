@@ -1,0 +1,39 @@
+##==================================================================================================================================================================
+							                                       	*** TEXMAKER ***
+==================================================================================================================================================================
+   1) Keyboarad shortcuts are available in 
+      Options > Configure Texmaker > Shortcuts
+__________________________________________________________________________________________________________________________________________________________________
+
+   2) ctr + u     -->  To comment selected lines.
+      ctr + t     -->  To uncomment selected lines.
+      ctr + space -->  To jump from tex file to related portion of pdf file.
+__________________________________________________________________________________________________________________________________________________________________
+
+   3) Difference between \section and \section*
+
+      The brief answer is, \section inserts a new entry into the table of contents at the appropriate tree-level and also inserts a new entry into the navigation
+      bars. But \section* only adds an entry in the navigation bars, not in the table of contents.
+
+      For more details visit this website -
+
+      https://tex.stackexchange.com/questions/131647/difference-between-section-and-section-in-beamer
+__________________________________________________________________________________________________________________________________________________________________
+
+   4) If you need to compile a document with bibtex run latex 3 times.
+
+      latex document
+      bibtex document
+      latex document
+      latex document
+__________________________________________________________________________________________________________________________________________________________________
+
+   5) \verb (or) \texttt
+
+   	The short answer is you use \verb where you need to write a small piece of inline verbatim material that contains characters TeX treats (or rather, is 
+      currently treating) as special. \texttt is for when you just want typewriter font.
+
+   	\verb has some downsides, such as not working in moving arguments. In those cases, you're probably better off using \texttt (or related semantic markup)
+      and performing the appropriate escaping.
+__________________________________________________________________________________________________________________________________________________________________
+

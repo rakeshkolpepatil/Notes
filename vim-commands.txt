@@ -1,0 +1,680 @@
+##==============================================================================================================================================================
+================================================================================================================================================================
+								VIM COMMANDS
+================================================================================================================================================================
+================================================================================================================================================================
+
+1] :qa
+	if we have opened multiple files, it closes all of them.
+================================================================================================================================================================
+2] Basic Search and Replace 
+
+:%s/foo/bar/g
+    Find each occurrence of 'foo' (in all lines), and replace it with 'bar'. 
+********************************
+
+:s/foo/bar/g 	       Find each occurrence of 'foo' (in the current line only), and replace it with 'bar'. 
+********************************
+
+:%s/foo/bar/gc	       Change each 'foo' to 'bar', but ask for confirmation first. 
+********************************
+
+:%s/\<foo\>/bar/gc     Change only whole words exactly matching 'foo' to 'bar'; ask for confirmation. 
+********************************
+
+:%s/foo/bar/gci
+    Change each 'foo' (case insensitive due to the i flag) to 'bar'; ask for confirmation. 
+    :%s/foo\c/bar/gc is the same because \c makes the search case insensitive. 
+    This may be wanted after using :set noignorecase to make searches case sensitive (the default). 
+********************************
+
+:%s/foo/bar/gcI
+    Change each 'foo' (case sensitive due to the I flag) to 'bar'; ask for confirmation. 
+    :%s/foo\C/bar/gc is the same because \C makes the search case sensitive. 
+    This may be wanted after using :set ignorecase to make searches case insensitive. 
+
+The g flag means global – each occurrence in the line is changed, rather than just the first. This tip assumes the default setting for the 'gdefault' and 'edcompatible' option (off), which requires that the g flag be included in %s///g to perform a global substitute. Using :set gdefault creates confusion because then %s/// is global, whereas %s///g is not (that is, g reverses its meaning).
+
+When using the c flag, you need to confirm for each match what to do. Vim will output something like: replace with foobar (y/n/a/q/l/^E/^Y)? (where foobar is the replacement part of the :s/.../.../ command. You can type y which means to substitute this match, n to skip this match, a to substitute this and all remaining matches ("all" remaining matches), q to quit the command, l to substitute this match and quit (think of "last"), ^E to scroll the screen up by holding the Ctrl key and pressing E and ^Y to scroll the screen down by holding the Ctrl key and pressing Y. However, the last two choices are only available, if your Vim is a normal, big or huge built or the insert_expand feature was enabled at compile time (look for +insert_expand in the output of :version).
+
+Also when using the c flag, Vim will jump to the first match it finds starting from the top of the buffer and prompt you for confirmation to perform replacement on that match. Vim applies the IncSearch highlight group to the matched text to give you a visual cue as to which match it is operating on (set to reverse by default for all three term types as of Vim 7.3). Additionally, if more than one match is found and you have search highlighting enabled with :set hlsearch, Vim highlights the remaining matches with the Search highlight group. If you do use search highlighting, you should make sure that these two highlight groups are visually distinct or you won't be able to easily tell which match Vim is prompting you to substitute.  
+
+********************************
+
+:%sno/search_string/replace_string/g
+
+	If you do not want to interpret your search and replace strings as regular expression, then use %sno instead of %s. But still this command will give 
+ special meaning to "$" and "\" characters. You need to use escape character before them to avoid them getting interpretted.
+
+ You can also avoid replace_string getting being interpretted by writting it inside these characters     \='replacement_string'
+ You can also avoid "search_string" from getting interpretted by writting \V before it. But like %sno this solution also gives special meaning to "$" and "\".
+
+ Have a look at this website "http://vimregex.com/"
+
+********************************
+================================================================================================================================================================
+3] Search for a pattern and delete from that pattern till the end of line
+
+   :g/{pattern}/normal nd$
+
+	On each line, where pattern matches, execute the following normal mode commands 'nd$'. With the cursor at the start of the line, 'n' jumps to the 
+        pattern, and 'd$' deletes to the end of the line.
+
+
+================================================================================================================================================================
+
+ ESC + shift + j 	Above command is required to join current line to the next line and merge both lines in to one line. 
+================================================================================================================================================================
+
+To comment multiple lines 
+
+ CTRL + V           select multple lines
+ SHIFT+i #  ESC     now multiple lines are commented.
+================================================================================================================================================================
+
+ Shifting selected visual block
+
+ select visual block by using ctrl+v followed by > key which shifts visual block by "shiftwidth" chars.
+
+================================================================================================================================================================
+Opening another file while vim is open 
+
+:tabe filename 
+
+and to switch to the other file you type :tabn or :tabp for next and previous accordingly.
+If you want more help visit
+
+		http://unix.stackexchange.com/questions/27586/how-can-i-edit-multiple-files-in-vim
+================================================================================================================================================================
+configuring vim
+
+If you want some options to be 
+    enabled for the current instance of vim do it by setting them in command-line mode (e.g., :set option)
+    enabled across all the instances of vim do it by writing them in the vimrc file.
+================================================================================================================================================================
+
+ Working with multiple files in vim
+
+  https://github.com/manasthakur/learn-vim/blob/publish/modules/module2.md
+
+==================
+BUFFERS
+==================
+ A buffer is a container that holds a file in vim. Thus, opening a file is equivalent to loading it in a new buffer
+ By default, vim requires us to save the current buffer before moving on to another one.
+ 
+ set hidden             " allow multiple files to opened in different buffers, 'hidden' in the background
+ :e file_name           " open a new file for editing
+ :ls 			To list all the currently open buffers, along with their buffer-ids and the contained files.
+ :b<buffer-id>    	" :b2 will switch to the buffer with id '2'
+ :buffers               " It lists all the files in the vim buffer. 
+ :bnext  or  :bn   	" switch to the next buffer
+ :bprevious  or :bp     " switch to the previous buffer
+
+===================
+WINDOWS
+===================
+ Windows are useful to view multiple files side-by-side, in a split:
+
+ :vsplit <file>  or  :vs <file>    " open file in a vertical split
+ :split <file>   or  :sp <file>    " open file in a horizontal split
+
+
+    <C-w>c (or :q)   -- close current window
+    <C-w>w           -- switch to next window
+    <C-w>r           -- rotate the window-pattern
+    <C-w><arrow-key> -- switch among windows
+    <C-w> |          -- Maximize current window vertically.
+    <C-w> _          -- Maximize current window horizontally.
+
+===================
+TABS
+===================
+ A tab is a collection of windows. Note that the concept of tabs is different from many other tools as in Vim, multiple tabs can be used to view the same file.
+
+:tabnew <file>    " Open file in a new tab
+:tabe <file>      " Open file in a new tab
+:tab split        " Open the current file in new tab.
+
+:tabnew #1        " To open the previously opened file in new tab. (Use :buffers command to get number associated with files in buffer.)
+:tabnew #2        " To open second previous file in new tab. (Use :buffers command to get number associated with files in buffer.)
+:tabnext    	  " next tab
+:tabprevious      " previous tab
+:tabclose	  " to close the tab
+ gt               " You can use gt in "normal" mode to cycle through the tabs.
+
+:tabonly          " close all the tabs except the current one.
+:!tabonly         " Forcefully close all the tabs except the current one even if some files are edited.
+
+:tabmove +2       " Moves the current tab to two places right.
+:tabmove -2       " Moves the current tab to two places left.
+:tabmove 0        " will put the tab as the first one
+:tabmove 2        " will put the tab in the third position
+:tabmove          " will put the tab as the last one
+
+
+vim -p x.txt y.txt        	will open files x.txt and y.txt in new tabs
+vim -o x.txt y.txt 		will open files x.txt and y.txt in new tabs
+
+===================
+VIM-GREP
+===================
+  vim has an internal grep built in. % denotes the current file.
+  :vimgrep /label/ %   -- searches for "label" in current file.
+
+  :cope                    -- Lists all the searches at the end of the file. You can scroll and press enter to jump to that match.
+  :cn                      -- jump to next match.
+  :cp                      -- jump to previous match.
+  :ccl                     -- close the error list.
+  :vimgrepa /newpattern/ % -- Append to earlier search list.
+  @:                       -- Repeat last command.
+  @@                       -- Repeat last command.
+  :lvimgrep /label/ %      -- same as vimgrep but you need to replace c by l for all the above commands.
+  :g/pattern/              -- you can also use this command to search the pattern.
+  
+
+----------------------------------------------------------------------
+ Go to last active tab Mapping
+----------------------------------------------------------------------
+    " Use this script to toggle between the two tabs.
+    au TabLeave * let g:lasttab = tabpagenr()
+    nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+    vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+
+----------------------------------------------------------------------
+ Mapping to move current tab to left/right
+----------------------------------------------------------------------
+    noremap <Leader><Left>  :tabmove -1<CR>
+    noremap <Leader><Right> :tabmove +1<CR>
+    Now, you can use \ followed by arrow key to move a tab to appropriate position.
+ 
+===================
+ Sessions
+===================
+   
+:mksession mysession.vim   - To save the current vim session.
+ vim -S mysession.vim      - Opens vim's saved session mysession.vim
+:source mysession.vim      - Open vim's saved session when inside vim
+
+================================================================================================================================================================
+	Some ~/.vimrc options from "shell scripting: Expert recipes for bash" book
+================================================================================================================================================================
+
+“ This must be first, because it changes other options as a side effect.
+set nocompatible
+“ show line numbers
+set number
+“ display “-- INSERT --” when entering insert mode
+set showmode
+
+:let                            -- Use this command to see values of environment variables of vim.
+(or) :set nonumber?             -- append the set command argument with ? to get the current value of vim variable.
+================================================================================================================================================================
+
+
+vi +40 file			open file and show it's contents from line number 40
+:wq (or) :x			write the contents of file to disk and quit		
+
+~				tilde is used to toggle the case of either one character or selected text using visual mode. 
+:50 				Go to line number 50, in executive mode.
+(or) 50G			in command mode.
+
+ctr shift g			To view your current line number, depends on the curser.
+
+:$				To go to the end of the file. 
+G				write G in command mode, to go to end of file.
+1G				To go to the first line of document.
+vGG				v means visual, and GG means till end of the file. i.e. select till end of the file.
+
+10+ (or) 10 enter      		use these commands in view mode only to move cursor 10 lines ahead from current cursor position.
+10-				use this command in view mode to move cursor 10 lines backward from current cursor position.
+
+ctr n			 	In vim this is used to auto complete the word.
+ctr +                           Increase font
+ctr shift -                     Decrease font
+:args                           lists files you are editing
+:sp 				horizental split
+:vsp 				vertical split
+:vsp #1/#2/#3                   It opens older files specified by #1 or #2 or #3 in the screen split mode. (Use :buffers command to get number associated with files in buffer.)
+
+alt ctr arrowkey		to move between split windows
+alt ctr pageup			to move between different open tabs.
+
+:gt and :gT 			Once tabs are opened use these commands to go to next tab and previous tab
+:1gt and :2gt        		to jump one or two tabs next respectively
+:tabc 				for closing the tab
+:e x.txt			this will help to edit the file x.txt
+:1,$d				To delete all the lines in a file opened in vim
+:%d				To delete all the lines in a file opened in vim
+echo > file.txt			This command will also delete file contents.
+:set number on			To show line number before each line.
+:set nonumber			To not to show line number before each line.
+:set cursorline			Use this command to highlight the line on which cursor is there.
+:set mouse=a                    To use moue inside vim.
+
+
+================================================================= SYNTAX HIGHLIGHTING ==========================================================================
+:set syntax=c                              Highlights the syntax assuming the code to be in c language.
+                                           'c' can be replaced with 'cpp' or 'python' or 'java' or 'perl' or 'html' etc.
+
+:set filetype=c                            I think this command is also similar to the 'set syntax' command.
+ CTRL + L                                  To refresh Syntax Highlighting of current file.
+ au BufReadPost *.ezt set syntax=html      If you want to associate a file extension with a specific language then use this command.
+
+================================================================================================================================================================
+ESC + u 			This command is used to undo whatever changes you have made.
+CTRL + r			Redo changes.
+
+ctrl + y                        To scroll up
+ctrl + e                        To scroll down line by line
+ctrl + d 			To scroll down.
+ctrl + f 			To scroll down by window
+ctrl + b			To scroll up by window
+
+ctrl + o 			To view older opened files in vim inside same window
+ctrl + i 			To view newer opened files in vim inside same window
+ctrl + ^                        To view previous file
+ctrl + g                        To view complete path of the file.
+ctrl + n                        It shows auto-completion options.
+
+:v/pattern/visual		This command is used to go the first line which does not match "pattern".
+				Remember that search will always start from the start of the file. So it will just toggle between two patterns.
+
+:.,$v/pattern/vi		Same as above command but it will search for first non-matching line from the current cursor position instead of from the 
+				begining of the line.
+
+. 				The most powerful (yet simple) command in Vim is the repeat (or dot) command. It can either be used to repeat the previous
+					normal-mode command, or to repeat whatever you did in insert mode till you press the <Esc> key. 
+
+@@				Is used to reapeat the commands issued in command mode. But before this issue this command "@:"
+
+:%left				Remove all white spaces at the begining of each line.
+:edit  (or) :e                  refresh/reload current file.
+:edit! (or) :e!                 Force update if you had made some changes to file.
+:bufdo :e or :bufdo :e!         To refresh all the files in the buffer.  
+================================================================================================================================================================
+ To align text in the visually selected block to it's left border.
+
+  :'<,'>s/\%V.*\%V/\=printf("%*s", col("'>")-col("'<"), substitute(submatch(0), '^\s*\|\s*$', '', 'g'))
+
+(or)
+
+  function! RightAlignVisual() range
+    let lim = [virtcol("'<"), virtcol("'>")]
+    let [l, r] = [min(lim), max(lim)]
+    exe "'<,'>" 's/\%'.l.'v.*\%<'.(r+1).'v./\=StrPadLeft(submatch(0),r-l+1)'
+  endfunction
+
+  function! StrPadLeft(s, w)
+    let s = substitute(a:s, '^\s\+\|\s\+$', '', 'g')
+    return repeat(' ', a:w - strwidth(s)) . s
+  endfunction
+================================================================================================================================================================
+
+ To columanize contents in Vim. 
+
+ 1) Find out a charater with which you want to columnize the selected text in vim
+ 2) Substute that character with fixed number of spaces
+ 3) Go to position from where you want to start your column and hit dw.
+
+  See this animation -
+  https://stackoverflow.com/questions/1229900/reformat-in-vim-for-a-nice-column-layout
+================================================================================================================================================================
+
+ Bookmarks in Vim   == http://vim.wikia.com/wiki/Using_marks
+
+ Bookmarks named in small letters are local to a file while bookmarks named in Capital letters are Globla bookmarks which work across multiple files. 
+
+ ma   --> Creates local bookmark named 'a' for the opened file. If 'a' defined earlier then it redefines 'a' at current position. 
+ mA   --> Creates global bookmark named 'A'. If 'A' defined earlier then it redefines 'A' at current position. 
+ 'a   --> Jumps to bookmarked line.
+ `a   --> Jumps to the bookmarked line and the exact column.
+ d'a  --> delete from current line to line of mark a
+ d`a  --> delete from current cursor position to position of mark a
+ c'a  --> change text from current line to line of mark a
+ y`a  --> yank text to unnamed buffer from cursor to position of mark a
+ :marks --> list all the current marks 
+
+ ]'   --> jump to next line with a lowercase mark
+ ['   --> jump to previous line with a lowercase mark
+ ]`   --> jump to next lowercase mark (remembers column too)
+ [`   --> jump to previous lowercase mark (remembers column too)
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ Vim has some special marks which it sets automatically. 
+
+`.       --> jump to position where last change occurred in current buffer
+`"       --> jump to position where last exited current buffer
+`0       --> jump to position in last file edited (when exited Vim)
+`1       --> like `0 but the previous file (also `2 etc)
+''       --> jump back (to line in current buffer where jumped from)
+``       --> jump back (to position in current buffer where jumped from)
+`[ or `] --> jump to beginning/end of previously changed or yanked text
+`< or `> --> jump to beginning/end of last visual selection
+
+================================================================================================================================================================
+ 
+ Vim commands generally have follwing pattern -
+
+ <number> <command> <motion_directive> <paramaters>
+
+	Here number specifies for how many times the given command should be executed. motion directive will tell direction while parameters specify required
+  input for the command.
+
+eg-> dt;  --> It  means delete till you find semicolon.
+     di{  --> You need to go inside curly braces and if issue this command it will delete all contents inside these curley braces. 
+              It means that delete whatever is inside curley braces.
+
+================================================================================================================================================================
+ VIM editor is always in some of the modes.
+
+    Esc   ---> after pressing escape key we enter into NORMAL MODE
+    :q!   ---> forced quit without asking for to save or not to save that means it just discards the changes made to file.
+     x    ---> if you press x in NORMAL MODE it starts deleting characters.
+
+      I   ---> This takes cursor to the begining of the line and puts vim in insert mode.
+     dd   ---> if you press dd in NORMAL MODE it deletes whole line.
+    daw   ---> delete the word under the cursor    
+    caw   ---> delete the word under the cursor and put you in insert mode 
+
+ shift+j   ---> go to end of line and press this combination it will join next line to the end of current line.
+ shift+zz  ---> it saves the file and exits. 
+
+    /     ---> forward slash is used for searching in the file. it highlights the keyword now for next keyword just press 'n' 
+               and for previous keyword type 'shift + n' i.e. 'N'
+	       If you have multiple spaces in your search string, then you can specify those spaces by using square brackets like this - [ ]*
+
+    /p1\|p2   --> Multiple search patterns in vim. Use \| this pattern to seperate two patterns.
+   
+    ?text     -->  To search "text" backward.
+    *      --> To search current word forward
+    #     --> To search current word backward 
+
+    / \c  ---> use this \c (small c) for case insensitive search while \C (capital c) for case sensitvie search.
+	  ---> also you can use set ignorecase flag to do case sensitive or case insensitive search.
+
+    v     ---> This for visual mode. In this mode by moving curser we are able to select the text.
+    vw    ---> Select till next word. v is for visual mode.
+    y     ---> It copies the selected text not just the current line as done by 'yy'.
+    d     ---> Take your cursor to the end of selection and d will cut that selection.
+    yy    ---> It copies the current line into register.
+    "4yy  ---> Copies current line in register 4, so that you can use it afterwards.
+    p     ---> It pastes the copied contents at the current cursor position.
+    "3p   ---> Pastes content of register 3.
+    q:    ---> This will open commands window.
+
+ :viusage  ---> If you type this command in NORMAL MODE a new window is opened, which lists all the commands.
+               now for toggling between the windows type 'ctr + w'
+
+ :reg	  ---> Shows contents of all the registers.
+
+ vi -o file1 file2  --->  This allows us to open 2 files(you can open many files also) simultaneously in vi editor.
+================================================================================================================================================================
+
+ If you are pasting in vim from other editors use the following command
+ "+p
+ :s/^M$//     --> Issue this command to get rid of ^m characters at the end of each line form vim.
+ 	      --> Use ctr+v ctr+m to insert ^M.
+================================================================================================================================================================
+ Search options in Vim  -- http://vim.wikia.com/wiki/Search_patterns
+================================================================================================================================================================
+
+1]  http://vim.wikia.com/wiki/Search_across_multiple_lines
+
+   Visit above page.	
+
+  \n 	a newline character (line ending)
+  \r    use this character instead of \n if you want to add newline in substitution expression.
+  \_s 	a whitespace (space or tab) or newline character
+  \_^ 	the beginning of a line (zero width)
+  \_$ 	the end of a line (zero width)
+  \_. 	any character including a newline 
+   .*   match any character except newline
+ 
+ For examples of use of these characters please visit above website.
+
+(e.g.)
+
+ 1.1) /abcd\n*efgh
+      Finds abcd followed by zero or more newlines then efgh. 
+
+ 1.2) /abcd\_^efgh
+      Finds nothing because \_^ is "zero width" so the search is looking for abcdefgh where efgh is also at beginning-of-line (which cannot occur). 
+
+ 1.3) /abcd\_.\{-}efgh
+      Finds abcd followed by any characters or newlines (as few as possible) then efgh.
+ 
+ -------------------------------------
+2]  MATCHING MULTILINE PATTERN IN VIM
+ -------------------------------------
+  2.1]  \_.  means "match any single character including newline. You can put this group of characters at the end of your matched pattern.
+
+
+  2.2]  / \c  ---> use this \c (small c) for case insensitive search while \C (capital c) for case sensitvie search.
+         ---> also you can use set ignorecase flag to do case sensitive or case insensitive search.
+
+  2.3]  \<word\>  --> Use this syntax to find standalone pattern "word" which is not part of any other word. 
+
+  2.4]  \(\<\w\+\>\)\_s*\<\1\>   --> To find out duplicate words seperated by a white space or tab. For more explaination visit above site.
+
+  2.5]  :%s/red\|green\|blue/purple/g   --> Finding this or that. To replace all instances of "red" or "green" or "blue" with "purple", enter: 
+
+  2.6]  
+ -------------------------------------
+ 3] You can also first search the patterns and then use seperate command to replace those matched patterns by some other pattern.   
+ -------------------------------------
+
+ 3.1]  \<\(red\|green\|blue\)\>  --> use for searching
+
+ 3.2]  :%s//purple/g             --> Now use this for replacing matched patterns.
+
+ 3.3]  :%s/\<\(red\|green\|blue\)\>/"&"/g  --> In a substitute, you can use & in the replacement to mean the "whole matched pattern" 
+
+ -------------------------------------
+ 4]  To group the matched text you can put it in paranthesis, an then refer it afterwards with the help of numbers.
+
+  :%s/color \<\(red\|green\|blue\)\>/colored \1/g   
+ -------------------------------------
+
+ 5] For options regarding highlighting searched text visit following -
+
+    http://vim.wikia.com/wiki/Highlight_all_search_pattern_matches
+
+    :set hlsearch   - highlight to be searched text.
+    *               - Highlight the word under cursor and all matching words.
+
+ -------------------------------------------------------------------------------
+
+ 6] Counting total unmber of matched patterns in a given file.
+
+    :%s/// 		    ---> This will replace all occurances of lastly searched pattern by null string.
+    :%s///gn                ---> This will count total number of last searched pattern in the file
+    :%s/pattern//gn         ---> To count total number of "pattern" in the file. 
+(or)
+    :%s/pattern//n
+
+    Here % means all lines in the file. If you want to use command only in the selected visual pattern of the file then use follwing command
+
+    :'<,'>s/pattern//n        ---> where '<,'> means search only in visually selected text.
+
+    :10,50s/pattern//gn       ---> To restrict the count to a region of the text, specify a range instead of % (% means all lines).  It counts the number of
+                                   occurrences in lines 10 to 50 inclusive 
+
+================================================================================================================================================================
+   Specifying Regular Expression in Vim and Escaped characters and metacharacters -- http://vimregex.com/
+================================================================================================================================================================
+.	any character except new line 	  	 
+\s 	whitespace character 	
+\S	non-whitespace character
+\d	digit 	
+\D	non-digit
+\x	hex digit 	
+\X	non-hex digit
+\o	octal digit 	
+\O	non-octal digit
+\h	head of word character (a,b,c...z,A,B,C...Z and _) 	
+\H	non-head of word character
+\p	printable character 	
+\P	like \p, but excluding digits
+\w	word character 	
+\W	non-word character
+\a	alphabetic character 	
+\A	non-alphabetic character
+\l	lowercase character 	
+\L	non-lowercase character
+\u	uppercase character 	
+\U	non-uppercase character 
+
+================================================================================================================================================================
+   Quantifiers greedy and non greedy -- http://vimregex.com/
+================================================================================================================================================================
+Greedy Quantifiers
+
+*	matches 0 or more of the preceding characters, ranges or metacharacters .* matches everything including empty line
+\+	matches 1 or more of the preceding characters...
+\=	matches 0 or 1 more of the preceding characters...
+\{n,m}	matches from n to m of the preceding characters...
+\{n}	matches exactly n times of the preceding characters...
+\{,m}	matches at most m (from 0 to m) of the preceding characters...
+\{n,}	matches at least n of of the preceding characters...
+	where n and m are positive integers (>0) 
+
+Non-Greedy Quantifiers
+
+\{-}	matches 0 or more of the preceding atom, as few as possible
+\{-n,m}	matches 1 or more of the preceding characters...
+\{-n,}	matches at lease or more of the preceding characters...
+\{-,m}	matches 1 or more of the preceding characters...
+	where n and m are positive integers (>0) 
+
+Grouping and Backrefernces
+
+&	the whole matched pattern 	
+\L	the following characters are made lowercase
+\0	the whole matched pattern 	
+\U	the following characters are made uppercase
+\1	the matched pattern in the first pair of \(\) 	
+\E	end of \U and \L
+\2	the matched pattern in the second pair of \(\) 	
+\e	end of \U and \L
+...	... 	
+
+\r	split line in two at this point
+\9	the matched pattern in the ninth pair of \(\) 	
+\l	next character made lowercase
+~	the previous substitute string 	
+\u	next character made uppercase 
+
+/L2Cache Blo.*\(L2Cache\>\)\@!\_.\{-} Evicted  -- 
+
+         \(L2Cache\>\)  --> It matches words ending with "L2Cache". and makes it's group.
+	 \@!            --> It matches when previous pattern do not match in this case words ending with "L2Cache"
+	 \_.		--> It matches any character including new line character.
+	 \{-} 		--> It matches as minimum number of previous matches as possible.
+================================================================================================================================================================
+ Vim Install Plugins  -- Vim plug is the plugin manager I have installed
+================================================================================================================================================================
+ :PlugInstall   --->  to install the plugins.
+ :PlugUpdate    --->  to update the plugins.
+
+Removing plugins
+
+    Delete or comment out Plug commands for the plugins you want to remove.
+    Reload vimrc (:source ~/.vimrc) or restart Vim
+    Run :PlugClean. It will detect and remove undeclared plugins.
+
+================================================================================================================================================================
+
+ Colour Schemes in vim
+
+ Use :colo followed by tab to change colour scheme.
+
+
+================================================================================================================================================================
+      00000000000000  To know everything about vim regular expression visit this site -- http://vimregex.com/     000000000000000000 ================================================================================================================================================================
+
+ Indenting code in vim  https://github.com/manasthakur/learn-vim/blob/publish/modules/module4.md
+
+ filetype indent on 	 " enable file-type based indentation
+ set autoindent    	 " indent next line based on the previous one (e.g., whether it's a `{`)
+ = 			 To indent existing text, just select the text you wish to indent, and press =
+ 6==			 To indent next 6 lines in Normal mode.
+ << or >>                 To change indentation in normal mode.
+ < or >			 To change indentation in visula mode.
+ gg=G			 To indent whole file
+================================================================================================================================================================
+
+ Running shell commands from vim
+
+ ctrl-Z    --> temporarily put vim in background and again come back using fg (or) bg
+ (or)
+ :shell    --> also you can issue this command to go to temporarly command prompt and type ctrl-z to come back to vim.
+ (or)
+ :!command --> you can run shell commands in command mode of the vim, by issuing your command after ! 
+================================================================================================================================================================
+
+ Search and replae across files.
+
+ https://github.com/manasthakur/learn-vim/blob/publish/modules/module4.md
+
+================================================================================================================================================================
+
+ Diffing files
+
+ vimdiff file1 file2
+ 
+    ]c: Jump to next change.
+    [c: Jump to previous change.
+    :diffput or dp: push the current change to the other split.
+    :diffget or do: pull the corresponding change from the other split.
+================================================================================================================================================================
+
+ Mappings
+
+ Mappings are one of the most useful features of Vim. You can map almost any sequence of keys to a shorter one.
+
+ https://github.com/manasthakur/learn-vim/blob/publish/modules/module4.md
+================================================================================================================================================================
+
+ Folding text
+
+ Its like hiding the text. If you are browsing a big file then you might be interested in just funcation name but not its defination then just fold that code.
+
+  https://github.com/manasthakur/learn-vim/blob/publish/modules/module4.md
+================================================================================================================================================================
+
+ Recording in Vim
+
+ To start recording, press q in normal mode followed by a letter (a to z).
+ To stop recording again press q in normal mode.
+================================================================================================================================================================
+
+ Vim Folding
+
+ set foldmethod=indent
+     zM = fold all
+     zR = unfold all
+     za = fold/unfold current
+
+ Use following to fold all the functions in a file
+ set foldmethod=syntax
+     zM = fold all
+     zR = unfold all
+     za = fold/unfold current
+
+ set foldingmethod=manual
+     with visual mode first select the text
+     zf = create fold
+     zc = close the fold
+     zo = open the fold
+     zE = Delete all the folds that you have created in that file.
+     zd = Delete the vimfold below your cursor.
+          All commands of foldingmethod=intend will also work in thid mode.
+
+     
+================================================================================================================================================================
+
+  
+ 
+================================================================================================================================================================
+
+ 

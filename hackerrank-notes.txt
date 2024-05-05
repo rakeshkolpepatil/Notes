@@ -1,0 +1,19 @@
+##
+======================================================================================================================================================================
+							************* SHORT NOTES *************
+======================================================================================================================================================================
+
+Bit manipulation
+
+1] For cipher and decipher text using xor gate, make use of this property --
+
+	   if c = a xor b, then a = b xor c (also b = a xor c).  
+      x-or is a odd function i.e. it will output 1 if number of 1's in input is odd else it will output 0.
+      x-or is also commutative i.e.
+	   a^b^c = a^c^b = b^a^c = b^c^a = c^a^b = c^b^a
+      and  a ^ a = 0.
+
+2] There is only one unique element in array while all other elements are exactly duplicate, to find this unique element you need to just x-or all elements then result 
+   is that unique element.
+======================================================================================================================================================================
+

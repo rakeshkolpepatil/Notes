@@ -1,0 +1,172 @@
+##=================================================================================================================================================================
+                                                          PCRE Library - Python Compatible Rregular Expression Library
+===================================================================================================================================================================
+
+1] pcre stands for "Python compatible regular expression."
+___________________________________________________________________________________________________________________________________________________________________
+
+2] PCRE provides some generic character types, also called as character classes. 
+
+   \d any decimal digit 
+   \D any character that is not a decimal digit 
+   \h any horizontal white space character 
+   \H any character that is not a horizontal white space character 
+   \s any white space character 
+   \S any character that is not a white space character 
+   \v any vertical white space character 
+   \V any character that is not a vertical white space character 
+   \w any "word" character 
+   \W any "non-word" character 
+___________________________________________________________________________________________________________________________________________________________________
+
+3] Capturing group vs atomic group.
+
+  see this website - http://www.regular-expressions.info/atomic.html
+ 
+  Consider the regex \b(integer|insert|in)\b and the subject(i.e. string to be matched) to be "integers". Obviously, because of the word boundaries, these don't match. 
+  What's not so obvious is that the regex engine will spend quite some effort figuring this out.
+
+   \b matches at the start of the string, and integer matches integer. The regex engine makes note that there are two more alternatives in the group, and continues
+   with \b. This fails to match between the r and s. So the engine backtracks to try the second alternative inside the group. The second alternative matches in, but
+   then fails to match s. So the engine backtracks once more to the third alternative. in matches in. \b fails between the n and t this time. The regex engine has no 
+   more remembered backtracking positions, so it declares failure.
+
+   This is quite a lot of work to figure out integers isn't in our list of words. We can optimize this by telling the regular expression engine that if it can't
+   match \b after it matched integer, then it shouldn't bother trying any of the other words. The word we've encountered in the subject string is a longer word,
+   and it isn't in our list.
+
+   (IMP) - whenevver you are making your group atomic, it means that out of the different matching option that you have given inside parathesis, whenever your 
+           first match fails you are expecting remaining matches to fail on the current word being matched. 
+___________________________________________________________________________________________________________________________________________________________________
+
+4] PCRE cheat sheet :-
+
+   https://www.debuggex.com/cheatsheet/regex/pcre
+___________________________________________________________________________________________________________________________________________________________________
+
+5] Special Characters/ metacharacters - 
+
+   Visit this website = http://www.regular-expressions.info/characters.html
+
+   There are 12 different characters with special meaning.
+
+   the backslash \,
+   the caret ^, 
+   the dollar sign $,
+   the period or dot .,
+   the vertical bar or pipe symbol |,
+   the question mark ?,
+   the asterisk or star *,
+   the plus sign +,
+   the opening parenthesis (,
+   the closing parenthesis ),
+   the opening square bracket [,
+   and the opening curly brace {, 
+
+   	These special characters are often called "metacharacters". Most of them are errors when used alone.
+
+   -->     If you want to use any of these characters as a literal in a regex, you need to escape them with a backslash.
+
+   eg. - If you want to match 1+1=2, the correct regex is 1\+1=2. Otherwise, the plus sign has a special meaning.
+
+   -->    \Q ... \E acts as escape sequence. So whatever is written between these two flags, is interpreted literally even if it contains metacharacters.
+
+___________________________________________________________________________________________________________________________________________________________________
+
+6] How Regex engine works internally - 
+
+   http://www.regular-expressions.info/engine.html
+
+   There are basically only two types of regular expression engines - text-directed engines, and regex-directed engines. 
+   Nearly all modern regex flavors are based on regex-directed engines. This is because certain very useful features, such as lazy quantifiers and backreferences,
+   can only be implemented in regex-directed engines.
+
+   In most cases, a text-directed engine finds the same matches as a regex-directed engine.
+
+   When applying a regex to a string, the engine starts at the first character of the string. It tries all possible permutations of the regular expression at the 
+   first character. Only if all possibilities have been tried and found to fail, does the engine continue with the second character in the text. Again, it tries 
+   all possible permutations of the regex, in exactly the same order. The result is that the regex engine returns the leftmost match.
+___________________________________________________________________________________________________________________________________________________________________
+
+7] why do non-capturing groups do exist?
+   http://www.manifold.net/doc/radian/why_do_non-capture_groups_exist_.htm
+___________________________________________________________________________________________________________________________________________________________________
+
+8] positive and negative Lookahead/Lookbehind , Lookaround.
+
+   http://www.regular-expressions.info/lookaround.html
+
+   Lookahead and lookbehind, collectively called "lookaround", are zero-length assertions just like the start and end of line, and start and end of word anchors    
+   explained earlier in this tutorial. The difference is that lookaround actually matches characters, but then gives up the match, returning only the result: match
+   or no match. That is why they are called "assertions".
+
+   They do not consume characters in the string, but only assert whether a match is possible or not. Lookaround allows you to create regular expressions that are
+   impossible to create without them, or that would get very longwinded without them.
+___________________________________________________________________________________________________________________________________________________________________
+
+9]  Character Classes/Character sets/ Negated Character classes - 
+
+   http://www.regular-expressions.info/charclass.html
+
+--> Negated character class.
+
+    Typing a caret after the opening square bracket negates the character class. The result is that the character class matches any character that is not in the
+    character class. Unlike the dot, negated character classes also match (invisible) line break characters. If you don't want a negated character class to match
+    line breaks, you need to include the line break characters in the class. [^0-9\r\n] matches any character that is not a digit or a line break.
+
+    It is important to remember that a negated character class still must match a character. q[^u] does not mean: "a q not followed by a u". 
+    It means: "a q followed by a character that is not a u". It does not match the q in the string "Iraq".
+
+--> Metacharacters inside character class.
+
+    
+--> Repeating character classes
+
+    If you repeat a character class by using the ?, * or + operators, you're repeating the entire character class. You're not repeating just the character that 
+    it matched. The regex [0-9]+ can match 837 as well as 222.
+
+    If you want to repeat the matched character, rather than the class, you need to use backreferences. ([0-9])\1+ matches 222 but not 837. When applied to the
+    string 833337, it matches 3333 in the middle of this string. If you do not want that, you need to use lookaround.
+
+--> Character Class substraction
+
+    http://www.regular-expressions.info/charclasssubtract.html
+
+    It makes it easy to match any single character present in one list (the character class), but not present in another list (the subtracted class). The syntax
+    for this is [class-[subtract]].
+
+
+    e.g. - The character class [a-z-[aeiuo]] matches a single letter that is not a vowel.
+
+--> Nested character class substraction.
+
+    Since you can use the full character class syntax within the subtracted character class, you can subtract a class from the class being subtracted.
+    [0-9-[0-6-[0-3]]] first subtracts 0-3 from 0-6, yielding [0-9-[4-6]], or [0-37-9], which matches any character in the string 0123789.
+
+    The class subtraction must always be the last element in the character class. [0-9-[4-6]a-f] is not a valid regular expression.
+
+--> Character class intersection
+
+     It makes it easy to match any single character that must be present in two sets of characters. The syntax for this is [class&&[intersect]]. You can use
+     the full character class syntax within the intersected character class.
+
+--> shorthand character classes
+
+     http://www.regular-expressions.info/shorthand.html
+
+     \d is short for [0-9]
+     \w stands for "word character". It always matches the ASCII characters [A-Za-z0-9_]
+
+___________________________________________________________________________________________________________________________________________________________________
+
+ To match everything until a particular pattern is found. (or) until a character from a group of specified characters is found.
+
+   http://stackoverflow.com/questions/7124778/how-to-match-anything-up-until-this-sequence-of-characters-in-a-regular-expres
+
+   http://stackoverflow.com/questions/2013124/regex-matching-up-to-the-first-occurrence-of-a-character
+
+___________________________________________________________________________________________________________________________________________________________________
+
+ 
+
+

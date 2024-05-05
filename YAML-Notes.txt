@@ -1,0 +1,202 @@
+
+--------------------------------------------------------------------------------------------------------------------------
+                        YAML - Yet Another Markup Language (OR) YAML Ain't Markup Language
+--------------------------------------------------------------------------------------------------------------------------
+                                    https://www.youtube.com/watch?v=1uFVr15xDGg
+                                    https://www.youtube.com/watch?v=9BGWtTahGnw
+                                    https://blog.learncodeonline.in/
+--------------------------------------------------------------------------------------------------------------------------
+
+- It is data serialization Language like XML or JSON.
+
+- Serialization Language means a common upon agreed format for different applications to transfer data between each other.
+
+- Files use extention .yaml or .yml
+
+- It is super human-readable and intuitive.
+
+- Used for writing config files of Dev-op tools like Ansible, Prometheus, kubernetes, docker compose etc.
+
+- Data structures in YAML are defined using indentations, line-seperators and spaces.
+
+- Written in terms of key-value pairs.
+  E.g. -
+      # This is YAML comment. can be used anywhere in YAML file.
+      microservice:
+        app: "user-authentication \n"
+        port: 9000
+        version: 1.7
+
+- YAML does not recongnize special characters like '\n' unless written in double quotes or in strings format.
+
+- Comments start with "#".
+
+- Always use YAML validator to check indentations.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+- Instead of using camel-case for key names in YAML words are connected using underscores like below -
+  course_name: "Django backend Developer"
+  version: 1.6
+  price: 100
+  is_public: true
+  release_date: 2021-04-30 23:02:00
+  pre_enroll: null
+  tags:
+    - python
+    - web Developer
+    - mysql
+  course_ta: ["anirudh", "rakesh"]
+  ta_details:
+    - name: "anirudh"
+      email: "ani@lco.dev"
+    - { name: "rakesh", email: "rak@lco.dev", role: "DevOps Engineer"}
+  short_description: >
+    here is a short 
+    description for Django 
+    course.
+  long_description: |
+    here is a long description for Django 
+    where we can store all the indentation 
+      information and 
+        related things.
+--------------------------------------------------------------------------------------------------------------------------
+
+- preferred date format in YAML is YYYY-MM-DD
+  release_date: 2021-04-30 23:02:00
+
+- Following syntax creates "microservice" object -
+  microservice:
+    app: "user-authentication \n"
+    port: 9000
+    version: 1.7
+--------------------------------------------------------------------------------------------------------------------------
+
+- You can use variables and its references in YAML file
+  course_name: "Django backend Developer"
+  version: 1.6
+  price: &price 100
+  is_public: true
+  release_date: 2021-04-30 23:02:00
+  pre_enroll: null
+  process_payment: *price
+
+- "&" is used to declare a variable and "*" is used to reference or use the value of the variable.
+--------------------------------------------------------------------------------------------------------------------------
+
+- You can use "<<" symbol to copy and paste the entire object referenced by a variable.
+  adv: &adv
+    mykey: myval
+
+  another_adv:
+    one: two
+    <<: *adv
+
+--------------------------------------------------------------------------------------------------------------------------
+
+- Lists/Arrays are created using '-' operator
+  E.g. - Following example creates a list of two objects.
+    microservice:
+      - app: "user-authentication
+        port: [9001, 2000, 2092, 2343] # Lists can also be expressed inside square brackets.
+        version: 1.7
+        deployed: true
+      - app: "shopping-cart"
+        port: 9001
+        # Following syntax is for lists inside lists.
+        version: 
+        - 1.9
+        - 2.0
+        - 2.1
+        deployed: false
+
+--------------------------------------------------------------------------------------------------------------------------
+
+- In YAML boolean type can have following values -
+  on, off, yes, no, true, false.
+
+- List items can have indentation or not.
+--------------------------------------------------------------------------------------------------------------------------
+
+- When you want to have a multi-line string as a value you need to use pipe symbols '|'
+  multilineString: |
+    this is a multi-line string,
+    that will be displayed across multiple lines. 
+
+  E.g. - Shell scripts can be used inside YAML files using multi-line comments like below :-
+        command:
+          - sh 
+          - -C 
+          - | 
+            #! /usr/bin/env bash -e 
+            http() {
+              local path="${1}"
+              set -- -XGET -s --fail
+              # Some more stuff here
+              curl -k "$@" "http://localhost:5601${path}"
+            }
+            http "/app/kibana"
+
+
+  multilineString: >
+    this is a single line string,
+    that should be all on one line.
+    some other stuff.
+--------------------------------------------------------------------------------------------------------------------------
+
+- Environment variables can be used in YAML files using "$" symbols
+E.g. -
+  # readiness probe
+  command:
+    - /bin/sh
+    - -ec 
+    - >- 
+      mysql -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'
+
+--------------------------------------------------------------------------------------------------------------------------
+
+- YAML also has a concept of placeholders, where instead of writing the values directly you can specify the placeholders where 
+  user can enter custom values.
+  Similar concept of placeholders is used in Ansible and Helm.
+  E.g. -
+    apiVersion: v1
+    kind: service
+    metadata:
+      name: {{ .values.service.name}}
+    spec:
+      selector:
+        app: {{ .values.service.app}}
+      ports:
+        - protocol: TCP
+          port: {{ .values.service.port}}
+          targetPort: {{ .values.service.targetPort }}
+
+--------------------------------------------------------------------------------------------------------------------------
+
+- In single YAML file we can use multiple components and to separate them we can use three dashes. This is very handy when we 
+  can have multiple components such as kubernetes.
+
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: mosquitto-config-file
+  data:
+    mosquitto-config: |
+      log_dest stdout
+      log_type all
+      log_timestamp true
+      listeners 9001
+  ---     
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: mosquitto-config-file
+  data:
+    mosquitto-config: |
+      log_dest stdout
+      log_type all
+      log_timestamp true
+      listeners 9001
+
+  kubernetes can use both YAML or JSON file formats.
+--------------------------------------------------------------------------------------------------------------------------

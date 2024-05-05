@@ -1,0 +1,879 @@
+##===================================================================================================================================================================
+            =================================================== GPGPU SIMULATOR NOTES ============================================================
+=====================================================================================================================================================================
+
+   ptx_file --> ptxas --> cudabin
+   cudabin  --> cuobjdump --> ptx_file
+
+   PTX is a virtual ISA. The output of cuobjdump is the native ISA disassembly. If you read the output of cuobjdump you'll realise it's quite different from normal
+   PTX. With a virtual ISA assembler, you have limited low-level access. asfermi does native ISA assembly which helps if you need to do nasty things or things that
+   ptxas isn't happy with.
+
+   The flow thing you gave is more like this:
+   1. ptx -> native ISA -> cubin (the entire process is done by ptxas)
+   2. cubin -> cuobjdump -> native ISA disassembly (this is not ptx)
+
+   Just spend a bit time playing around with ptxas and cuobjdump and you'll get it. (it surely helps to read a bit more on the NV documents)
+
+=====================================================================================================================================================================
+                                            *************** INSTALLATION NOTES ******************
+=====================================================================================================================================================================
+
+0] HOW TO INSTALL GPGPU-SIM
+   sudo apt-get install git
+   git clone git://dev.ece.ubc.ca/gpgpu-sim (to get copy of source code into your machine)
+   
+   GPGPU-Sim dependencies:
+   "sudo apt-get install build-essential xutils-dev bison zlib1g-dev flex libglu1-mesa-dev"
+
+   GPGPU-Sim documentation dependencies:
+   "sudo apt-get install doxygen graphviz"
+
+   AerialVision dependencies:
+   "sudo apt-get install python-pmw python-ply python-numpy libpng12-dev python-matplotlib"
+_____________________________________________________________________________________________________________________________________________________________________
+
+1] The details of the GPGPU-SIM that I am using.
+   change 'CUDA_INSTALL_PATH' to the cuda version required '4.0' or '3.2'
+   build_type == 'release'
+   GPGPU-Sim version == 3.2.2 (It supports cuda toolkit versions i.e. nvcc versions 2.3, 3.1 and 4.0 but I could compile simulator with version 4.2 also)
+   cuda toolkit version = 4.0 
+   and for building GPGPU-Sim each time I am using "gcc, g++, cpp" of version "4.6.1" successfully.
+   It seems that ispass benchmark suite benchmarks I had compiled with cuda-4.2 version but I am not sure of which gcc version I had used.
+
+   I had updated ubuntu from 14.04 to 16.04, at that time by mistake I removed gcc-4.6.1 package, but afterwards I installed gcc-4.6.3 version and I could compile
+   simulator successfully. gcc-4.7 and gcc-4.8 version did not work.
+    
+
+1.1]  The thread 
+
+      	https://groups.google.com/forum/#!searchin/gpgpu-sim/gpgpu$20sim$20ubuntu$20|sort:date/gpgpu-sim/EkjYXbi8HSw/XeTh4vQ6-lwJ
+
+      tells that for compiling ispass benchmarks we need boost library and MPI packages.
+      AND boost version 1.46 and below are supported by GPGPU-SIM. 
+      and 1.40 versio actually worked for him.
+
+1.2] export PATH=$PATH:/home/rakesh/cuda_3.2/cuda/bin
+     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rakesh/cuda_3.2/cuda/lib64:/home/rakesh/cuda_3.2/cuda/lib:/home/rakesh/lib
+
+     The PATH in first statement AND out of 4 paths in $LD_LIBRARY_PATH second one is used by cuda toolkit i.e. nvcc.
+     while "/home/rakesh/cuda_3.2/cuda/lib" in "LD_LIBRARY_PATH" is used by cuda sdk.
+
+1.3] I have installed cuda 3.2, 4.0 and 4.2 in the home directory along with cuda sdk in respective directories in folder "NVIDIA_GPU_Compute_SDK".
+     Also I have installed cuda 4.2 in "/usr/local" directory and it's corresponding sdk in "~/NVIDIA_GPU_Compute_SDK" folder.
+     
+     Don't change folder names like cuda to cuda_4.0 after installing cuda.
+
+1.4] HOW TO INSTALL CUDA TOOLKIT AND SDK. 
+  
+     - In each cuda_2.3, cuda_4.0 and cuda_4.2 folder there are two run files for cuda toolkit and sdk.
+     - First you install cuda toolkit by issuing command "chmod +x cuda*" followed by "sudo ./cuda* "
+     - In middel it will ask where you want to install cuda, provide the path and set variable $PATH and $LD_LIBRARY_PATH as per your installation.
+     - DO second step for cuda sdk also.(YOu can install cuda sdk i.e NVIDIA_GPU_Compute_SDK whereever you want just you have to give path for cuda installation i.e. 		nvcc)
+     - now go to "NVIDIA_GPU_Compute_SDK" folder and do "make".
+
+  Please make sure that
+     -   PATH includes /home/rakesh/cuda_6.0/bin
+     -   LD_LIBRARY_PATH includes /home/rakesh/cuda_6.0/lib64, or, add /home/rakesh/cuda_6.0/lib64 to /etc/ld.so.conf and run ldconfig as root
+
+
+     IMP NOTE :- At the end of cuda sdk  installation (i.e after installing cuda toolkit), this makefile is generated 
+                 home/rakesh/cuda_4.0/NVIDIA_GPUomputing_SDK/C/common/common.mk
+                 Where path to cuda binary i.e nvcc is set. So you can change it, to specify with which nvcc you want to compile cuda sdk examples.
+     
+Error while compiling cuda sdk ==
+  
+
+    (1)  rendercheck_gl.cpp:(.text+0x57b): undefined reference to `gluErrorString' cuda sdk
+ 		If above error comes then 
+
+         The problem is in the ~/NVIDIA_GPU_Computing_SDK/C/common/common.mk
+
+  	  Lines like:
+   	  LIB += ... ${OPENGLLIB} .... $(RENDERCHECKGLLIB) ...
+  	  should have the two in reverse.
+
+     (2) host_config.h:82:2: error: #error -- unsupported GNU version! gcc 4.5 and up are not supported!
+
+         compiler-bindir=/home/rakesh/bin/
+ 
+	Add above line to the nvcc.profile file in cuda/bin directory of your cuda installation. And keep symlinks of desired gcc and g++ versions in that folder.
+       
+1.5] In make file you have to give options "-I" for including header files and "-L" for including directory of the library file and "-l<library_name>" for giving  
+     particular library name. 
+  
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+								 Compiling ispass benchmark: 
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+
+   Read this file "README.ISPASS-2009" from ispass benchmark suite's root directory and follow instructions. After upgrading ubuntu to 16.04, when I ran already 
+   compiled benchmarks on simulator(compiled with gcc-4.6.3), it was giving following error - 
+ 
+  "terminate called after throwing an instance of 'std::ios_base::failure[abi:cxx11]'
+   what():  basic_ios::clear: iostream error"
+
+   then I decided to once again compile ispass benchmarks with gcc-4.6.3 (before upgradation I was using both simulator and ispass benchmarks built with 
+   gcc-4.6.1)and try to run on simulator. Now also same error was coming. But I could compile benchmarks. As i was using boost 1.45.0 library and cuda-4.2 
+   which I had build already, I thought error did not go.
+
+   So once again with gcc-4.6.3 I installed cuda-4.2 and boost-1.45.0 library. But now when I started compiling ispass benchmark with this new cuda-4.2 I could not
+   compile these benchmarks and following error was thrown - 
+
+   obj/x86_64/release/aesCudaUtils.cpp.o: In function `_GLOBAL__sub_I_aesCudaUtils.cpp':
+   aesCudaUtils.cpp:(.text.startup+0x5): undefined reference to `boost::system::generic_category()'
+
+   I used following settings in "Makefile.ispass-2009" of benchmarks -
+
+           export ROOTDIR=$(NVIDIA_COMPUTE_SDK_LOCATION)/C/src/; \
+	   export BINSUBDIR=$(BINSUBDIR); \
+	   export BOOST_LIB=/home/rakesh/boost_1_45_0/build/lib; \
+	   export BOOST_ROOT=/home/rakesh/boost_1_45_0/build/include; \
+	   export BOOST_VER=""; \
+	   export CUDA_INSTALL_PATH=/home/rakesh/cuda_4.2/cuda; \
+	   export NVIDIA_COMPUTE_SDK_LOCATION=/home/rakesh/cuda_4.2/NVIDIA_GPU_Computing_SDK; \
+	   export OPENMPI_BINDIR=/usr/bin/;  
+
+    
+_____________________________________________________________________________________________________________________________________________________________________
+
+2] cuda toolkit-4.0 i.e. nvcc-4.0 does not support gcc,g++ with versions 4.5 and higher. These particular versions are required 
+   while compiling "NVIDIA_GPU_Computing_SDK" examples.
+
+   GPGPU-Sim simulator can be compiled with both cuda-4.0 and cuda-4.2 successfully. But with gcc-4.4.7 I think it gives some issues.
+_____________________________________________________________________________________________________________________________________________________________________
+
+3] I think, Each time you close the terminal you have to build the gpgpu-sim once again to run the programs on it.
+_____________________________________________________________________________________________________________________________________________________________________
+
+4] Both cuda_toolkit version and NVIDIA_GPU_COMPUTING_SDK versions should match. so make sure that when you change the cuda_toolkit 
+   version make sure that you are using respective NVIDIA_GPU_COMPUTING_SDK version.
+
+_____________________________________________________________________________________________________________________________________________________________________
+
+5] This error was coming when I was issuing 'make' command in the 'C' folder of the cuda sdk (not cuda toolkit) 
+        Cuda Error : kernel launches from templates are not allowed in system files
+   and solution is to comment out 'CPLUS_INCLUDE_PATH' variable in bashrc file.
+
+_____________________________________________________________________________________________________________________________________________________________________
+
+6] When this "error:adding symbols: DSO missing from command line" was coming while compiling 'ispass2009-benchmarks' so, I changed libboost package from version   
+   1.54 to 1.44 
+
+   Usually AES benchmark will throw boost library related errors while compiling ispass benchmark suite. Then add following line in make file in AES directory.
+   It happens becaues boost_system.a library is not included in AES original makefile.
+
+   LINKFLAGS       := -L$(BOOST_LIB) -lboost_filesystem$(BOOST_VER) -L$(BOOST_LIB) -lboost_system$(BOOST_VER)
+
+_____________________________________________________________________________________________________________________________________________________________________
+
+7] For gpuwattch you have to copy "gpuwattch_gtx480.xml" file or similar file from corresponding cofigurations available in gpgpu-sim into the benchmarks root   
+   directory. 
+   This way I am able to do successfully run gpuwattch on my simulator.
+
+   Default shared memory size in gpgpu-sim is 49152
+_____________________________________________________________________________________________________________________________________________________________________
+ 
+ 8] suffix-tree.cpp:1392:52: error: ‘read’ was not declared in this scope
+    error: lseek() was not defined in this scope 
+
+    This error was coming while compiling MUM benchmark, to resolve this issue I added "#include <unistd.h>" file to suffix-tree.cpp and it worked.
+_____________________________________________________________________________________________________________________________________________________________________
+
+ 9] For compilation of DG benchmark I needed mpi.h file (i.e. I need to install mpicc for c programs and mpi++ for c++ programs). This I did by following the 
+    instructions from this website and this command
+
+    https://jetcracker.wordpress.com/2012/03/01/how-to-install-mpi-in-ubuntu/
+
+    sudo apt-get install libcr-dev mpich2 mpich2-doc
+ 
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+					                        	**************** Simulator Options And Observations **************
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+
+   8]  Options provided in "gpgpusim.config" file are paresed and processed by code in files "abstract_hardware_model.cc" and "gpu-sim.cc".
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   9]  -gpgpu_ptx_use_cuobjdump 0
+
+       When this option is set to 0, i.e. when we are not using "cuobjdump" software. Cuobjdump is a software which is provided by NVIDIA to extract PTX, SASS like 
+       information from cuda binaries. simulator contains a program called "cuobjdump_to_ptxplus" which takes output of cuobjdump program as input and generates PTX
+       code which simulator can execute.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+         There is increase in the ipc of applications, if I increase instruction buffer size of each warp from 2 to 8 along with max number of issue instructions per
+         warp per cycle from 1 to 8.
+
+         With only increase in instruction buffer size per warp there is no improvement in ipc at all. 
+
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   9.1]  To enable statistics of l1 data cache, I think you need to enable flag (which is after ':' in option '-gpgpu_runtime_stat') to the value by looking at some
+         of the constants from file 'gpu-sim.h'.
+
+         -gpgpu_runtime_stat 500:10  -->  Will print l1_miss stats.
+         -gpgpu_runtime_stat 500:7F  -->  For printing all the stats.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   9.2]  "-l2_ideal" option is there in simulator but it is not implemented. Modify tag_array probe code of l2 to return "HIT" always.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   9.3] To check the statics generated by each ptx line we need to set these options. 
+         -enable_ptx_file_line_stats 1
+         -visualizer_enabled 0
+   
+       Also you can specify the file to which this statistics should be stored, by the following option
+         -ptx_line_stats_filename filename
+   
+   _____________________________________________________________________________________________________________________________________________________________________
+   11] To enable interactive debuger (ptx debugger) which is implemented in simulator you need to set environment variable "g_interactive_debugger_enabled" after
+       launching simulator in gdb mode. Just use command 'set g_interactive_debugger_enabled=1'.
+   
+   _____________________________________________________________________________________________________________________________________________________________________
+   10] If you want to add some parameter specific or unique to a kernel then add when that kenel is selected using "gpgpu_sim::select_kernel()" function from 
+       gpu-sim.cc:485.
+
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   11] The variable gpu_sim_cycle is incremented by one when scheduler_unit::cycle() is called for each scheduler present on a core, and for all the cores on
+       the gpu.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   12] While changing number of clusters in gpgpusim.config file take this into consideration :
+
+   Value K in config_fermi_islip.icnt is the number of clusters + gpgpu_n_mem* gpgpu_n_sub_partition_per_mchannel. The "gpgpu_n_mem" is number of memory controllers given in gpgpusim.config file. If you change k,  you must make appropriate changes to gpgpu_n_clusters parameter in the gpgpusim config file.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   13]  m_stats->shader_cycle_distro[0]
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   14] How to disable the l1 data cache?
+       If you want to disable the L1 data cache for the entire application run, you can do so by commenting out the "gpgpu_cache:dl1" line in your gpgpusim.config
+       file.  For example, the QuadroFX5800 config file doesn't have an L1D cache because it is not specified in the config file.
+   	Some people have modified bypassL1D variable in shader.cc file to bypass l1 data cache but they are getting some deadlock problem. see googlegroup.
+   (OR)
+       I think this might work:
+       By looking at code it seems that, to disable l1 cache, you need to write just "none" keyword by replacing configuration line in front of 
+       "-gpgpu_cache:dl1" parameter.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   15] How to disable l2 data cache ?
+       assuming what you want is to prevent global data accesses from using the L2 cache, the simplest way to do this is to set "-gpgpu_cache:dl2_texture_only" to 1
+       instead of 0 in your gpgpusim.config file.  This change only allows texture accesses to use the L2 cache, which essentially makes the L2 cache "off" from the
+       perspective of non-texture accesses.
+   (OR)
+       By looking at code it seems that to disable l2 cache, you need to write just "none" keyword by replacing configuration line in front of 
+       "-gpgpu_cache:dl2" parameter.
+   _____________________________________________________________________________________________________________________________________________________________________
+   16] Even after increasing dl1 cache size, miss queue size from dl1 cache config. and increasing associativity, there is no change in reservation fail stats for AES
+       benchmark. 
+       RESERVATION_FAIL is returned not only after failing to reserve cache block but also after not able to process the miss requests by cache
+       due to "m_miss_queue" size from baseline cache data structure.
+
+       Reservatio fail is I think also due to bank conflict.
+
+   _____________________________________________________________________________________________________________________________________________________________________
+   17] What is difference between trace driven simulation and execution driven simulation ?
+
+       http://web.engr.oregonstate.edu/~sllu/arch/simu.html
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   18] simulator Vs emulator
+
+       The purpose of simulator is to model the behaviour of some real worls object for analysis purpose. So, internal state of the simulator, mimic behaviour that of
+       internal states of the real world object. While emulators use is to mimic exactly behaviour of object, mainly to use it instead of object. In emulator does not
+       bother about exactly simulating internal behaviour of the real world object.
+
+       http://stackoverflow.com/questions/1584617/simulator-or-emulator-what-is-the-difference
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   19]  Note that in GPGPU-Sim the width of the pipeline is equal to warp size
+
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   20]  For benchmarks which have inter thread group/(CTA) communication, and require coherent caches for correctness, refer this paper - 
+        'Cache Coherence for GPU Architectures'.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   21]  You can use 'Areal Vision' for finding which line from source code is responsible for branch divergence or uncoalesced memory access.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   22]  "shader_core_stats" collects statistics for all the shader cores in the gpu. Acually "m_shader_stats" is a variable of type "shader_core_stats" which is
+         declared inside "gpgpu_sim" class i.e. a single variable used to collect shader core stats is shared among all the shader cores on the gpu. So counters
+         like "warp_occupancy_distribution" or "shader_cycle_distro" which are declared in structure "shader_core_stats" give cumulative statistics for all the
+         shader cores of this simulator.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   23] "-g_debug_execution" is the flag which is set to print debug information.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   24] A request to the instruction cache results in either a hit, miss or a reservation fail. The reservation fail results if either the miss status holding register
+       (MSHR) is full or there are no replaceable blocks in the cache set because all block are reserved by prior pending requests.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   25] In memory accesses, "GLOBAL_ACC_R" means reading from global/main/RAM memory while "LOCAL_ACC_R" means reading from shared memory.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   26]  #Pipeline widths and number of FUs
+        # ID_OC_SP,ID_OC_SFU,ID_OC_MEM,OC_EX_SP,OC_EX_SFU,OC_EX_MEM,EX_WB
+        -gpgpu_pipeline_widths 2,1,1,2,1,1,2
+
+   	These are the output registers at the output of a particular pipeline stage. Like "ID_OC_SP" is the . And each register is the vector of warp_inst_t objects.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   27] SP,SFU and LD_ST unit inherit class "Pipelined_simd_unit". As per my knowledge IF,ID,OC,EX AND WB are itself stages in pipeline. But SP, SFU and LD_ST units
+       have one array of warp_inst_t pointers which is used to implement latency of SP, SFU or LD_ST unit specific operations.
+   	 The depth of this array "m_pipeline_reg" is 32 in case of SP unit, 512 in case of SFU unit and 3 in case of LD_ST unit.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   28] -ptx_opcode_initiation_int 
+   	Opcode initiation interval is the time in clocks, for which input of the functional units must be held constant in order to get correct results. If 
+        initiation interval value is 4 for integer unit, it means that for 4 cycles input of the ALU unit must be held high and ALU unit can not accept new values for
+        4 clock cycles.
+   _____________________________________________________________________________________________________________________________________________________________________
+
+   29] power Configuration options -->
+         ---------------------------------------------------------------------------------------------------------------------------------------------------------
+             OPTION			                  SIMULATOR_OPTION		            DESCRIPTION 							  	                                 DEFAULT VALUE
+         ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   	      "-gpuwattch_xml_file"  	 	      &g_power_config_name	   	      "GPUWattch XML file",	                			 	                  "gpuwattch.xml"
+
+   	      "-power_simulation_enabled" 	   &g_power_simulation_enabled 	   "Turn on power simulator (1=On, 0=Off)",					                     "0"
+
+   	      "-power_per_cycle_dump" 	      &g_power_per_cycle_dump 	      "Dump detailed power output each cycle",					                     "0"
+
+
+   	      "-power_trace_enabled"		      &g_power_trace_enabled 	         "produce a file for the power trace (1=On, 0=Off)",				            "0"
+
+   	      "-power_trace_zlevel"		      &g_power_trace_zlevel 		      "Compression level of the power trace output log (0=no comp, 9=highest)",	"6"
+
+   	      "-steady_power_levels_enabled"	&g_steady_power_levels_enabled   "produce a file for the steady power levels (1=On, 0=Off)",			         "0"
+
+   	      "-steady_state_definition" 	   &gpu_steady_state_definition	   "allowed deviation:number of samples",						                     "8:4"
+
+
+
+
+         gpu_stat_sample_freq     --> This will tell after how many simulator clock cycle conter should be reset. These counter are multiplied with power coefficients 
+                                       to get power stat.
+
+                                      To get total power consumption and finally to get total energy consumption (power = energy/time) I changed this parameter to 
+                                      10 million as none of the benchmark takes 10 million cycles for completion.`	
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   30] While in gdb, in cp benchmark control stopps at the main function in benchmark. go further and check whether you can debug program in this way to find out 
+       control flow of benchmark. 
+
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+					*************** Benchmark Details and Errors **************
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+
+
+   1] The benchmarks like 'matrix multiplication' and 'graph traversal' have very irregular memory access behaviour.
+
+   2] Memory intensive applications can not exploit temporal locality efficiently and often incur a high miss rate.
+
+   3] aesHost.cu:34:19: fatal error: cutil.h: No such file or directory
+
+      If such error comes it means that, compiler was not able to find the "cutil.h" file, for this you need to give path of folder which contains cutil.h
+      file to compiler using -I directive, do not give space between -I and path.
+
+   4] ../bin/release/AES: error while loading shared libraries: libboost_system.so.1.45.0: cannot open shared object file: No such file or directory
+
+      If such error comes it means that you have to update your LD_LIBRARY_PATH to the folder where "libboost_system.so.1.45.0" is located.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   5] The following error is coming when I am trying to run simple cuda program on simulator by copying .config and .icnt file in application directory. But i do not 
+      know any solution. 
+
+    Invalid token near "o" on line 49
+      Invalid token near "l" on line 49
+      Invalid token near "." on line 49
+      syntax error near "" on line 52
+    Done parsing!!! 
+    GPGPU-Sim PTX: __cudaRegisterFunction _Z11vectvectaddPdS_S_i : hostFun 0x0x401735, fat_cubin_handle = 1
+    Cound not find cuda-vector-vector-addition-grid-blocks-threads.cu
+    a.out: cuda_runtime_api.cc:1425: cuobjdumpPTXSection* findPTXSection(std::string): Assertion `0 && "Could not find the required PTX section"' failed.
+    Aborted (core dumped)
+
+    I compiled sample cuda program with nvcc version 4.2 and gcc-4.6.4 version, still it is giving same error.
+    again I compiled with nvcc-4.0 and gcc-4.4.7 and still it is giving same error.
+    Even I checked with original simulator and nvcc-4.0 and gcc-4.4.7, but still it is giving error. 
+
+    This error is thrown from "cuda_runtime_api.cc:1529", by "cuobjdumpRegisterFatBinary(fat_cubin_handle, filename);" this function. 
+
+    No above info is not correct, actually error is produced after these lines of code - 
+    ./libcuda/cuobjdump.y:64:program :	{printf("######### cuobjdump parser ########\n");}
+    ./libcuda/cuobjdump_parser.c:1267:    {printf("######### cuobjdump parser ########\n");}
+
+
+     Check this code also -
+
+     if (parse_output) {
+   		printf("Parsing file %s\n", fname);
+   		cuobjdump_in = fopen(fname, "r");
+
+   		cuobjdump_parse();
+   		fclose(cuobjdump_in);
+   		printf("Done parsing!!!\n");
+
+     The above code parses "_cuobjdump_complete_output_Xwt60k" this type of file generated while running program. and while parsing it above erros is produced.
+
+     Solved this problem - 
+
+     Actually I went through whole output. From binary of your program (in my case a.out) using "cuobjdump" from cuda/bin this file is generated  "_cuobjdump_complete_output_Xwt60k". For this the following command is used.
+
+     Running cuobjdump using "$CUDA_INSTALL_PATH/bin/cuobjdump -ptx -elf -sass /home/rakesh/Dropbox/programming/cuda programs/a.out > _cuobjdump_complete_output_6wIj6Q"
+
+     In my case a.out was not reachable due to problem in path "/home/rakesh/Dropbox/programming/cuda programs/a.out".
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   6]  When I was running convolutionFFTD benchmark from NVIDIA_GPU_COMPUTING_SDK suite (for both the versions viz 4.2 and 4.0 of sdk) on simulator it used to throw 
+      this error -
+   
+      "GPGPU-Sim PTX: ERROR ** while loading PTX (b) %d\n", result);
+          printf("               Ensure ptxas is in your path.\n"); 
+
+      When I went through the ptx files, I found - all ptx files are identical ( except ptx files ending with suffix "info" which contain ptx information. ) and just
+      their names vary. This particular benchmark was giving error because it's "_ptx_..info" file contained ".target SM_30" instead of ".target SM_20".
+
+      So, I wanted to use convolutionFFT2D benchmark from cuda-3.2 sdk suite. But while compiling benchmarks in "/home/rakesh/cuda_3.2/NVIDIA_GPU_Computing_SDK/C/"
+      folder (I changed nvcc to 3.2 and gcc/g++/cpp to 4.4 from .bashrc file) it gave this error - 
+
+      surface_functions.h:101:96: error: there are no arguments to ‘__surf1Dreads1’ that depend on a template parameter, so a declaration of ‘__surf1Dreads1’ must
+      be available [-fpermissive]  
+
+      To avoid this error, I added -Xcompiler="-fpermissive" this flag to the make file in common.mk file in "/home/rakesh/cuda_3.2/NVIDIA_GPU_Computing_SDK/C/common"
+      path, which allowed me to compile all the benchmark with following warning -
+
+      cc1: warning: command line option "-fpermissive" is valid for C++/ObjC++ but not for C
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   7] For running rodinia benchmarks on current gpgpu-sim 3.2 simulator "/home/rakesh/ispass2009-benchmarks_old/rodinia_1.0" use this compiled version of benchmarks,
+      as it do not require cuda libraries of more than 4.2 version.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   8] error: ‘nullptr’ was not declared in this scope
+      while compiling simulator this error was coming in gpu-sim.cc file. It will come while compiling with g++-4.4 version to avoid it compile with g++-4.6 version.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   9] *** stack smashing detected ***: ./FFT terminated
+
+      While running some of the shoc benchmarks and some of the sdk benchmarks I was getting above error. This is happening when gpgpu simulator is using nvcc 4.2
+      compiler. Even though you have compiled the programs with cuda 4.0 but while launching a benchmark on gpgpu simulator nvcc should be pointing to nvcc 4.0 version
+
+
+=====================================================================================================================================================================
+#####################################################################################################################################################################
+						**************** Code Details **************
+#####################################################################################################################################################################
+=====================================================================================================================================================================
+   1]
+   	The sp unit is connected to the operand collector unit via the 'OC_EX_SP' pipeline register.
+   	The sfu unit is connected to operand collector unit via the 'OC_EX_SFU' pipeline register.
+           and both units share a common writeback stage via the 'WB_EX' pipeline register.
+                   To prevent two units from stalling for write-back stage conflict, each instruction going into either unit has to allocate slot in the result bus.
+   ______________________________________________________________________________________________________________________________________________________________________
+   2]  There is only one ldst_unit per shader_core.
+   ______________________________________________________________________________________________________________________________________________________________________
+   3] Call graph of cache access :
+
+      ->gpgpu_sim::cycle()
+   	->memory_sub_partition::cache_cycle()
+   		->l2_cache::access()
+   			-> data_cache::access() 
+   				-> data_cache::process_tag_probe()  
+   					->data_cache::rd_hit_base()
+   					->data_cache::wr_miss_no_wa()
+   					->data_cache::wr_miss_wa()
+   					->data_cache::wr_hit_global_we_local_wb()
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   4] How per thread requirement of registers and shared memory and thus for per block is obtained ? 
+   	When we execute a benchmark on simulator this file gets generated "_cuobjdump_2.ptx". Which contain ptx code for benchmark and I think also contain all the 
+      details of the program also. 
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   5]  Each memory partition has it's own memory channel.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   6]  Each mf request has a member variable "mf_type" which specifies whether a memory fetch request is READ_REQ, WRITE_REQ, READ_REPLY or WRITE_REPLY.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+   7] I think New kernel do not start at the same time on all core. It is assigned to a core when current kernel finishes it's execution on the current core. But then 
+      how we can flush l2 cache?
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+   8] when kernel finishes it's execution on a particular core, the variable m_kernel is set to NULL on that core via "register_cta_thread_exit()" function.
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+   9] I have added "rr_optimal_ctas_this_kernel" parameter for each kernel, inside class of "kernel_info_t". 
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+
+   10] I have observed that putting "using namespace std" in "gpu-cache.h" file is giving errors from file "ptx_ir.h" and "ptx_ir.cc" while compilation. These errors are
+       like -
+
+         ptx_ir.cc:117:67: error: ‘type_info’ does not name a type
+         ptx_ir.cc:183:7: error: reference to ‘type_info’ is ambiguous
+         ptx_ir.cc:183:39: error: expected ‘;’ before ‘type_info’
+         ptx_ir.h:104:7: error: candidates are: class type_info
+
+         so, whenever you are having such errors remove this "using namespace std" from "gpu-cache.h"
+   ______________________________________________________________________________________________________________________________________________________________________
+
+      Inside tag_array class, you can know we are in which cache by looking at "m_type_id" variable. 
+      -1 means l2 cache.
+       0 means dl1 cache.
+       1 means texture cache.
+       2 means constant cache.
+       3 means instruction cache.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+       To make any cache ideal 
+
+       The tag array component is there for all types of caches. I can know the type of cache memory by accessing "m_type_id" variable inside tag array. And by making
+       use of this, any cache can be made ideal, by returning HIT always, from tag_array::probe() function.
+
+       By using this if you try to make all the caches ideal, then some assertions are violated for texture cache.
+
+       assert( m_cache[e.m_cache_index].m_valid );
+                 assert( m_cache[e.m_cache_index].m_block_addr
+                     == m_config.block_addr(e.m_request->get_addr()) );
+
+       so comment out these assertions from gpu-cache.cc file and from "void tex_cache::cycle()" function.
+
+       I ran AES benchmark once by making all caches ideal by making them hit in tag_array::probe() function and other time by making use of "-gpgpu_perfect_mem 1" option.
+       and in both cases tot_ipc was 378.2408 and 378.6489 respectively (I think ipc is less compared to original simulator as I had implemented alternate thread block 
+       scheduling paper where we limit number of thread blocks on a sm).
+
+   ______________________________________________________________________________________________________________________________________________________________________
+        -gpgpu_perfect_mem 1
+      
+        When I set this option and run benchmarks from ispass suite, Lib, mum, Ray, Wp benchmarks gave assertion fail problem. This assertion is from function 
+        "void dec_store_req() " of shader.h file.
+      
+        Also in Ray benchmark deadlock is detected.
+      
+        check "Bug about perfect_mem" thread from gpgpu-sim google group.
+        also 
+        check "-gpgpu_perfect_mem option in the newest version of gpgpu-sim" thread from gpgpu-sim google group.
+      
+        finally read "To make any cache ideal" thread from this document. It has solution.
+         
+   ______________________________________________________________________________________________________________________________________________________________________
+       -gmem_skip_L1D   If this option is set all global memory accesses are skipped from l1 data cache.
+
+   ______________________________________________________________________________________________________________________________________________________________________
+      "mem_access_t" is one of the members of the "mem_fetch" object.  
+
+   ______________________________________________________________________________________________________________________________________________________________________
+        There are two "access()" routines for tag_array. In 1 routine, we are not keeping track of the evicted block because there is no need of writeback and 
+                                                          In 2 we are keeping track of evicted block bcz of writeback. This routine is called when we do not want to 
+       						 	 evict a cache block but just want to update it's access time for lru policy. 
+
+         Again there are two routines named "send_read_request()" in baseline_cache. Base_line cache is inherited in data_cache and which inturn is inherited in l1 and l2
+         cache. 
+      			1 1st routine is used only by read_only caches. Read_only cache again inherits base_line cache. In this routine we call second 
+                                "send_read_request()" routine, with wb set false and read_only argument set to true. And this second routine when sees that 
+                                read_only parameter is set, it will ignore "evicted" block parameter which is used to keep track of evicted block.
+
+      			2. 2nd routine keeps track of evicted block.  
+   ______________________________________________________________________________________________________________________________________________________________________
+
+        If you want to print any stats at the end of the kernel, I have added the code in file "gpu-sim.cc" at line number 1288. This condition becomes true at the end
+        when all threads of a kernel have been executed till completion.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+        I changed cache line size from 128 to 64 bytes, then two assertions were failing to be satisfied and it gave errors while executing benchmarks. So I commented 
+        out these assertions, 
+
+        1. one assertions from gpu-cache.cc file "tex_cache::access" function and this statement "assert( mf->get_data_size() <= m_config.get_line_sz())".
+        2. second from gpu-cache.cc file and "data_cache::access" function "assert( mf->get_data_size() <= m_config.get_line_sz());"
+   ______________________________________________________________________________________________________________________________________________________________________
+
+        To print stats after simulator finishes 1 billion instructions, I added rr_finish_1billion variable to "gpgpu_sim" class and initialized it to zero in it's 
+        constructor. and set it to 1 in gpgpu_sim::active() [first 3 if statements] function and used in stream_manager::operation() function.
+   _________________________________________________________________________________________________________________________________________________________________    _____
+
+        Dump pipeline content:-     
+
+        If you want to see the content of a pipeline for a given shader core at a particular cycle, please see this code from "gpu-sim.cc" file.      
+
+        void gpgpu_sim::dump_pipeline( int mask, int s, int m ) const
+   ______________________________________________________________________________________________________________________________________________________________________
+
+         DRAM latency queue is the fixed latency queue that models fixed latency difference between a L2 access and a DRAM access (an access that has been missed L2 cache).
+   ______________________________________________________________________________________________________________________________________________________________________
+
+        bypassL1D option is used in two secenarios - 
+
+        1) In function ldst_unit::memory_cycle(), Here we use this option to specify whether a read/write request packet from a SM should go through L1 data cache or 
+           should skip it and directly be sent into interconnect.
+
+        2) In function ldst_unit::cycle(), Here it specifies whether the received cache block from interconnect should be sent to l1 data cache or be sent directly to
+           operand collector unit.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+      To get the name of the benchamark's executable and it's directory, use "app_binary" variable of the file "cuda_runtime_api.cc"
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+      "g_instructions" (ptx_parser.cc) is a list of ptx_instruction pointers and this list stores all kernel instructions.
+      The file ptx_ir.h contains classes to handle kernle information like their size, list of instructions.  
+   
+      "function_info" class will store all the kernel related information, also check "ptx_assemble()" function of this class. Kernel information can also be accessed
+      in "issue_block2core()" function of shader_core_ctx class.
+   
+      "s_g_pc_to_insn" is a vector which stores pointer to "ptx_instruction" for each pc in the kernel or for all the kernels inside this application.
+      where as "m_instr_mem" is a vector which will store all ptx_instructions in the program.
+
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+							                                       Code Details of GPUWATTCH
+=====================================================================================================================================================================
+=====================================================================================================================================================================
+
+   1) If you want to change or print leakage power stats of caches you need to look at core.h and core.cc files from gpuwattch. 
+
+   2) "Cacti" is used to simulate the cache power, 
+      "mcpatt" is used to simulate core power, 
+      while "booksim" is used to simulate noc power.
+
+   3) "XML_parse.cc" is the file which will parse "gpuwattch_gtx480.xml" file. 
+
+   4) Gpuwattch is not supporting cache block size of greater than 32 bytes.
+
+   5) enum perf_count_t --> This enumerator from XML_Parse.h file stores performance counter which are used to calculate power consumption.
+
+
+
+
+=====================================================================================================================================================================
+#####################################################################################################################################################################
+							Different Policies Used In simulator.
+#####################################################################################################################################################################
+=====================================================================================================================================================================
+
+
+   Cache Block Eviction/Replacement Policy: (L:LRU, F:FIFO)
+     LRU - Evict least recently used cache block.
+     FIFO - Evict oldest cache block from the current set.
+     RANDOM -
+   ______________________________________________________________________________________________________________________________________________________________________
+    Write Policy: [write-back:B, Write-through:T, Read-only:R, Write-evict:E, Local_wb_Global_wt:L]
+
+      Read_only
+      Following functions and policies are used when there is hit in cache:
+      Cache Hit Functions:
+
+   1. write_back [wr_hit_wb()]     -I think, in this policy, when there is write hit, just make status of cache block modified.
+   2. write_through [wr_hit_wt()] 	-I think, in this policy, when there is write hit, make the block status "modified" and send request to next level of memory.
+   3. write_evict [wr_hit_we()]    -I think, in this policy, when there is write hit, make that block invalid and send write request to lower level of memory.
+   4. local_wb_global_wt [wr_hit_global_we_local_wb]      -I think, in this policy, after write hit, if it is "GLOBAL_ACC_W" then wr_hit_we() is used else wr_hit_wb() 
+   						        function is used.  Here, perhaps golbal access means accesses to l2 cache. 
+   ______________________________________________________________________________________________________________________________________________________________________
+
+    Allocation Policy (Cache Block Allocation Policy): [M:allocation on miss, F:allocation on fill]
+      On_miss - When you find out that there is miss in cache then reserve cache block and send memory read request so that no other cache block use it.  
+      On_fill - Do not reserve cache block when you send cache read request instead directly allocate it when responce comes.
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+    Write Allocate Policy: [Write allocate:W, write no allocate:N]
+      Write allocate policy -
+      No write allocate policy - it means when there is write miss, do not allo	cate cache block instead simply pass on that request to next level of memory.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+    Cache block can be only in one of the four states - valid, invalid, modified or reserved.
+    Cache read request can be one of these - hit, hit_reserved, miss or reservation_fail.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+    Important Article regarding Memory:=>
+
+       https://www.microway.com/hpc-tech-tips/gpu-memory-types-performance-comparison/
+
+    Shared Memory - allows thread-to-thread communication as threads can not share data through registers, located on-chip, seperate for each thread block, and entire 
+                    shared memory is visible to all the threads within a block. This shared memory is banked and number of banks is equal to maximum number of threads
+                    inside a thread block. 
+
+     Different memory types are as follows:
+
+   		  https://www.microway.com/hpc-tech-tips/gpu-memory-types-performance-comparison/
+
+     Do not confuse between l1 data cache and local memory in GPU. l1 data cache is part of the shared memory, or to be precise user decides how much of the shared 
+     memory can be used as l1 data cache. while local memory is used on per thread basis, it is located in Global memory, and acts as a spill over memory for each 
+     thread in case of registers are unable to store the thread data. 
+   ______________________________________________________________________________________________________________________________________________________________________
+
+       Memory coalescing rules are discussed in sections F.3.2 , F.4.2. , F.5.2 , 5.3.2.1.1 , F.3.2.1.2 of cuda c programming guide.
+
+       Here are memory coalescing rules for sm 1.3 and it is used in simulator - -->
+
+       Threads can access any words in any order, including the same words, and a single
+      memory transaction for each segment addressed by the half-warp is issued. This is
+      in contrast with devices of compute capabilities 1.0 and 1.1 where threads need to
+      access words in sequence and coalescing only happens if the half-warp addresses a
+      single segment.
+      More precisely, the following protocol is used to determine the memory transactions
+      necessary to service all threads in a half-warp:
+       Find the memory segment that contains the address requested by the active
+      thread with the lowest thread ID. The segment size depends on the size of the
+      words accessed by the threads:
+       32 bytes for 1-byte words,
+       64 bytes for 2-byte words,
+       128 bytes for 4-, 8- and 16-byte words.
+       Find all other active threads whose requested address lies in the same segment.
+       Reduce the transaction size, if possible:
+       If the transaction size is 128 bytes and only the lower or upper half is used,
+      reduce the transaction size to 64 bytes;
+       If the transaction size is 64 bytes (originally or after reduction from 128
+      bytes) and only the lower or upper half is used, reduce the transaction size
+      to 32 bytes.
+       Carry out the transaction and mark the serviced threads as inactive.
+       Repeat until all threads in the half-warp are serviced.
+   ______________________________________________________________________________________________________________________________________________________________________
+
+      Different Caching policies used in simulator - 
+            Read this document - http://acceleware.com/blog/opt-in-L1-caching-global-loads
+            	Fermi GPUs had automatic L1 cache (l1 data cache) which was used to cache local and gloabal memory accesses. Then newer first-generation kepler gpus also had
+       automatic cache per SM, but it was used to cache only local memory accesses. This feature of caching of global loads in l1 cache was again enabled. But by defult it
+       is not active and to activate you need to specify it while compiling kernel using following flags -
+             -Xptxas -dlcm=ca 
+              Here, "-dlcm" is the flag which is used along with -Xptxas flag to spcify nvcc compiler whether to use l1 caches or not. Different values accepted by -dlcm
+        flag are as follow -
+             .ca Cache at all levels, likely to be accessed again.
+             .cg Cache at global level (cache in L2 and below, not L1).
+             .cs Cache streaming, likely to be accessed once.
+             .cv Cache as volatile (consider cached system memory lines stale, fetch again).
+   ______________________________________________________________________________________________________________________________________________________________________
+
+       nvcc flags
+
+       Pass flags to ptxas via -X:
+          -X -v displays per-thread register usage
+          -X -abi=no disables the PTX ABI, saving registers but taking away your stack
+          -dlcm={cg,cs,ca} modifies cache behavior for loads
+          <tt>-dscm={cw,cs} modifies cache behavior for stores
+
+   ______________________________________________________________________________________________________________________________________________________________________
+
+       Generic address space
+
+       Same assembly instruction can be used for gmem, smem and so on ... Prev generations needed specific instructions for each memory.
+       This enables function calling on GPU.
+   ______________________________________________________________________________________________________________________________________________________________________
+  
+       Fermi can execute several kernels concurrently.
+
+       Threadblocks from one kernel are launched first – If there are resources available, threadblocks from a kernel in another stream are launched.
+   ______________________________________________________________________________________________________________________________________________________________________
+ 
+       Fermi has 2 copy engines so Can concurrently copy CPU-GPU and GPU-CPU across PCIe
+      • PCIe is duplex, so aggregate bandwidth is doubled in such cases – Previous generation could only do one copy
+
+ =====================================================================================================================================================================
+ =====================================================================================================================================================================
+				   This is how I did compile various utilities after reinstalling ubuntu 14.04 after being screwed up by 16.04
+ =====================================================================================================================================================================
+ =====================================================================================================================================================================
+
+        Installed dropbox through terminal as per two commands given on dropbox website. 
+        Also installed vim editor.
+        Teamviewer-11 through .deb file, downloaded from website.
+
+        cuda -4.2 compiled with gcc- 4.8.4 (default gcc that came with ubuntu 14.04)
+        cuda -4.0 I compiled with gcc- 4.8.4 .
+        while cuda sdk 4.2 was compiled by gcc-4.4.7
+        Installed gpgpu-sim simulator dependencies as given on git hub website.
+        GPGPU SIM website tells this about building simulator -
+
+        I compiled "CUDALibraries" from cuda-4.2 but did not do the same for cuda-4.0 and I think it is not required also. 
+
+        We used gcc/g++ version 4.5.1, bison version 2.4.1, and flex version 2.5.35
+
+        GPGPU-Sim dependencies:
+         "sudo apt-get install build-essential xutils-dev bison zlib1g-dev flex
+          libglu1-mesa-dev"
+
+          GPGPU-Sim documentation dependencies:
+          "sudo apt-get install doxygen graphviz"
+
+          AerialVision dependencies:
+          "sudo apt-get install python-pmw python-ply python-numpy libpng12-dev
+           python-matplotlib"
+
+          CUDA SDK dependencies:
+          "sudo apt-get install libxi-dev libxmu-dev libglut3-dev"
+
+
+        This document "http://hdfpga.blogspot.in/2011/05/install-cuda-40-on-ubuntu-1104.html" tells that cuda-4.0 is dependent on following packages
+             sudo apt-get install build-essential gcc-4.4 g++-4.4 libxi-dev libxmu-dev freeglut3-dev
+        and these are required for compiling cuda sdk benchmarks.
+
+   ______________________________________________________________________________________________________________________________________________________________________
+						                                 Errors while compiling cuda sdk
+   ______________________________________________________________________________________________________________________________________________________________________
+    1]   /usr/bin/ld: cannot find -lcuda
+   
+         For this error I installed libcuda1-352 package and this error was solved.
+   
+    2]   rendercheck_gl.cpp:(.text+0x207b): undefined reference to `gluErrorString'
+         This error was coming while compiling benchmarks. I copied the command into gedit file and reordered libraries, and it run.
+
+         many times when there is undefined reference error, it means that linker is not able to link to the libraries and you need to rearrange libraries in compile
+         command and try again.
+
+   ______________________________________________________________________________________________________________________________________________________________________
+		                              				Errors while compiling ispass benchmark suite
+   ______________________________________________________________________________________________________________________________________________________________________
+     1] aesCudaUtils.cpp:(.text.startup+0x5): undefined reference to `boost::system::generic_category()'
+
+        If this type of error comes then I think you need to reorder the library order in which they are specified in compilation command.
+
+   ______________________________________________________________________________________________________________________________________________________________________
+                                                Errors while compiling rodinia benchmark
+   ______________________________________________________________________________________________________________________________________________________________________
+
+     While compiling Leukocyte benchmark from rodinia_1.0 benchmark suite I was getting following error. I resolved this error by adding -lstdc++ library
+      to the linker.
+
+     /usr/bin/ld: find_ellipse_kernel.o: undefined reference to symbol '__gxx_personality_v0@@CXXABI_1.3'
+
+   ______________________________________________________________________________________________________________________________________________________________________
+   	Error while launching cuda-7.5 samples on simulator.
+   ______________________________________________________________________________________________________________________________________________________________________
+       If you are not able to launch cuda-7.5 samples on simulator then you need to recompile them with this flag 
+       EXTRA_NVCCFLAGS=--cudart=shared
+
+
+ =====================================================================================================================================================================
+ =====================================================================================================================================================================
+						                              Understanding GPGPU-Sim Simulator Output
+ =====================================================================================================================================================================
+ =====================================================================================================================================================================
+
+     1] Cache stats are printed after this line, by function "shader_print_cache_stats(stdout)" of class gpgpu_sim.
+
+        ========= Core cache stats =========
+
+         L1I_cache:
+   			It prints cumulative instruction cache statistics of all cuda cores.
+         L1D_cache:
+    			It prints data cache stats of all cuda cores both individually and cumulatively.
+         L1C_cache:
+   			It prints cumulative constant cache statistics of all cuda cores.
+         L1T_cache:
+   			It prints cumulative texture cache statistics of all cuda cores.
+
+         Total_core_cache_stats:(  This cumulative statistics is collected by "void get_cache_stats(cache_stats &cs)" function and 
+   				print by "print_stats()" function of cache_stats)
+
+   	                It gives cumulative stastics of above 4 caches. But divides stats as per type of memory and read/write operation. 		
+   ______________________________________________________________________________________________________________________________________________________________________
+
+

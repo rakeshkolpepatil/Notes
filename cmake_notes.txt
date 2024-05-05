@@ -1,0 +1,74 @@
+=====================================================================================================================================================================
+																										CMAKE Notes
+=====================================================================================================================================================================
+																	  Notes From Video - https://www.youtube.com/watch?v=wl2Srog-j7I
+  																                     https://www.youtube.com/watch?v=HPMvU64RUTY
+=====================================================================================================================================================================
+
+		○ CMakeLists.txt                                     - 	This is the file in which all the CMake related 
+	__________________________________________________________________________________________________________________________________________________________________
+
+		○ cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)  - 	This is first line which tells about the version of cmake that we are going to use.
+
+    ○ project("My Program")                              - 	Gives name to the project.
+                                                         - 	Also, when used in cmake file provides few in-build string variables those can be used within the 
+                                                           	Cmake file such as "PROJECT_NAME" is set to "My Program" automatically.
+                                                           	"${PROJECT_NAME}" - Syntax for accessing the values of String variables. 
+	__________________________________________________________________________________________________________________________________________________________________
+
+		○ add_executable(nv_coalesce_unit_tb main.cpp)       	- Used to specify executable name in Cmake.
+                                                         	- has 2 arguments 1st is name_of_executable and 2nd is source code to build executable.
+            																								Example - add_executable("${PROJECT_NAME}" "Main.cpp")
+
+    ○ install(TARGETS "${PROJECT_NAME}" DESTINATION bin)  -	It installs the project executable in bin directory.
+                                                            The path speci
+ 
+    ○ include(Ctest)     																	- To 
+
+    ○ add_test("test1")                          
+	__________________________________________________________________________________________________________________________________________________________________
+	
+		○ target_compile_features(intro PRIVATE cxx_lambda_init_captures)     - Using this you can specify what features of compiler do you want so that CMake will 
+                                                                                automatically add the respective flags while compiling depending upon the
+                                                                                type of compiler.  
+
+	__________________________________________________________________________________________________________________________________________________________________
+	
+		○ Ccmake             - It gives a handy, interactive interface for doing cmake.
+
+	__________________________________________________________________________________________________________________________________________________________________
+	
+		○ Running Cmake      - You need to create a 'build' directory in the directory where 'CmakeLists.txt' file is located. 
+                               Then go to this 'build' directory and issue command 'cmake ../'
+ 
+	__________________________________________________________________________________________________________________________________________________________________
+
+		○ Steps For Running CMake -
+			a. Create a CMakeLists.txt file.
+			b. Mkdir Build
+			c. Cd Build
+			d. Cmake ../
+	__________________________________________________________________________________________________________________________________________________________________
+
+		○ This is the webpage for setting up Cmake - https://p4hw-swarm.nvidia.com/projects/coalescer-clib  
+    	But some steps are missing.
+	  	So, I have listed them below -
+
+		○ Environment setup.
+	  	Please make sure cmake and gcc are set to right version. Include following in your path:
+	
+					set path = (/home/utils/cmake-3.8.1/bin/ $path)                                                 
+					set path = (/home/utils/gcc-5.5.0/bin/ $path)                                                       
+					set path = (/home/utils/eclipse-4.7.1a-CDT $path)                                               
+					setenv CC /home/utils/gcc-5.5.0/bin/gcc                                                                
+					setenv CXX /home/utils/gcc-5.5.0/bin/g++                                                            
+					setenv LD_LIBRARY_PATH /home/utils/gcc-5.5.0/lib64:$LD_LIBRARY_PATH 
+					setenv CSL NV_COALESCE                                                                                         
+	
+		○ Go to the directory in which "CMakeLists.txt" file is located and issue following commands -  
+	
+					Mkdir debug     
+					Cd debug        
+					Cmake ../        
+					Make -j 8        
+	__________________________________________________________________________________________________________________________________________________________________

@@ -1,0 +1,150 @@
+#######################################################################################################################################################################
+
+I am writing about couple of tools that you can use for browsing the source code.
+
+
+=======================================================================================================================================================================
+1. ctags : 
+=======================================================================================================================================================================
+
+This tool will generate an index for the source code, so that you can go to a definition of any function, variable, macro within the source code. ctags will generate a tag file which will have the index of all the functions, variables used in the source code. To know the list of languages supported by ctags, run the command 'ctags --list-languages'
+
+   Steps to start with ctags:
+
+a) First we need to collect the list of filenames for which the tag(index) needs to be generated. 
+   You could do something like this if the source code is a collection of  C, C++ code.
+
+          find . -name "*.c" > filenames;
+          find . -name "*.h" >> filenames;
+          find . -name "*.[Cc][Pp][Pp]" >> filenames;
+          find . -name "*.[Cc][Xx][Xx]" >> filenames;
+
+b) For the list of files collected in 'filenames' file, run the ctags command:
+    
+         ctags -L filenames;   -->   This will generate a file named 'tags' which will be used to navigate the source code.
+   (OR)  ctags -R .            -->   This command will also work for generating the file "tags" for all the files in current directory. 
+                 
+      If you have git directory and now you might not want to track this "tags" file, then in that case add tags file to ".git/info/exclude"  directory.
+
+
+c) You need to make the editor use the 'tags' file to search for the function definition or variable, macro definition. 
+   In vim you can set which tag file to use through the set command:
+
+   :set tags=<absolute_tag_file_path>     -->      You can also put the set command in your .vimrc in home folder.
+
+d) After the tag path being set,
+
+':tag <function/variableName>' 
+	            you can navigate to a particular definition of function or variable or macro by running the command in the vim's Ex mode. Or 
+
+'Ctrl + ]'       --> You can just take the cursor to the text and press. You will now be navigated to the definition of the particular text where the cursor was placed. 
+                     If the text has multiple definitions, pressing Ctrl + ] will take you to the first instance of the definition and you need to run another command 
+                     ":tn" in Ex mode to goto the next definition of the text. 
+'g + ]'          --> You can also see the list of the definitions for a particular text by pressing and then enter the corresponding number that you want to navigate to. 
+
+
+'Ctrl + t'       --> To return from the navigate point use the keystroke.
+(OR) :pop            Through ctags you can easily navigate around the source code.
+(OR) :po
+(OR) ctr + o
+
+:tags            --> Shows the tags stack and you current position in it.
+
+sta <tagname>    --> Opens the tag named <tagname> in split window. Usefull to look at contents of header files.
+  
+:ts              --> It shows all the tags from our project that have same name as current tag.
+:tn              --> Go to next tag on the tag stack.
+:tp              --> Go to previous tag on the tag stack.
+:tf              --> To go to the first matching tag.
+:tl              --> To go to the last matching tag.
+
+ctr + w          --> 
+(OR) :pta
+
+=======================================================================================================================================================================
+2. cscope: 
+=======================================================================================================================================================================
+
+Sometimes it is not enough just to navigate around the source code. You might need to find places where a particular variable has been used, or you need to find a particular string in the whole source code. These additional features are there in any tool name cscope. You can find where a particular variable, macro or function is being used and where they are defined. You can also figure out the list of places where are particular function is being called or the list of functions that are being called by a particular function. You can also do string searching with regular expression and replace those strings with another string.
+
+a. Getting started: 
+   Cscope will index the source code in a different way than ctags. Get the list of source code files you need to index using cscope as mentioned in the 
+   step 'a' of ctags. Now input this filenames to cscope using the command:
+
+      cscope -i filenames
+
+   This will build references across the source code and creates a file named cscope.out.
+
+'cscope -d'   Start the cscope by running the command which will use the cscope.out file it has generated and it will give you its interface. 
+ Tab          Use tab to navigate from the input to the result list and backforth. 
+'Ctrl + b'    to get the previous input handled by cscope. You can navigate through the list of result and pressing 
+'Enter'       will take you to that index, or you can just enter the alphanumeric character for a particular index you want to jump and it will navigate to that index. 'Ctrl + d'    Now to come out of cscope use.
+
+You can use both ctags and cscope to efficient browsing of source code.
+
+=======================================================================================================================================================================
+3. Taglist: 
+=======================================================================================================================================================================
+
+Now i will introduce you to a plugin for vi which will extend the power of ctags. Taglist is a plugin for vi which will make source code browsing even more beautiful and efficient. It give an overview of the structure of the source file and allows you to jump to particular function of a source code. This make navigating through a source file easy and efficient.
+
+a) Installation: Download the plugin taglist.zip from http://sourceforge.net/projects/vim-taglist/files/  and unzip the files in $HOME/.vim. This will create 2 files
+
+          plugin/taglist.vim - main taglist plugin file
+          doc/taglist.txt      - documentation (help) file
+
+b) Now restart the vim for a source file (hello.c). If you run the command 
+ 
+   ":TlistOpen"  -> you should see the taglist window. 
+   Enter         -> You can navigate to any particular index on the taglist just by pressing "Enter". 
+                    Taglist plugin requires ctags to operate. Make sure you have ctags before using the taglist. 
+    "o"          -> You can open the tag in a new horizontal window by pressing 'o' insted of Enter.
+
+c)  My .vimrc configuration for taglist plugin:
+
+       let Tlist_Auto_Open = 1                  //  Opens the taglist whenever i open vim 
+       let Tlist_Use_Right_Window = 1           //  Put the taglist window on the right side of the screen. 
+       set mouse=a                              //  Enable mouse mode for cursor movement. Navigation becomes easier if the mouse movements are enabled.
+       set selectmode=mouse                     //  You can copy text by using mouse. This is Visual mode of operation in vim
+       let Tlist_CTags='/usr/local/bin/ctags/'  //  Gives the location of ctags. Remember, for taglist to work you need ctags.
+       map <C-c> "+y<CR>                        //  This is used to copy the text selected from mouse movements. Read Notes for additional information.
+       map <A-Right>  :TlistOpen<CR>            //  Mapping 'Alt + RightArrow' keystrokes for opening taglist window.
+       map <A-Left>  :TlistToggle<CR>           //  Mapping 'Alt + LeftArrow' keystrokes for opening/closing taglist window.
+       let Tlist_Use_SingleClick = 1            //  A single click in the taglist window will take you to that tag.
+       let Tlist_Exit_OnlyWindow = 1            //  When you exit vim, taglist also will be closed.
+
+
+ Note: 
+     1. For enabling copying in Visual mode from vim to a different application, you need to have a vim version where system wide clipboard is supported. 
+        You will see +xterm_clipboard when you do ":version" in Ex mode of vim. 
+        Then only you vim supports system wide clipboard. 
+        If your vim shows -xterm_clipboard, then install vim from source giving xterm_clipboard in the configuration file. 
+     2. If you are using screen, you need to change the key bindings, as Alt + Right/Left Arrow is binded to some other function in screen. 
+     3. Mouse movements are not possible if you are using ssh to a remote machine running vim.
+
+
+      Hope this information will be useful for you in your career and will make you to explore more things in open source world.
+
+========================================================================================================================================================================
+ Check this website to plug cscope inside vim editor.
+	http://cscope.sourceforge.net/cscope_vim_tutorial.html
+
+========================================================================================================================================================================
+
+ cscope commands -->
+
+ I think you need to issue "cscope -d" command in the directory where "cscope.out" file is located.
+
+ go to directory where you want to search for a function or a symbol and issue --> cscope -d (OR)
+									       --> cscope -R
+
+ Inside vim issue --> ctrl+\ s       to show all uses of that variable.
+                  --> ctrl+space s   to show all uses of that variable in new tab.
+ 
+                  --> ctrl+]         to go to the defination of that variable. 
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+
+
+Strings
+	What’s difference between char s[] and char *s in C?
+
+char s[] -- character array terminated by '\0'
+char* s  -- pointer of type char*
+char* s = "hello"  -- sizeof(s) will give 8, i.e. size of pointer on 64 bit machine while 4 on 32 bit machine
+char s[] = "hello" -- sizeof(s) will give "number of characters in string + 1 " = 6 in this case.
+arr[0] and 0[arr] are same as both get translated to *(arr +0)
+

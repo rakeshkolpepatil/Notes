@@ -1,0 +1,40 @@
+##==================================================================================================================================================================
+                                                      CUDA Compilation Notes
+====================================================================================================================================================================
+
+
+1] The command to generate ptx code of a cuda code is -	"nvcc -ptx -o kernel.ptx kernel.cu"
+____________________________________________________________________________________________________________________________________________________________________
+
+2] PTX isn't executed by a "byte code interpreter" in the driver, there is no such thing. PTX is assembled into microcode using a traditional assembler 
+   (called ptxas, also shipping in every toolkit) and runs "on the metal" in the GPU
+____________________________________________________________________________________________________________________________________________________________________
+
+3] CUDA Binary 
+
+   A cuda binary is an elf formatted file with extension ".cubin" and consists of CUDA executable code sections as well as other sections containg symbols, relocatos 
+   and debug information. By default cuda compiler driver "nvcc" embeds cubin files into the host executable. but they can also be generated seperately by using the 
+   "-cubin" option of nvcc. 
+
+   nvcc -cubin      		            -->   If this option is given to nvcc compiler it generates seperate cuda binary .cubin file instead of embeding it inside host 
+                                          binary file.
+   nvcc -Xptxas="-v" 
+   (or) nvcc --ptxas-options -v    --> This option given register, shared memory and also local memory usage of cuda program.
+____________________________________________________________________________________________________________________________________________________________________
+ 
+4] Go through following website to get more idea about "cudaobjdump" and "nvdisasm" utilities.
+ 
+  	      http://cseweb.ucsd.edu/classes/wi15/cse262-a/static/cuda-5.5-doc/pdf/CUDA_Binary_Utilities.pdf
+
+   Cuobjdump   -> check above link for more detailed information and also options available along with cuobjdump.
+               -> disassemble cubin file (both stand alone cubin files and also cubin files embeded in host executable.) and present in human readable format. 
+	            -> can extract ptx code from .cubin file or also can from host executable
+	            -> can not give control flow analysis 
+               -> do not have advanced display options.
+
+   nvdisasm    -> disassemble cubin(cuda binary) file.
+               -> input must be .cubin file, can not extract from host executable.
+	            -> gives control flow analysis 
+               -> have advanced display options.
+____________________________________________________________________________________________________________________________________________________________________
+

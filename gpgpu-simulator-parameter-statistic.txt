@@ -1,0 +1,63 @@
+
+============================================================================================================================================================================
+					                              Significance of each stat in gpugpu simulator 
+============================================================================================================================================================================
+
+   1) Simlator collects only following stats out of "gpgpu_stall_shd_mem[][]"  this stat collection -
+
+      ->   gpgpu_stall_shd_mem[c_mem][bk_conf]
+
+      ->   gpgpu_stall_shd_mem[gl_mem][coal_stall] =
+            + gpgpu_stall_shd_mem[G_MEM_LD][COAL_STALL]  
+            + gpgpu_stall_shd_mem[G_MEM_ST][COAL_STALL]
+            + gpgpu_stall_shd_mem[L_MEM_LD][COAL_STALL]
+            + gpgpu_stall_shd_mem[L_MEM_ST][COAL_STALL]
+
+            The stats "[G_MEM_LD][COAL_STALL], [G_MEM_ST][COAL_STALL], [L_MEM_LD][COAL_STALL], [L_MEM_ST][COAL_STALL]" 
+            are printed only in this directory "/home/rakesh/bigkernel_results/latest_stat"
+            I have found out that, these stats are printed when "gpgpu-sim_distribution_master_branch" version of simulator is used for simulations.
+
+      ->   gpgpu_stall_shd_mem[s_mem][bk_conf]
+
+
+      --> gpgpu_stall_shd_mem[c_mem][bk_conf] = This stat is collected for all the benchmarks.
+
+      --> All these stats are updated in function "void ldst_unit::cycle()" of file gpgpu-sim/shader.cc:2141: m_stats->gpu_stall_shd_mem_breakdown[type][rc_fail]++; 
+
+      --> From the individual program analysis for on miss prefetch x instruction cache blocks, I am able to see that gpu_tot_ipc is directly proportional to ICache Miss rate.
+
+============================================================================================================================================================================
+	:- I am using following command to extract the particular stats.
+
+      1) Getting the percentage of "Stalls:"
+
+         for i in *pref*; do  grep -HP "Stall:[0-9]{1,2}[^0-9]" $i | awk '{print $1}' | grep -v :0 | uniq | cut -d":" -f3  ; done  | awk 'BEGIN{ORS="\t"} {print $0} END{print("\n");}'
+   __________________________________________________________________________________________________________________________________________________________________________
+
+      2) Getting "W0_Idle"
+
+         for i in *pref*; do  grep -HP "Stall:[0-9]{1,2}[^0-9]" $i | grep -Ev "W0_Idle:0\>" | awk '{print $2}'| cut -d: -f2| uniq ; done | awk 'BEGIN{ORS="\t"} {print $0} END{print("\n")} '
+   __________________________________________________________________________________________________________________________________________________________________________
+
+      3) Getting "W0_Scoreboard" field -
+
+         for i in *pref*; do  grep -HP "W0_Scoreboard:[0-9]{1,2}[^0-9]" $i | grep -Ev "W0_Scoreboard:0\>" | awk '{print $3}'| cut -d: -f2| uniq ; done | awk 'BEGIN{ORS="\t"} {print $0} 
+         END{print("\n")} '
+
+   __________________________________________________________________________________________________________________________________________________________________________
+
+      4) For getting "w32" field from the "Stall:" statistics -
+
+         for i in *pref*; do  grep -HP "W0_Scoreboard:[0-9]{1,2}[^0-9]" $i | grep -Ev "W0_Scoreboard:0\>" | awk '{print $NF}'| cut -d: -f2| uniq ; done | awk 'BEGIN{ORS="\t"} {print $0} 
+         END{print("\n")} '
+   __________________________________________________________________________________________________________________________________________________________________________
+
+      5) Getting stat like "gpu_tot_ipc"
+
+         for i in *prefet*; do  grep -H "$1" $i | grep -v nan | grep -v "= 0$"  ;  done | uniq | cut -d"="  -f2 | awk 'BEGIN{ORS="\t"} {print $0} END{print("\n")} '
+   __________________________________________________________________________________________________________________________________________________________________________
+
+      6) getting a statistic of a particular kernel only - 
+
+         awk 'BEGIN{RS="\nGPGPU-Sim PTX: pushing kernel"; n=0;}/kernel_name/{ print $0; t++} END{print "NUM records = ", FNR; print " t= ",t}' benchmark_name.
+   __________________________________________________________________________________________________________________________________________________________________________

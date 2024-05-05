@@ -1,0 +1,34 @@
+==================================================================================================================================================================================
+                                                            Terminator Notes
+==================================================================================================================================================================================
+
+    All these key bindings are stored in file "~/.config/terminator/config"
+    Also you can change them from gui of terminator from preferences.
+    If you want to delete any key binding delete it from it's config file.
+__________________________________________________________________________________________________________________________________________________________________________________
+
+    You can launch new terminator with title like this
+
+        $ terminator --title [title]
+__________________________________________________________________________________________________________________________________________________________________________________
+
+    You can also change titles of terminator tabs by issuing follwing commands
+    Add this function in .bashrc
+        set_title() 
+        {
+         ORIG=$PS1
+         TITLE="\e]2;$*\a"
+         PS1=${ORIG}${TITLE}
+        }
+__________________________________________________________________________________________________________________________________________________________________________________
+
+    1) ctrl + E        -> vertical split.
+    2) ctrl + O        -> horizental split.
+    3) alt + arrow     -> move between windows.
+    4) ctrl + d        -> close the current terminal.
+    5) shift + ctrl +x -> toggle between the maximize and minimize of a selected terminal. 
+    6) ctrl + w	   -> To give title to the window of terminator.
+__________________________________________________________________________________________________________________________________________________________________________________
+
+
+

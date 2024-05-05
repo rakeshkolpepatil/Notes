@@ -1,0 +1,59 @@
+##====================================================================================================================================================
+======================================================================================================================================================
+                                       Compiling c++ programs using (.a)static or (.so)dynamic Libraries 
+======================================================================================================================================================
+======================================================================================================================================================
+
+1] compiling c++ code with a library "libarith.a" from "/home/guest/" directory.
+   gcc -Wall example.c -L/home/guest/ -larith -o example
+______________________________________________________________________________________________________________________________________________________
+
+2] -o command line option names the executable
+	UNIX> g++ Hello_World.cpp –o Hello_World
+	UNIX> ./Hello_World
+	Hello World!
+______________________________________________________________________________________________________________________________________________________
+
+3] -c command line option compiles the source code into and an object file (.o file).
+   It do not execute the linking process embeded in g++.
+______________________________________________________________________________________________________________________________________________________
+
+4] to link more than one object files into an executable
+   g++ -o <executable> a.o b.o c.o
+______________________________________________________________________________________________________________________________________________________
+
+5] -I option tell compiler, where to find external header (.h) files.
+
+      g++ file.cpp -I<path_to_header_file>
+
+   Note:
+      Do not give space after -I and path. 
+      The header file name is NOT included in the path.
+      The path can be absolute or relative.
+______________________________________________________________________________________________________________________________________________________
+
+6] Compiling with library
+
+   Instead of using -L and -l options you can directly give absolute/relative path of library.
+
+   cc main.c libclass.a
+______________________________________________________________________________________________________________________________________________________
+
+7] The order of object files do not matter while linking but order of libraries matters.
+______________________________________________________________________________________________________________________________________________________
+
+8] While compiling Leukocyte benchmark from rodinia_1.0 benchmark suite I was getting following error. I resolved this error by adding -lstdc++ library
+   to the linker.
+   
+      /usr/bin/ld: find_ellipse_kernel.o: undefined reference to symbol '__gxx_personality_v0@@CXXABI_1.3'
+
+
+======================================================================================================================================================
+                                    								::SOME ERRORS::
+======================================================================================================================================================
+1] aesHost.cu:34:19: fatal error: cutil.h: No such file or directory
+
+   If such error comes it means that, compiler was not able to find the "cutil.h" file, for this you need to give path of folder which contains cutil.h
+   file to compiler using -I directive, do not give space between -I and path.
+
+ 
