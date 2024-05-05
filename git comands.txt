@@ -1,0 +1,500 @@
+
+
+  Go through this tutorial - https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting
+
+  visual git reference - https://marklodato.github.io/visual-git-guide/index-en.html
+
+  Book on Git  - Pro Git book by scott chacon
+
+  Seems to be complete guide on Git - https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History
+===============================================================================================================================================================
+
+0.0) 3 Areas Of Git Repository
+
+   Working Tree
+   Staging Area (Indexes) [stored in .git directory]
+   Git Commit History     [stored in .git directory]
+
+===============================================================================================================================================================
+
+0.1) Git config - global settings are stored in ~/.gitconfig file while local settings are stored in local .git directory in "config" file.
+
+     git config --global user.name "rakesh"              -> These setting will be applicable by default.
+     git config --global user.email "rakesh@gmail.com"
+
+     git config --local user.name "rakesh"               -> These settings will be applicable to local directory only.
+     git config --local user.email "rakesh@yahoo.com"
+
+     git config --list                                   -> To get the contents of the config file.
+
+     git config --global core.pager <your editor here>   u-> This will tell git to use specified editor instead of default pager. Settings are stored in config files.
+                                                             useful for "git show" command.
+
+     git config --global color.ui true	                 -> Enable colored output in the terminal.
+
+     git config --global core.editor emacs	         -> Tells git that you want to use emacs.
+
+     git config  merge.tool  meld                        -> Use meld as merge tool in git.
+
+     git config merge.conflictstyle diff3                -> We can also set the editor to display the common ancestor BASE while we examine what changes are in 
+                                                            LOCAL and REMOTE
+
+     git config mergetool.prompt false                   -> Do not prompt before launching the merge resolution tool.
+
+===============================================================================================================================================================
+Managing Branchces
+===============================================================================================================================================================
+
+3) git checkout experimental 	-> To switch to the experimental branch.
+   -->    Now edit a file, commit the change, and switch back to the master branch:   
+   (edit file)
+   git commit -a
+   git checkout master
+
+
+4) 
+===============================================================================================================================================================
+
+
+8) git-add(1)
+           Add file contents to the index.
+
+       git-am(1)
+           Apply a series of patches from a mailbox.
+
+       git-archive(1)
+           Create an archive of files from a named tree.
+
+       git-bisect(1)
+           Find by binary search the change that introduced a bug.
+
+       git-branch(1)
+           List, create, or delete branches.
+
+       git-bundle(1)
+           Move objects and refs by archive.
+
+       git-checkout(1)
+           Checkout a branch or paths to the working tree.
+
+       git-cherry-pick(1)
+           Apply the changes introduced by some existing commits.
+
+       git-citool(1)
+           Graphical alternative to git-commit.
+
+       git-clean(1)
+           Remove untracked files from the working tree.
+
+       git-clone(1)
+           Clone a repository into a new directory.
+
+       git-commit(1)
+           Record changes to the repository.
+
+       git-describe(1)
+           Show the most recent tag that is reachable from a commit.
+
+       git-diff(1)
+           Show changes between commits, commit and working tree, etc.
+
+===============================================================================================================================================================
+
+9] git show commands - Opening a file from a particular revision.
+
+     git show REVISION:path/to/file       -> Path is form the root of the repos	itory unless it starts with ./ or ../
+(or)
+     git show HEAD~4:src/main.c           -> To view version of a file 4 commits ago.
+(or)
+     git show REVISION:path/to/file | vim -   -> To open the file in vim editor.  
+(or)
+     git show HEAD@{2013-02-25}:./fileInCurrentDirectory.txt        -> HEAD@{2013-02-25} means "where HEAD was on 2013-02-25" in this repository (using the reflog),
+                                                                      not "the last commit before 2013-02-25 in this branch in history"
+
+===============================================================================================================================================================
+10]  git log commands - Exploring commit history and file history.
+
+     git log    			   -> To see the commits history. This will show commits done before the current head only.
+(OR)
+     git log --oneline                     -> To see git log history in oneline.
+(OR)
+     git log --pretty=oneline --decorate   -> For pretty printing log history.
+(OR)
+     gitk                                  -> Graphical interface to look at git history.
+
+     git log /path/to/file	           -> Shows log of all changes to a given file.
+(OR)
+     git log -p                            -> It will show you not just the commit logs but also the diff of each commit. press /, enter filename and press enter.
+                                              Press n or p to go to the next/previous occurrence.
+
+     git log -1                            -> To get current HEAD.
+(OR) git rev-parse HEAD
+(OR) cat .git/HEAD
+
+ ---------------------------------------------------------------------------------------------------------------------
+     git log --graph --full-history --all     -> This will give me whole history of the commits in graphical mode.
+
+     git show HEAD                        -> It will show where the Head is poiting now.
+(OR) Cat .git/HEAD		          -> This will give the name of commit to which head is pointing.
+
+     git reflog                           -> If you are not able to see any of the last commits with "git log" command then try this command to find out HEAD@{#} from
+     git checkout -b temp HEAD@{3}            its output and use sencond command to swith to create one branch for that commit.                          
+
+===============================================================================================================================================================
+11]  git commit -a                -> Commit changes to the files under observation and enter commit message.                    
+                                     Use ESC followed by :x! to save the typed message.
+
+                                     -a option tells git that commit status of all the files. Without it git will commmit only those files which are indexed.
+                                     Indexed files are those files which are added with git add command.
+
+                                     -a Files those are being tracked get modified you need to first index these files using -a option and then commit.
+
+     git commit -a -m 'message'      -> Type the mesaage in single quotes aftr the -m switch.
+
+     git checkout <commit_hash>   -> Go to a particular commit to view changes.
+ 	        
+     git commit --amend           -> Change the commit message of last commit. It will also change the commit hash, so do not do this if you had pushed that commit.
+                     
+
+     git add .                    -> Add code changes to the last commit
+     git commit --amend 
+(OR)
+     git commit --amend  --no-edit   (Use this command if you do not want to change the last commit message.)                  
+
+
+     git commit --amend --author="John Doe <john@doe.org>"   -> Git command to change author and email id of the last commit.
+===============================================================================================================================================================
+
+12] Branch Commands
+    
+     git branch iss53         ->  First command will create branch named "iss53" on the current head. This branch will have all the files from the parent branch.
+                                  while second command will go to that branch so head will be git checkout iss53 Pointing iss53. This way you will be able to 
+                                  create a branch on any of the earlier commits but make sure that you first checkout that commit.
+(OR) 
+     git checkout -b iss53    ->  This command is shortcut for both of the above commands. 
+---------------------------------------------------------------------------------------------------------------
+     git branch -m <oldname> <newname>     -> If you want to rename a branch while pointed to any branch.
+(OR)
+     git branch -m <newname>		   -> If you want to rename the current branch.
+---------------------------------------------------------------------------------------------------------------
+     git branch               ->  Lists all the branches. The asterisk marks the branch you are currently on.
+(OR) git branch -a
+
+     git branch -v            ->  To see last commit on each branch.
+
+     git branch --merged      ->  To see which branches are already merged into the branch you’re on. Branches on this list without the * in front of them are 
+                                  generally fine to delete with git branch -d; you’ve already incorporated their work into another branch, so you’re not going 
+                                  to lose anything.
+
+     git branch -d experimental   -> To delete the experimental branch. If the changes on this branch are not merged on the main branch then it will show prompt
+                                     the message but not delete that branch.
+
+     git branch -D experimental   -> If you want to delete the branch without merging its changes to main branch then use this command.
+      
+===============================================================================================================================================================
+
+13] Merging Branches.
+
+   git checkout master          -> To merge the changes made in branch "experimental" to the master branch first checkout master branch and then issue next command.
+   git merge experimental          If the changes don’t conflict, you’re done. If there are conflicts, markers will be left in the problematic files showing the 
+                                   conflict. Use "git diff" to show these conflicts.
+
+   git mergetool                -> If auto-merging of file was not successful and you need to manually resolve the conflicts then issue this command. Configure 
+                                   git to use your favourite editor with config command.
+
+                                   In merge tool - Local means (LEFTMOST PANEL) - The master branch on which you are now. 
+                                                   Remote means (RIGHTMOST PANEL) - The branch that you want to merge with master branch.
+                                                   BASE (MIDDLE PANEL) - This is how you want your mast branch (that you are currently on) to be after merge.
+===============================================================================================================================================================
+
+14] Clean Commands
+
+     git clean -n       -> It shows which files will be cleaned if "git clean" commmand is issued. These files are the untracked and unignored (files that are 
+                          not specified in .gitignore) files.
+
+     git clean -nd      -> By default "git clean" operates on files not on directories. If you also want to clean the untracked and unignored directories use
+                          -d switch along with -f and -n swithces.
+
+     git clean          -> If the files got created in the directory which is getting tracked and these files are not the files that are ignored i.e. (these files 
+                          are not the ones specified in .gitignore file), then all these files are deleted by this command. 
+
+     git clean -f       -> I think it will remove all untracked files (i.e. files neighter tracked nor ignored) from the directory.
+
+     git clean -x       -> Sometimes you may also want to delete ignored files (or directories if you specify -d switch along with -x) that are spcified in 
+                          .gitignore. -x switch will do that. First run -nx to know which files/directories will be deleted.
+
+     git clean -i       -> Instead of using dry run (-n switch) followed by forced clean you can also use -i switch for interactive mode.
+
+===============================================================================================================================================================
+
+14]  .gitignore          -> Create this file in the directory being tracked. I think better you create this immediately after the directory is iniatilized with git.
+     git add .gitignore  -> if .gitignore contains build/ then build directory is ignored.
+    
+===============================================================================================================================================================
+
+16] See code changes after last commit with the help of proper gui tool use commands -
+
+     git difftool --dir-diff shaOfHisCheckIn^!
+
+     git difftool --tool=meld --dir-diff shaOfHisCheckIn^!
+
+     git difftool -t meld -d shaOfHisCheckIn^!
+
+     git difftool --tool=meld                          -> Use this command to see changes you have made after last commit.
+
+     git difftool stash@{x}                            -> shows diff between current directory status and the stash@{x}
+
+     git difftool branch1..branch2  --[file/folder]    -> To see the difference between tips of the 2 branches.
+
+     git difftool branch1...branch2                    -> To see the diff between two branches from the common ancester.
+
+     git difftool tag1..tag2                           -> To see the diff between two tags.
+
+     git diff -p stash@{2} -p stash@{3}                -> To get diff between two stashes. Diff of stash 3 with respect to stash 2.
+(OR) git diff stash2{2} stash@{3}                      -> Diff of stash 3 with respect to stash 2.
+(OR) for i in `seq 0 20`; do echo rakesh $i $(expr $i + 1);  git diff -p stash@{$i} -p stash@{$(($i+1))}  ;  done 
+====================================================================================================================================================
+
+17] To find out diff between two commits with diff tool meld use
+
+    git difftool hashnumber1 hashnumber2
+
+===============================================================================================================================================================
+
+18] Git revert
+
+    If after a commit you added some code a8*nd commited it. Now, if you found out that there is a bug in that added code. In such case you can rollback. But if
+    you want to preserve your commit history and do not want to delete last commit then using revert command you can reverse the changes of the last commit.
+
+    git revert <hash_no>     -> It will undo all the changes made by commit <hash_no> and will create a new commit object for this new code.
+
+    git revert -e <hash_no>  -> Open an editor before committing to enter the commit message.(Default)
+
+    git revert --no-edit     -> Do not open the editor before committing. It is reverse of -e option.
+
+    git revert -n            -> It prevents "git revert" from creating a new commit. Instead that this will add the inverse changes to the staging index and
+                                working directory.
+
+===============================================================================================================================================================
+
+19] git - Undo changes.	 
+
+    git reset --hard HEAD~1                               -> It will restore all tracked files are reset to the state of earlier commit and HEAD will be at earlier 
+    git checkout -b someNewBranchName shaYouDestroyed        commit. It deletes most recent commit. But if you find that it is important commit then use "git reflog"
+                                                             and following command to again get it. --> commits in git are not destroyed for 90 days.
+								 
+                              -> If you went to earlier commit and made some changes and now you want to undo all these changes and want to restore files to their 
+                                 status at the time of that commit then use this --hard option.  
+
+    git reset --hard HEAD^    -> Throw out your last commit.
+
+    git reset HEAD~1          -> Use this if you want to modify the last commit. You tell Git to move the HEAD pointer back by one commit. But (unless you use --hard)
+                                 you leave your files as they were in the commit you wanted to delete. So now git status shows the changes you had checked for 
+                                 the last commit. You haven't lost a thing!
+
+    git reset <SHA>           -> rewinds your repository's history all the way back to the specified SHA. It's as if those commits never happened. By default, 
+                                 git reset preserves the working directory. The commits are gone, but the contents are still on disk. This is the safest option, 
+                                 but often, you'll want to "undo" the commits and the changes in one move—that's what --hard does.
+
+    git reset --soft HEAD~1   -> It undoes the last commit but leaves your files and your index i.e. the changes are staged so you do not need to use -a option
+                                 next time when you issue commit command.
+
+    git checkout -- <filename>  -> It will undo all the changes that were made to the file <filename> from the current commit status.
+(OR)
+    git checkout <filename>
+(OR)   
+    git checkout -- .           -> It will undo changes made to all the files from the current commit status. 
+(OR)
+    git checkout . 
+
+===============================================================================================================================================================
+
+ 20] git rebase  -- Rebasing is just like merging but works in little different way.
+
+     In merging two branches a new commit is created which has two parents while in case of rebase the entire commit history of the branch is added to the tip of 
+     master/destination branch. This is to keep your history more clean. It also makes your commit history linear.
+
+     git rebase <master_hash>  -> First checkout the branch and then issue this command. It will slice the branch from it's current parent and attach to the 
+                                  <master_hash> i.e. it will apply all the changes in branch to the master.
+
+     git rebase -i <commit_hash>  -> If you want to change the order of commits i.e. fourth commit should be before third commit, then use this command. You can
+                                     reorder the commits as long as these commits are modifying different code sections or else you need to resolve conflicts.
+
+===============================================================================================================================================================
+
+ 21] git stash command.
+
+     git stash
+(OR) git stash save "<name this stash>"   -> It will save all the changes you had done after the last commit under the name associated with stash. And all the 
+                                             files are restored to their commit status i.e. all stashed changes are removed.
+(OR) git stash push                       -> All these commands are same. 
+----------------------------
+
+     git stash -u  
+(OR) git stash --include-untracked        -> Include untracked files in the stash being created.
+
+-------------------------------
+     git stash --patch                    -> Git will not stash everything that is modified but will prompt interactively.
+
+     git stash list                       -> It lists out all the stashes. Note that all the stashes are listed like stack i.e. most recent stash will be on
+                                             the top in the list.
+-----------------------------------
+     git stash apply <stash@{x}>          -> It will apply saved changes from the stash@{x} to the current head. Note that, stash@{x} is still there.
+(OR) git stash apply <stash@{x}> --index  -> Check what is difference between above command and this one.   
+
+----------------------------------
+     git stash pop                        -> It will apply changes from the topmost stash to the current head and delete that stash.
+
+     git stash drop <stash@{x}>           -> It will delete stash named stash@{x} but note that if you had applied that stash earlier then those applied changes
+                                             will be there in files. i.e. make sure that you apply stash before you drop it.
+ 
+     git stash clear                      -> It clears/deletes all the stashes. So all the changes are undone.
+
+     git stash show -p <stash@{x}>        -> Stash is stored as a commit which stores changes done over it's parent. This command shows changes in the stash                  
+(OR) git diff  <stash@{x}>                   with respect to its parent.
+
+
+     git stash show --name-only -p <stash@{x}>  -> Show only names of the files those were changed in the specified stash.
+
+     git stash branch check                     -> It will create branch named check, will checkout the commit on which we have stashed the changes, will apply our work 
+                                                   there and drops the stash.
+--------------------------------------------------------------
+     git stash show -p stash@{0} | git apply -R         -> If you have some changes and also applied the stash and now want to remove changes done by the applied
+                                                           stash, then use this command.
+(OR) git stash show -p | git apply -R                   -> If you do not specify the stash number then this command will undo the changes applied by recent                    
+                                                           stash.                                      
+(OR) git stash show -p --binary | git apply --reverse   -> Sometimes if above command does not work, this works.
+
+(OR) git stash show -p stash@{0} | patch --reverse      -> Not much  sure about this answer but this also undoes the changes applied using patch.
+-------------------------------------------------
+
+     git diff stash@{0}..stash@{1}                                   -> See difference between two stashes. That is diff of stash 1 with respect to stash 0.
+(OR) git diff -p stash@{2} -p stash@{3}                              -> All of these commands give same output. Diff of stash 3 with respect to stash 2.
+(OR) git diff stash@{0} stash@{1}                                    -> Diff of stash 1 with respect to stash 0.
+-------------------------------------------------
+
+     git log -1 stash@{0}^                                           -> Get parent of a particular stash.
+(OR) for i in `seq 0 25`; do echo $i; git log -1 stash@{$i}^;  done  -> Loop to get parent commits of all the stashes. 
+===============================================================================================================================================================
+
+ 22] git cherry-pick
+ 
+     git cherry-pick <hash>    -> If you did commit on branch X instead of branch Y then go to branch Y and issue this command. It will apply that commit to branch Y.
+                                  At the same time it will keep that commit on branch X also. You need to remove that commit using "git reset --hard" or 
+                                  "git reset --soft"  command.
+===============================================================================================================================================================
+
+ 23] git tag
+
+     It is process of marking by which we create specific points in the history. Actually git uses tagging for different releases of the software.
+
+     git tag                  -> To view all the tags in the repository
+(OR) git show v1.0            -> It will show all the details of tag v1.0
+(OR) git tag -l "v1*"         -> It will show all the tags whose name starts with v1
+(OR) git show-ref --tags      -> shows commit hash associted with all the tags. 
+
+     git tag <name1>                     -> Creates a tag named "name1". It is light weight tag.
+(OR) git tag <tagname> <checksum-num>    -> You can tag any commit using this command.
+
+     git tag -a v1.0 -m "first version of the software"   -> creates annotated tag with option -a and associated message with option -m. Annotated tag will be
+                                                             stored as a complete git object in repository and has all necessary information. 
+
+     git push orgin v1.0      -> pushes tag name v1.0 to remote.
+
+     git push orgin --tags    -> To push all the tags to the remote. 
+(OR) git push --tags    
+  
+     git tag -d v1.0          -> Deltes tag v1.0 from the local repository. Just name is deleted not that commit.
+(OR) git tag --delete v1.0  
+ 
+     git push origin -d v1.0             -> Deletes tag named v1.0 from the remote.
+(OR) git push origin --delete v1.1 
+(OR) git push origin:v1.0
+
+     git push origin -d v1.0 v1.1        -> Delete multiple tags in one go.
+
+     git checkout tagname                -> It is not possible in git. You can not checkout the tag.
+  
+     git checkout -b branchname tagname  -> You can create a branch from a tagged commit using tagname and it will have same status as that of the tag.
+
+===============================================================================================================================================================
+
+ 24] patches in git. Creating and applying them.
+
+     git diff > ../mypatch.patch         -> Creates patch of uncommited changes in parent directory.
+
+     git diff --cached > mypatch.patch   -> If you have created new files, mostly those files will be untracked, and if you want to include them into your 
+ 					    patch then use this command.
+
+     git diff --cached --binary > mypatch.patch  -> If you want to add binary files to patch.
+
+     git apply mypatch.patch             -> Use this command to apply patch.
+
+     git diff stash@{0}^!                -> This compares the stash against the commit it is based on.
+
+===============================================================================================================================================================
+ 
+ 25] git grep
+
+     To grep across all the stashed changes -
+
+	     git grep "VCache:" stash@{0}     --> To grep a pattern in stash@{0}. All grep command options are applicable. 
+	(OR)
+	     git stash show -p stash@{n} | grep "john cena"
+	(OR)
+	     git grep "VCache:" $(git stash list -q | cut -d: -f1)  --> grep across all the stashed changes.
+
+
+     To grep across all the commits in the commit directory -
+
+	     git grep <regexp> $(git rev-list --all)
+
+===============================================================================================================================================================
+   
+ 26] It is detached HEAD state. It is called this because HEAD ref is not attached to any branch, instead it is pointing directly at the commit.
+ 
+     Starting a new repository from an existing project. Go into the directory containing the project.
+
+     "git init "     -> To initialize the .git directory.
+
+     "git add . "    -> To add all of the relevant files.
+
+     "git add -A"    -> This will index all the files from the repository and all these files will be indexed.
+
+--------------------------------------------------------------------------------------------------------------
+
+ 27] Create a .gitignore file
+   
+     git add .gitignore       			      -> add the files to .gitignore that you do not want to track. and also add .gitignore to git's tracked files.
+(OR)
+     add filename to .git/info/exclude                  -> This will also stop tracking that file.
+     
+     git remote add origin "link_to_your_repository"    -> This will link your local repository to remote repository and I think that repository will be called as 
+                                                           origin henceforth.
+
+     git remote set-url origin git@github.com-rakesh:rakeshkolpepatil/Notes.git
+                                                        -> To modify the remote origin which was set already.
+     
+     git remote
+
+     git remote -v         -> It lists all the remote repositories.
+
+===============================================================================================================================================================
+ 28] 
+     git pull origin master                             -> Pull the changes from remote repository specified by "git remote add origin" command and them to the
+                                                           master branch.
+
+     git fetch                                          -> This also pulls the changes from the remote repository but saves them as a new branch not in master branch.
+                                                           So you need to issue "git merge" command to make changes to master branch.
+
+                                                            Therefore,  "git pull = git fetch + git merge"                                                      
+
+     git push                                           -> Push your local repository to remote repository. 
+  
+===============================================================================================================================================================
+  29] If you want to setup multiple Github Accounts on same computer follow these videos - 
+  
+     https://www.youtube.com/watch?v=XMPosPgVGqw
+     https://www.youtube.com/watch?v=lAPcvItvdy0
+
+===============================================================================================================================================================
