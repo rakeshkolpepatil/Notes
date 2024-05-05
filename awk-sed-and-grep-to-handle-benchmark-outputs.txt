@@ -1,0 +1,1093 @@
+=========================================================================================================================================================
+=========================================================================================================================================================
+						    Working of cut, paste, head, tail, tr and sort commands
+=========================================================================================================================================================
+=========================================================================================================================================================
+
+1) Storing results of the command in a variable and then printing it.
+
+    for i in $(ls); do cd $i; y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`; echo $i" "$y; done
+___________________________________________________________________________________________________________________________________________________________
+
+2) To redirect output of the shell command to a file
+
+    (for i in $(ls); do cd $i;y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`;echo $i" "$y;done) > file.txt
+___________________________________________________________________________________________________________________________________________________________
+
+3) To display the contents of these two files, line of first file followed by comma and line from second file, to the console use -  
+
+    paste -d "," yourresults.txt benchmarkresults.txt 
+___________________________________________________________________________________________________________________________________________________________
+
+4) To display the contents of these two files, line of first file followed by TAB and line from second file, to the console use -  
+
+    paste yourresults.txt benchmarkresults.txt 
+___________________________________________________________________________________________________________________________________________________________
+
+5) To print column1, column2 and column4 contents of file "out.txt" to console.
+
+    awk -F "," '{print $1,$2,$4}' out.txt
+___________________________________________________________________________________________________________________________________________________________
+
+8) cut COMMAND
+
+    cut -c4 file.txt  	 - IT DISPLAYS ONLY 4TH CHARACTER OF EACH LINE IF EXISTS
+    cut -c4,6 file.txt	 - IT DISPLAYS 4TH CHARACTER IMMEDATELY FOLLOWED BY 6TH CHARACTER OF EACH LINE.
+    cut -c4-7 file.txt	 - IT DISPLAYS CHARACTERS 4TH 5TH 6TH AND 7TH OF EACH LINE.
+    cut -c-6 file.txt	 - To print the first six characters in a line, omit the start position and specify only the end position.
+    cut -c10- file.txt	 - To print the characters from tenth position to the end, specify only the start position and omit the end position.
+    cut -c- file.txt	 - If you omit the start and end positions, then the cut command prints the entire line.
+
+    cut command to display fields. Here delimiter must be atleast and atmost single character always.
+
+    cut -d' ' -f1-3 file.txt   - Displays fields 1 to 3 seperated by delimiter single space i.e. ' '
+    cut -d' ' -f-3 file.txt    - Displays fields from start to 3rd field.
+    cut -d' ' -f2- file.txt    - Displays fields from second to end field.
+    cut -d':' -f1 /etc/passwd  - Displays first field seperated by delimiter ':'
+___________________________________________________________________________________________________________________________________________________________
+
+9) reverse file.txt
+	This command reverses each line from file.txt.
+___________________________________________________________________________________________________________________________________________________________
+
+10) head COMMAND
+
+    head's basic syntax is:
+
+        head [options] [file(s)]
+
+    The square brackets indicate that the enclosed items are optional. By default, head returns the first 10 lines of each file name that is provided to it. 
+
+        head -n15 file.txt      	   - Displays first 15 lines of file.txt
+        head -15  file.txt     	       - Displays first 15 lines of file.txt
+        head -c 5 file1 file2  	       - Displays first 5 characters of file1 and file2
+        head -c5b file		           - Displays first 5*512 characters
+        head -c5k file		           - Displays first 5*1024 characters
+        head -c5m file		           - Displays first 5*1048576 characters
+        head -n 12 file1 > file2       - It copies first 12 lines from file1 to file2. This > redirection operator will create file2 if it does not exist and 
+        				                will overwrite it if already exist.
+
+        head -n 12 file1 >> file2      - >> is append operator. It will create file2 if it does not exist else it will append the output of head command to the
+        				                 existing file.
+
+        ls | head			           - Output of the other commands can also be used as input to the head command by using pipes "|"
+
+        ls | head | sort -r            - Sort the output of "head" command in reverse alphbetical order.
+___________________________________________________________________________________________________________________________________________________________
+
+11) tail COMMAND
+
+    tail command is similar to head command except that it shows last n lines or last n characters.
+___________________________________________________________________________________________________________________________________________________________
+
+12) tr COMMAND - Translate
+   
+    Eg1:  echo "Hello" | tr "e" "E"
+          HEllo
+
+    Eg2: input: int i=[int]5.8
+          	    [23 + 5]*2
+
+          tr "()2" "[]7"
+         output:  int i=[int]5.8
+          	      [73 + 5]*7
+
+        tr -d [0-9]    Delete all integers from the input.
+___________________________________________________________________________________________________________________________________________________________
+    
+13) sort COMMAND
+ 
+    sort file.txt                 Sort the file in alphabetical order.
+    sort -n file.txt              -n option make the file, sorted based on the numerical value present in each line.
+    sort -V                       If you want to sort strings that contain numbers within it without space, as per the numbers. 
+
+
+============================================================================================================================================================
+============================================================================================================================================================
+							                            Sed[Stream Editor] Commands   
+                                     sed manual - https://www.gnu.org/software/sed/manual/sed.txt
+============================================================================================================================================================
+============================================================================================================================================================
+
+1) sed Substution. 
+
+   sed 's/gpu_tot_ipc//' out.txt  --> It replaces only first occurance of string "gpu_tot_ipc" from every line of file out.txt, by nothing, as we did not 
+                                      provide any substute. 
+
+   sed 's/gpu_tot_ipc//g' out.txt --> It replaces all occurances of string "gpu_tot_ipc" from every line of file out.txt, by nothing, as we did not provide
+                                      any substute. 
+
+   sed 's/..$/,Not Defined/' out.txt  -->  Replace the last two characters in every line of employee.txt with ",Not Defined".
+___________________________________________________________________________________________________________________________________________________________
+
+2) Regular expressions with sed:
+
+   sed -n '/gpu_tot_ipc/!p' out.txt  --> Print all lines in out.txt which do not match the pattern.
+
+   sed -n '/^103/ p' employee.txt    --> Print only lines which start with 103.
+
+   sed -n '/r$/ p' employee.txt      --> Print lines which end with the letter r.
+
+   sed -n 's/J... /Jason /p' employee.txt  --> "." character matches with any character except end of the line character. This command 
+                                               matches with "john" or "jane" and replaces it with "Jason".
+
+   sed -n '/log: *./ p' log.txt   --> "*" matches zero or more occurances of the previous character. Print all the lines that contain "log:" followed by
+                                       one or more spaces followed by a character:
+
+   sed -n '/log: \+/ p' log.txt    -->  The special character "\+" matches one or more occurances of previous character. This command prints all the
+                                        lines that contain "log:" followed by one or more spaces.
+
+   sed -n '/log: \?/ p' log.txt    -->  The special character “\?” matches zero or one occurrences of the previous character as shown below.
+___________________________________________________________________________________________________________________________________________________________
+
+3) sed '/^$/ d' employee.txt                      -->  Delete all the empty lines from a file.
+                        
+   sed '/^#/ d' employee.txt                      -->  Delete all comment lines (assuming the comment starts with #):
+
+   sed -n '/^ Evicted: [0-9]* /p' shader0 | 	  --> Use the second "sed" command to count number of results of first sed command.
+___________________________________________________________________________________________________________________________________________________________
+
+4) egrep “SERVER|fred” filename | sed -n ‘${/fred/!p};N;/fred/!{P;D}’
+
+   If the last line does NOT have fred, print it: ${/fred/!p}
+   Append the next line to the pattern buffer: N
+   If that line does not have fred ( /fred/! ), 
+   then print up to the first carriage return (P), and delete up to the first carriage return and restart the cycle (D).
+___________________________________________________________________________________________________________________________________________________________
+
+5) If you want to print the line from a file which matches either one of these patterns i.e. x,y,z -
+   Learn to write search strings x,y,z in terms of regular expression.
+
+   sed -n '/x/p; /y/p; /z/p' out.txt	
+
+   eg :-
+        sed -n '/kernel_launch_uid/p; /The old value/p; /GPGPU-Sim uArch: CTA\/core =*/p' out.txt	
+___________________________________________________________________________________________________________________________________________________________
+
+6) Enclose the whole input line between < and >
+
+   sed 's/^.*/<&>/' employee.txt
+___________________________________________________________________________________________________________________________________________________________
+
+7) Match any line that contains 2 or 3 or 4 (alternate form):
+
+     sed -n '/[2-4]/ p' employee.txt 
+(OR) sed -n '/[234]/ p' employee.txt
+(OR) sed -n '/[a-z]/ p' employee.txt      For specifies range of alphabets.
+___________________________________________________________________________________________________________________________________________________________
+
+8) sed -n '/101\|102/ p' employee.txt       --> Print lines containing either 101 or 102.
+   sed -n '/[2-3]\|105/ p' employee.txt     --> Print lines that contain a character from 2 to 3 or that contain the string 105.
+___________________________________________________________________________________________________________________________________________________________
+
+9) Exactly M Occurrences ({m})               -->   A Regular expression followed by {m} matches exactly m occurrences of the preceding             expression.
+
+    sed -n '/^[0-9]\{5\}$/ p' numbers.txt    --> Print lines consisting of exactly 5 digits.
+
+   M to N Occurrences ({m,n})                -->  A regular expression followed by {m,n} indicates that the preceding item must match at least m times,
+                                                   but not more than n times.
+
+    sed -n '/^[0-9]\{3,5\}$/ p' numbers.txt  --> Print lines consisting of at least 3 but not more than 5 digits.
+___________________________________________________________________________________________________________________________________________________________
+
+10) Word Boundary (\b)
+    \b is used to match word boundary. 
+
+   sed -n '/\bthe\b/ p' words.txt           --> Match lines containing the whole word "the".
+
+   sed -n '/\bthe/ p' words.txt             --> Match lines containing words that start with “the”.
+___________________________________________________________________________________________________________________________________________________________
+
+11) Back Reference(\n) or Remembering the patterns for future use.
+
+    sed -n '/\(the\)\1/ p' words.txt  -->  Match only the line that has the word "the" repeated twice.
+
+    Here pattern recording starts from opening bracket till closing bracket and this pattern can be referenced afterwards with \1.
+___________________________________________________________________________________________________________________________________________________________
+
+12) To print all the lines between 'StartPattern' and 'EndPattern' patterns.
+
+    sed -n '/StartPattern/,/EndPattern/p' FileName
+    
+    But if there are multiple of "StartPattern" and "EndPattern" and you want to print data between the first occurance of these patterns then use this 
+    command-
+
+    sed -n '/StartPattern/,/EndPattern/p; /StopperPattern/q' FileName   --> It means that start printing lines after "StartPattern" till you reach 
+                                                                          "EndPattern" and continue for searching "StartPattern" again.
+										Continue this process till you reach "stopperPattern". After you hit
+                                                                          "StopperPattern" stop processing of input file.
+
+									   You can use "EndPattern" itself instead of "StopperPattern".
+(OR)
+
+    awk '/StartPattern/,/EndPattern/' Filename
+ 
+___________________________________________________________________________________________________________________________________________________________
+
+13) Exactly M Occurrences ({m})
+    A Regular expression followed by {m} matches exactly m occurrences of the preceding expression.
+
+	sed -n '/^[0-9]\{5\}$/ p' numbers.txt	--->	Print lines consisting of exactly 5 digits.
+
+___________________________________________________________________________________________________________________________________________________________
+
+14) Back reference:-
+    Back references let you group expressions for further use.
+
+	$ sed -n '/\(the\)\1/ p' words.txt   --->      Match only the line that has the word "the" repeated twice:
+
+    Using the same logic, the regular expression "\([0-9]\)\1" matches two digit number in which both the digits are same number—like 11,22,33.
+___________________________________________________________________________________________________________________________________________________________
+
+15) sed -e 's/#.*//' -e '/^$/ d' file.txt    --->  Remove all comments and blank lines.
+
+    sed -e '/^#.*/ d' file.txt               --->   Remove only the comments. Leave the blank lines.
+___________________________________________________________________________________________________________________________________________________________
+
+16) To replace a matching line in a file with other line -
+
+    sed -e 's/line1/linetobesubstuted1/' 's/line1/linetobesubstuted1/' file1 
+
+    If you have escape character i.e. backslash (\) in your substitution pattern to print it you need four back slashes.
+___________________________________________________________________________________________________________________________________________________________
+
+17) To print last line from file, the line that matches the pattern 
+
+    sed '/out_time=/h; $!d; x' filename
+
+    for more explaination visit this "http://stackoverflow.com/questions/15353962/print-last-matching-line" 
+___________________________________________________________________________________________________________________________________________________________
+ 
+ 18) Printing till the end of file, starting from the next line after pattern is matched.
+
+     using sed, the following will delete everything up to and including the line with yahoo and print all lines afterwards.
+
+	sed '1,/yahoo/d' data.txt 
+___________________________________________________________________________________________________________________________________________________________
+
+ 19) Printing lines between specific range of a file -
+
+     sed -n 16224,16482p filename > newfile
+
+
+    p - Print out the pattern space (to the standard output). This command is usually only used in conjunction with the -n command-line option.
+
+    n - If auto-print is not disabled, print the pattern space, then, regardless, replace the pattern space with the next line of input. If there is no 
+        more input then sed exits without processing any more commands.
+
+    Addresses in a sed script can be in any of the following forms:
+
+    1) number Specifying a line number will match only that line in the input.
+
+    2) An address range can be specified by specifying two addresses separated by a comma (,). An address range matches lines starting from where the first
+        address matches, and continues until the second address matches (inclusively).
+___________________________________________________________________________________________________________________________________________________________
+
+ 20) Using shell variable inside sed command -
+
+	     sed -n "/$rrtt/,/Evicted:/p" aes13.log  
+
+     In this example rrtt is a shell variable and is used inside sed command.
+     You can also use following format.
+
+(OR)	     sed -n '/'$rrtt'/,/Evicted:/p' aes13.log
+
+     That is do not put the shell variable inside single quotes so that shell will expand it. But second solution is not working for me.
+___________________________________________________________________________________________________________________________________________________________
+
+ 21) To make changes in the input file itself use -i flag.
+
+     sed -i  "/.*leco.*/c $PATH" input_file    --> changes lines containing pattern "leco" with value of variable "PATH". Note that the space between /c 
+                                                   and $PATH has no effect on the working of command.
+___________________________________________________________________________________________________________________________________________________________
+ 
+ 22) Regular Expressions in SED
+
+     /pattern/  	 ---> This tries to match "pattern" anywhere in whole line.
+     /\`pattern/	 ---> This tries to match at the begining of the line.
+___________________________________________________________________________________________________________________________________________________________
+
+ 23] SED command to append some text at the end of matching line. 
+
+     sed -e 's_^all: .*_& anotherthing_'
+
+     Here "s" specifies substitute command. It matches lines starting with "all: " and appends it with " anotherthing". Herer & represents whole matched 
+     line while _ is used as field seperator in the command instead of forward slash "/"  
+
+(or) sed -i '/^all:/ s/$/ anotherthing/' file
+    
+      -i     --> switch is used to make changes in the input file itself
+      -i.bak --> switch is used to backup original file.
+
+      input$ all: thing otherthing
+     output$ all: thing otherthing anotherthing
+___________________________________________________________________________________________________________________________________________________________
+
+ 23.1] Sed command to substitue a while matching line in a file.
+
+       sed -i '/pattern_to_be_matched/s/.*/to_be_replaced_pattern/' file
+       sed -i --follow-symlinks  '/pattern_to_be_matched/s/.*/to_be_replaced_pattern/' file    --> Use this "--follow-symlinks" flag if the file you are
+                                                                                                   modifying is symbolic link.
+___________________________________________________________________________________________________________________________________________________________
+
+ 23.2] sed command to print entire line after the matching word.
+
+       sed '/pattern_to_be_matched/s/.*pattern//' file    --> It deletes everything till pattern. 
+___________________________________________________________________________________________________________________________________________________________
+
+ 24] Make substitution to the matching line in a file
+
+      echo "EXECUTABLE := covariance1.exe" |  sed  '/EXECUTABLE :=.*/ s/1\./2./p'
+    output:
+      EXECUTABLE := covariance2.exe
+      EXECUTABLE := covariance2.exe
+___________________________________________________________________________________________________________________________________________________________
+
+ 25] Sed, Run a command when a pattern is not matched.
+
+     sed '/xyz/ s/su//'    -->   It will substute the pattern "su" with nothing i.e. it will remove "su" pattern from lines which contain "xyz".
+     sed '/xyz/! s/su//'   -->   It will substute the pattern "su" with nothing i.e. it will remove "su" pattern from lines which do not contain "xyz".
+___________________________________________________________________________________________________________________________________________________________
+
+ 26]  echo "EXECUTABLE := bicgu.exe" | sed 's/[0-9]*u/10/'       --> Replaces u and it's preceding digit (if any present) with string "10"
+
+
+============================================================================================================================================================
+============================================================================================================================================================
+	                                        Python commands for substitution 
+============================================================================================================================================================
+============================================================================================================================================================
+
+ 1]  python -c 'import sys; print open("../arithmetic_intensity.awk").read().replace("/` k= 12/{", "/` k= "+sys.argv[1]+"/{")' $i
+     python -c  "import os; import sys; os.getenv('$i'); print(sys.argv[1])" $i
+
+     See this command to use bash variables inside python script.
+
+============================================================================================================================================================
+	                                    HOW TO WRITE REGULAR EXPRESSIONS 
+                                    see book -> unix-regular-expressions.pdf
+============================================================================================================================================================
+
+    ^daemon     - lines starting with daemon
+    daemon$     - lines ending with daemon
+    .           - matches any single character
+    *           - matches zero or more occurances of previous character
+
+    [a-z]	    - Matches a single lowercase letter
+    [A-Z]	    - Matches a single uppercase letter
+    [a-zA-Z]    - Matches a single letter
+    [0-9]	    - Matches a single number
+    [a-zA-Z0-9] - Matches a single letter or number
+    $           - Matches end of the line.
+    a.c         - Matches lines that contain strings such as a+c, a-c, abc, match, and a3c, whereas the pattern
+    a*c	        - Matches the same strings along with strings such as ace, yacc, and arctic.
+    [tT]he      - Matches the string The and the:
+
+    ^$ 	        - Matches Blank lines
+    ^.*$	    - Matches an entire line whatever it is.
+     *    	    - Matches one or more spaces
+
+    ^$ 	        - Matches Blank lines
+
+    ----------------------------------------------------------------------------------------------------
+    Regular Expressions in GREP 
+    ----------------------------------------------------------------------------------------------------
+    . (dot)     - a single character.
+
+    ?	        - the preceding character matches 0 or 1 times only.
+    *           - the preceding character matches 0 or more times.
+    +           - the preceding character matches 1 or more times.
+    {n}         - the preceding character matches exactly n times.
+    {n,m}       - the preceding character matches at least n times and not more than m times.
+    [agd]       - the character is one of those included within the square brackets.
+    [^agd]      - the character is not one of those included within the square brackets.
+    [c-f]       - the dash within the square brackets operates as a range. In this case it means either the letters c, d, e or f.
+    ()          - allows us to group several characters to behave as one.
+    | (pipe symbol) - the logical OR operation.
+    ^           - matches the beginning of the line.
+    $           - matches the end of the line. 
+
+    exmple for grep -
+
+    echo gpgpu_stall_shd_mem[gl_mem][coal_stall] = 91627226 | grep -o "\[.*\]\[.*\]"
+
+     --> The above command will extract "[gl_mem][coal_stall]" from the line.
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+	                            		    				 AWK Commands   
+	                			        	See tutorial from Dropbox "sed and awk 101 hacks"
+	                   Important Documentation = https://www.gnu.org/software/gawk/manual/html_node/index.html#SEC_Contents
+=============================================================================================================================================================
+=============================================================================================================================================================
+
+AWK searches files for lines that contain certain pattern. When a line matches one of the patterns, AWK performs specified action on that line. AWK keeps 
+processing input lines in this way until eof is reached.
+
+Program contains set of rules and some function definations also.
+
+Syntactically, a rule consists of a pattern followed by an action. The action is enclosed in curly braces to separate it from the pattern. Rules are 
+seperated by new lines. AWK program looks like -
+
+pattern { action }
+pattern { action }
+
+All the rules are performed on each of the line of the input file.
+======================================================================================================================================================================
+
+ '*********** Very Very Important  **********
+   'Many of the problems in awk can be simplified by careful selection of 'RECORD SEPERATOR [RS]' and 'FIELD SEPERATOR [FS]' operators. 
+ '*********** Very Very Important  **********
+
+======================================================================================================================================================================
+
+The following command runs a simple awk program that searches the input file `BBS-list' for the string of characters: `foo' 
+
+1]  awk '/foo/ { print $0 }' BBS-list     -->  "$0" represents whole record.
+    (OR)
+     awk '/foo/ { print }' BBS-list	   -->   prints all lines which contain "foo".
+    (OR)
+     awk '{print $NF}' file                -->  print the last column in file.
+___________________________________________________________________________________________________________________________________________________________
+
+2] In awk rule either pattern or action can be omitted but not both. When pattern is omitted action is performed on all the lines and when action is omitted
+   default action of printing is performed. 
+
+   but by omitting the action but keeping curley braces means empty action has to be performed, i.e. no line is printed.
+___________________________________________________________________________________________________________________________________________________________
+
+3] If we give multiple files as input then they are processed sequentially one after the other.
+___________________________________________________________________________________________________________________________________________________________
+
+3.3] If you want to print 3rd line after a matching line - 
+
+     awk '/pattern/ {x = NR + 3} NR == x' file  
+___________________________________________________________________________________________________________________________________________________________
+
+4] Printing sum of all the values in a column.
+
+   ls -l | awk '$5 == "Nov" { sum += $4 }
+   END { print sum }'
+
+	$5 column gives the month when file was modified at last, $4 gives size of file. So this code prints the total size of all the files which were
+   modified in May.
+___________________________________________________________________________________________________________________________________________________________
+
+5] awk program can be run like this -
+
+    awk 'program' input-file1 input-file2 ...
+    (or) 
+    awk -f program-file input-file1 input-file2 ...
+___________________________________________________________________________________________________________________________________________________________
+
+6]  In linux versions of awk like nawk(new awk) and awk, point to the gawk(gnu awk) software.
+___________________________________________________________________________________________________________________________________________________________
+
+7]  Basic Awk Syntax
+
+    awk -F' ' '/pattern/ {action}' input-file
+    (or)
+    awk -F' ' '{action}' intput-file
+
+     -F is field seperator and ' ' is for space. 
+     rule consisting of pattern and action should be enclosed in single quotes.
+     all action are enclosed in { and }, to distinguish them from pattern.
+     see tutorial "sed and awk 101 hacks from dropbox"
+___________________________________________________________________________________________________________________________________________________________
+
+8]  When there is only one character used for delimiter, any of the following forms works -->
+
+    awk -F ',' '{print $2}' employee.txt
+    awk -F "," '{print $2}' employee.txt
+    awk -F, '{print $2}' employee.txt
+    We can also use FS variable for this purpose.
+___________________________________________________________________________________________________________________________________________________________
+
+9] The command line awk program and it's output is given below:
+  
+    $ awk -F ',' 'BEGIN \
+      { print "-------------\nName\tTitle\n-------------"} \
+      { print $2,"\t",$3;} \
+      END { print "-------------"; }' employee.txt
+
+    -------------
+    Name Title
+    -------------
+    John Doe CEO
+    Jason Smith IT Manager
+    Raj Reddy Sysadmin
+    Anand Ram Developer
+    Jane Miller Sales Manager
+    -------------
+
+       This progrma when stored in program.awk file will look like this
+
+    BEGIN { print "-------------\nName\tTitle\n-------------"} 
+    { print $2,"\t",$3;} 
+    END { print "-------------"; }
+
+        There is only one BEGIN and END block in program and their names are written in capitals. BEGIN block is executed only once at the start of the program, 
+    while END block is executed at the end of the program. Rules which are between begin and end blocks are executed for each line in the input file. IF you have 
+    multiple actions in BEGIN and END block then they can be seperated by semicolon.
+___________________________________________________________________________________________________________________________________________________________
+
+10] Splitting single rule over more than one line (or) combining two or more awk rules in a single line.
+
+     If you would like to split a single statement into two lines at a point where a newline would terminate it, you can continue it by ending the first line
+     with a backslash character, `\'. This is allowed absolutely anywhere in the statement, even in the middle of a string or regular expression.
+
+    For example:
+		awk '/This program is too long, so continue it\
+		on the next line/ { print $1 }'
+
+     When awk statements within one rule are short, you might want to put more than one of them on a line. You do this by separating the statements with
+     a semicolon, `;'.
+
+		/12/ { print $0 } ; /21/ { print $0 }
+___________________________________________________________________________________________________________________________________________________________
+
+11] If you want to use inbuilt variable "FS" in the awk program you need to define FS in BEGIN block like this -
+
+    awk 'BEGIN {FS=","} {print $2, $3}' employee.txt
+___________________________________________________________________________________________________________________________________________________________
+
+12] Multiple field seperators -
+
+    If you want to distinguish fields based on different seperators, then you can specify like this -
+    
+	FS = "[,:%]"        ----> indicates that the field separator can be , or : or %
+	FS = "[[:space:]]+" ----> I think it tells that use single or multiple spaces as field seperator.
+	FS = "[ \t\n]"      ----> This is default field seperator in awk. It is used when record seperator does not contain newline character.
+        FS = "[ \t]+"       ----> This can also be considered default field seperator in awk.
+        FS = "(:)|( +)"     ----> This specifies to use ":" or "multiple white spaces" as the field separater.
+        awk -F"=|,| +" '{print $1, $14}'  --> I think, the F field specifies three field seperators equal,comma and one or more white spaces.
+___________________________________________________________________________________________________________________________________________________________
+
+13] Inbuild AWK Variables.
+
+    =================================================================================
+    1) OFS - Output Field Separator
+    =================================================================================
+    When you use a single print statement to print two variables by separating them with comma (as shown below), it will print the values of those two
+    variables separated by space.
+
+    $ awk -F ',' '{print $2, $3}' employee.txt
+      John CEO
+
+    If you try to include a colon manually in the print statement between the fields, then there will be additional space before and after the colon.
+
+    $ awk -F ',' '{print $2, ":", $3}' employee.txt
+      John : CEO
+
+    when you use OFS, it replaces the default awk OFS (which is space) with the colon.
+
+    $ awk -F ',' 'BEGIN { OFS=":" } \
+     { print $2, $3 }' employee.txt
+    (or)
+    $ awk -F',' 'BEGIN { OFS=":"} {print $2 $3}' employee 
+      John:CEO
+
+    =================================================================================
+    2) FILENAME - Name of input file.
+    =================================================================================
+
+     "FILENAME" will give name of current input file being processed if awk command is working on multiple input files.
+ 
+    =================================================================================
+    3) NR and FNR -
+    =================================================================================-
+
+     In awk, FNR refers to the record number (typically the line number) in the current file and NR refers to the total record number. 
+     This means that the condition NR==FNR is only true for the first file, as FNR resets back to 1 for the first line of each file but NR keeps on increasing.
+
+    =================================================================================
+    4) FIELDWIDTHS - Specifies the format for output.
+    =================================================================================
+
+     awk 'BEGIN{FIELDWIDTHS="3 4 3"} {print $1,$2,$3}' <filename>
+
+     This will allocate a width of '3 characters for column 1', 'a width of 4 characters for column 2' and 'a width of 3 characters for column 3'.
+
+    =================================================================================
+    5) RS - Record Seperator.
+    =================================================================================
+
+     How to specify Multiple record seperators in awk [http://www.delorie.com/gnu/docs/gawk/gawk_35.html]
+ 
+     Multiple values to record seperator can be given in gawk only and if you want each record seperator to be specified in terms of regular expression.
+      
+     -->    RS="\nCluster =*| Hits*"
+
+     Here we have specified two record seperators, "\nCluster =*" means a line starting with "Cluster =" will act as record seperator. ^ and $ which act as\
+     special characters in regular expression, I think can not be used while specifying record seperator in awk.
+
+     Second record seperator matches pattern "Hits" in whole line anywhere and starts new recorder after that. So if you want specify a line starting with
+     " Hits" to be record seperator use following pattern
+
+     -->    RS="\nCluster =*|\n Hits*"
+
+     -->    RS=""
+	    This will match empty line. Empty lines will be considered as the start of new record.
+
+    =================================================================================
+     6)	 ARGC -    Retrieves the number of passed parameters.
+    =================================================================================
+	 If you do not give any parameter, then value of ARGC is 1.  
+
+    =================================================================================
+     7)	 ARGV -    Retrieves the command line parameters.
+    =================================================================================
+	The value of ARGC[0] is always "awk"
+    Eg:-
+        awk 'BEGIN{print ARGC,ARGV[1]}' myfile
+        2 myfile
+
+    =================================================================================
+     8)	 ENVIRON -    Array of the shell environment variables and corresponding values.
+    =================================================================================
+	awk ' BEGIN{ print ENVIRON["PATH"] }'
+	
+	It prints the value associted with PATH variable.
+
+    (OR) echo | awk -v home=$HOME '{print "My home is " home}'
+	
+	This is how we use bash variables inside awk script.
+
+    =================================================================================
+     9)  FILENAME    - The file name that is processed by awk.
+    
+     10) NF          - Fields count of the line/record being processed.
+                       NF specifies the last field in the record.
+
+     11) NR          - Retrieves total count of processed records till now. Helpful when dealing with multiple files. 
+
+     12) FNR         - Gives the record number which is processed. It is uniq within the file.
+
+     13) IGNORECASE  - To ignore the character case.
+___________________________________________________________________________________________________________________________________________________________
+
+ 13.1] Using bash commands inside awk.
+___________________________________________________________________________________________________________________________________________________________
+
+ 13.2] Using shell variable inside awk command
+
+       variable="line one\nline two"
+       awk -v var="$variable" 'BEGIN {print var}'
+    (OR)
+       Using shell variable inside pattern match
+
+       awk -v ab="B=23.* t=1 " 'BEGIN{RS="\nL2Cache Block"} $0 ~ ab  {count++}  
+    (OR)
+       awk -v ab="B=23.* t=1 " 'BEGIN{RS="\nL2Cache Block"} if($0 ~ ab) {count++}  
+
+    You can also append some character sequence to the variable in pattern match like this --- Here "pc=" is attached to the variable "ab".
+
+       awk -v ab="B=23.* t=1 " 'BEGIN{RS="\nL2Cache Block"} if($0 ~ pc=ab) {count++}
+    (OR)
+       awk 'BEGIN{RS="\nL2Cache Block"} /B=23.* t=1 / {count++} 
+       awk 'BEGIN{RS="\nL2Cache Block"} /B=23.* t=1 / {count++} 
+___________________________________________________________________________________________________________________________________________________________
+
+ 13.3] You can also use pipe operation inside awk.
+___________________________________________________________________________________________________________________________________________________________
+
+ 13.4] AWK related regular expressions
+
+       https://www.gnu.org/software/gawk/manual/html_node/GNU-Regexp-Operators.html
+
+       For our purposes, a word is a sequence of one or more letters, digits, or underscores (‘_’): 
+
+	    \s    - Matches any whitespace character. Think of it as shorthand for ‘[[:space:]]’.
+	    \S    - Matches any character that is not whitespace. Think of it as shorthand for ‘[^[:space:]]’. 
+    
+	    \`    
+        (or) 
+        ^     - Matches the empty string at the beginning of a buffer (string)/record. I think carrot also matches start of record.
+     
+	    \'    - Matches the empty string at the end of a buffer (string)/record
+	    \w    - Matches any word-constituent character—that is, it matches any letter, digit, or underscore. Think of it as shorthand for ‘[[:alnum:]_]’.
+	    \W    - Matches any character that is not word-constituent. Think of it as shorthand for ‘[^[:alnum:]_]’.
+	    \<    - Matches the empty string at the beginning of a word. For example, /\<away/ matches ‘away’ but not ‘stowaway’.
+	    \>    - Matches the empty string at the end of a word. For example, /stow\>/ matches ‘stow’ but not ‘stowaway’.
+	    \y    - Matches the empty string at either the beginning or the end of a word (i.e., the word boundary). For example, ‘\yballs?\y’ matches either ‘ball’ 
+                or ‘balls’, as a separate word.
+	    \B    - Matches the empty string that occurs between two word-constituent characters. For example, /\Brat\B/ matches ‘crate’, but it does not match 
+                ‘dirty rat’. ‘\B’ is essentially the opposite of ‘\y’. 
+___________________________________________________________________________________________________________________________________________________________
+
+14] printing some records after the matched records :-
+
+    visit this website :- http://stackoverflow.com/questions/17908555/printing-with-sed-or-awk-a-line-following-a-matching-pattern 
+
+    The specific answer you want is:
+    	awk 'f{print;f=0} /regexp/{f=1}' file
+    or specializing the more general solution of the Nth record after a regexp (idiom "c" below):
+    	awk 'c&&!--c; /regexp/{c=1}' file
+
+    The following idioms describe how to select a range of records given a specific regexp to match:
+
+     	awk '/regexp/{f=1}f' file               - Print all records from some regexp:- 	
+      	awk 'f;/regexp/{f=1}' file              - Print all records after some regexp:
+      	awk 'c&&!--c;/regexp/{c=N}' file        - Print the Nth record after some regexp:
+     	awk 'c&&!--c{next}/regexp/{c=N}1' file  - Print every record except the Nth record after some regexp: 	
+     	awk 'c&&c--;/regexp/{c=N}' file         - Print the N records after some regexp:		
+     	awk 'c&&c--{next}/regexp/{c=N}1' file   - Print every record except the N records after some regexp:	
+    	awk '/regexp/{c=N}c&&c--' file          - Print the N records from some regexp:			
+     	awk 'NR>=10&&NR<=20' in.sql > out.sql	- Printing lines between specified lines:			 
+     	awk 'length < 80' file.txt              - Printing only lines of less than 80 characters:	
+
+    I changed the variable name from "f" for "found" to "c" for "count" where appropriate as that's more expressive of what the variable actually IS.
+___________________________________________________________________________________________________________________________________________________________
+
+15] printing a line containing some regular expression and some lines following that matching line.
+    Eg:- 
+        Here it prints 5 lines -
+        grep "total_dl1_misses" interest -A 5
+___________________________________________________________________________________________________________________________________________________________
+
+15.1] Print only matching patterns in awk -
+
+      awk '{ for(i=1;i<=NF;i++)
+             { if($i=="yyy"){print $i} 
+             } 
+         }' file
+___________________________________________________________________________________________________________________________________________________________
+
+15.2] At every even record, print earlier record and this record in a single line. With use of concatination function and modification to if condition this code can
+      be used to print N consecutive lines in a single output line. 
+
+     awk '!(NR%2){print$0,p} {p=$0}' 
+
+(OR) Similar behaviour can be obtained by changing Output Record Seperator ORS values dynamically. Below code will print 2 consecutive lines of input in single output
+     line. By changing %2 to %n, we can put n consecutive lines in single output line.
+     
+     awk 'BEGIN{ORS="  "} {print $0}  {if(NR%2 ==0) ORS="  "; else ORS="\n"} ' 
+___________________________________________________________________________________________________________________________________________________________
+
+16]  awk 'BEGIN { ORS = " " } { print }' infile     --> To convert column to row from file "infile".
+
+___________________________________________________________________________________________________________________________________________________________
+
+17] some sample awk commands that I got from Praveen -
+
+    awk '{print $2$3$4}' 2M_20M.txt | tr ':' '\t' | awk '{ count=count+1; if(count%5==1){min=500; max=0;} a[0]+=$6; if(min>$6){ min=$6; } if (max<$6){ max=$6;} 
+    if  (count%5==0){ print $2":"$4":"a[0]/5":"min":"max; min=500; max=0;a[0]=0;} }'
+
+    awk '{ if($3=="#"){ print $1}}' file.txt | awk '{ count=count+1; a[0]+=$1; if(count%5==0) { print (count/60+1)":"a[0]/5; a[0]=0;}}'
+___________________________________________________________________________________________________________________________________________________________
+
+ 18] For array type variables in awk language and for some practical examples visit this website
+
+	http://www.thegeekstuff.com/2010/03/awk-arrays-explained-with-5-practical-examples
+___________________________________________________________________________________________________________________________________________________________
+
+ 19] "next" statement in awk 
+
+     The next statement forces awk to immediately stop processing the current record and go on to the next record. This means that no further rules are 
+     executed for the current record, and the rest of the current rule’s action isn’t executed. 
+
+     visit this page https://www.gnu.org/software/gawk/manual/html_node/Next-Statement.html
+
+     At the highest level, awk program execution is a loop that reads an input record and then tests each rule’s pattern against it. If you think of this 
+     loop as a for statement whose body contains the rules, then the next statement is analogous to a continue statement. It skips to the end of the body
+     of this implicit loop and executes the increment (which reads another record). 
+___________________________________________________________________________________________________________________________________________________________
+
+ 20] "continue" and "break" statements in awk
+
+     visit this page https://www.gnu.org/software/gawk/manual/html_node/Continue-Statement.html#Continue-Statement
+___________________________________________________________________________________________________________________________________________________________
+
+ 20.1] exit command
+
+       If you want to stop processing of input file when particular pattern is found in input file then use "exit" command. It will stop executing commands
+       from actions block and will jump to execute END{} block.
+
+       BEGIN {}
+       { <ACTIONS BLOCK EXECUTED FOR EACH RECORD FROM INPUT FILE> }
+       END  {}
+        
+eg.    awk '/pattern1/{do something}; /pattern/{exit}' filename
+___________________________________________________________________________________________________________________________________________________________
+
+ 21] Inside if statement of awk if you want to match particular field say $2 with a regular expression (eg:- If $2 starts with pc) , use this -
+
+     if ( $2 ~ /pc*/ ) { }
+    (OR) 
+    match ($2, /pc*/) { } 
+     you can also give pattern to match somewhere in whole line, in if statement as follows -
+
+     if ( / pattern / ) { } 
+
+     to print records which do not contain specific pattern, use -
+
+     /! pattern/ { }  (or)  if( /! pattern/) { }  --> This is wrong....	
+
+(or) I think above syntax is worng. Please put exclamation mark outside specified pattern and also give space after the exclamation mark.
+
+     ! /pattern/ { }  (or)  if( ! / pattern/) { }
+
+(or) You can also use logical and, logical or for pattern matching
+
+      /pattern1/ && /pattern2/ { count++}       --> Increment count if record contains both pattern1 and pattern2.
+
+      /pattern1/ || /pattern2/ { count++}       --> Increment count if record contains either of the pattern1 or pattern2.
+(or)  /pattern1|pattern2/         		--> paterrn containing full words t=1 or t=2
+(or)  /\<t=1\>|\<t=2\>/ 			--> paterrn containing full words t=1 or t=2
+
+      ! ( /\<t=5\>/ || /\<t=1\>/ ) {print $0}   --> Do not print lines which contain either t=5 or t=1 or both.
+ 
+      ! /\<t=1\>/ && ! /\<t=5\>/                --> I think this will not work in awk as you intended. You ment not containing both t=1 and t=5. But it will
+                                                    take as not containing either of the two patterns t=1 , t=5 or both.
+ Instead you write like this 
+      
+      ! ( /\<t=1\>/ && /\<t=5\>/ )                --> will print lines which do not contain both t=1 and t=5
+
+      ! /\<t=6\>/ &&  /\<t=5\>/                   --> print lines containing t=5 but not t=6
+
+      /\<t=5\>/ && /\<t=10\>/ && !/\<t=1\>/       --> Containing "t=5" and "t=10" but not "t=1"
+
+      /\<t=10\>/ && !( /\<t=4\>/ || /\<t=5\>/ )   --> Records containing "t=10" but not either "t=4" or "t=5" both.
+      /\`Cluster/                                 --> Match the record which starts with "Cluster".
+      /\`Cluster = [0-9][0-9] /                   --> Match the record which starts with "Cluster = " followed by two digits.
+      /\`Cluster = [0-9]{1,2} /			          --> Match the record which starts with "Cluster = " followed by min 1 and max of 2 digits.
+      /\`Cluster = [0-9]{1,} /			          --> Match the record which starts with "Cluster = " followed by atlease 1 digit.
+      /\`Cluster = [0-9]{,2} /			          --> Match the record which starts with "Cluster = " followed by atmax 2 digits.
+      /L1D_.*Reservation_fails =/		          --> Match the record which contains "L1D_" followed by some random number of characters but not new line 
+                                                      character followed by "Reservation_fails ="
+
+ awk '{if ($2=="abc" || $2=="def") print "blah" }'    --> Logical OR in if of awk.
+ awk '{ if($2 ~ /abc|def/) print "blah"; }'
+ if($i !~ /t=8|Evicted|Address|Hits/) { print $i;}    --> Print $i if $i does not contain t=8 or Evicted or Address or Hits	
+ awk '$2~/^(abc|def)$/ {print "blah"}'
+ awk '$2=="abc" || $2=="def" {print "blah"}'
+___________________________________________________________________________________________________________________________________________________________
+
+ 21.0] To print just matching pattern in awk.
+	awk '{ match($8,/=.*$/,m); print m[0]}' temp
+(OR)    awk 'match($0, /a.t/) { print substr($0, RSTART, RLENGTH) } '    --> Prints just the pattern matched by regular expression. 
+___________________________________________________________________________________________________________________________________________________________
+
+ 21.1] How to match multiline pattern in awk
+   
+     I required to match pattern which was spanning across multiple lines but from the same column. So I converted the particular column to single line by 
+     using awk, (change ORS from '\n' to '\t') and applied grep command for pattern match. 
+___________________________________________________________________________________________________________________________________________________________
+
+ 21.2] Adding a line after match in awk
+
+     awk '/pattern/{print; print "hi"; next}1'   --> 1 will print all the lines by default; but when line matches with pattern, it is print by print command
+							from command section, followed by "hi" and to avoid printing of that line one more time by 1 we use
+ 							next command which will not execute remaining commmands.    
+___________________________________________________________________________________________________________________________________________________________
+
+ 21.3] Print the next line after pattern match.
+
+     awk '/pattern/{getline; print}' file        --> when pattern is matched for the current line, getline will read next line into buffer and "print" will print it.
+___________________________________________________________________________________________________________________________________________________________
+
+ 21.4] 
+      awk '{print gsub(/,/, "")}'           To print the number of occurances of a character in each line of a file.
+(OR)  awk '{print gsub(/abc/, "", $1)}'     To print the number of occurances of a "abc" in first field of each line.  
+___________________________________________________________________________________________________________________________________________________________
+
+ 22] By default variables in awk are initialized to zero, when they are declared.
+___________________________________________________________________________________________________________________________________________________________
+
+ 23] Some of the string manipulation functions which you can use in awk are listed in this document - 
+
+     https://docs.freebsd.org/info/gawk/gawk.info.String_Functions.html 
+
+     substr(STRING, START, LENGTH)      - This returns a LENGTH-character-long substring of STRING, starting at character number START. 
+                                          The first character of a string is character number one.  For example, `substr("washington", 5, 3)' returns `"ing"'.
+ 
+     substr("washington", 5)            - If LENGTH is not present, this function returns the whole suffix of STRING that begins at character number START.
+                                          returns `"ington"'.
+
+     length(string) 			        - Retruns length of the string.
+
+     touppper(string)			        - Converts string characters to uppper case.
+___________________________________________________________________________________________________________________________________________________________
+
+ 24] Numeric comparison in awk instead of string comparison.
+
+     In awk strings are compaired by compairing first char of strings, then second chars and so on. In this way string 99 is greater than string 100. So, to
+     do numeric comparison, first you convert strings to numbers by adding 0 to them. As you add 0, it's numeric value do not change and henceforth that 
+     variable will be considered as number instead of string.
+
+     Also there is int() function, which can be used to convert string to integer value. Actually int() is a inbuilt function in awk, which converts floating
+     point value from it's parameter to integer value.
+
+     strtonum() --> converts string to number. see  https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html
+___________________________________________________________________________________________________________________________________________________________
+ 
+ 24.0] Sorting arrays in awk. ( First check type of array contents whether it is string or number.)
+
+       asort() function . ---> see https://www.gnu.org/software/gawk/manual/html_node/Array-Sorting-Functions.html#Array-Sorting-Functions
+       eg-> n= asort(data)
+
+    After the call to asort(), the array data is indexed from 1 to some number n, the total number of elements in data. (This count is asort()’s return value.)
+    data[1] <= data[2] <= data[3], and so on. The default comparison is based on the type of the elements (see Typing and Comparison). All numeric values come 
+    before all string values, which in turn come before all subarrays.
+
+    -> The sort command can also be used to sort array contents while printing.
+
+        for(j in arr2)
+        printf " %-4s -> %-2.2f %\n", j, (arr2[j]/total) * 100.00 | "sort -V"
+___________________________________________________________________________________________________________________________________________________________
+    
+ 24.1] Different ways of iterating over the elements in an array. 
+
+     https://www.gnu.org/software/gawk/manual/html_node/Controlling-Scanning.html#Controlling-Scanning
+___________________________________________________________________________________________________________________________________________________________
+
+ 24.12] Different ways of array traversal in awk 
+
+     https://www.gnu.org/software/gawk/manual/html_node/Controlling-Array-Traversal.html#Controlling-Array-Traversal
+___________________________________________________________________________________________________________________________________________________________
+
+ 24.2] Some built-in functions in awk.
+ 
+    Arithmatic Functions:- https://www.tutorialspoint.com/awk/awk_arithmetic_functions.htm
+
+	atan2(y, x)
+	cos(expr)
+	exp(expr)
+	int(expr)
+	log(expr)
+	rand()
+	sin(expr)
+	sqrt(expr)
+	srand([expr])
+
+     String Manipulation functions:-  https://www.tutorialspoint.com/awk/awk_string_functions.htm
+
+     Time manipulation functions:-  https://www.tutorialspoint.com/awk/awk_time_functions.htm
+  
+     Bit manipultaion functions:-   https://www.tutorialspoint.com/awk/awk_bit_manipulation_functions.htm
+
+     AND
+     OR 
+     COMPL
+     XOR
+     lshift
+     rshift
+
+         Control flow related functions:-  https://www.tutorialspoint.com/awk/awk_miscellaneous_functions.htm
+
+     system()
+     return;
+     next;
+     exit();
+     nextfile();
+     close();
+     delete();
+
+     split() function :-
+
+	 split($i,arr," ")          --> This function will divide the string "$i" at places specified by third argument of function and store these peaces 
+					                into the array "arr". 
+
+     split($0, arr, / [abcd]/)  --> This function is used to split the record into fields using regular expression. That is space followed by any of the
+                					character a,b,c or d.
+___________________________________________________________________________________________________________________________________________________________
+
+ 25] Using "printf" inside awk for printing output in desired format.
+    
+     https://www.gnu.org/software/gawk/manual/html_node/Printf-Examples.html
+
+     Format specifiers along with printf in awk are as follow -->
+
+	    c   -   Prints numeric output as a string.
+
+	    d   -   Prints an integer value.
+
+	    e   -   Prints scientific numbers.
+
+	    f   -   Prints float values.
+
+	    o   -   Prints an octal value.
+
+	    s   -   Prints a text string.
+___________________________________________________________________________________________________________________________________________________________
+
+ 26] Printing size / length of an array "arr" in awk, use function length.
+
+     length(arr)
+___________________________________________________________________________________________________________________________________________________________
+
+ 27] Print all the lines after the pattern match.
+
+     awk '/yahoo/{y=1;next}y' data.txt 
+
+     It means that if we encounter "yahoo" set y to "1", and "next" states that after you set y to 1, skip further processing of the matched line and go to 
+     next record. Here "y" is a short hand for "y != 0 {print}" , it means that if y is not zero, print all the records.
+
+     Here next will skip the line that matched the pattern, if we remove next command then it will print the matched line also.
+___________________________________________________________________________________________________________________________________________________________
+
+ 28] If you want to just select lines between x and y, and that too from the last pair of x and y then
+
+     BEGIN{ RS="X|Y"; i=0 }
+     //
+     {
+	    arr[++i] = $0;
+     }
+     END{
+	    print ( arr[length(arr)] )
+     }
+___________________________________________________________________________________________________________________________________________________________
+
+ 29] Using pipe to give input to awk command.
+
+     I IMP : if you are redirecting output of a linux command to the awk by using pipe operator and you are using some user defined record seperator as 
+             specified above it will not work. Better you redirect output of that command to a file and provide that file as input to the awk command.
+
+
+      I do not know what is happening but today that pipe operator started working.
+
+      This was the problem - BEGIN{RS="\nCluster = 0 "} when I used this as record seperator it gave me problem i.e. output was not coming
+
+      BEGIN{RS="\nCluster = "} while when I used this in awk it worked fine. Might I need to check regular expressions in awk properly.
+___________________________________________________________________________________________________________________________________________________________
+
+ 30] To convert (or) to print float numbers use %f format specifier.
+
+     printf "ans= %.2f", 4/3;
+___________________________________________________________________________________________________________________________________________________________
+
+ 31] Traspose the columns in row.
+
+     | paste -s           -> pipe column output to paste command. -s switch tells to output in single line.
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+                                                            ** Programming guidelines for AWK
+=============================================================================================================================================================
+=============================================================================================================================================================
+
+ 1] Inside awk script, if you are redirecting output of a print statement to a file (here filename is "temp"), then write filename in double quotes.
+    Double quotes tell awk that it is not a variable.
+
+       print $0 > "temp"
+e.g - awk 'BEGIN{RS="\nGPGPU-Sim PTX: pushing kernel"; n=0;} /'_Z10QTC_devicePfPcS0_PiS1_S1_S_S1_iiifiiiib'/{ t++; arr[t]=$0 } 
+           END{print "NUM records = ", FNR; print " t= ",t;  for(i in arr) print arr[i] > i".txt" }' qtclatest_prefetch0
+
+   
+    Otherwise this error will come :-
+
+    awk: tr.awk:13: (FILENAME=sto.log FNR=6600) fatal: expression for `>' redirection has null string value
+___________________________________________________________________________________________________________________________________________________________
+
+ 2] //{ <your_code> }
+    Whenever you want a code to be executed for all the lines from input file, always put that code inside block, other wise that code 
+    will not be executed properly.
+___________________________________________________________________________________________________________________________________________________________
+
+ 3] 
+
+
+
+
+

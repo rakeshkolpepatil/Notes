@@ -1,0 +1,356 @@
+##===============================================================================================================================================================
+===============================================================================================================================================================
+								BASH SCRIPT NOTES
+						use bashdb utility to debug shell script file
+===============================================================================================================================================================
+===============================================================================================================================================================
+                    For bash tutorial visit http://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php
+===============================================================================================================================================================
+
+
+1] bash script will start with #!/bin/sh and file has .sh extension
+
+   Bash uses "readline" library to implement command line input. So it is convinent to know readline bindings as it is used by gdb also to read input from 
+   terminal.
+
+   For Readline binding visit this page -
+          http://www.gnu.org/software/bash/manual/bash.html#Readline-Interaction
+
+          Ctrl-b                     - Move back one character.
+          Ctrl-f                     - Move forward one character.
+          [DEL] or [Backspace]       - Delete the character to the left of the cursor.
+          Ctrl-d                     - Delete the character underneath the cursor.
+          Ctrl-_ (or) Ctrl-x Ctrl-u  - Undo the last editing command. You can undo all the way back to an empty line.
+
+    Movement of cursor -
+
+          Ctrl-a  - Move to the start of the line.
+          Ctrl-e  - Move to the end of the line.
+          Meta-f  - Move forward a word, where a word is composed of letters and digits.
+          Meta-b  - Move backward a word.
+          Ceta-l  - Clear the screen, reprinting the current line at the top.
+
+          Here C is ctrl key while M is meta key. ESC will work in place of meta key but press it and relese before pressing it's counterpart key.
+
+    Readline and in turn bash can operate in two modes:
+
+          1) emacs mode (which is the default)
+          2) vi mode
+
+          To switch Bash to use vi mode:     $ set -o vi
+          To switch Bash to use emacs mode:  $ set -o emacs
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.2] Storing results of the command in a variable and then printing it.
+
+ 	     for i in $(ls); do cd $i; y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`; echo $i" "$y; done
+
+     You can also use tic mark. The commands inside tick mark will be executed by bash shell. Like below -
+
+	     for i in `ls`; do cd $i; y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`; echo $i" "$y; done
+
+     (OR) To process all .log files in current directory use following command -
+ 
+ 	     for i in .log; do cd $i; y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`; echo $i" "$y; done
+     
+     (OR)
+          for((i=0; i<5; i++)) do echo $i; done 
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.3] To redirect output of the shell command to a file
+
+	 (for i in $(ls); do cd $i;y=`tac $i |grep -m1 -n  "gpu_tot_ipc"`;echo $i" "$y;done) > file.txt
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.31] If you want to run a command only for few seconds and then kill the process and continue to next command in for loop then use "timeout" command.
+ 
+      for i in ~/rakesh/release/* ; echo $i; timeout 10s  $i | grep "RR kernel" ; done
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.4] To use multiline output of a linux command as a input to next command you can use pipe followed by "xargs". Also you can use while loop to read 
+     each output line and process one by one.
+
+     find . -name "gpgpu_power_*" | while read line; do cp $line /home/use/ ; done
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.5] Storing output of a linux command in a variable.
+
+	var=$(command-name-here)
+	var=$(command-name-here arg1)
+	var=$(/path/to/command)
+	var=$(/path/to/command arg1 arg2)
+
+     Instead of $() you can also put the command inside tick marks like this -
+
+	var= `command-name-here`
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.6] Using printf command inside bash terminal -
+  
+     printf "%s\n" "$now"     --> prints the contents of variable "now" and goes to next line.
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.7] Doing floating point operations in bash, using python -
+
+     echo "print (($var1-$var2.)/$var1.)*100." | python
+(or) python -c "print 20+5/2.0"
+
+     Here . at the end of var2 signifies floating point operation. What you need to do is echo "print" followed by expression, all in double quotes and 
+     pass this to python. Python will do the processing and output the result.
+_______________________________________________________________________________________________________________________________________________________________   
+
+1.8] if statement
+
+     #!/bin/bash
+     # Basic if statement
+	if [ $1 -gt 100 ]  //it checks whether first command line argument is greater than 100
+	then
+	    echo Hey that\'s a large number. //single quote has special meaning in bash, so we need to use escape character.
+	    pwd
+	fi
+  
+
+     The square brackets ( [ ] ) in the if statement above are actually a reference to the command test. This means that all of the operators that test allows may 
+     be used here as well. Look up the man page for test to see all of the possible operators (there are quite a few) but some of the more common ones are listed below.
+
+     The old standard uses single square brackets i.e [] while new standard uses double square brackets i.e. [[ ]] and note that '[[' is a keyword.
+
+     ----------------------------------------------------------------------------------
+     Operator   		          Description
+     ----------------------------------------------------------------------------------
+     [[ ! EXPRESSION ]]   	     - The EXPRESSION is false.
+     [[ -n STRING ]]		     - The length of STRING is greater than zero.
+     [[ -z STRING ]]		     - The lengh of STRING is zero (ie it is empty).
+     [[ STRING1 = STRING2 ]]	     - STRING1 is equal to STRING2
+     [[ STRING1 != STRING2 ]]	     - STRING1 is not equal to STRING2
+     [[ INTEGER1 -eq INTEGER2 ]] 	- INTEGER1 is numerically equal to INTEGER2
+     [[ INTEGER1 -gt INTEGER2 ]] 	- INTEGER1 is numerically greater than INTEGER2
+     [[ INTEGER1 -lt INTEGER2 ]] 	- INTEGER1 is numerically less than INTEGER2
+     [[ -d FILE ]]		          - FILE exists and is a directory.
+     [[ -e FILE ]]		          - FILE exists.
+     [[ -r FILE ]]		          - FILE exists and the read permission is granted.
+     [[ -s FILE ]]		          - FILE exists and it's size is greater than zero (ie. it is not empty).
+     [[ -w FILE ]]		          - FILE exists and the write permission is granted.
+     [[ -x FILE ]]		          - FILE exists and the execute permission is granted.
+_______________________________________________________________________________________________________________________________________________________________   
+1.9] exit 0    --> stop processing of bash script at this point and exit successfully.
+     exit 1    --> instead of 1 you can give different numbers to know the exit point in code.  
+
+_______________________________________________________________________________________________________________________________________________________________   
+
+2.0] bash function. 
+
+     #!/bin/bash
+     # Basic function
+     print_something () {
+      echo Hello I am a function
+     }
+
+     print_something  // function call
+_______________________________________________________________________________________________________________________________________________________________   
+
+2.1] ctrl+x ctrl+e        -->  To copy the current command in the command line in editor for editing, please use this shortcut.
+      
+     (or) fc              -->  Issue fc in terminal after you have issued the command you want to edit. Immediately that command will be opened inside vim, now
+     			           edit that command and as soon as you close vim file this edited command is executed again.
+_______________________________________________________________________________________________________________________________________________________________   
+   
+2.2] we can print command in .sh file to terminal, before they are executed by this command -
+
+     set -x
+(Or) run it explicitly as bash -x myscript.
+
+     If you want to print only a particular command then, use following syntax,
+
+     (set -x; command)
+
+(or) Use following function 
+
+     #!/bin/bash
+     #function to display commands
+     exe() { echo "\$ $@" ; "$@" ; } (or use any of these definitions of the functions.) exe() { echo '$' "${@:q}" ; "$@" ; } 
+
+     command: 
+       exe echo hello world
+
+     output:
+       echo hello world
+       hello world
+_______________________________________________________________________________________________________________________________________________________________   
+
+2.3] Shell uses globbing to specify various patterns to give to commands. 
+
+     Check this website "https://en.wikipedia.org/wiki/Glob_%28programming%29"
+e.g.
+
+     ls -d [!b]*/
+                   Above command uses globbing. "-d" specifies to select only directories and !b specifies only thoes directories which not starting with "b". 
+
+   -- Using two commands to filter the filenames which are of interest is much easier always.
+      (Que) To select filenames which are starting with "only_l2" and do not contain "4kb" use following format 
+      (soln) ls only_l2* | grep -v "4kb" 
+_______________________________________________________________________________________________________________________________________________________________   
+  
+2.4] Reading an input from user into a variable in bash.
+
+     read line    --> It waits for user input at command line and stores it into variable "line".
+_______________________________________________________________________________________________________________________________________________________________   
+
+2] ususally "cd" i.e change of directory command won't work in .sh file as that file is executed by another child process and directory is changed in child 
+   process and when child process dies after execution of script file, directory changes to current working directory.  
+
+   To avoid this you can source .sh file which will execute .sh file in same process and will cause change of directory. So, issue following command.
+
+   source <script_file.sh>
+_______________________________________________________________________________________________________________________________________________________________   
+
+3] "bashdb" is the software which you can use for debugging the script file.
+
+_______________________________________________________________________________________________________________________________________________________________   
+
+4] how to go into each directory and execute some sommands in a given directory
+
+     for i in $(ls -d */); do cd $PWD/$i; gedit README.GPG*; cd ..;  done
+_______________________________________________________________________________________________________________________________________________________________   
+
+4.1] Listing only files in a directory but not subdirectories.
+
+     ls -p | grep -v /                                   (without hidden files)
+     ls -l | grep ^- | tr -s ' ' | cut -d ' ' -f 9       (without hidden files)
+     ls -pa | grep -v /                                  (with hidden files)
+     ls -la | grep ^- | tr -s ' ' | cut -d ' ' -f        (with hidden files)
+_______________________________________________________________________________________________________________________________________________________________   
+
+5] for X in $(ls rr*.log); do echo $X ;cat $X|grep gpu_tot_ipc; done
+
+     for loop example in bash scripting.
+_______________________________________________________________________________________________________________________________________________________________   
+
+5.1]  If you want to iterate over the set of strings using for loop then enclose each string inside double quotes like this.
+
+   for i in "hi" "how"<give one space here>\
+        "are " \ 
+        "you"
+   do 
+	echo $i
+   done
+
+   If input set for values of i is bigger then you can continue it to next line by appending earlier lines with backward slash.
+_______________________________________________________________________________________________________________________________________________________________   
+
+6] Inside script file you can access arguments by following symbols -
+   $0   --> gives name of script file.
+   $1   --> gives name of first argument.
+   $2   --> gives name of first argument.
+   $3   --> gives name of first argument.
+_______________________________________________________________________________________________________________________________________________________________   
+
+7] String manipulation operations in bash script
+
+     http://www.thegeekstuff.com/2010/07/bash-string-manipulation/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+TheGeekStuff+(The+Geek+Stuff)
+
+          ${#string}             	     Identify String Length inside Bash Shell Script
+          ${string:position}   	     Extract a Substring from a Variable inside Bash Shell Script
+          ${string:position:length}	Extract $length of characters substring from $string starting from $position.
+     ----------------------------------------------------
+
+          Shortest Substring Match
+
+               {string#substring}   	Following syntax deletes the shortest match of $substring from front of $string
+               ${string%substring}  	Following syntax deletes the shortest match of $substring from back of $string
+     ----------------------------------------------------   
+
+          Longest Substring Match
+
+            ${string##substring} 	     Following syntax deletes the longest match of $substring from front of $string
+            ${string%%substring}		Following syntax deletes the longest match of $substring from back of $string
+     ----------------------------------------------------
+
+          Converting case of string characters
+
+            ${string,,} 			     converting string from uppercase to lowercase.
+            ${string^^}			     converting string from lowercase to uppercase.
+     ----------------------------------------------------
+
+          ${x/*\//}                     It omits all characters from string x till first forward slash.
+                                        E.g. -  If x=GRAMSCHM/gramschmidt.exe  then output becomes 
+                                                gramschmidt.exe
+     ----------------------------------------------------
+
+          ${x//.exe/}                   It will remove .exe from the string x
+                                        E.g. -  If x=GRAMSCHM/gramschmidt.exe  then output becomes 
+                                                GRAMSCHM/gramschmidt
+_______________________________________________________________________________________________________________________________________________________________   
+   
+8] If you want to find and replace some text from a text file by using bash script, use following sed command to do so -
+
+   sed -i -e 's/abc/XYZ/g' /tmp/file.txt
+_______________________________________________________________________________________________________________________________________________________________   
+
+9] String comparison and if statement inside bash
+
+        #!/bin/bash
+        S1='string'
+        S2='String'
+        if [ $S1=$S2 ];
+        then
+                echo "S1('$S1') is not equal to S2('$S2')"
+        fi
+        if [ $S1=$S1 ];
+        then
+                echo "S1('$S1') is equal to S1('$S1')"
+        fi
+_______________________________________________________________________________________________________________________________________________________________   
+
+10] wait
+
+    If you want all submitted jobs to finish before proceeding to next set of commands in bash script file, use "wait" keyword. It waits for all earlier
+    issued commands to finish.
+
+    But if you are calling other bash script files inside this bash file you will not be able to get proper behaviour of wait command.
+_______________________________________________________________________________________________________________________________________________________________   
+
+11] "If file exists" condition. Do not forget to give space between opening square bracket and "-e"
+   
+    if [ -e x.txt]
+    then
+         echo "ok"
+    fi
+_______________________________________________________________________________________________________________________________________________________________   
+
+12] When you are launching multiple benchmarks on a same binary of a simulator using bash script, give a sleep call of 4/5 seconds before launching next 
+    benchmark otherwise it will give errors.
+
+    (or)
+          or else you can launch each benchmark in new bash instance like this,
+          bash -c 'put your command here' (or)
+          ` put your command within ticks `
+_______________________________________________________________________________________________________________________________________________________________   
+
+13] Built in variables in bash
+
+     $0      -- Gives name of the program being run. 
+     $1      -- First parameter used to call the shell script.
+     $#      -- Gives the number of argumnets a particular script is called with.
+     $*      -- You can use for loop like this "for i in $*" to access all the arguments for this bash script.
+     $@      -- This is also same as $* but it will preserve multiple white spaces given between arguments.
+     $?      -- This variable stores return code of last command.	
+     EDITOR  -- export EDITOR=vim   -- specifies your preferred editor.
+     PAGER   -- export PAGER=less   -- specifies your preferred pagination tool (less and more are most common ones).
+
+===============================================================================================================================================================
+									                         BASH ERRORS
+===============================================================================================================================================================
+
+1] copy_config_rr.sh: Bad substitution
+
+   I got this error while using string manipulation function "echo ${rt:5}" in bash script. Make sure that "rt" is a static string i.e. it's content are known
+   before calling this string manipulation function. 
+   
+   Also make sure that script file starts exactly with this string "#!/bin/bash", do not give any spaces in between.
+
+   Then finally do "chmod +x filename" and execute like this "./filename", instead of issuing command "sh filename"
+(or) Instead of "sh filename" you can issue this command "bash filename".
+_______________________________________________________________________________________________________________________________________________________________   
+
+
