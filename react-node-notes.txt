@@ -1,0 +1,71 @@
+============================================================================================================================================================
+
+============================================================================================================================================================
+
+    - npx create-react-app name_of_the_app    :- creates the react app inside directory "name_of_the_app".
+
+    - npm view react version                  :- Gives the react version that is currently being used.
+
+    - npm start                               :- Starts the react application.
+
+    - npm update npm -g                       :- Command to update the npm
+
+    - node --version                          :- Gives the node version.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+      *** To fix high/moderate vulnerabilites while doing 'npm i' command, use following - https://www.youtube.com/watch?v=VAHkHj3I6Wg
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+    - npm audit                               :-  This command checks the vulnerabilites due to some mismatched deepIndent. Figure out the packages 
+                                                  that are causing version issues and get their latest version number and add these packages along 
+                                                  with version numbers to "overrides" object after "dependencies" object inside "package.json".
+
+                                                  "overrides":{
+                                                    "chokidar": "3.5.3",
+                                                    "glob-parent": "6.0.2"
+                                                  }
+
+    - npm update                              :- This command will update all the packages listed to the latest version. Issue this command after 
+                                                  adding 'overrides' object to the package.json
+
+    - npm audit --production        :-  Running npm audit --production is a command that analyzes your project's dependencies for security 
+                                        vulnerabilities, but specifically focuses on production dependencies, ignoring those used only for development. 
+                                        This is useful for ensuring that the packages your application actually uses in a live environment are secure.
+                                        After running this command, npm will provide a report detailing any security issues found in your production 
+                                        dependencies along with recommended actions to resolve them.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    - What is NVM ?
+      https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    - nvm ls
+    (OR) nvm list                             :- Find out which versions of Node.js you have installed and which one of those you're currently using.
+
+    - nvm ls available 
+    (OR) nvm list available                   :- List all versions of Node.js available for installation.
+
+    - nvm install 8.1.0                       :- Installs 8.1.0 version of Node.js
+
+    - nvm use 4.2                             :- NVM makes it easy to choose between installed versions of Node.js. 
+                                                 This command makes 4.2 version of node as default version.
+
+    - nvm install latest                      :- Installs latest version of Node.js
+
+    - nvm alias default vX.Y.Z                :- It makes X.Y.Z version of the node as default.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    - How to create backend project ?
+      1. Create a new folder "backend" 
+      2. Inside it issue command "npm init -y"
+      3. npm install express --save           :- Install express package for creating server and add package name to package.json
+      4. npm install cors                     :- By default express app comes with security that disables the requests coming to the server from different 
+                                                 domains or ports to override this we need to install another package called 'cors'. This is not recommended
+                                                 to use cors during production.
+      5. npm install mongodb --save           :- Install mongodb client.
+      6. npm install multer --save            :- To read requested form data we need this package.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------

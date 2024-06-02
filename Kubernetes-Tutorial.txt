@@ -1,0 +1,378 @@
+================================================================================================================================================================================================
+                                                					Kubernetes Tutorial
+                                                https://www.youtube.com/watch?v=X48VuDVv0do
+                                                https://blog.learncodeonline.in/
+================================================================================================================================================================================================
+
+  - Kubernetes also known as 'K8s' as it has 8 characters between 'k' and 's'.
+
+  - Helm - Package manager for Kubernetes.
+
+  - Kubernetes is a open source container orchestration tool deleloped by Google. It helps to manage the containerized applications in different deployment components
+    like physical machines, virtual machines or cloud.
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+  Why container orchestration tool ?
+
+  - Currently, there is a trend from monolith applications to applications consisting of microservices. Containers are perfect host for independent for the small applications
+    like these microservices. Applications now a days consist of thousands of containers. Managing these number of containers across different hosts using only scripts is very 
+    difficult or impossible. Hence the need for container managing/orchestration tools like Kubernetes.
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+  What features do container orchestration tools like Kubernetes offer ?
+
+  - High availability or no downtime. ApplicaApplications have very less/no downtime.
+  - Scalability or high performance
+  - Disaster recovery - backup and restore. Restore functionality offers container to run from latest state, after recovery.
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+  Kubernetes components
+
+    - Kubernetes has large number of components like Pod, Node, svc, c-m, rs, ing, deply, Service, Ingress, Volumes, Secrets, ConfigMap, statefulSet, Deployment etc but you will 
+      be working with only handful of these components.
+    
+    1) Node and Pod
+      - Node is a physical server or machine. 
+      - The smallest unit of Kubernetes is Pod.
+      - It is an abstraction over Docker container. Pod creates a layer or running environment over Docker container. Kubernetes does this so that it doesn't have to deal directly
+        with containers and it always want to deals with the Kubernetes layers.
+        So, an application Pod can interact with the database pod with its own container.
+      - Though we can run multiple application containers inside one pod, usually only one application is run per Pod.
+      - Kubernetes offers virtual network.
+      - In Kubernetes world, each pod and not the container gets its own IP address and pods can communicate amongest each other using these IP addresses. These Ip addresses are 
+        internal IP addresses and are not public.
+      - Pods in kubernetes are ephemeral i.e. they can die easily.
+      - Whenever a Pod dies, a new Pod gets created in its place and a new IP address gets assigned to it. So, If you are communicating amongst Pods with the help of ip addresses
+        it becomes difficult when an IP address changes each time a Pod gets recreated after a crash. To avoid this another component of kubernetes "Service" is used.
+
+    2) Service and Ingress
+      - Service is a permanant/static IP address that can be attached to each Pod.
+      - So each Pod will have its own service.
+      - lifecycles of Pod and Service are not connected to each other. So, even if Pod dies its service and IP address will stay.
+      - If you want your application to be accessible through browser you need to create external service.
+      - 'External service' opens communication from external sources.
+      - The IP address of the 'external service' looks like this 'https://124.89.101.2:8080'. For test it might be Ok but we want to use domain name in production like 
+        "https://my-app.com". so for domain mapping kubernetes has one component called "Ingress". The request first goes to the 'Ingress' and then to the 'service'.
+
+    3) ConfigMap and Secrets
+      - 
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+                                                        INTRODUCTION TO KUBERNETES (LFS158) - Linux Foundation Tutorial
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+Chapter 5 :
+
+  1) Control Plane Node Overview :-
+    - brain behind all operations inside the cluster.
+    - provides a running environment for the control plane agents that are responsible for the state of the Kubernetes cluster.
+    - Users send requests to the contol plane via CLI, Web UI Dashboard or APIs.
+    - control plane should be runnning at all times at all costs.
+    - Control plane node replicas are added to the cluster and are configured in High Availability (HA) mode for control Plane's fault tolerance.
+    - For state persistance of Kubernetes cluster, all cluster configuration data is saved to a distributed key-value store.
+    - Key-value store can be configured on control plane node called as 'stacked topology' or on its dedicated host called as 'External Topology'.
+    - 'External Topology' tries to reduce the chances of data store loss by decoupling it from the other control plance agents.
+    - In 'Stacked Topology' of key-value store, HA control plane node replicas ensure key-value store's resiliency.
+    - In 'External Key-Value Store' topology, dedicated key-value store hosts have to be separately replicated for High Availability(HA). This introduces need for additional 
+      hardware and operational consts.
+
+  2) Contrl Plane Node components :-
+    - A control plane node runs following essential control plane components and agents 
+      i) API server :-
+          - All adminstrative tasks are coordinated by the kube-apiserver
+          - it is central control plance component running on the control plane node.
+          - Intercepts all the RESTfull calls from users, adminstrators, developers, operators and external agents, validates and processes them.
+          - During processing API server reads kubernete's cluster's current state from the key-value store, and after call's execution, the resulting state of kubernete's 
+            cluster is saved to the key-value store for persistance.
+          - The API server is the only control plane component to talk to the key-value store both to read from and to save kubernetes cluster state information.
+          - It is hightly configurable and customizable.
+          - can be scaled horizontally.
+          - also supports the addition of custom secondary API servers. This secondary API server transforms the primary API server into a proxy to all secondary, custom API
+            servers, routing all incoming RESTful calls to them based on custom defined rules.            
+
+      ii) Scheduler :-
+          - kube-scheduler assigns new workload objects such as pods (pods encapulate containers) to nodes typically worker nodes.
+          - kube-scheduler takes decisions based on current kuberneters cluster state (obtained from key-value store via API server) and new workload object's requirements 
+            (obtained via API server as object's configuration data).
+          - The scheduler also takes into account Quality of Service (QoS) requirements, data locality, affinity, anti-affinity, taints, toleration, cluster topology, etc. 
+            Once all the cluster data is available, the scheduling algorithm filters the nodes with predicates to isolate the possible node candidates which then are scored 
+            with priorities in order to select the one node that satisfies all the requirements for hosting the new workload. 
+            The outcome of the decision process is communicated back to the API Server, which then delegates the workload deployment with other control plane agents.
+          - The scheduler is highly configurable and customizable through scheduling policies, plugins, and profiles.
+          - Additional custom schedulers are also supported, in that case object's configuration data schould include the name of the custom scheduler or else default scheduler
+            is selected.
+          - The scheduler is extremely important and complex in a multi-node Kubernetes cluster whereas in a single-node kebeneters cluster it is possibly used for learning and 
+            development purpose.
+
+      iii) Controller Managers
+          - are components of the control plane node.
+          - run controllers or operator processes to regulate the state of the Kubernetes cluster.
+          - Controllers are watch-loop processes continuously running and comparing the cluster's desired state with its current state.
+          - In case of the mismatch, corrective action is taken in the cluster untill its current state matches the desired state.
+          - The cube-controller-manager runs controllers or operators responsible to act when nodes become unavailable, to ensure container pod counts are as expected,
+            to create endpoints, service accounts, and API access tokens.
+          - The cloud-controller-manager runs controllers or operators responsible to interact with the underlying infrastructure of the cloud provider when nodes become unavailable,
+            to manage storage volumes when provided by a cloud service, and to manage load balancing and routing.
+
+      iv) Key-Value data Store
+          - etcd is an open source project under 'Cloud Native Computing Foundation'.
+          - 'etcd' is strongly consistent, distributed key-value data store used to persist a Kubernetes cluster's state.
+          - New data is writtern to the data store only by appending to it, data is never replaced in data store. 
+          - Obsolete data is compacted or shredded periodically to minimize the size of the data store.
+          - Out of all the control plance components, only the API server is able to communicate with the etcd data store.
+          - etcd's CLI management tool - etcdctl - it provides snapshot save and restore capabilites which come in handy especially for a single etcd instance Kubernetes cluster,
+            which is common in development and learning environments.
+          - However, in state and production environments, it si extremely important to replicate the data stores in HA mode, for cluster configuration data resiliency.
+          
+          - Stacked etcd topology :-
+                Some Kubenetes cluster bootstrapping tools, such as Kubeadm, by default, provision stacked etcd control plane nodes, where the data store runs alongside and shares 
+              resources with the other control plane components on the same control plane node.
+              - kuebadm HA supports stacked etcd topology.
+          
+          - External etcd topology :-
+                For data store isolation from the control plane components, the bootstrapping process can be configured for an external etcd topology, where the data store is 
+                provisioned on a dedicated separate host, thus reducing the chances of an etcd failure.
+
+          - etcd is based on the Raft Consensus Algorithm which allows a collection of machines to work as a coherent group that can survive the failures of some of its members.
+            At any given time, one of the nodes is a group leader.
+          - leader/follower hierarchy is different from primary/secondary hierarchy, meaning that neither node is favored for the leader role and neigther node outranks other nodes.
+          - etcd is written in Go programming language.
+          - Along with cluster state, etcd also stores configuration details such as subnets, ConfigMaps, Secrets etc.                 
+
+  3) Worker Node Overview :-
+    - Provides a running environment for client applications running as microservices through application containers.
+    - The app containers are encapsulated inside pods and are controlled by cluster control plane agents running on the control plane node.
+    - Pods are scheduled on worker nodes, where they find required compute, memory and storage resources to run, and networking to talk to each other 
+      and the outside world.
+    - Pod is the smallest scheduling work unit in kubernetes. It is a logical collection of one or more containers scheduled together.
+    - This collection can be started, stopped, or rescheduled as a single unit of work.
+    - Also, in a multi-worker kubernetes cluster, the network traffic between client users and the containerized applications deployed in Pods is 
+      handeled directly by the worker nodes, and is not routed through the control plane node.
+    - A worker node has following components along with add-ons for DNS, observability componets such as dashboards, cluster-level monitoring and 
+      loging, and device plugins :-
+
+      i) Container runtime :-
+        - Although the kubernetes is described as a 'container orchestration engine', it lacks the capability to directly run and handle containers.
+        - In order to manage a container's lifecycle, kubernetes requires a container runtime on the node where a Pod and its containers are to be scheduled.
+        - A runtime is requried on each node of a Kubernetes cluster, both control plane and worker.
+        - It is recommended to run all the kubernetes control plane components as containers, hence the necessity of a runtime on the control plane nodes.
+        - Kubernetes supports several container runtimes such as :-
+          a) CRI-O 
+              A lightweight container runtime for Kubernetes that supports quay.io and Docker Hub image registries.
+
+          b) containerd
+              A simple, robust, and portable container runtime
+
+          c) Docker engine
+              A popular and complex container platform which uses Containerd as a container runtime.
+
+          d) Mirantis container runtime
+              Formerly known as Docker Enterprise Edition.
+
+      ii) Node agent-kubelet :-
+        - Kubelet is an agent running on each node including control plane and worker plane.
+        - It communicates with control plane and receives Pod definitions from API server and interacts with container runtime to run containers 
+          associated with the Pod.
+        - It also monitors health and resources of Pods running the containers.
+        - Kubelet connects with container runtime through the plugin based interface called as - Container Runtime Interface (CRI).
+        - The CRI consists of protocol buffers, gRPC API, libraries and additional specification and tools.
+        - In order to connect to interchangable container runtimes, kublet uses CRI Shim, an application that provides a clear abstraction layer 
+          between kubelet and the container runtime.
+        - CRI implements two services ImageService and RuntimeService. 
+        - ImageService is responsbile for image related operations whereas RuntimeService is resposible for all the Pod and container-related operations.
+        
+      iii) kubelet - CRI shims :-
+        - Any container runtime that im plements the CRI could be used by kubernetes to manage contianers.
+        - Shims are container runtime Interface (CRI) implementations, interfaces or adapters, specific to each container 
+          runtime supported by Kubernetes.
+        - Below are some of the examples of CRI shims :- 
+
+        a) cri-containerd
+          - cri-containerd allows containers to be directly created and managed with containerd at kubelet's request.
+
+        b) CRI-O
+          - CRI-O enables the use of any Open Container Initiative (OCI) compatible runtime with Kubernetes, such as runC.
+
+        c) dockershim
+          - Before Kubernetes release V1.24 the dockershim allowed contianers to be created and managed by invoking the Docker 
+            Engine and its internal runtime containerd.
+          - Due to Docker Engine's popularity, this shim has been the dafult interface used by kubelet. 
+          - However, starting with Kubernetes version v1.24 dockershim is no longer maintained by the kubernetes project and 
+            it's specific code is removed from the kubelet node agent of Kubernetes.
+          - As a result, Docker Inc. and Mirantis have agreed to introduce and maintain a replacement adapter cri-dockerd
+            that will ensure that the Docker Engine will continue to be a container runtime option for Kubernetese, in 
+            addition to the Mirantis Container Runtime (MCR).
+
+      iv) Proxy - kube-prody :-
+        - The kube-proxy is the network agent which runs on each node, control plane and workers, and is responsible for dynamic updates and Maintenance 
+          of all networking rules on the node. It abstrats the details of Pods networking and forwards connection requests to the containers in the pods.
+        - The kube-proxy is responsible for TCP, UDP and SCTP stream forwarding or random forwarding across a set of Pod backends of an application, and
+          it implements forwarding rules defined by users through service API objects.
+        - The kube-proxy node agent operates in conjuction with the iptables of the node. 
+        - Iptables is a firewall utility created for the Linux OS that can be managed by users through a CLI utility of the same name. 
+        - The iptables utility is available for and preinstalled on many Linux distributions.
+
+      v) Add-ons :-
+        - Add-ons are cluster features and functionality not yet available in Kubernetes and therefore is implemented through 3rd party plugins and services.
+          a) DNS :-
+              - Cluster DNS is a DNS server required to assign DNS records to Kubernetes objects and resources.
+          
+          b) Dashboard :-
+              - A general purpose web-based user interface for cluster management.
+
+          c) Monitoring :- 
+              - Collects cluster level container metrics and saves them to a central data store.
+
+          d) Logging :-
+              - Collects cluster level container logs and saves them to a central log store for Analysis.
+
+          e) Device Plugins :-
+              - For system hardware resources, such as GPU, FPGA, high-performance NIC, to be advertised by the Node to application pods.
+
+  4) Networking Challanges 
+    - To mimic tight coupling available in monolithic applications, decoupled microservice based applications rely heavily on networking.
+    - In general, networking is not easy to understand and implement.
+    - As a containerized microservices orchestrator Kubernetes needs to address a few distinct networking challenges :-
+
+      i) Container-to-Container Communication inside Pods.
+
+        - A container runtime creates an isolated network space for each container it starts by making use of the underlying host operating 
+          system's kernel virturlization featurese.
+        - On Linux, this isolated network space is referred to as a network nemespace.
+        - A network namespace can be shared across containers, or with the host operating system.
+        - when a group of containers defined by a Pod is started, a special infrastructure Pause container is initialized by the Container 
+          runtime for the sole purpose of creating a network namespace for the Pod.
+        - All additional containers, created through user requests, running inside the Pod will share the Pause container's network namespace,
+          so that they can all talk to each other via localhost.
+
+      ii) Pod-to-Pod Communication on the same node and across cluster nodes     (AND)
+      iii) Service-to-Pod Communication within the same namespace and across cluster namespaces.
+
+        - In Kubernetes, Pods are scheduled on nodes in a nearly unpredicatble fashion. 
+        - Pods are expected to be able to communicate with all other Pods in the cluster, regardless of their host node, without 
+          implementation of Network Address Translation (NAT).
+        - Kubernetes treats Pods as VMs on a network, where each VM is equipped with a network interface, thus each Pod receiving a unique IP
+          address.
+        - This model is called "IP-per-Pod" and ensures Pod-to-Pod communication, just as VMs are able to communicate with each other on the same
+          network.
+        - Containers share the Pods network namespace and must coordinate ports assignment inside the Pod, all while being able to communicate with
+          each other on localhost inside the Pod.
+        - However, the containters are integrated with the overall kubernetes networking model through the use of Container Network Interface (CNI),
+          suported by CNI Plugins.
+        - CNI is a set of specifications and libraries which allow plugins to configure the networking for containers.
+        - While there are few core plugins, most CNI plugins are 3rd-party software defined networking (SDN) solutions, implementing the kubernetes 
+          networking model.
+        - In addition to addressing the fundamental requirement of the networking model, some networking solutins offer support for Network polices.
+        e.g. - Flannel, Weave, Calico, and Cilium are only a few of the SDN solutions available for Kubernetes clusters.
+        - The container runtime offloads the IP assignment to CNI, which connects to the underlying configured plugin, such as Bridge, or MACvlan, 
+          to get the IP address. Once the IP address is given by the respective plugin, CNI forwards it back to the requested container runtime.
+
+      iv) External-to-service Communication for clients to access applications in a cluster.
+
+        - A successfully deployed containerized application running in Pods inside a Kubernetes cluster may require accessibility from the outside
+          world. 
+        - Kubernetes enables external accessibility through services.
+        - Services are complex encapsulations of network routing rule definitions stored in iptables on cluster nodes and implemented by kube-proxy
+          agents.
+        - By exposing servies to the external world with the aid of kube-proxy, applications become accessible from outside the cluster over a virtual
+          IP address and a dedicated port number.
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+CHAPTER 6 :- 
+
+  1) Kubernetes Configuration
+      Kubernetes can be installed using different cluster configurations. The major installation types are described below :-
+  
+      i) All-in-One Single-Node Installation :-
+        - In this setup, all the control plane and worker components are installed and running on a single-node. While it is useful for learning, development, and testing,
+          it is not recommended for production purposes.
+
+      ii) Single-Control Plane and Multi-Worker Installation :-
+        - In this setup, we have a single-control plane node running a stacked etcd instance. Multiple worker nodes can be managed by the control plane node.
+
+      iii) Single-Control Plane with Single-Node etcd, and Multi-Worker Installation :-
+        - In this setup, we have a single-control plane node with an external etcd instance. Multiple worker nodes can be managed by the control plane node.
+
+      iv) Multi-Control Plane and Multi-Worker Installation :-
+        - In this setup, we have multiple control plane nodes configured for High-Availability (HA), with each control plane node running a stacked etcd instance. 
+        - The etcd instances are also configured in an HA etcd cluster and multiple worker nodes can be managed by the HA control plane.
+
+      v) Multi-Control Plane with Multi-Node etcd, and Multi-Worker Installation
+        - In this setup, we have multiple control plane nodes configured in HA mode, with each control plane node paired with an external etcd instance. The external etcd instances 
+          are also configured in an HA etcd cluster, and multiple worker nodes can be managed by the HA control plane. This is the most advanced cluster configuration recommended 
+          for production environments.
+
+  2) Infrastructure for Kubernetes Installation :-
+    
+=========================================================================================================================================================================================
+                                            -:  Minikube and Kubectl commands :-
+=========================================================================================================================================================================================
+
+  Install hyperhit and minikube on Mac System
+    - brew update
+    - brew install hyperkit
+    - brew install minikube
+    - kubectl
+    - minikube
+__________________________________________________________________________________________________________________
+
+  Create minikube cluster
+    - minikube start --vm-driver=hyperkit
+    - kubectl get nodes
+    - minikube status
+    - kubectl version
+__________________________________________________________________________________________________________________
+
+  Delete cluster and restart in debug mode
+    - minikube delete
+    - minikube start --vm-driver=hyperkit --v=7 --alsologtostderr
+    - minikube status
+__________________________________________________________________________________________________________________
+
+  Kubectl commands
+    - kubectl get nodes
+    - kubectl get pod
+    - kubectl get services
+    - kubectl create deployment nginx-depl --image=nginx
+    - kubectl get deployment
+    - kubectl get replicaset
+    - kubectl edit deployment nginx-depl
+__________________________________________________________________________________________________________________
+
+  Debugging
+    - kubectl logs {pod-name}
+    - kubectl exec -it {pod-name} -- bin/bash
+__________________________________________________________________________________________________________________
+
+  Create mongo deployment
+    - kubectl create deployment mongo-depl --image=mongo
+    - kubectl logs mongo-depl-{pod-name}
+    - kubectl describe pod mongo-depl-{pod-name}
+__________________________________________________________________________________________________________________
+
+  Delete deployment
+    - kubectl delete deployment mongo-depl
+    - kubectl delete deployment nginx-depl
+__________________________________________________________________________________________________________________
+
+  Create or edit config file
+    - vim nginx-deployment.yaml
+    - kubectl apply -f nginx-deployment.yaml
+    - kubectl get pod
+    - kubectl get deployment
+__________________________________________________________________________________________________________________
+
+  Delete with config
+    - kubectl delete -f nginx-deployment.yaml
+__________________________________________________________________________________________________________________
+
+  Metrics
+    - kubectl top 
+      The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular 
+      pod or node if specified.
+__________________________________________________________________________________________________________________
