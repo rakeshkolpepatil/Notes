@@ -310,69 +310,150 @@ CHAPTER 6 :-
   2) Infrastructure for Kubernetes Installation :-
     
 =========================================================================================================================================================================================
-                                            -:  Minikube and Kubectl commands :-
+  Minikube commands :-
 =========================================================================================================================================================================================
+  __________________________________________________________________________________________________________________________________________
+    Install hyperhit and minikube on Mac System
+  __________________________________________________________________________________________________________________________________________
 
-  Install hyperhit and minikube on Mac System
-    - brew update
-    - brew install hyperkit
-    - brew install minikube
-    - kubectl
-    - minikube
-__________________________________________________________________________________________________________________
+      - brew update
+      - brew install hyperkit
+      - brew install minikube
+      - kubectl
+      - minikube
+  __________________________________________________________________________________________________________________________________________
+    Create minikube cluster
+  __________________________________________________________________________________________________________________________________________
 
-  Create minikube cluster
-    - minikube start --vm-driver=hyperkit
-    - kubectl get nodes
-    - minikube status
-    - kubectl version
-__________________________________________________________________________________________________________________
+      - minikube start --vm-driver=hyperkit                :- Create minikube cluster using 'hyperkit' driver. This is for Mac System.
 
-  Delete cluster and restart in debug mode
-    - minikube delete
-    - minikube start --vm-driver=hyperkit --v=7 --alsologtostderr
-    - minikube status
-__________________________________________________________________________________________________________________
+      - minikube start --driver=docker                     :- Create minikube cluster using 'docker' driver. Can be used for Windows System.
 
-  Kubectl commands
-    - kubectl get nodes
-    - kubectl get pod
-    - kubectl get services
-    - kubectl create deployment nginx-depl --image=nginx
-    - kubectl get deployment
-    - kubectl get replicaset
-    - kubectl edit deployment nginx-depl
-__________________________________________________________________________________________________________________
+      - minikube start --vm-driver=hyperv --hyperv-virtual-switch=Minikube
+                                                           :- Create minikube cluster using 'hyperkit' driver and virtual switch.
 
-  Debugging
-    - kubectl logs {pod-name}
-    - kubectl exec -it {pod-name} -- bin/bash
-__________________________________________________________________________________________________________________
+      - minikube start  --vm-driver=hyperkit --v=7 --alsologtostderr
 
-  Create mongo deployment
-    - kubectl create deployment mongo-depl --image=mongo
-    - kubectl logs mongo-depl-{pod-name}
-    - kubectl describe pod mongo-depl-{pod-name}
-__________________________________________________________________________________________________________________
+      - minikube start --kubernetes-version=v1.20.0        :- If you want to use 1.20.0 version of Kubernetes with your Minikube.  
 
-  Delete deployment
-    - kubectl delete deployment mongo-depl
-    - kubectl delete deployment nginx-depl
-__________________________________________________________________________________________________________________
+      - minikube delete 
+      
+      - minikube status                                    :- Get status of minikube cluster.
 
-  Create or edit config file
-    - vim nginx-deployment.yaml
-    - kubectl apply -f nginx-deployment.yaml
-    - kubectl get pod
-    - kubectl get deployment
-__________________________________________________________________________________________________________________
+      - minikube dashboard                                 :- Opens minikube dashboard web UI. 
+      
+      - minikube logs                                      :- Get minikube logs.    
+      
+      - minikube ssh                                       :- Access Minikube Virtual Machine.
+          Default credentials for the Minikube VM are:
+          Username: docker
+          Password: tcuser
 
-  Delete with config
-    - kubectl delete -f nginx-deployment.yaml
-__________________________________________________________________________________________________________________
+      - minikube update-check                              :- Gives the installed version and latest version. 
 
-  Metrics
-    - kubectl top 
-      The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular 
-      pod or node if specified.
-__________________________________________________________________________________________________________________
+      - minikube service nginx-my-service                  :- This will assign an IP address to the service and will return an URL to access
+                                                              this service. You need to execute this command after you have created the service
+                                                              by executing command 'kubectl expose'.  
+
+      - Steps to update minikube on windows 
+          i) In powershell with admin privilege run following commands -
+             - minikube stop
+             - minikube delete
+             - Invoke-WebRequest -Uri "https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe" 
+               -OutFile "minikube-installer.exe"
+             - Start-Process "minikube-installer.exe" -Wait
+
+          (OR)
+
+          ii) winget.exe install minikube               :- This will install the minikube if it is not installed and will upgrade to the 
+                                                           latest minikube version if newer version is available.
+
+=========================================================================================================================================
+  Kubectl commands  
+=========================================================================================================================================
+
+      - kubectl get pods                                    :- List all pods in deployment. Also, gives information about how many times
+                                                               that pod was restarted, its age and status.
+
+      - kubectl get nodes                                   :- Get status of nodes in cluster.(OR) 'minikube status'
+      
+      - kubectl get services                                :- List all the services in deployment.
+      
+      - kubectl get replicaset                              :- Get details of all the deployments.
+      
+      - kubectl get deployment                              :- Get details of all the deployments.
+      
+      - kubectl create deployment nginx-depl --image=nginx  :- Creates deployment with name 'nginx-depl' and image is specified 
+                                                               with '--image' switch. By default images are searched on docker 
+                                                               repos.
+
+      - kubectl create deployment mongo-depl --image=mongo  :- Creates mongoDb deployment with name 'mongo-depl' and image 'mongo' specified 
+                                                               with switch '--image'.
+
+      - kubectl edit deployment nginx-depl                  :- To edit the config file of the deployment nginx-depl.
+
+      - kubectl set image deployment nginx-depl <container_name>=image
+                                                            :- This command will change the image associated with container specified by 
+                                                               'container_name' in the deployment named 'nginx-depl'.
+
+      - kubectl rollout deployment nginx-depl               :- When you change the image associated with the container inside a deployment,
+                                                               you will have rollout a new change making kubernetes to fetch the new image,
+                                                               terminate old pods and launch new pods. This command will give the status of 
+                                                               this rollout.
+
+      - kubectl rollout undo deployment nginx-depl          :- If the earlier rollout is pending because of reasons such as wrong image name
+                                                               or something else, and you want to cancel that rollout, then issue this command.
+
+      - kubectl scale deployment nginx-depl --replicas=2    :- Makes 2 copies of 'nginx-depl' named deployment. Kubernetes will restart the pod
+                                                               when it goes down/crashes. However, if we have only one copy then in that short
+                                                               time website will go down. To avoid this we can have multiple replicas inside 
+                                                               the deployment. 
+  
+      - kubectl logs {pod-name}                             :- Get logs of specified deployment.
+
+      - kubectl describe pod mongo-depl-{pod-name}          :- Get the details of the given pod named 'mongo-depl-{pod-name}' mentioned in 
+                                                               the instruction.
+
+      - kubectl describe deployment nginx-depl              :- Get the details of the deployment named 'nginx-depl'.
+
+      - kubectl describe replicaset nginx-depl-5c9554ccd7   :- Get the details of the replicaset named 'nginx-depl-5c9554ccd7'.
+
+      - kubectl expose deployment nginx-depl --type=LoadBalancer --port=3000 --name=nginx-my-service
+                                                            
+                                                            :- Creates a service of type 'LoadBalancer' for exposing port '3000' for the 
+                                                               deployment 'nginx-depl' with name 'nginx-my-service'.
+
+      - minikube service nginx-my-service                   :- This will assign an IP address to the service and will return an URL to access
+                                                               this service. You need to execute this command after you have created the service
+                                                               by executing command 'kubectl expose'.  
+
+      - kubectl exec -it {pod-name} -- bin/bash             :- Open a 'bash' terminal in interactive mode on specified pod.
+
+      - kubectl delete deployment mongo-depl                :- Delete the deployment named 'mongo-depl'
+
+      - kubectl delete deployment nginx-depl                :- Delete the deployment named 'nginx-depl'
+
+      - kubectl delete -f nginx-deployment.yaml             :- Delete the deployment specified in file 'nginx-deployment.yaml'
+
+      - kubectl version                                     :- Get version of Kubectl client and server. The client version is the version
+                                                               of kubectl being used. The server version is the version of the Kubernetes 
+                                                               cluster being connected to.
+
+      - Minikube Version: Refers to the version of the Minikube tool.
+
+      - kubectl --version: Gives Kubernetes Version. refers to the version of the Kubernetes cluster that Minikube deploys and manages.
+
+      - Deployment Manages Replica-sets, which in turn manages Pods, which in turn manages containers. Everything below Deployment
+        is automatically managed by kubernetes.
+    _____________________________________________________________________________________________________________________________
+
+      Create or edit config file
+        - vim nginx-deployment.yaml
+        - kubectl apply -f nginx-deployment.yaml           :- Applies the content of the file 'nginx-deployment'.
+    ______________________________________________________________________________________________________________________________
+
+      Metrics
+        - kubectl top 
+          The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular 
+          pod or node if specified.
+    ______________________________________________________________________________________________________________________________
