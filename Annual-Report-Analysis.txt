@@ -1,0 +1,127 @@
+==================================================================================================================================================================
+                            Annual Report Analysis Master Course - True Investing Academy Notes
+==================================================================================================================================================================
+
+  Basics of Annual Report and Quarterly reports
+
+    - Annual Report is published at the end of the financial year.
+    - Annual Report contains business details, financial performance and future plans of the company.
+    - In India, financial year starts at 1 April and ends at 31 March.
+    - Quarterly reports give updates about company's financial performance every 3 months. 
+    - April-May-June, July-Aug-Sept, Oct-Nov-Dec, Jan-Feb-March these are 4 quarters.
+    - Company makes all 3 financial statements at the end of each quarter, viz Balance Sheet, Income Statement and Cash Flow statement.
+    - Why companies make this ?
+      because it is mandatory by Government.
+    - Can be downloaded from company's website, NSE/BSE website or screener.in website.
+    - annual reports help in getting accurate information about the company, future plans of the company and management thinking.
+
+----------------------------------------------------------------
+  Structure of Annual Reports
+----------------------------------------------------------------
+    - Annual reports are divided into 3 parts.
+
+    1) Corporate Overview
+      - Business details, chairman/CEO message, performance updates.
+
+    2) Statutory Reports
+      - Management Discussion and analysis (MD&A) -> industry and global outlook.
+      - Board Report, Business responsibility and sustainability report.
+
+    3) Financial statements
+      - Auditor's report
+      - Standalone financial statements
+      - Consolidated financial statements
+
+----------------------------------------------------------------
+  Analyzing Annual Reports
+----------------------------------------------------------------
+    1) Business details
+      - what business the company is in ?
+      - what product and services does company sell ?
+      - Does company operate in growing or declining industry ?
+      - Is business easy to understand ?
+      - how does company make profit ?
+      - Key performance indicators ?
+      - Any other important point in corporate overview section.
+
+    2) Chairman/CEO Message
+      - read CEO/MD Message
+      - corporate philosophy/Mission
+      - Reasoning on business performance
+      - commentary on industry performance
+      - Business goals
+      - performance highlights.
+
+    3) Management Discussion and analysis (MD&A)
+      - Gloabl economic overview and outlook
+      - Indian economic overview and outlook
+      - Industry overview and outlook
+      - Business opportunities and risk
+      - Business outlook
+      - Financial performance overview
+
+----------------------------------------------------------------
+  Analyzing Auditors Reports
+----------------------------------------------------------------
+    - Auditors Report is an opinion of a certified auditor (CA) on the fairness of company's financial statements.
+    - This report is always before starting of the financial statements.
+    - There are two Audit reports
+      i) One for consolidated financial statements
+      ii) One for standalone financial statements
+
+----------------------------------------------------------------
+  Analyzing Consolidated Financial Statements
+----------------------------------------------------------------
+    - We should always consider consolidated financial statements for analyzing a company, as standalone financial statements
+      has details of only one business of the company.
+    - Tijorifinance.com website is good source to get details of companies and analyze company performance over multiple years.
+    - Revenue growth.
+    - profit growth
+    - Balance sheet strength
+    - cash flow from operations
+    - Contingent liabilities
+
+----------------------------------------------------------------
+  Analyzing Notes to Financial Statements
+----------------------------------------------------------------
+    - Notes explain details of numbers in financial statements.
+    - It is very important to understand numbers in financial statements.
+    - One of the most ignored part of an annual report.
+    - One should always give a look at notes for clear understanding.
+    - One must see revenue breakup and expense breakup
+
+==================================================================================================================================================================
+                                          Quarterly Report Analysis 
+==================================================================================================================================================================
+
+   - Companies publish investor presentations each quarter (PPT)
+   - Companies with significant market cap schedule earning conference calls (Con Calls) where investors can join and ask questions 
+     to company management.
+   - You can also get transcripts of these conference calls
+   - Look for revenue growth on quarterly basis.
+   - Profit growth on quarterly basis
+   - Reasons for abnormal profit or loss
+   - EPS trend
+   - Margin stability (Gross, Operating, Net)
+   - Guidance if any
+   - Shareholding pattern
+   - Promoter Pledging
+  
+  ----------------------------------------------------------------
+    Investor presentations (PPT)
+  ----------------------------------------------------------------
+    - Key Performance indicators trand.
+    - ROCE, ROE, debt
+    - Future plans
+    - Management commentary
+
+  ----------------------------------------------------------------
+    Conference/Earning Call Transcripts
+  ----------------------------------------------------------------
+    - After quarterly results company conducts a conference call attended by company management, shareholders and research 
+      analysts of investment advisory firm.
+    - Concall has update of quarterly results and questions and answers by RAs and shareholders.
+    - Check for abnormal profit or loss or margin increase or decreases explanation.
+    - Focus on business growth or future plans
+    - Major investments.
+    
