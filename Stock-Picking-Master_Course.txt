@@ -1,0 +1,250 @@
+==================================================================================================================================================================
+                               Stock Picking Master Course -  True Investing Academy Notes
+==================================================================================================================================================================
+
+  -------------------------------------------------------------------------------------------------------------------
+    Why Good Companies ?
+  -------------------------------------------------------------------------------------------------------------------
+
+    - Good companies make consistent profit.
+      e.g.- HUL, Nestle, Asian Paints, Marico
+
+    - Good companies grow and become very large
+      e.g.- Cera Sanitaryware(Vijay Kedia made 100x returns), PI industries(Fertilizers), Bajaj Finance(Loan).
+
+    - Stock price of good companies can become 100x or 50x over time.
+      e.g.- Titan (5Rs to 3300 Rs), Wipro, Eicher Motors
+
+  -------------------------------------------------------------------------------------------------------------------
+    Stock Market Profits 
+  ------------------------------------------------------------------------------------------------------------------
+    - We make profits in two ways
+      i) dividend
+      ii) share price increase
+    
+    - Formula of share price
+          Share Price = EPS (Net Profit per share) x PE Ratio (How much investors are paying for 1 Rs profit of a company)
+
+    - Usually dividends profits are minuscule, wealth is generated mainly through share price increase.
+
+  -------------------------------------------------------------------------------------------------------------------
+    Checking Business Quality 
+  ------------------------------------------------------------------------------------------------------------------
+    - There are four things to check the quality of a business
+
+    1) Return on Capital Employed (ROCE)
+      - How much profit company is making on total capital employed.
+      - 
+            ROCE = PBIT/(Total Assets - Current Liabilities)
+                                                              PBIT - Income Statement
+                                                              Total Assets, Current Liabilities - Balance Sheet.
+
+      - It is called number one predictor on business quality.
+      - 'what I learned about investing from Darwin' is a book by 'Pulak Prasad' who is Fund Manager of 'Nalanda Mutual Fund'
+        where he mentions that ROCE is the most important ratio that he checks before analyzing any company.
+      - ROCE > 15% is a sign of very good business.
+      - Higher the ROCE, higher the quality of the business.
+        e.g.- 
+            Asian Paints ROCE = 34%
+            Nestle = 138%
+
+    2) Return on Equity (ROE)
+      - ROE tells how much net profit company is making on its equity
+      -
+            ROE = Net Profit/ Total Equity
+
+      - ROE > 15% is a sign of very good business
+      - Higher the ROE, stronger the business
+        e.g. - 
+            Asian Paints ROCE = 27%
+            Nestle = 108%
+
+    3) Cash Flow From Operations (CFO)
+      - CFO tells how much company is generating from its real/main business
+      - can be seen in cash flow statement
+      - It should be always positive
+      - should be greater than net profit
+      - 'Net Profit' can have 'credit sale' i.e. the sale for which company has not received money yet. 
+      - You can avoid the companies whose cash flow is negative.
+
+    4) Free Cash Flow (FCF)
+      - Companies do not give you FCF directly but can be calculated from 'Cash Flow Statement'
+      - Can be seen on Screener.in 
+      - Companies spend some money on fixed assets from the money generated from 'CFO' 
+      - After making such investments remaining money is called as 'Free Cash Flow'.
+      - It is most important thing in business.
+      - Company's valuation depends upon the 'FCF'
+      - FCF Calculation
+
+            FCF = CFO - Net Capex (Fixed Assets Purchased - Fixed Assets Sold)
+
+      - Should be positive
+      
+    - ROCE > 15%
+      ROE > 15%
+      CFO > 0
+          > Net Profit
+      FCF > 0
+
+-------------------------------------------------------------------------------------------------------------------
+    Checking Financial Strength 
+------------------------------------------------------------------------------------------------------------------
+  - For most of the companies, higher debt is the cause of failure.
+    e.g.- DHFL, NBFC, IL&FS 
+  - In good economic conditions companies take loan to increase business. However, when economic slowdown comes, profit of Company
+    goes down and interest payment becomes burden and companies go bankrupt.
+
+  - Financial Strenght of a company is judged by following 4 things 
+
+  1) Debt to Equity Ratio (D/E Ratio)
+    - Tells how much debt company has on 1 rupee of Equity.
+      e.g - IF D/E ratio is 5 mean that for 1 rupee of networth company has taken loan of 5 rupees.
+    - Less than 1 is financially strong
+    - More than 1 is risky
+
+  2) Interest Coverage Ratio (ICR)
+    - Tells how easily company can pay its interest expenses
+    - 
+
+        ICR = Operating Profit (OR) EBIT / Interest Expense
+
+    - Greater than 3 is financially strong.
+    - Less than 3 is risky
+    - ICR of some good companies is 500, 600. This means that companies do not have much loan.
+
+  3) Current Ratio (CR)
+    - Tells how easily company can pay current liabilities from its current assets
+    -
+        CR = Current Assets/ Current Liabilities
+
+    - CR should be more than 1
+    - Less than 1 is financially risky
+
+  4) Contingent Liabilities
+    - such liabilities that are dependent on some specific event like pending legal cases like trademark issue, tax cases.
+    - not shown in balance sheet
+    - should not be very high in relation to the market cap of the company.
+    - Lower the better
+    - rarely companies have 0 Contingent liabilities
+
+------------------------------------------------------------------------------------------------------------------
+    Checking Business Stability 
+------------------------------------------------------------------------------------------------------------------
+  - Businesses are cyclical in nature, but too much fluctuations are not desirable.
+  - ROCE and ROE stability, last 3,5 and 7 years greater than 15%
+  - Cash Flow from Operations (CFO) stability
+      - Consistent positive and greater than net profit
+
+  Gross Profit Margin stability (GPM)
+    - GPM tells how much profit company makes after subtracting direct cost of its product Manufacturing.
+    -
+          GPM = ((Revenue - Cost of Goods Sold) / Revenue ) * 100
+
+    - How much % of revenue company is converting into gross profit Manufacturing
+    - Higher GPM indicates business strength
+    - GPM depends upon industry to industry
+    - Compare with similar companies
+    - Also check stability of the GPM
+
+  Operating profit Margin stability (OPM)
+    - OPM tell how much profit company makes after subtracting all the operating expenses.
+    -
+          OPM = (Operating Profit / Revenue) * 100
+
+    - How much % of revenue, company is converting into operating profit.
+    - Higher OPM indicates business strength
+    - OPM depends upon industry to industry
+    - Compare with similar companies
+    - Also check stability of the GPM
+
+  Net Profit Margin Stability (NPM)
+    - NPM tells how much profit company makes in net after subtracting all the expenses and taxes.
+    - 
+          NPM = (Net Profit/ Revenue) * 100
+
+    - How much % of revenue, company is converting into net profit.
+    - Higher income indicate business strength
+    - Depends upon industry to industry
+    - Compare with similar companies
+    - All GPM, OPM and NPM should be stable.
+
+  Debtor Days 
+    - In how many days company collects money from its customers
+    - consistent or decreasing is good
+    - Increasing is bad 
+  
+  Days payable
+    - In how many days company pays to its suppliers
+    - Consistent or increasing is good
+    - Decreasing is bad
+
+-------------------------------------------------------------------------------------------------------------------
+    Checking Business Growth 
+------------------------------------------------------------------------------------------------------------------
+  - When a smallcap/Midcap company becomes a largecap/Bluechip company, its share price also increases by 100x or even 1000x.
+  - The company sales should grow by more than 10% each year.
+  - Profit of the company should grow by at least 10% each year or should grow more than sales growth.
+  - Company's product's market share should also grow 
+  - Cash Flow from Operations should also be growing
+  - Free cash flow should also be growing 
+
+-------------------------------------------------------------------------------------------------------------------
+    Checking Inside Ownership 
+------------------------------------------------------------------------------------------------------------------
+  - Promoter Holding - Higher the better
+  - Promoter Pledging - very risky, should be zero
+  - Promoter Selling - consistent Selling is problematic
+  - Promoter Buying - #1 indicator of good performance in future
+  - Holding of some popular Investors - Can be a proof of good business like vijay kedia, Dolly Khanna, Aashish kachodia
+
+-------------------------------------------------------------------------------------------------------------------
+    How To Check Stock Price
+------------------------------------------------------------------------------------------------------------------
+  - If you could purchase the share when its price was low then we can make more profit.
+
+  - Also, price of share moves in the cycle of high and low prices.
+
+  - We need to check 3 things for the share price
+
+  - Every company has its fair value called as 'Intrinsic Value', when stock price is below 'Intrinsic Value' then the share 
+    is considered as cheap whereas when the stock price is above 'Intrinsic Value' then the share is considered as 'expensive'
+
+    1. Price to Earning Ratio (PE Ratio) :-
+      - Tells how much investors are paying for 1 rupee of company profits today.
+      - It depends upon expectation of investors about the company
+        e.g. PE of DMart is 105
+      - 
+          PE Ratio = Share Price / EPS
+
+      - PE ration should be positive, if it is negative then company is making losses.
+      - Less than 25 is good
+      - More than 30 is very high
+      - Should be less than industry Average
+      - Should be less than last 3 years median PE ratio
+
+    2. Price Earning to Growth Ratio (PEG Ratio)
+      - Tells if a company is overpriced or underpriced compared to its Growth
+      - Popularized by American Investor Peter Lynch - Mutual Fund Manager who achieved 29% CAGR from 1977 to 1990 in 'Magellan Fund'
+      -   
+          PEG Ratio = PE Ratio / % EPS Growth
+
+      - PEG Ratio should be positive. If negative that means the company is making losses
+      - Less than 1 and greater than 0 then company is underpriced
+      - More than 1 then company is overpriced
+
+    3. Price to Book Ratio (PB Ratio)
+      - Tells how much we are paying for 1 rupee of a company equity or book value
+      - 
+          PB Ratio = Market Cap / Total Equity or Book value
+
+      - PB Ratio values should be positive
+      - If negative that means the company is making losses or net-worth of company is negative
+      - If PB Ratio is less than 3 year median PB ratio then valuation is considered cheap
+      - If PB Ratio is less than industry average then it is considered as cheap
+
+    - PE and PEG are more important than PB ration in recent times. But still PB Ratio needs to be taken into account.
+
+-------------------------------------------------------------------------------------------------------------------
+    Let Us Find Good Companies - Final checklist For Good Companies
+------------------------------------------------------------------------------------------------------------------
+  - 

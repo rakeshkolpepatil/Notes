@@ -1,16 +1,63 @@
 ============================================================================================================================================================
-
+                                              React Commands
 ============================================================================================================================================================
 
     - npx create-react-app name_of_the_app    :- creates the react app inside directory "name_of_the_app".
 
+    - npm view react                          :- Gives details of the react version installed on the machine.
+
     - npm view react version                  :- Gives the react version that is currently being used.
+
+    - npm view react versions                 :- Gives all the react versions that are currently available.
 
     - npm start                               :- Starts the react application.
 
     - npm update npm -g                       :- Command to update the npm
+      (OR)
+      npm install -g npm@latest               :- To update npm to latest version.
+      (OR)
+      nvm install node                        :- Install the latest stable version    
 
-    - node --version                          :- Gives the node version.
+    - npm remove <package>                    :- Remove <package>.    
+
+    - node --version
+      npm --version
+      npx --version                           :- Gives the node version.
+
+  ----------------------------------------------------------------
+    - npm outdated                            :- This will list out all the outdated packages in your project.
+    
+    - Steps to update packages inside react project
+          npm install -g npm-check-updates :- Install 'npm-check-updates' package
+          ncu                              :- Gives list of outdated packages
+          ncu -u                           :- Updates 'package.json' file with the packages to be updated with their latest version number.
+          npm install                      :- Install the packages as per the package.json file
+ 
+  ----------------------------------------------------------------
+
+    - nvm alias default <version>             :- Set the default Node.js version (if needed):
+
+    - Steps to udpate React 
+      i) To update React in your project, you need to update both 'react' and 'react-dom' packages to their latest versions
+
+      ii) navigate to the root directory of your project
+            a) npm install react@latest react-dom@latest         :- Update React and React-DOM to latest versions
+            b) npm list react react-dom                          :- Verify the update                 
+          (OR)
+            a) yarn upgrade react@latest react-dom@latest        :- Update React and React-DOM to latest versions
+            b) yarn list react react-dom                         :- Verify the Update
+
+      iii) If you want to upgrade to a specific version
+            npm install react@17.0.2 react-dom@17.0.2
+          (OR)
+            yarn add react@17.0.2 react-dom@17.0.2
+
+      iv)  You might need to update react scripts also
+            npm install react-scripts@latest
+          (OR)
+            yarn upgrade react-scripts@latest
+
+      v) Run Your Application and Resolve Any Deprecation Warnings or Errors
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,8 +73,13 @@
                                                     "glob-parent": "6.0.2"
                                                   }
 
-    - npm update                              :- This command will update all the packages listed to the latest version. Issue this command after 
+                                                  - Overrides are used to enforce a specific version of a dependency, possibly to avoid conflicts or
+                                                    issues with certain versions.
+
+    - npm update                              :-  This command will update all the packages listed to the latest version. Issue this command after 
                                                   adding 'overrides' object to the package.json
+
+    - npm outdated                            :-  This will list out all the outdated packages in your project.
 
     - npm audit --production        :-  Running npm audit --production is a command that analyzes your project's dependencies for security 
                                         vulnerabilities, but specifically focuses on production dependencies, ignoring those used only for development. 
@@ -41,7 +93,6 @@
       https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-
     - nvm ls
     (OR) nvm list                             :- Find out which versions of Node.js you have installed and which one of those you're currently using.
 
