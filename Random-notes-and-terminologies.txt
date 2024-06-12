@@ -1,0 +1,214 @@
+################################################################################################################################################################
+							Scheduler, Cache-allocation policies
+################################################################################################################################################################
+
+
+Non-blocking caches and prefetching caches are two techniques for hiding memory latency by exploiting the overlap of processor computations with data accesses.
+
+A non-blocking cache allows execution to proceed concurrently with cache misses as long as dependency constraints are observed, thus exploiting post-miss operations. A prefetching cache generates prefetch requests to bring data in the cache before it is actually needed, thus allowing overlap with pre-miss computations.
+
+hardware prefetching caches generally outperform non-blocking caches.
+===================================================================================================================================================================
+
+GPU Schedulers :->
+
+LRR Scheduler ::
+It is Loose Round Robin Scheduling. All the warps are prioritized for scheduling in round robin fashion. However if a wavefront can not be issued in it's turn then
+next warp is given a chance to be issued.
+
+GTO Scheduler ::
+
+
+===================================================================================================================================================================
+
+Caches:
+
+There are three types of caches in the cpu. 
+(1) Instruction cache - instruction cache to fasten instruction fetch. 
+(2) TLB - It is used to speed up the virtual to physical address translation for both instruction and data. IT is part of the memory management unit and is not  
+          directly related to the cpu caches. 
+(3) Data Cache - These are organized as the hierarchy of the cache levels l1, l2 and sometimes l3 also. Used to fasten data fetch and store. 
+
+===================================================================================================================================================================
+ CACHE SIZE ::
+
+ Equal to =  (No. of bytes stored in each cache block) * (No. of blocks)
+
+ The tag, flag(dirty bits) and error correction code bits are not included into the size of cache though they affect physical area of cache.
+===================================================================================================================================================================
+ 
+Normal IPC Vs Weighted IPC ::
+
+	Let 'IPC-MP-i' be the IPC of program i in the multiprogram experiment. The raw-IPC metrics are defined as 
+	perf = f(IPC-MP-i);
+	where f can be the sum, arithmetic mean, the harmonic mean or the geometric mean. 
+
+ Weighted-IPC metrics on the other hand first weight the IPC of a program with its isolated IPC, i.e., its IPC when run alone on the system or its single-program 
+ 	IPC, 'IPC-SP-i' :
+	perf = f(IPC-MP-i/IPC-SP-i)
+
+ The function f can again be the sum, arithmetic mean, the harmonic mean or the geometric mean (although the latter is not common). Weighted speedup 
+ uses the sum; Luo et al. [3] propose to use the harmonic mean.
+
+===================================================================================================================================================================
+
+SMT OR Hyper-Threading ::
+
+Modern processors can execute hundreds of instructions in the time required to fetch a cache line from main memory. Various techniques like out-of-order execution 
+are used to keep cpu busy during that time such as out-of-order execution in which other instructions are executed which are independent of the instruction waiting 
+for the cache data. In Simultaneously Multithreading (SMT) or in Intel's terminology in Hyper-Threading another thread executes on cpu when first one is waiting for
+the cache data. 
+
+===================================================================================================================================================================
+Cache Write Policies :->
+
+   For Cache-write policies and performance visit this:
+   https://www.researchgate.net/publication/220771910_Cache_Write_Policies_and_Performance
+
+   when memory words are being written in presence of a cache, two startegies are possible:
+   1] Write-back:- 
+      word is updated in the cache and modified flag is set. since, subsequent reads will result in cache hits, the updated value will be read from the cache 
+      without accessing the main memory. If modified cache line needs to be replaced, it needs to be written back to the memory before being evicted. 
+
+   2] Write-through :-
+      on the other hand it is possible to write modified data element both in the cache and in memory simultaneously( write-thorough). It saves modified
+      bit in cache lines. In write-through policy in order to increase the performance, write buffers are introduced, such that memory writes can be preformed 
+      in buffer when bus is not available and without stalling the processor. 
+
+   3] Write-allocate :-
+      If it is 'hit' then you will perform operation on cache block but if it miss then cache block will be brought to memory.
+
+   4] write-no-allocate :-
+      If it is Hit in cache then write operation will be performed. But if it is miss then cache block is not allocated memory in cache but it will be directly
+      written to main memory.
+
+   5] Local Write-back Global Write-through :-
+      I think use write back policy when you are writting to the local memory like l1 cache and use write-through policy when you are writting to global memory.
+ 
+   6] Read Through :-  reading a word from main memory to CPU
+   7] No-Read Through :	- reading a block from main memory to cache and then from cache to CPU
+===================================================================================================================================================================
+
+Read-through Vs No Read-through, Write-allocate Vs No Write-allocate, Write-through Vs Write-back  for all these strategies go through this website - 
+
+  http://web.cs.iastate.edu/~prabhu/Tutorial/CACHE/interac.html
+===================================================================================================================================================================
+
+CC-NUMA:- Cache-Coherent Non-Uniform Memory Architecture. It means normal Dram is attached to CPU while high bandwidth dram accompanies GPU, but both drams 
+	  share same address space. 
+
+NUMA Page replacement policy-LOCAL:- 
+	It is default page replacement policy in Linux. OS can allocate the GPU pages in all memories. It places as many pages as possible in the local memory.
+    By using local page replacement policy we can avoid most bandwidth contension between CPUs and GPUs in heterogenous CC-NUMA architecture.
+===================================================================================================================================================================
+
+NUMA Architecture :-
+	NUMA stands for 'NON UNIFORM MEMORY ACCESS'. In multi-processor environment, which do not use NUMA architecture, all the processors are connected to the memory via off-chip memory controller. Off-chip memory controllers are slow compared to on-chip memory controllers. As each memory request has to go through two hops, one at memory controller and other at memory itself, memory latency experienced by each processor is same. 
+
+Now, instead of having whole memory at same speed, in NUMA architecutre, memory is divided into parts and each processor is allocated one portion, and memory 
+controller of that memory part is put on that processor chip. So, whenever processor accesses the memory part attached to it, it has to take only one hop. But if 
+it needs to access memory attached to other processor, it has to go through memory controller of other processor i.e. one hop (one hop corresponds to one off chip
+access) and then memory unit itself, i.e. two hops. So accesses to memory attached to the same processor are faster while to the other processors memory are bit
+slower. This is NUMA architecure.
+to a processor and putting it's memory controller on processor.
+===================================================================================================================================================================
+
+MSHR Operation :-
+	Earlier caches were blocking which means that cache will not accept memory requests until current cache miss is serviced. To avoid this scenario and to 
+service many memory requests concurrently MSHR register was introdued. Each cache is associated with 'Miss Status Holding/Handeling Register (MSHR)' or 'Miss Buffer' to store status of misses to that cache.
+
+This is what happens on cache miss -
+	Search MSHR for pending accesses to the same block ...
+	FOUND :- Then allocate one more load/store entry in same MSHR entry.
+	NOT FOUND :- Allocate new MSHR entry.
+	NO FREE ENTRY :- Stall.
+
+When sub-block returns from the next level in memory then -
+	check which load/store is waiting for it :-
+	1) forward data to the load/store unit.
+	2) deallocate load/store entry from mshr entry.
+	3) write subblock in cache/mshr
+	4) If it is last sub-block then deallocate MSHR (After writting block in cache).
+===================================================================================================================================================================
+		MEMORY HIERARCHY AND CACHES (Lecture 22 :- Onur Mutulu Carnegie mellon university)
+
+Read Sequence :-
+1. address decode.
+2. drive row select.
+3. selected bit cells drive bitlines.
+4. differential sensing and column select.
+5. precharge all bitlines(bring them to vdd/2).
+
+===================================================================================================================================================================
+
+CUDA Stream :->
+	Applications manage concurrency through streams. A stream is a sequence of commands(also known as kernels) which are executed in-order. Different streams might execute 
+ commands out of order with respect to one another or even concurrently, this behaviour is not guarentted. cuda Stream is created by defining a stream 
+ object. These cuda stream objects are passed as parameters to cuda memory transfer functions, and kernel launches. Streams are released by 
+ cudaStreamDestroy() function. Read cuda C programming guide.
+
+
+CUDA Context :->
+	Analogus of host processes for the device. Read appendix H of 'cuda c programming guide' to know more about cuda context.
+
+CUDA Modules :->
+	Analogue of dynamically loaded libraries for the device.
+
+PTX (Parallel Thread Execution) :-> 
+	It is cuda instruction set architecture, it is described in PTX instruction set manual. Kernel can be written in 'C' or 'PTX'
+ but it is more advisable to write it in CUDA-C. In both cases kernel is converted to binary code by nvcc.
+===================================================================================================================================================================
+
+ CUDA ARCHITECTURE:-
+
+ Use this code sentense to remember gpu architectrue progress : "Geeta Tell to Fight For Krishna Maximizes Profit" -> GTX - Tesla - Fermi - Kepler - Maxwel - Pascal
+
+ Before Fermi, all the architectrues executed only one kernel at a time, but white paper on Fermi tells that, it can execute multiple kernles from same cuda context
+ of an application can execute concurrently.
+
+===================================================================================================================================================================
+===================================================================================================================================================================
+							PLACEMENT RELATED 
+===================================================================================================================================================================
+===================================================================================================================================================================
+
+Associative Array/ Map / Symbol Table / Dictionary :-
+  It is an abstract data type composed of collection of (key, value) pairs, such that each possible key appears at most once in the collection.
+  Operations associated with this data structure - 
+         1. Addition of the key value pair to collection.
+         2. Deletion of the key value pair from collection.
+         3. Modification of existing pair.
+         4. Lookup of the value associated with a particular key.
+
+  The most frequently used general purpose implementation of an associative array is with a hash table: an array of bindings, together with a hash function that
+  maps each possible key into an array index.
+  
+  Dictionaries may also be stored in binary search trees or in data structures specialized to a particular type of keys such as radix trees, tries, Judy arrays, 
+  or van Emde Boas trees, but these implementation methods are less efficient than hash tables.
+===================================================================================================================================================================
+
+Open Addressing Vs Hash Chaining :-
+  These are two ways in which collisions are handelled while hashing. 
+   In Open addressing we look at sequence of hash table indices instead of the single index until finding either the given key or empty cell.
+   while in Hash Chaining we store a small association list instead of the single binding in each hash table cell.
+===================================================================================================================================================================
+
+Trie / Prefix Tree / Digital Tree / Radix Tree :- 
+  See wikipedia.
+===================================================================================================================================================================
+
+ What is "friend function"?
+ when I want to allow a function 'f1' from a class 'A' to access private members of class 'B', then I need to declare function 'f1' as friend function in class 'B'.
+
+ friend function can access private or protected members of the class in which it is declared as friend.
+ friend function can be friend of more than one class, so they can be used for message passing.
+ friend function are non-member function, so they do not 'get' this pointer.
+ friend function can be declared in any section of the class that is in private/public/protected section of class.
+
+===================================================================================================================================================================
+
+ What is "Friend Class" ?
+
+
+===================================================================================================================================================================
+
