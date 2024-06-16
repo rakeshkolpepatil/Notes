@@ -1,0 +1,293 @@
+♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
+♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
+                        ==============================================================================
+                              ♣♣♣♣♣♣ Python coding - Frequenly required functionalities  ♣♣♣♣♣♣♣
+                        ==============================================================================                        
+♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
+♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
+
+
+-> For installing Python at custom path or on the server where you do not have the root permission -
+   http://thelazylog.com/install-python-as-local-user-on-linux/
+
+-> If you are behind the proxy and want too install a package using pip
+   pip install --proxy http://proxy-us.intel.com:911 numpy
+
+-> The packages that you install using pip command are stored at location
+   /Python27/Lib/site-packages
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ File Handling ♣♣♣♣♣♣♣
+===================================================================================================================================================
+
+1) For opening a file and reading it line by line.
+
+    fp = open(r'C:\Users\shailesh\Desktop\tty.txt','r')
+    for i in fp:
+        print (i.strip())
+    ------------------------------------------------------------------------------------------------------------------------------------------------
+
+2) For opening a file and splitting it at a specific word to form records.
+
+    with open(r'C:\Users\shailesh\Desktop\tty.txt') as f:
+        for i in f.read().split("\nhere"):
+            print (i + "\n----------")
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Regular Expressions ♣♣♣♣♣♣♣
+===================================================================================================================================================
+1) finding tokens having specified pattrn from a string using regular expressions in python.
+
+   temp = re.findall(r'\d{1,3}', stringToBeSearched)
+
+   where temp is a list of all the tokens which match the specified pattern.
+   ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+2) To check whether the line contains a specific pattern use this one,
+
+   if re.search("hi","Hi I am here")
+	print ("hi is there in the sample string")   
+   ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+3) str = "Hi I am Here. Do not ask know where I am"
+   for i in re.finditer("am", str):
+	locTuple =  i.span()
+	print(locTuple)
+
+   It prints starting and ending indices from string where string "am" matches.
+  ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+4) re.findall("[Shmp]at",str)   → It returns the list of all the words from the input string str which start with S,h,m,p and follw with "at".
+   re.findall("[a-z]at", str)   → It returns the list of all the words from the input string str which start with any lower case alphabet follwed by         
+                                     string "at".
+   re.findall("[^m-z]at",str)   → ^ symbol acts as negation.
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Lists  ♣♣♣♣♣♣♣
+===================================================================================================================================================
+
+    List a,b
+    a = b 	        → This command will not copy the contents of list b to list a. It just copies value of pointer b to pointer a. So both are   
+                          pointing to same list.
+
+    COPYING THE LISTS -
+       a = list(b)
+       (OR) a = b[:]	→ Use this syntax to copy contents of list b to list a.
+
+       id(a)		→ This method id() returns the id of the object, which is uniq in program and is generally memory address where the object is 
+                          stored.
+
+    years = range(1950, 2000, 10) 	→ The range function returns the list object. It is fast way to create a list.
+===================================================================================================================================================
+        - Type of a Variable -
+            print("The type of a variable x is = %s" %type(x)) 
+
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Tuples ♣♣♣♣♣♣♣
+===================================================================================================================================================
+	- They are immutable and hence are hashable. Also tuple elements can be deleted but entire tuple can be deleted.
+        - Tuples are faster than lists.
+        - 
+        - Can be used in Hash Tables i.e. Dictionary when composite key is required.
+           e.g.-  directory[last,first] = number
+                  for last, first in directory:
+                      print first, last, directory[last, first]
+
+        - Are instantiated using paranthesis and use comma to seperate the members.
+        - Tuple packing and upacking
+            x = ("Guru99", 20, "Education")    # tuple packing
+            (company, emp, profile) = x    # tuple unpacking
+        - Tuples can be compared. First 1st elements of both are compared if decision can be made then fine or else second and so on.
+            a=(5,6)
+            b=(6,4)
+            Here, b is greater than a.
+        -   Tuples are immutable and 
+        - Tuple Slicing
+          x = (1,2,3,4)
+            x[2:4]
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Strings  ♣♣♣♣♣♣♣
+===================================================================================================================================================
+	These are immutable.
+        Python does not support character data type. They are considered as the strings of size one.
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Dictionaries ♣♣♣♣♣♣♣
+===================================================================================================================================================
+	- They map hashable keys to arbitrary objects. The hashable means that mutable objects can not be used as keys in the dictionary.
+	  d = { 1:'First value'
+	        'key' : 'another value'
+	        '2' : [1,2,3]
+	      }
+
+        - Only one entry per key.
+        - Key should be immutable object i.e. number, string or tuple.
+        - Dictionary keys are case sensitives.
+        - Entries in Dictionaries are not stored in specific order, so you might not get them in order while retrieving.
+
+        - To add a new key value pair to dictionary.
+            d.update({'Key': value})
+
+        - To make a Copy of dictionary "dict"
+          y =  dict.copy()
+
+        - Dictonary method to get the value associated with the key '2'. Note that key is the value 2 along with single quotes.
+	  d.get('2')   
+
+   	  d = dict { key=12 , other_key=[1,2,3] }
+
+        - Delete an element from dictionary
+          del dict['key']
+
+        - To get the elements of dictionary in tuple of key,value format,
+          dict.list()
+
+        - Length of dictionary
+          print("Length of dictionary Dict is = %d " %len(Dict) )          
+
+        - Converting a dictionary "Dict" in string format
+          str(Dict)
+
+        - Sorting Dictionary elements
+          Dict = {'Tim': 18,'Charlie':12,'Tiffany':22,'Robert':25}
+          Students = list(Dict.keys())
+          Students.sort()
+          for S in Students:
+              print(":".join((S,str(Dict[S]))))
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Python Operators ♣♣♣♣♣♣♣
+===================================================================================================================================================
+        1) Arithmatic Operators : +,-,*,/,//(Floor division),%(mod),**(Exponent),
+        2) Logical Operators    : not, and, or
+        3) Membership Operators : in, not in
+        4) Identity Operators   : is, is not
+        5) Comparison Operators : >,<,>=,<=,==
+        6) Assignment Operators : =, %=, /=, //=, +=, -=, *=, **= (But unary operators ++ and -- are not supported)
+===================================================================================================================================================
+
+    ◙ dir(a)  This will list all the methods available for the object a.
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Functions ♣♣♣♣♣♣♣
+===================================================================================================================================================
+    - Usually functions are defined as follows -
+        def functionName (Arguments):
+    	   line1
+	   line2
+      But, you can use the keyword "lambda" to define a single line function.
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ IPYTHON ♣♣♣♣♣♣♣
+===================================================================================================================================================
+    MAGIC FUNCTIONS -
+	
+    ◙ timeit  →  This will run the code for bunch of times and will tell you how much time it took for execution.
+      -------------------------------------------------------------------------------------------------------------------------------------------
+    ◙ !ls                  →  This will execute shell command ls in python.
+    ◙ %hist                →  This will show history of commands issued.
+    ◙ run some_file.py     → Asks python to run the file some_file.py 
+    ◙ %paste	       →  This command will paste the contents of the clipboard.
+    ◙ from itertools import product →  Use this for taking cartesian product.
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Exception Handling in Python | Python Tutorial - Day #36 CodeWithHarry ♣♣♣♣♣♣♣
+===================================================================================================================================================
+    ◙   try:
+            for i in range(1,11):
+                print(f'{int(a)} x {i} = {int(a)*i}')
+        except exception as e:
+            print("Invalid Input!")
+
+    →   except block is executed only when there is an error. Execution of program does not halt it continues.
+        -------------------------------------------------------------------------------------------------------------------------------------------
+
+    ◙   Handling multiple, standard errors in same try-except block.
+
+        try:
+            num = int(input("Enter an integer"))            
+        except ValueError:
+            print("Invalid Input!")
+        except IndexError:
+            print("Index Error")
+
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Conda Virtual Environment Commands ♣♣♣♣♣♣♣
+===================================================================================================================================================
+
+1) Create Virtual environments using Anaconda and adding that virtual environment to the Jupyter Notebook.
+
+    ◙ It is recommended to install packages using conda and not using pip.
+    ◙ conda create -n yourEnvName          
+      (OR) conda create --name yourEnvName                          → Creates conda virtual environment with name 'yourEnvName'.
+      (OR) conda create --name yourEnvName python=3.9 flask=2.1.3   → Creates conda virtual environment and install specified dependencies.
+
+    ◙ conda activate yourEnvName             → Go to the virtual environment with name 'yourEnvName'.
+    ◙ conda deactivate                       → Come out from the virtual environment with name 'yourEnvName'.
+    ◙ conda install nameOfTheLibrary         → Install latest version of library with name 'nameOfTheLibrary'.
+    ◙ conda install nameOfTheLibrary=2.1.3   → Install 2.1.3 version of library with name 'nameOfTheLibrary'.
+    ◙ conda search nameOfTheLibrary          → Search the library with name 'nameOfTheLibrary'.
+    ◙ conda list                             → Lists all the packeges installed in the current conda virtual environment.
+ 
+    ◙ All the dependencies of a virtual environment can be added inside a .yml file like below -
+        1) vim requirements.yml  →  Open file
+        2) Add following text to this file. 'name' is virtual environment name. Each dependency should have 2 leading spaces, 1 hyphen, 1 space 
+           followed by dependency name and it's version.
+                name: flask-app
+                dependencies:
+                  - flash=2.1.3
+        3) To update the environment with dependencies, issue following command which will install all the dependencies -
+                conda env update --file requirements.yml
+
+    ◙ Now, install ipkernal using following command 
+      → conda install ipykernel
+
+    ◙ Now, add this virtual environment to the jupyter notebook
+      → python -m ipykernel install --user --name=yourEnvName --display-name "Python (myenv)"
+
+    ◙ Creating a new directory inside user's home directory viz '/home/rakesh/' for conda virtual environments and linking that directory with conda.
+      → cd /home/rakesh/
+      → mkdir conda-envs 
+      → conda config --add /home/rakesh/conda-envs
+
+    ◙ Default location where conda stores the environment variables -
+      → /Users/$USERNAME/miniconda3/envs 
+      → (or) C:\Users\$USERNAME\Anaconda3 
+
+    ◙ jupyter-lab  → This is command to launch jupyter Lab from the terminal (or) from python virtual environment.
+
+2) To create a python virtual environment for a new project follow this video - https://www.youtube.com/watch?v=RUGm1Lwc55s
+
+    ◙ python -m venv pathToYourPythonProject/yourEnvironmentName →  Here, 'python -m venv' is a command for creating virtual environment where as 
+                                                                    'venv' is the name of virtual environment which obviously you can change as per you     
+                                                                    and 'pathToYourPythonProject' is a directory inside which this environment is 
+                                                                    created.
+
+      (OR) python -m venv yourEnvironmentName  →  If you are inside your project directory then you can issue just following command
+           
+    ◙ Now, to select this virtual environment inside VS Code, follow following steps 
+    
+      1) 'ctrl+shift+p' (To Open command pallete) > Select Python Interpreter > Enter interpreter path > Find > Now, select the python from the recently 
+         created virtual environment.(yourProjectFolder/venv/Scripts/Python)
+
+      2) Now, select 'command prompt' as your terminal type and issue following command in it :-
+         'venv\Scripts\activate'      →  **** Note that you have to use 'backward Slash' in the besides command.
+
+      3) In case of 'Bash' terminal you need to issue following command -
+         source ./localEnv/Scripts/activate     →  You will see your environment name within bracket once virtual env is activated.
+
+      3) Also, if you want to use 'Run' button for executing the program through command line then you can add path of 'python' script at the 
+         beginning of the script as bash bang.
+        
+         #! C:\Users\rakes\PythonTutorialCodeWithHarry\venv\Scripts\python.exe
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Flask command to run an app over an internet ♣♣♣♣♣♣ 
+===================================================================================================================================================
+
+    ◙ python -m flash --app appFileName run --host=0.0.0.0  → Will give you an IP address where you can view your server or application. 
+
+===================================================================================================================================================

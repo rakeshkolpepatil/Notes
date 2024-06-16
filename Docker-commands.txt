@@ -17,32 +17,51 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   IMAGES :-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Docker file describes all the dependencies/things that a container needs.
-    Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, 
-    system tools, system libraries and settings.
+  Docker file describes all the dependencies/things that a container needs.
+  Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, 
+  system tools, system libraries and settings.
 
-    docker build -t <image_name> 			          :- Build an Image from a Dockerfile
+    docker build -t myName:01   			          :- Build an Image from a 'Dockerfile' present in current directory, with name 'myName' and version 01.
+                                                   You can also add or tag an image name and version to an existing image id.
+    docker build -t myName:02   			          :- To create an image of next version of the 'myName' app. Issue this command after making desired changes to the
+                                                   codebase. Most of the time 'Dockerfile' will remain the same.
+                                                   
     docker images 		      	                  :- List local images
-    docker rmi <image_name> 	                  :- Delete an Image
+    docker rmi <image_name:01> 	                :- Delete an Image named 'image_name' and tag '01'. You can also specify image Id here.
     docker image prune 		                      :- Remove all unused images
     docker build -t <image_name> . –no-cache  	:- Build an Image from a Dockerfile without the cache
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   DOCKER HUB :- 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com
+  Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com
 
-    docker login -u <username>   		      :- Login into Docker
+    docker login -u <username>   		      :- Login into Docker using the username and password that you use for dockerhub.com
+    (OR) docker login
     docker push <username>/<image_name>	  :- Publish an image to Docker Hub
     docker search <image_name>		        :- Search Hub for an image
     docker pull <image_name>		          :- Pull an image from a Docker Hub
 
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  GENERAL COMMANDS  :-
+  Docker File  :-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    docker -d         :- Start the docker daemon
-    docker --help     :- Get help with Docker. Can also use –help on all subcommands
-    docker info       :- Display system-wide information
+  - Docker file has instructions to create a Docker image
+  - Following is an example of a sample Docker file
+    
+        FROM node                  :- Select the latest node image for creating the docker image for the app. 
+        WORKDIR /myapp             :- Sets /myapp as working directory
+        COPY . .                   :- Copy content of the local directory to the WORKDIR which is /myapp directory. 
+        RUN npm install            :- The created image should have npm packages installed already.
+        EXPOSE 3000                :- Exposes a port 3000
+        CMD [ "npm", "start" ]     :- CMD runs the specified command while creating a container from an image.
+
+  - Once you create a docker file as described above inside a directory, to build it and create an image, execute following commands in same directory
+
+        docker build .             :- '.' means 'Dockerfile' is present in the current directory. or else specify the path of the directory where 'dockerfile' 
+                                      is present. Create an image from docker file.
+        docker image ls            :- To list out the created images.
+        docker run <IMAGE_ID>      :- Command to create a container by running the image created by 'docker build .' command. 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   CONTAINERS :-
@@ -51,25 +70,35 @@
     Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between
     development and staging.
 
-    systemctl start docker.service       :- Start docker service manually
-    systemctl status docker.service      :- Get status of docker service
+     docker -d                                                 :- Start the docker daemon
+     docker --help                                             :- Get help with Docker. Can also use –help on all subcommands
+     docker info                                               :- Display system-wide information
+     systemctl start docker.service                            :- Start docker service manually
+     systemctl status docker.service                           :- Get status of docker service
+     docker run --name <container_name> <image_name>		       :- Create and run a container from an image, with a custom name
+     docker run --rm  <image_name>		                         :- '--rm' switch will remove the container immediately after it is stopped. 
+                                                                  We need not remove it manually, by issuing command 'docker rm <container_name>'
+     docker run -p <host_port>:<container_port> <image_name>	 :- Run a container with and publish a container’s port(s) to the host
+     docker start|stop <container_name> (or <container-id>)	   :- Start or stop an existing container
+     docker inspect <container_name> (or <container_id>)	     :- To inspect a running container
+     docker run -d <image_name>		                             :- Run a container in the background i.e. detached mode
+     docker rm <container_name>		                             :- Remove a stopped container
+     docker logs -f <container_name>	                         :- Fetch and follow the logs of a container
+     docker exec -it <container_name> sh	                     :- Open a shell inside a running container. This executes the program like 'sh' specified 
+                                                                  in the command after running the container. 
+                                                                  '-it' switch stands for 'interactive terminal' which binds to terminal to the running container.
+     docker ps		                                             :- To list currently running containers
+     docker ps --all	
+     (Or) docker ps -a	                                       :- List all docker containers (running and stopped)
+     docker container stats	                                   :- View resource usage stats
+     docker tag <imageId> name:version                         :- Gives name 'name' and version 'version' to the image with id 'imageId'.
+                                                                  You can also use this command to change the tag/name associated with the existing image.
+                                                                  I think it will not rename the tag but create a copy of the existing image with new tag.
 
-    docker run --name <container_name> <image_name>		      :- Create and run a container from an image, with a custom name:
-    docker run -p <host_port>:<container_port> <image_name>	:- Run a container with and publish a container’s port(s) to the host.
-    docker start|stop <container_name> (or <container-id>)	:- Start or stop an existing container:
-    docker inspect <container_name> (or <container_id>)	    :- To inspect a running container:
-
-    docker run -d <image_name>		        :- Run a container in the background
-    docker rm <container_name>		        :- Remove a stopped container:
-    docker logs -f <container_name>	      :- Fetch and follow the logs of a container:
-    docker exec -it <container_name> sh	  :- Open a shell inside a running container:
-
-    docker ps		            :- To list currently running containers:
-
-    docker ps --all	
-    (Or) docker ps -a	      :- List all docker containers (running and stopped):
-
-    docker container stats	:- View resource usage stats
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Docker Volumes  :-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
 
 ==================================================================================================================================================================
                                                   https://www.youtube.com/watch?v=3c-iBn73dDE

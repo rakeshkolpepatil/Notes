@@ -312,6 +312,9 @@
         - Greater than 10% is good
         - Higher is better
         - Consistent or increasing is better
+        - As per Basant Maheswari - https://www.youtube.com/watch?v=EsgT8kxCzw8 23 min 
+
+            ROA = Leverage x ROE
 
     4) Net Profit margin (NPM):
         - Indicates how much % of revenue is getting converted into the net profit.
