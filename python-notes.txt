@@ -8,13 +8,13 @@
 
 
 -> For installing Python at custom path or on the server where you do not have the root permission -
-   http://thelazylog.com/install-python-as-local-user-on-linux/
+    http://thelazylog.com/install-python-as-local-user-on-linux/
 
 -> If you are behind the proxy and want too install a package using pip
-   pip install --proxy http://proxy-us.intel.com:911 numpy
+    pip install --proxy http://proxy-us.intel.com:911 numpy
 
 -> The packages that you install using pip command are stored at location
-   /Python27/Lib/site-packages
+    /Python27/Lib/site-packages
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ File Handling ♣♣♣♣♣♣♣
@@ -38,89 +38,307 @@
 ===================================================================================================================================================
 1) finding tokens having specified pattrn from a string using regular expressions in python.
 
-   temp = re.findall(r'\d{1,3}', stringToBeSearched)
+    temp = re.findall(r'\d{1,3}', stringToBeSearched)
 
-   where temp is a list of all the tokens which match the specified pattern.
-   ---------------------------------------------------------------------------------------------------------------------------------------------------
+    where temp is a list of all the tokens which match the specified pattern.
+  ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 2) To check whether the line contains a specific pattern use this one,
 
-   if re.search("hi","Hi I am here")
+    if re.search("hi","Hi I am here")
 	print ("hi is there in the sample string")   
-   ----------------------------------------------------------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 3) str = "Hi I am Here. Do not ask know where I am"
-   for i in re.finditer("am", str):
-	locTuple =  i.span()
-	print(locTuple)
+    for i in re.finditer("am", str):
+    locTuple =  i.span()
+    print(locTuple)
 
-   It prints starting and ending indices from string where string "am" matches.
+    It prints starting and ending indices from string where string "am" matches.
   ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-4) re.findall("[Shmp]at",str)   → It returns the list of all the words from the input string str which start with S,h,m,p and follw with "at".
-   re.findall("[a-z]at", str)   → It returns the list of all the words from the input string str which start with any lower case alphabet follwed by         
-                                     string "at".
-   re.findall("[^m-z]at",str)   → ^ symbol acts as negation.
+4)  re.findall("[Shmp]at",str)   → It returns the list of all the words from the input string str which start with S,h,m,p and follow with "at".
+    re.findall("[a-z]at", str)   → It returns the list of all the words from the input string str which start with any lower case alphabet followed by         
+                                    string "at".
+    re.findall("[^m-z]at",str)   → ^ symbol acts as negation.
+
+===================================================================================================================================================
+    - Type of a Variable -
+      print("The type of a variable x is = %s" %type(x)) 
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Lists  ♣♣♣♣♣♣♣
 ===================================================================================================================================================
 
-    List a,b
-    a = b 	        → This command will not copy the contents of list b to list a. It just copies value of pointer b to pointer a. So both are   
-                          pointing to same list.
+    - Ordered, mutable collection of items
+      e.g. - List a,b
 
-    COPYING THE LISTS -
-       a = list(b)
-       (OR) a = b[:]	→ Use this syntax to copy contents of list b to list a.
+    - a = b 	                      → This command will not copy the contents of list b to list a. It just copies value of pointer b to pointer a. 
+                                      So both are pointing to same list.
 
-       id(a)		→ This method id() returns the id of the object, which is uniq in program and is generally memory address where the object is 
-                          stored.
+    - COPYING THE LISTS -
+      a = list(b)
+      (OR) a = b[:]	                → Use this syntax to copy contents of list b to list a.
+      id(a)		                      → This method id() returns the id of the object, which is uniq in program and is generally memory address where
+                                      the object is stored.
 
-    years = range(1950, 2000, 10) 	→ The range function returns the list object. It is fast way to create a list.
-===================================================================================================================================================
-        - Type of a Variable -
-            print("The type of a variable x is = %s" %type(x)) 
+    - years = range(1950, 2000, 10) 	→ The range function returns the list object. It is fast way to create a list.
+    
+    
+    - lst = [1, 2, 3, 4, 5]
 
+        :- Operations
+            lst.append(6)           # Add an item '6' at the end of the list
+            lst.extend([7, 8, 9])   # Extend list by another list
+            lst.insert(1, 0)        # Insert item '0' at index '1' position of the list
+            lst.remove(5)           # Remove first occurrence of value '5'
+            popped = lst.pop(5)     # Remove and return an item at index '5'
+            del lst[5]              # Delete an item at index '5' from the list and do not return it.
+            popped = lst.pop()      # Remove and return last item
+            index = lst.index(3)    # Return index of the first occurrence of the item '3'
+            count = lst.count(2)    # Count occurrences of the item '2'
+            lst.sort()              # Sort the list, returns None
+            lst.reverse()           # Reverse the list, return None
+
+    - Creation of lists
+      lst1 = [1, 2, 3]                    # Creating a list
+      lst2 = list(range(1, 4))            # Creating a list from a range
+      lst3 = []                           # Empty list creation
+
+    - Accessing elements
+      print(lst1[0])                      # Output: 1 (accessing first element)
+      print(lst1[-1])                     # Output: 3 (accessing last element)
+      print(lst1[1:3])                    # Output: [2, 3] (slicing)
+
+    - Adding elements
+      lst1.append(4)                      # Append an element to the end
+      print(lst1)                         # Output: [1, 2, 3, 4]
+
+      lst1.insert(0, 0)                   # Insert an element at a specific index
+      print(lst1)                         # Output: [0, 1, 2, 3, 4]
+
+      lst1.extend([5, 6, 7])              # Extend list by appending elements from an iterable
+      print(lst1)                         # Output: [0, 1, 2, 3, 4, 5, 6, 7]
+
+    - Removing elements
+      removed_element = lst1.pop()        # Removes and returns the last element
+      print(removed_element, lst1)        # Output: the removed element, and the updated list
+
+      lst1.remove(0)                      # Removes the first occurrence of a value
+      print(lst1)                         # Output: [1, 2, 3, 4, 5, 6, 7]
+
+      del lst1[1]                         # Removes an element by index
+      print(lst1)                         # Output: [1, 3, 4, 5, 6, 7]
+
+      lst1.clear()                        # Removes all elements
+      print(lst1)                         # Output: []
+
+    - List Operations
+      lst1 = [1, 2, 3]
+      lst2 = [3, 4, 5]
+
+      concatenated_list = lst1 + lst2     # Concatenation of lists
+      print(concatenated_list)            # Output: [1, 2, 3, 3, 4, 5]
+
+      repeated_list = lst1 * 2            # Repetition of list elements
+      print(repeated_list)                # Output: [1, 2, 3, 1, 2, 3]
+
+    - Iteration
+      for item in lst1:
+          print(item)
+      # Output:
+      # 1
+      # 2
+      # 3
+
+    - List Methods
+      lst1.append(4)                      # Append an element to the end
+      print(lst1)                         # Output: [1, 2, 3, 4]
+
+      lst1.extend([5, 6, 7])              # Extend list by appending elements from an iterable
+      print(lst1)                         # Output: [1, 2, 3, 4, 5, 6, 7]
+
+      lst1.sort()                         # Sort the list in place
+      print(lst1)                         # Output: [1, 2, 3, 4, 5, 6, 7]
+
+      lst1.reverse()                      # Reverse the elements of the list in place
+      print(lst1)                         # Output: [7, 6, 5, 4, 3, 2, 1]
+
+      sorted_list = sorted(lst1)          # Return a new sorted list (does not modify original list)
+      print(sorted_list)                  # Output: [1, 2, 3, 4, 5, 6, 7]
+
+    - Copying a list
+      lst2 = lst1.copy()                  # Creates a shallow copy of lst1
+      print(lst2)                         # Output: [7, 6, 5, 4, 3, 2, 1]
+
+    - List Comprehensions
+      lst3 = [x for x in range(10) if x % 2 == 0]  # List comprehension
+      print(lst3)                         # Output: [0, 2, 4, 6, 8]
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Tuples ♣♣♣♣♣♣♣
 ===================================================================================================================================================
-	- They are immutable and hence are hashable. Also tuple elements can be deleted but entire tuple can be deleted.
-        - Tuples are faster than lists.
-        - 
-        - Can be used in Hash Tables i.e. Dictionary when composite key is required.
-           e.g.-  directory[last,first] = number
-                  for last, first in directory:
-                      print first, last, directory[last, first]
+    - They are Ordered, immutable collection of items and hence are hashable. 
+    - Also tuple elements can not be deleted but entire tuple can be deleted.
+    - Tuples are faster than lists.
+    - Can be used in Hash Tables i.e. Dictionary when composite key is required.
+      e.g.-   directory[last,first] = number
+              for last, first in directory:
+                  print first, last, directory[last, first]
 
-        - Are instantiated using paranthesis and use comma to seperate the members.
-        - Tuple packing and upacking
-            x = ("Guru99", 20, "Education")    # tuple packing
-            (company, emp, profile) = x    # tuple unpacking
-        - Tuples can be compared. First 1st elements of both are compared if decision can be made then fine or else second and so on.
-            a=(5,6)
-            b=(6,4)
-            Here, b is greater than a.
-        -   Tuples are immutable and 
-        - Tuple Slicing
-          x = (1,2,3,4)
-            x[2:4]
+    - Are instantiated using parenthesis and use comma to separate the members.
+
+    - Tuple packing and unpacking
+        x = ("Guru99", 20, "Education")    # tuple packing
+        (company, emp, profile) = x    # tuple unpacking
+
+    - Tuples can be compared. First 1st elements of both are compared if decision can be made then fine or else second and so on.
+        a=(5,6)
+        b=(6,4)
+        Here, b is greater than a.
+
+    - Tuple Slicing
+        x = (1,2,3,4)
+          x[2:4]
+
+    - Creation of tuples
+        t1 = (1, 2, 3)  # Creating a tuple
+        t2 = 1, 2, 3    # Creating a tuple without parentheses
+        t3 = (1,)       # Single-element tuple
+        t4 = ()         # Empty tuple
+
+    - Accessing Elements
+        print(t1[0])    # Output: 1
+        print(t1[-1])   # Output: 3
+        print(t1[1:3])  # Output: (2, 3)
+
+    - Tuple Operations
+        t5 = (4, 5)
+        t_concat = t1 + t5    # Concatenation: (1, 2, 3, 4, 5)
+        t_repeated = t1 * 2   # Repetition: (1, 2, 3, 1, 2, 3)
+        print(2 in t1)        # Membership: True
+        print(4 in t1)        # Membership: False
+
+    - Iteration
+        for item in t1:
+            print(item)
+
+        # Output:
+                  1
+                  2
+                  3
+
+    - Built-in Functions
+        print(len(t1))            # Length: 3
+        print(max(t1))            # Maximum: 3
+        print(min(t1))            # Minimum: 1
+        print(sum(t1))            # Sum: 6
+        t_count = (1, 2, 2, 3)
+        print(t_count.count(2))   # Count: 2
+        print(t1.index(2))        # Index: 1
+
+    - Conversion
+        lst = [1, 2, 3]
+        t_from_list = tuple(lst)    # List to Tuple: (1, 2, 3)
+        lst_from_tuple = list(t1)   # Tuple to List: [1, 2, 3]
+
+    - Unpacking
+        a, b, c = t1                # a = 1, b = 2, c = 3
+        a, *b, c = (1, 2, 3, 4)     # a = 1, b = [2, 3], c = 4
+
+    - Nesting
+        t_nested = (1, (2, 3), 4)   # Accessing nested tuple
+        print(t_nested[1])          # Output: (2, 3)
+        print(t_nested[1][0])       # Output: 2
+
+    - Comparisons
+        t1 = (1, 2, 3)
+        t2 = (1, 2, 3)
+        t3 = (1, 2, 4)
+        print(t1 == t2)   # Equality: True
+        print(t1 < t3)    # Lexicographical comparison: True
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Strings  ♣♣♣♣♣♣♣
 ===================================================================================================================================================
-	These are immutable.
-        Python does not support character data type. They are considered as the strings of size one.
+	In Python, strings are immutable, which means once they are created, their content cannot be changed or modified. 
+  This immutability is a fundamental property of strings in Python.   
+  Python does not support character data type. They are considered as the strings of size one.
+
+    - String creation
+      my_string = "Hello, World!"                      # Define a string
+      empty_string = ""                                # Define an empty string
+
+    - Accessing characters and substrings
+      first_char     = my_string[0]                    # 'H'
+      substring      = my_string[0:5]                  # 'Hello'
+
+    - String length
+      length         = len(my_string)                  # 13
+
+    - String concatenation
+      concatenated   = my_string + " How are you?"     # 'Hello, World! How are you?'
+
+    - String repetition
+    	repeated       = my_string * 3                   # 'Hello, World!Hello, World!Hello, World!'
+
+    - String formatting
+      name           = "Alice"
+      greeting       = f"Hello, {name}!"               # 'Hello, Alice!'
+
+    - String methods
+      upper_case     = my_string.upper()               # 'HELLO, WORLD!'
+      lower_case     = my_string.lower()               # 'hello, world!'
+      title_case     = my_string.title()               # 'Hello, World!'
+      capitalized    = my_string.capitalize()          # 'Hello, world!'
+
+    - Searching within a string
+      found_index    = my_string.find("World")         # 7
+      not_found      = my_string.find("Python")        # -1
+
+    - Checking string contents
+      is_alpha       = my_string.isalpha()             # False
+      is_digit       = my_string.isdigit()             # False
+      is_alnum       = my_string.isalnum()             # False
+      is_lower       = my_string.islower()             # False
+      is_upper       = my_string.isupper()             # False
+
+    - String splitting
+      split_string   = my_string.split(", ")           # ['Hello', 'World!']
+
+    - Joining strings
+      joined_string  = ", ".join(split_string)         # 'Hello, World!'
+
+    - Stripping characters
+      stripped       = "   Hello, World!   ".strip()   # 'Hello, World!'
+      lstriped       = "   Hello, World!   ".lstrip()  # 'Hello, World!   '
+      rstriped       = "   Hello, World!   ".rstrip()  # '   Hello, World!'
+
+    - Replacing substrings
+      replaced       = my_string.replace("World", "Python")  # 'Hello, Python!'
+
+    - Checking prefix and suffix
+      starts_with    = my_string.startswith("Hello")   # True
+      ends_with      = my_string.endswith("World!")    # True
+
+    - String reversing
+      reversed_str   = my_string[::-1]                 # '!dlroW ,olleH'
+
+    - Count occurrences
+      count_o        = my_string.count('o')            # 2
+
+    - Checking if a string is numeric
+      is_numeric     = "12345".isnumeric()             # True
+      is_not_numeric = "123abc".isnumeric()            # False
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Dictionaries ♣♣♣♣♣♣♣
 ===================================================================================================================================================
 	- They map hashable keys to arbitrary objects. The hashable means that mutable objects can not be used as keys in the dictionary.
-	  d = { 1:'First value'
-	        'key' : 'another value'
-	        '2' : [1,2,3]
-	      }
+    d = { 1:'First value'
+          'key' : 'another value'
+          '2' : [1,2,3]
+        }
 
         - Only one entry per key.
         - Key should be immutable object i.e. number, string or tuple.
@@ -133,10 +351,10 @@
         - To make a Copy of dictionary "dict"
           y =  dict.copy()
 
-        - Dictonary method to get the value associated with the key '2'. Note that key is the value 2 along with single quotes.
-	  d.get('2')   
+        - Dictionary method to get the value associated with the key '2'. Note that key is the value 2 along with single quotes.
+          d.get('2')   
 
-   	  d = dict { key=12 , other_key=[1,2,3] }
+      d = dict { key=12 , other_key=[1,2,3] }
 
         - Delete an element from dictionary
           del dict['key']
@@ -157,10 +375,253 @@
           for S in Students:
               print(":".join((S,str(Dict[S]))))
 
+        - Creation of dictionaries
+            d1 = {'a': 1, 'b': 2, 'c': 3}                # Creating a dictionary
+            d2 = dict(a=1, b=2, c=3)                     # Creating a dictionary using the dict() constructor
+            d3 = {}                                      # Empty dictionary
+            d4 = dict()                                  # Another way to create an empty dictionary
+
+        - Accessing Elements
+            print(d1['a'])                               # Output: 1
+            print(d1.get('b'))                           # Output: 2
+            print(d1.get('d', 'default'))                # Output: 'default'
+
+        - Adding and Updating Elements
+            d1['d'] = 4                                  # Adding a new key-value pair
+            d1['a'] = 10                                 # Updating an existing key-value pair
+            print(d1)                                    # Output: {'a': 10, 'b': 2, 'c': 3, 'd': 4}
+
+        - Removing Elements
+            value = d1.pop('a')                          # Removes and returns the value of 'a'
+            print(value)                                 # Output: 10
+            print(d1)                                    # Output: {'b': 2, 'c': 3, 'd': 4}
+
+            del d1['b']                                  # Removes the key 'b' and its value
+            print(d1)                                    # Output: {'c': 3, 'd': 4}
+
+            d1.popitem()                                 # Removes and returns the last key-value pair
+            print(d1)                                    # Output: {'c': 3}
+
+            d1.clear()                                   # Removes all elements
+            print(d1)                                    # Output: {}
+
+        - Dictionary Operations
+            d1 = {'a': 1, 'b': 2, 'c': 3}
+            d2 = {'d': 4, 'e': 5}
+            d1.update(d2)                                # Updates d1 with key-value pairs from d2
+            print(d1)                                    # Output: {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+        - Iteration
+            for key in d1:
+                print(key)
+            # Output:
+            # a
+            # b
+            # c
+            # d
+            # e
+
+            for key, value in d1.items():
+                print(key, value)
+            # Output:
+            # a 1
+            # b 2
+            # c 3
+            # d 4
+            # e 5
+
+        - Dictionary Methods
+            keys = d1.keys()                             # Returns a view object of keys
+            print(keys)                                  # Output: dict_keys(['a', 'b', 'c', 'd', 'e'])
+
+            values = d1.values()                         # Returns a view object of values
+            print(values)                                # Output: dict_values([1, 2, 3, 4, 5])
+
+            items = d1.items()                           # Returns a view object of key-value pairs
+            print(items)                                 # Output: dict_items([('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)])
+
+        - Copying a Dictionary
+            d3 = d1.copy()                               # Creates a shallow copy of d1
+            print(d3)                                    # Output: {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+        - Using dict.fromkeys()
+            keys = ['a', 'b', 'c']
+            d4 = dict.fromkeys(keys, 0)                  # Creates a new dictionary with keys from the list and all values set to 0
+            print(d4)                                    # Output: {'a': 0, 'b': 0, 'c': 0}
+
+        - Checking Membership
+            print('a' in d1)                             # Output: True
+            print('z' in d1)                             # Output: False
+
+        - Dictionary Comprehensions
+            d5 = {x: x**2 for x in range(5)}
+            print(d5)                                    # Output: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+        - Nested Dictionaries
+            d6 = {'a': {'nested_a': 1}, 'b': {'nested_b': 2}}
+            print(d6['a'])                               # Output: {'nested_a': 1}
+            print(d6['a']['nested_a'])                   # Output: 1
+
+        - Using setdefault()
+            d7 = {'a': 1, 'b': 2}
+            d7.setdefault('c', 3)                        # Adds 'c' with value 3 if 'c' is not in the dictionary
+            print(d7)                                    # Output: {'a': 1, 'b': 2, 'c': 3}
+            d7.setdefault('a', 10)                       # Does nothing as 'a' is already in the dictionary
+            print(d7)                                    # Output: {'a': 1, 'b': 2, 'c': 3}
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Sets  ♣♣♣♣♣♣♣
+===================================================================================================================================================
+
+    # Creation of sets
+      s1 = {1, 2, 3}                    # Creating a set
+      s2 = set([1, 2, 3])               # Creating a set from a list
+      s3 = set()                        # Empty set creation
+    
+    # Adding elements
+      s1.add(4)                         # Adding a single element
+      print(s1)                         # Output: {1, 2, 3, 4}
+
+      s1.update([5, 6, 7])              # Adding multiple elements
+      print(s1)                         # Output: {1, 2, 3, 4, 5, 6, 7}
+    
+    # Removing elements
+      s1.remove(7)                      # Removing an element
+      print(s1)                         # Output: {1, 2, 3, 4, 5, 6}
+
+      s1.discard(6)                     # Discarding an element
+      print(s1)                         # Output: {1, 2, 3, 4, 5}
+
+      removed_element = s1.pop()        # Removes and returns an arbitrary element
+      print(removed_element, s1)        # Output: the removed element, and the updated set
+
+      s1.clear()                        # Removes all elements
+      print(s1)                         # Output: set()
+    
+    # Set Operations
+      s1 = {1, 2, 3}
+      s2 = {2, 3, 4}
+
+      union_set = s1.union(s2)          # Union of sets
+      print(union_set)                  # Output: {1, 2, 3, 4}
+
+      intersection_set = s1.intersection(s2)  # Intersection of sets
+      print(intersection_set)                 # Output: {2, 3}
+
+      difference_set = s1.difference(s2)      # Difference of sets (elements in s1 but not in s2)
+      print(difference_set)                   # Output: {1}
+
+      symmetric_difference_set = s1.symmetric_difference(s2)  # Symmetric difference (elements not in both sets)
+      print(symmetric_difference_set)                         # Output: {1, 4}
+    
+    # Set Methods
+      s3 = {3, 4, 5}
+
+      s1.update(s3)                     # Updates s1 with elements from s3
+      print(s1)                         # Output: {1, 2, 3, 4, 5}
+
+      s2.intersection_update(s1)        # Updates s2 to intersection with s1
+      print(s2)                         # Output: {2, 3}
+
+      s3.difference_update(s1)          # Updates s3 to difference with s1
+      print(s3)                         # Output: set()
+
+    # Membership check
+      print(2 in s1)                    # Output: True
+      print(6 in s1)                    # Output: False
+
+    # Other operations
+      print(len(s1))                    # Output: Number of elements in s1
+
+    # Copying a set
+      s4 = s1.copy()                    # Creates a shallow copy of s1
+      print(s4)                         # Output: {1, 2, 3, 4, 5}
+
+    # Frozen sets
+      fs = frozenset([1, 2, 3])         # Creating a frozen set
+      print(fs)                         # Output: frozenset({1, 2, 3})
+
+    # Set Comprehensions
+      s5 = {x for x in range(10) if x % 2 == 0}   # Set comprehension
+      print(s5)                                   # Output: {0, 2, 4, 6, 8}
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Deque ♣♣♣♣♣♣♣
+===================================================================================================================================================
+  - Double-ended queue, allows appending and popping from both ends
+
+    from collections import deque
+
+    - Deque creation
+      my_deque = deque()                              # Create an empty deque
+      my_deque_with_elements = deque([1, 2, 3])      # Create a deque with initial elements
+
+    - Adding elements
+      my_deque.append(4)                             # Add element to the right end
+      my_deque.appendleft(5)                         # Add element to the left end
+
+    - Removing elements
+      right_elem = my_deque.pop()                    # Remove and return the rightmost element
+      left_elem  = my_deque.popleft()                # Remove and return the leftmost element
+
+    - Removing element from a specific index
+      index_to_remove = 2                               # Index of the element to remove
+      temp_list = list(my_deque)                        # Convert deque to list
+      removed_element = temp_list.pop(index_to_remove)  # Remove element at the specific index
+      my_deque = deque(temp_list)                       # Convert list back to deque
+
+    - Accessing elements
+      first_elem = my_deque[0]                       # Access the first element
+      last_elem  = my_deque[-1]                      # Access the last element
+
+    - Deque length
+      deque_length = len(my_deque)                   # Get the number of elements in the deque
+
+    - Clearing the deque
+      my_deque.clear()                               # Remove all elements from the deque
+
+    - Extending the deque
+      my_deque.extend([6, 7, 8])                     # Add multiple elements to the right end
+      my_deque.extendleft([9, 10])                   # Add multiple elements to the left end (in reverse order)
+
+    - Rotating the deque
+      my_deque.rotate(1)                             # Rotate the deque to the right by 1 position
+      my_deque.rotate(-2)                            # Rotate the deque to the left by 2 positions
+
+    - Inserting elements
+      my_deque.insert(2, 11)                         # Insert element at a specific position
+
+    - Counting elements
+      count_7 = my_deque.count(7)                    # Count the number of occurrences of an element
+
+    - Removing specific elements
+      my_deque.remove(7)                             # Remove the first occurrence of an element
+
+    - Reversing the deque
+      my_deque.reverse()                             # Reverse the elements of the deque in place
+
+    - Copying the deque
+      deque_copy = my_deque.copy()                   # Create a shallow copy of the deque
+
+    - Deque indexing and slicing (limited support)
+      sliced_deque = deque(list(my_deque)[1:3])      # Get a slice of the deque
+
+    - Maximum length
+      fixed_size_deque = deque(maxlen=5)             # Create a deque with a maximum length
+      fixed_size_deque.extend([1, 2, 3, 4, 5])       # Add elements to the fixed size deque
+      fixed_size_deque.append(6)                     # Add element causing the leftmost element to be removed
+
+    - Checking presence of elements
+      is_in_deque = 4 in my_deque                    # Check if an element is in the deque
+
+    - Iterating over the deque
+      for elem in my_deque:                          # Iterate over elements in the deque
+        print(elem)                                # Print each element
+
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Python Operators ♣♣♣♣♣♣♣
 ===================================================================================================================================================
-        1) Arithmatic Operators : +,-,*,/,//(Floor division),%(mod),**(Exponent),
+        1) Arithmetic Operators : +,-,*,/,//(Floor division),%(mod),**(Exponent),
         2) Logical Operators    : not, and, or
         3) Membership Operators : in, not in
         4) Identity Operators   : is, is not
@@ -175,9 +636,167 @@
 ===================================================================================================================================================
     - Usually functions are defined as follows -
         def functionName (Arguments):
-    	   line1
-	   line2
-      But, you can use the keyword "lambda" to define a single line function.
+          line1
+          line2
+      
+    - You can use the keyword "lambda" to define a single line function.
+      Lambda functions in Python are small anonymous functions defined using the lambda keyword. 
+      They can have any number of arguments but only one expression. The expression is evaluated and returned
+
+    - Basic Lambda Function
+      add_ten = lambda x: x + 10
+      print(add_ten(5))                 # Output: 15
+
+    - Using Lambda in Higher-Order Functions
+      nums = [1, 2, 3, 4]
+
+    - map()
+      doubled = list(map(lambda x: x * 2, nums))
+      print(doubled)                   # Output: [2, 4, 6, 8]
+
+    - filter()
+      evens = list(filter(lambda x: x % 2 == 0, nums))
+      print(evens)                     # Output: [2, 4]
+
+    - reduce()
+      from functools import reduce
+      product = reduce(lambda x, y: x * y, nums)
+      print(product)                   # Output: 24
+
+    - Sorting with Lambda Functions
+      points = [(1, 2), (4, 1), (5, 0), (10, -1)]
+      sorted_points = sorted(points, key=lambda point: point[1])
+      print(sorted_points)             # Output: [(10, -1), (5, 0), (4, 1), (1, 2)]
+
+    - Using Lambda with Custom Functions
+      def apply_function(func, value):
+          return func(value)
+
+      result = apply_function(lambda x: x ** 2, 5)
+      print(result)                    # Output: 25
+
+    - Using Lambda in Data Structures
+      operations = [lambda x: x + 1, lambda x: x * 2, lambda x: x ** 2]
+      for op in operations:
+          print(op(5))
+      # Output: 6
+      #         10
+      #         25
+
+      operation_dict = {
+          'add': lambda x, y: x + y,
+          'sub': lambda x, y: x - y,
+          'mul': lambda x, y: x * y
+      }
+      print(operation_dict['add'](2, 3))  # Output: 5
+      print(operation_dict['mul'](3, 4))  # Output: 12
+
+    - Combining Multiple Lambda Functions
+      add = lambda x, y: x + y
+      multiply = lambda x, y: x * y
+      combined = lambda x, y: add(multiply(x, y), 10)
+      print(combined(2, 3))            # Output: 16
+
+  -------------------------------------------------------------
+    Enumerate Function 
+  -------------------------------------------------------------
+
+    - Example 1: Basic Usage of enumerate()
+      my_list = ['a', 'b', 'c', 'd']
+
+      for index, value in enumerate(my_list):
+          print(f"Index: {index}, Value: {value}")
+
+      # Output:
+      # Index: 0, Value: a
+      # Index: 1, Value: b
+      # Index: 2, Value: c
+      # Index: 3, Value: d
+
+      print()  # Blank line for separation
+
+    - Example 2: Enumerate with Custom Start Index
+      my_tuple = ('apple', 'banana', 'cherry', 'date')
+
+      for index, fruit in enumerate(my_tuple, start=1):
+          print(f"Item {index}: {fruit}")
+
+      # Output:
+      # Item 1: apple
+      # Item 2: banana
+      # Item 3: cherry
+      # Item 4: date
+
+      print()  # Blank line for separation
+
+    - Example 3: Modifying Elements with enumerate()
+      my_list = ['a', 'b', 'c', 'd']
+
+      for index, value in enumerate(my_list):
+          my_list[index] = value.upper()
+
+      print(my_list)  # Output: ['A', 'B', 'C', 'D']
+
+      print()  # Blank line for separation
+
+    - Example 4: Enumerate Object to List Conversion
+      my_tuple = ('apple', 'banana', 'cherry', 'date')
+
+      enumerated_list = list(enumerate(my_tuple))
+
+      print(enumerated_list)
+      # Output: [(0, 'apple'), (1, 'banana'), (2, 'cherry'), (3, 'date')]
+
+  -------------------------------------------------------------
+    isinstance() Function - checks if an object is an instance of a specified class or type. 
+  -------------------------------------------------------------
+      - useful for type checking and object-oriented programming in Python.
+  
+      - Check if a number is an integer
+        x = isinstance(5, int)
+        print(x)                          # Output: True
+
+        # Check if a list is a list
+        numbers = [1, 2, 3]
+        result = isinstance(numbers, list)
+        print(result)                     # Output: True
+
+      - Check if a number is a string
+        y = isinstance(5, str)
+        print(y)                          # Output: False
+
+      - Check if an object is an instance of a class
+        class Employee:
+            def __init__(self, name, salary):
+                self.name = name
+                self.salary = salary
+
+        emp = Employee("Emma", 11000)
+        print(isinstance(emp, Employee))  # Output: True
+
+      - Check if an object is an instance of a class or a subclass
+        class Manager(Employee):
+            pass
+
+        manager = Manager("John", 15000)
+        print(isinstance(manager, Employee))     # Output: True
+
+      - Check if an object is an instance of a tuple of classes
+        print(isinstance(5, (int, float, str)))  # Output: True
+
+  -------------------------------------------------------------
+    '++i' operation in Python 
+  -------------------------------------------------------------
+      - ++i in Python does not increment i; it is interpreted as +(+i) and leaves i unchanged.
+      - Initial value of i
+        i = 5
+
+      - ++i in Python
+        print(++i)  # Output: 5  (The unary plus operators do not change the value)
+
+      - Correct way to increment in Python
+        i += 1
+        print(i)   # Output: 6  (i is incremented by 1)
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ IPYTHON ♣♣♣♣♣♣♣
@@ -230,12 +849,12 @@
     ◙ conda install nameOfTheLibrary         → Install latest version of library with name 'nameOfTheLibrary'.
     ◙ conda install nameOfTheLibrary=2.1.3   → Install 2.1.3 version of library with name 'nameOfTheLibrary'.
     ◙ conda search nameOfTheLibrary          → Search the library with name 'nameOfTheLibrary'.
-    ◙ conda list                             → Lists all the packeges installed in the current conda virtual environment.
+    ◙ conda list                             → Lists all the packages installed in the current conda virtual environment.
  
     ◙ All the dependencies of a virtual environment can be added inside a .yml file like below -
         1) vim requirements.yml  →  Open file
         2) Add following text to this file. 'name' is virtual environment name. Each dependency should have 2 leading spaces, 1 hyphen, 1 space 
-           followed by dependency name and it's version.
+            followed by dependency name and it's version.
                 name: flask-app
                 dependencies:
                   - flash=2.1.3
@@ -267,22 +886,22 @@
                                                                     created.
 
       (OR) python -m venv yourEnvironmentName  →  If you are inside your project directory then you can issue just following command
-           
+
     ◙ Now, to select this virtual environment inside VS Code, follow following steps 
     
-      1) 'ctrl+shift+p' (To Open command pallete) > Select Python Interpreter > Enter interpreter path > Find > Now, select the python from the recently 
-         created virtual environment.(yourProjectFolder/venv/Scripts/Python)
+      1)  'ctrl+shift+p' (To Open command pallete) > Select Python Interpreter > Enter interpreter path > Find > Now, select the python from the recently 
+          created virtual environment.(yourProjectFolder/venv/Scripts/Python)
 
-      2) Now, select 'command prompt' as your terminal type and issue following command in it :-
-         'venv\Scripts\activate'      →  **** Note that you have to use 'backward Slash' in the besides command.
+      2)  Now, select 'command prompt' as your terminal type and issue following command in it :-
+          'venv\Scripts\activate'      →  **** Note that you have to use 'backward Slash' in the besides command.
 
-      3) In case of 'Bash' terminal you need to issue following command -
-         source ./localEnv/Scripts/activate     →  You will see your environment name within bracket once virtual env is activated.
+      3)  In case of 'Bash' terminal you need to issue following command -
+          source ./localEnv/Scripts/activate     →  You will see your environment name within bracket once virtual env is activated.
 
-      3) Also, if you want to use 'Run' button for executing the program through command line then you can add path of 'python' script at the 
-         beginning of the script as bash bang.
+      3)  Also, if you want to use 'Run' button for executing the program through command line then you can add path of 'python' script at the 
+          beginning of the script as bash bang.
         
-         #! C:\Users\rakes\PythonTutorialCodeWithHarry\venv\Scripts\python.exe
+          #! C:\Users\rakes\PythonTutorialCodeWithHarry\venv\Scripts\python.exe
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Flask command to run an app over an internet ♣♣♣♣♣♣ 
