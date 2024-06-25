@@ -469,6 +469,81 @@
             d7.setdefault('a', 10)                       # Does nothing as 'a' is already in the dictionary
             print(d7)                                    # Output: {'a': 1, 'b': 2, 'c': 3}
 
+            
+  -------------------------------------------------------------
+    Sorting Dictionary 
+  -------------------------------------------------------------
+
+      - sorted(my_dict): Returns a list of sorted keys from my_dict.
+      - Sorting by Keys: Creates a new dictionary sorted by keys using dictionary comprehension.
+      - Sorting by Values: Creates a new dictionary sorted by values using dictionary comprehension with sorted(my_dict.items(), key=lambda item: item[1]).
+      - Maintaining Order with OrderedDict:
+      - Sorted by Keys: Uses OrderedDict to maintain the order of keys.
+      - Sorted by Values: Uses OrderedDict to maintain the order of values.
+
+        from collections import OrderedDict
+
+      - Original dictionary
+        my_dict = {'b': 3, 'a': 1, 'c': 2}
+
+      - Using sorted() on a dictionary returns a list of sorted keys
+        sorted_keys = sorted(my_dict)
+        print("Sorted keys:", sorted_keys)                                  # Output: ['a', 'b', 'c']
+
+      - Sorting dictionary by keys using dictionary comprehension
+        sorted_dict_by_keys = {key: my_dict[key] for key in sorted(my_dict)}
+        print("Dictionary sorted by keys:", sorted_dict_by_keys)            # Output: {'a': 1, 'b': 3, 'c': 2}
+
+      - Sorting dictionary by values using dictionary comprehension
+        sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1])}
+        print("Dictionary sorted by values:", sorted_dict_by_values)        # Output: {'a': 1, 'c': 2, 'b': 3}
+
+      - Using OrderedDict to maintain the sorted order by keys
+        sorted_dict_by_keys_ordered = OrderedDict(sorted(my_dict.items()))
+        print("OrderedDict sorted by keys:", sorted_dict_by_keys_ordered)   # Output: OrderedDict([('a', 1), ('b', 3), ('c', 2)])
+
+      - Using OrderedDict to maintain the sorted order by values
+        sorted_dict_by_values_ordered = OrderedDict(sorted(my_dict.items(), key=lambda item: item[1]))
+        print("OrderedDict sorted by values:", sorted_dict_by_values_ordered)  # Output: OrderedDict([('a', 1), ('c', 2), ('b', 3)])
+  
+
+===================================================================================================================================================
+  ♣♣♣♣♣♣ Default Dictionary ♣♣♣♣♣♣♣
+===================================================================================================================================================
+        from collections import defaultdict
+
+        - Creating a defaultdict with int as the default factory. The term "default factory" in the context of defaultdict refers to the function that
+          provides the default value for a key that does not exist in the dictionary. 
+        - For example, int is a factory function that returns 0, and list is a factory function that returns an empty list ([]).
+
+          default_int_dict = defaultdict(int)
+          print(default_int_dict['missing_key'])    # Output: 0 (default int value)
+
+        - Creating a defaultdict with a lambda function as the default factory
+          default_lambda_dict = defaultdict(lambda: 'default_value')
+          print(default_lambda_dict['missing_key']) # Output: 'default_value'
+
+        - Adding and updating elements
+          default_int_dict['a'] += 1
+          default_int_dict['b'] = 5
+          print(default_int_dict)                   # Output: defaultdict(<class 'int'>, {'a': 1, 'b': 5})
+
+        - Iterating through items
+          default_int_dict['c'] = 2
+          for key, value in default_int_dict.items():
+              print(f"{key}: {value}")
+          # Output:
+          # a: 1
+          # b: 5
+          # c: 2
+
+        - Grouping elements with defaultdict
+          s = [('a', 1), ('b', 2), ('a', 3), ('b', 4), ('c', 5)]
+          grouped = defaultdict(list)
+          for k, v in s:
+              grouped[k].append(v)
+          print(grouped)                            # Output: defaultdict(<class 'list'>, {'a': [1, 3], 'b': [2, 4], 'c': [5]})
+
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Sets  ♣♣♣♣♣♣♣
 ===================================================================================================================================================
@@ -785,6 +860,101 @@
         print(isinstance(5, (int, float, str)))  # Output: True
 
   -------------------------------------------------------------
+    strip() Function 
+  -------------------------------------------------------------
+
+      - The strip() function removes leading and trailing characters from a string.
+      - By default, it removes whitespace (spaces, tabs, newlines, etc.).
+
+        s = "   Hello, World!   "
+        print(s.strip())  # Output: "Hello, World!" (removes leading and trailing whitespace)
+
+      - You can specify a set of characters to remove as an argument to strip().
+        s = "###Hello, World!###"
+        print(s.strip("#"))  # Output: "Hello, World!" (removes leading and trailing '#')
+
+      - You can specify multiple characters to remove.
+        s = "@#Hello, World!#@"
+        print(s.strip("@#"))  # Output: "Hello, World!" (removes leading and trailing '@' and '#')
+
+      - string class contains 'string.punctuation' which lists all the punctuation characters
+        import string
+        print('Hey! Hope && you are doing good. -'.strip(string.puncutation))
+
+      - strip() does not remove characters from the middle of the string.
+        s = "##Hello, #World!##"
+        print(s.strip("#"))  # Output: "Hello, #World!" (only leading and trailing '#' are removed)
+
+      - Related functions:
+      - lstrip() removes leading characters (from the left).
+        s = "  Hello, World!  "
+        print(s.lstrip())  # Output: "Hello, World!  " (removes leading whitespace)
+
+      - rstrip() removes trailing characters (from the right).
+        print(s.rstrip())  # Output: "  Hello, World!" (removes trailing whitespace)
+
+      - s.replace('_', '')
+        If you want to remove all the underscore characters from a string use 'replace' function 
+
+  -------------------------------------------------------------
+    strip() Function 
+  -------------------------------------------------------------
+      - The isalpha() method checks if all characters in the string are alphabetic.
+      - Example 1: All alphabetic characters
+        s1 = "HelloWorld"
+        print(s1.isalpha())  # Output: True
+
+      - Example 2: Contains non-alphabetic characters (numbers)
+        s2 = "Hello123"
+        print(s2.isalpha())  # Output: False
+
+      - Example 3: Contains non-alphabetic characters (space)
+        s3 = "Hello World"
+        print(s3.isalpha())  # Output: False
+
+      - Example 4: Contains non-alphabetic characters (punctuation)
+        s4 = "Hello!"
+        print(s4.isalpha())  # Output: False
+
+      - Example 5: Empty string
+        s5 = ""
+        print(s5.isalpha())  # Output: False
+
+      - Example 6: Non-English alphabetic characters (Cyrillic)
+        s6 = "Привет"
+        print(s6.isalpha())  # Output: True
+
+      - Example 7: Non-English alphabetic characters (Chinese)
+        s7 = "你好"
+        print(s7.isalpha())  # Output: True
+
+  -------------------------------------------------------------
+    sum() Function 
+  -------------------------------------------------------------
+      - The sum() function calculates the sum of all items in an iterable.
+      - Example 1: Summing a list of numbers
+        numbers_list = [1, 2, 3, 4, 5]
+        print(sum(numbers_list))      # Output: 15
+
+      - Example 2: Summing with an initial value
+        print(sum(numbers_list, 10))  # Output: 25 (10 + 1 + 2 + 3 + 4 + 5)
+
+      - Example 3: Summing a tuple of numbers
+        numbers_tuple = (1, 2, 3, 4, 5)
+        print(sum(numbers_tuple))     # Output: 15
+
+      - Example 4: Summing a set of numbers
+        numbers_set = {1, 2, 3, 4, 5}
+        print(sum(numbers_set))       # Output: 15
+
+      - Example 5: Summing with non-number elements (raises TypeError)
+        numbers_mixed = [1, '2', 3]
+        try:
+            print(sum(numbers_mixed))
+        except TypeError as e:
+            print(e)                  # Output: unsupported operand type(s) for +: 'int' and 'str'
+
+  -------------------------------------------------------------
     '++i' operation in Python 
   -------------------------------------------------------------
       - ++i in Python does not increment i; it is interpreted as +(+i) and leaves i unchanged.
@@ -798,11 +968,890 @@
         i += 1
         print(i)   # Output: 6  (i is incremented by 1)
 
+  -------------------------------------------------------------
+    Function Return Types in Python 
+  -------------------------------------------------------------
+
+      - In Python, you can specify the return type of a function using type hints, which were introduced in PEP 484. 
+      - Type hints provide a way to indicate the expected type of a function's return value, but they do not enforce these types at runtime. 
+      - Instead, they serve as documentation and can be checked using static type checkers like 'mypy'.
+      - To specify the return type of a function, you use the -> syntax followed by the type after the function's parameter list. Here are a few examples:
+
+        from typing import List, Tuple, Optional, Union, Callable
+
+      - Example 1: Basic Return Type
+        def add(a: int, b: int) -> int:
+            return a + b
+
+      - Example 2: Returning None
+        def print_message(message: str) -> None:
+            print(message)
+
+      - Example 3: Returning a List
+        def get_numbers() -> List[int]:
+            return [1, 2, 3, 4, 5]
+
+      - Example 4: Returning a Tuple
+        def get_user_info() -> Tuple[str, int]:
+            return ("Alice", 30)
+
+      - Example 5: Using Custom Types
+        class User:
+            def __init__(self, name: str, age: int):
+                self.name = name
+                self.age = age
+
+        def get_user() -> User:
+            return User("Bob", 25)
+
+      - Example 6: Using Optional
+        def find_item(items: List[str], item: str) -> Optional[str]:
+            if item in items:
+                return item
+            return None
+
+      - Example 7: Using Union
+        def get_data(flag: bool) -> Union[str, int]:
+            if flag:
+                return "Data"
+            else:
+                return 42
+
+      - Example 8: Using Callable
+        def get_multiplier() -> Callable[[int], int]:
+            def multiplier(x: int) -> int:
+                return x * 2
+            return multiplier
+
 ===================================================================================================================================================
-  ♣♣♣♣♣♣ IPYTHON ♣♣♣♣♣♣♣
+  ♣♣♣♣♣♣ Python Regular Expressions ♣♣♣♣♣♣♣
+===================================================================================================================================================
+
+    - Regular expressions (regex) in Python are a powerful tool for matching patterns in text. They are handled through the re module. 
+    - Here’s a comprehensive guide covering the main functionalities of regex with examples.
+
+    Basic Concepts
+      - Special Characters
+        .   : Matches any character except newline
+        ^   : Matches the start of the string
+        $   : Matches the end of the string
+        *   : Matches 0 or more repetitions of the preceeding element
+        +   : Matches 1 or more repetitions of the preceding element
+        ?   : Matches 0 or 1 repetition of the preceding element; also used for non-greedy matching
+        {}  : Matches exactly the specified number of repetitions of the preceding element. {m} matches exactly m times, {m,n} matches from m to n times.
+        []  : Matches any one of the characters inside the brackets. Used to specify a character class.
+        |   : Acts like a boolean OR. Matches either the expression before or the expression after the |.
+        ()  : Groups a pattern. Groups expressions and captures the matched text.
+        \   : Escapes special characters. Escapes a metacharacter, making it a literal character. Also used for special sequences like \d, \w, etc.
+
+      - Character Classes
+        \A  : Matches the start of the string
+        \b  : Matches a word boundary
+        \B  : Matches a position that is not a word boundary
+        \d  : Matches any digit (equivalent to [0-9])
+        \D  : Matches any non-digit
+        \s  : Matches any whitespace character (spaces, tabs, linebreaks)
+        \S  : Matches any non-whitespace character
+        \w  : Matches any alphanumeric character plus underscore (equivalent to [a-zA-Z0-9_])
+        \W  : Matches any non-alphanumeric character
+        \Z  : Matches the end of the string
+
+      - Functions in the re Module
+        re.match    : Checks for a match only at the beginning of the string.
+        re.search   : Searches for the first occurrence of the pattern in the string.
+        re.findall  : Returns all non-overlapping matches of the pattern in the string.
+        re.finditer : Returns an iterator yielding match objects for all non-overlapping matches.
+        re.sub      : Replaces occurrences of the pattern with a string.
+        re.split    : Splits the string by occurrences of the pattern.
+
+      - Assertions
+        (?=...)   : Positive lookahead assertion. Matches if ... matches next, but doesn’t consume any characters.
+        (?!...)   : Negative lookahead assertion. Matches if ... does not match next.
+        (?<=...)  : Positive lookbehind assertion. Matches if preceded by ... .
+        (?<!...)  : Negative lookbehind assertion. Matches if not preceded by ... .
+        (?>...)   : Matches the following pattern in a possessive way, meaning it does not backtrack.
+
+      - When a pattern is not found in the string then these functions will return 'None' which can be used in 'if' statements.
+
+        import re
+
+        - Sample text
+          text = "The rain in Spain falls mainly in the plain. Call 123-456-7890 for info."
+
+        - 1. re.match
+          match_result = re.match(r'The', text)
+          print("re.match result:", match_result.group() if match_result else "No match")
+
+          Explanation : re.match: Checks if the string starts with the pattern r'The'. It does, so it returns a match object.
+
+        - 2. re.search
+          search_result = re.search(r'\d{3}-\d{3}-\d{4}', text)
+          print("re.search result:", search_result.group() if search_result else "No match")
+
+          Explanation : re.search: Looks for the first phone number pattern r'\d{3}-\d{3}-\d{4}'. It finds "123-456-7890".
+
+        - 3. re.findall
+          findall_result = re.findall(r'\b\w{4}\b', text)
+          print("re.findall result:", findall_result)
+
+          Explanation : re.findall: Finds all 4-letter words r'\b\w{4}\b' in the text. The result includes words like "rain", "main", "fall".
+
+        - 4. re.finditer
+          finditer_result = re.finditer(r'\bin\b', text)
+          print("re.finditer results:")
+          for match in finditer_result:
+            print(match.group(), "at position", match.span())
+
+          Explanation : re.finditer: Finds all occurrences of the word "in" and returns an iterator. Each match object provides the match and its position.
+        
+        - 5. re.sub
+          sub_result = re.sub(r'\d{3}-\d{3}-\d{4}', 'XXX-XXX-XXXX', text)
+          print("re.sub result:", sub_result)
+
+          Explanation : re.sub: Replaces the phone number pattern with 'XXX-XXX-XXXX'.
+          
+        - 6. re.split
+          split_result = re.split(r'\s+', text)
+          print("re.split result:", split_result)
+
+          Explanation : re.split: Splits the text by any whitespace r'\s+', resulting in a list of words.
+          
+      - More examples:
+
+        - Using character classes
+          char_class_result = re.findall(r'\d+', text)
+          print("Character class \\d+ result:", char_class_result)
+
+        - Using quantifiers
+          quantifier_result = re.findall(r'\bin\b', text)
+          print("Quantifier \\bin\\b result:", quantifier_result)
+
+        - Using grouping
+          grouping_result = re.search(r'(rain|Spain)', text)
+          print("Grouping result:", grouping_result.group() if grouping_result else "No match")
+
+        - Using special characters
+          special_char_result = re.findall(r'\b\S+\b', text)
+          print("Special characters \\b\\S+\\b result:", special_char_result)
+
+  -------------------------------------------------------------
+    Raw string vs Non-raw string examples
+  -------------------------------------------------------------
+
+    - Always use raw strings (r'...') for regular expressions in Python.
+    - Raw strings prevent backslashes from being interpreted as escape characters.
+    - They improve readability and avoid common errors in regex patterns.
+    - In Python strings, if you use multiple backslashes they will get interpreted as escape characters e.g. Try printing print('\\\\\Hi Rakesh')
+
+      import re
+
+    - Example 1: Escaping backslashes
+      pattern_raw = r'\d+'      # Raw string      : Matches one or more digits
+      pattern_non_raw = '\\d+'  # Non-raw string  : Matches one or more digits
+
+      text = "There are 123 numbers here."
+
+    - Using raw string
+      result_raw = re.findall(pattern_raw, text)
+      print("Using raw string (r'\\d+'): ", result_raw)           # Output: ['123']
+
+    - Using non-raw string
+      result_non_raw = re.findall(pattern_non_raw, text)
+      print("Using non-raw string ('\\\\d+'): ", result_non_raw)  # Output: ['123']
+
+    - Example 2: Incorrect escaping without raw string
+      pattern_incorrect = '\d+'  # Incorrect: Python interprets \d as an escape sequence
+
+      try:
+          result_incorrect = re.findall(pattern_incorrect, text)
+          print(result_incorrect)
+      except re.error as e:
+          print("Error using incorrect escaping ('\\d+'): ", e)   # Output: Error: bad escape \d at position 0
+
+    - Importance of raw strings for readability and correctness
+    - Sample text
+      text = "The rain in Spain falls mainly in the plain. Call 123-456-7890 for info."
+
+    - Patterns with raw strings
+      patterns = [
+          r'\b\w{4}\b',  # Matches any 4-letter word
+          r'\d{3}-\d{3}-\d{4}',  # Matches phone numbers in the format 123-456-7890
+          r'\bin\b',  # Matches the word 'in' as a whole word
+          r'\s+',  # Matches one or more whitespace characters
+          r'\b\S+\b'  # Matches words without any whitespace
+      ]
+
+    - Testing the patterns
+      for pattern in patterns:
+          result = re.findall(pattern, text)
+          print(f"Pattern: {pattern} -> Matches: {result}")
+
+  -------------------------------------------------------------
+    group() method examples
+  -------------------------------------------------------------
+    - group() method is used to retrive the matched substring from the input string
+    
+    - import re
+
+      # Example text
+      text = "John Doe's phone number is 12345."
+
+      # Define a regex pattern to extract the name and phone number
+      pattern = r"(\w+) (\w+)'s phone number is (\d+)\."
+
+      # Use re.search to find the first match
+      match = re.search(pattern, text)
+      
+      if match:
+      # Using group() to access matched groups
+          print(match.groups())                   # A groups() expression returns a tuple containing all the subgroups of the match.
+          full_match = match.group(0)             # entire match
+          name = match.group(1)                   # first group (\w+)
+          surname = match.group(2)                # second group (\w+)
+          phone_number = match.group(3)           # third group (\d+)
+
+          # Print results
+          print("Full match:", full_match)
+          print("Name:", name)
+          print("Surname:", surname)
+          print("Phone number:", phone_number)
+      else:
+          print("No match found")
+
+      - groupdict()
+        A groupdict() expression returns a dictionary containing all the named subgroups of the match, keyed by the subgroup name.
+
+        >>> m = re.match(r'(?P<user>\w+)@(?P<website>\w+)\.(?P<extension>\w+)','myname@hackerrank.com')
+        >>> m.groupdict()
+        {'website': 'hackerrank', 'user': 'myname', 'extension': 'com'}
+
+  -------------------------------------------------------------
+    Back referencing in Python regex
+  -------------------------------------------------------------
+    - Back referencing in Python regex allows you to refer back to previously captured groups within the same regex pattern.
+
+      import re
+      # Example text
+      text = "aaa bbb ccc 111 222 333"
+
+      # Define the regex pattern to match repeated alphanumeric sequences
+      pattern = r"(\w)\1+"
+
+      # Find all matches in the text
+      matches = re.findall(pattern, text)
+
+      # Print the matches
+      print("Matches found:", matches)
+
+  -------------------------------------------------------------
+    Generator Functions in Python
+  -------------------------------------------------------------
+
+    - In Python, a generator function is a special type of function that returns an iterator. 
+    - Instead of returning a single value, it uses the yield keyword to yield values one at a time, pausing after each yield and resuming from where it left off when the next value is requested. 
+    - This makes generators very memory efficient, especially for large data sets or streams of data.
+
+  Key Features of Generator Functions
+    - Lazy Evaluation: Generators produce items only when requested, which can save memory.
+    - State Retention: Generators maintain their state between yields, allowing them to resume where they left off.
+    - Infinite Sequences: Generators can produce infinite sequences because they yield one item at a time.
+    - Single Iteration: Generators can be iterated only once. After they are exhausted, they cannot be restarted.
+
+    - Basic Generator Function
+      def simple_generator():
+          yield 1
+          yield 2
+          yield 3
+
+    - Usage of simple_generator
+      gen = simple_generator()
+      print(next(gen))  # Output: 1
+      print(next(gen))  # Output: 2
+      print(next(gen))  # Output: 3
+      # print(next(gen))  # Uncommenting this line raises StopIteration
+
+    - Generator for Fibonacci Sequence
+      def fibonacci():
+          a, b = 0, 1
+          while True:
+              yield a
+              a, b = b, a + b
+
+    - Usage of fibonacci generator
+      fib_gen = fibonacci()
+      for _ in range(10):
+          print(next(fib_gen))  # Outputs the first 10 Fibonacci numbers
+
+    - Generator with `for` Loop
+      def countdown(n):
+          while n > 0:
+              yield n
+              n -= 1
+
+    - Usage of countdown generator
+      for count in countdown(5):
+          print(count)  # Outputs: 5, 4, 3, 2, 1
+
+    - Sending Values to a Generator
+      def accumulator():
+          total = 0
+          while True:
+              value = yield total
+              if value is None:
+                  break
+              total += value
+
+    - Usage of accumulator generator
+      gen = accumulator()
+      print(next(gen))  # Initialize the generator, Output: 0
+      print(gen.send(10))  # Send 10, Output: 10
+      print(gen.send(20))  # Send 20, Output: 30
+      gen.close()  # Close the generator
+
+    - Generator Expressions
+      gen_expr = (x * x for x in range(10))
+      for num in gen_expr:
+          print(num)  # Outputs squares of numbers from 0 to 9
+
+    - Chaining Generators
+      def generator_a():
+          yield from range(3)
+
+      def generator_b():
+          yield from range(3, 6)
+
+      def chain_generators():
+          yield from generator_a()
+          yield from generator_b()
+
+    - Usage of chained generators
+      for value in chain_generators():
+          print(value)  # Outputs: 0, 1, 2, 3, 4, 5
+
+    - Reading Large Files Efficiently
+      def read_large_file(file_path):
+          with open(file_path) as file:
+              while line := file.readline():
+                  yield line
+
+    - Example function to process lines (dummy implementation)
+      def process(line):
+          print(line.strip())
+
+    - Usage of read_large_file generator
+    - for line in read_large_file('large_file.txt'):
+    -     process(line)  # Process each line without loading the whole file into memory
+
+  -------------------------------------------------------------
+  The reversed() Function in Python
+  -------------------------------------------------------------
+
+  - The reversed() function in Python is used to reverse the order of elements in a given sequence. 
+  - It works with sequences like lists, tuples, and strings. 
+  - It returns an iterator that accesses the given sequence in the reverse order, without modifying the original sequence.
+
+  # Reversing a list
+    original_list = [1, 2, 3, 4, 5]
+    reversed_list = list(reversed(original_list))
+    print(reversed_list)  # Output: [5, 4, 3, 2, 1]
+
+  # Reversing a tuple
+    original_tuple = (1, 2, 3, 4, 5)
+    reversed_tuple = tuple(reversed(original_tuple))
+    print(reversed_tuple)  # Output: (5, 4, 3, 2, 1)
+
+  # Reversing a string
+    original_string = "hello"
+    reversed_string = ''.join(reversed(original_string))
+    print(reversed_string)  # Output: "olleh"
+
+  # Using reversed() in a loop
+    for item in reversed([1, 2, 3, 4, 5]):
+        print(item)
+    # Output:
+    # 5
+    # 4
+    # 3
+    # 2
+    # 1
+
+  # Custom object with __reversed__() method
+    class MyRange:
+        def __init__(self, start, end):
+            self.start = start
+            self.end = end
+
+        def __iter__(self):
+            return iter(range(self.start, self.end))
+
+        def __reversed__(self):
+            return iter(range(self.end - 1, self.start - 1, -1))
+
+    my_range = MyRange(1, 5)
+    print(list(reversed(my_range)))  # Output: [4, 3, 2, 1]
+
+  # Summary:
+    - reversed() returns an iterator that accesses the elements in reverse order.
+    - Works with lists, tuples, strings, and any custom object implementing __reversed__() or sequence protocol.
+
+===================================================================================================================================================
+    try, except, raise and finally 
+===================================================================================================================================================
+      - Exception Handling with try, except, else, and finally
+
+        try Block       :   Code that might raise an exception is placed inside the try block.
+        except Block    :   Code to handle the exception is placed inside the except block.
+        else Block      :   Code that runs if no exception is raised is placed inside the else block.
+        finally Block   :   Code that runs no matter what (whether an exception was raised or not) is placed inside the finally block.
+        
+        -------------------------------------------------------------------------------
+        Example of Raising Built-in Exceptions :-
+        -------------------------------------------------------------------------------
+
+                def divide(a, b):
+                  if b == 0:
+                      raise ValueError("Cannot divide by zero.")
+                  return a / b
+
+                try:
+                    result = divide(10, 0)
+                except ValueError as e:
+                    print(e)                # Output: Cannot divide by zero.
+        -------------------------------------------------------------------------------
+        Raising Custom Exceptions :-
+        -------------------------------------------------------------------------------
+        
+                class CustomError(Exception):
+                    def __init__(self, message):
+                        self.message = message
+
+                def check_value(x):
+                    if x < 0:
+                        raise CustomError("Negative value error.")
+                        return x
+
+                try:
+                    value = check_value(-10)
+                except CustomError as e:
+                    print(e.message)  # Output: Negative value error.
+                  
+        -------------------------------------------------------------------------------
+        Example of All Blocks :-
+        -------------------------------------------------------------------------------
+
+                def divide(a, b):
+                    try:
+                        result = a / b
+                    except ZeroDivisionError as e:
+                        print(f"Error: {e}")
+                    else:
+                        print(f"Result: {result}")
+                    finally:
+                        print("Execution completed.")
+
+                divide(10, 2)
+                # Output:
+                # Result: 5.0
+                # Execution completed.
+
+                divide(10, 0)
+                # Output:
+                # Error: division by zero
+                # Execution completed.
+
+
+===================================================================================================================================================
+      Python Decorator 
+===================================================================================================================================================
+
+      - A decorator is a function that takes another function and extends its behavior without explicitly modifying it. 
+        Decorators are often used in scenarios where cross-cutting concerns, such as logging, are needed.
+        
+        
+        import functools
+        
+      - Basic decorator
+        def my_decorator(func):
+        @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                print("Before function call")
+                result = func(*args, **kwargs)
+                print("After function call")
+                return result
+            return wrapper
+            
+        @my_decorator
+        def say_hello():
+            print("Hello!")
+            
+            - Decorator with arguments
+        def repeat(num_times):
+        def decorator_repeat(func):
+        @functools.wraps(func)
+                def wrapper(*args, **kwargs):
+                    for _ in range(num_times):
+                        func(*args, **kwargs)
+                        return wrapper
+            return decorator_repeat
+            
+        @repeat(num_times=3)
+        def greet(name):
+        print(f"Hello, {name}!")
+        
+      - Class decorator
+        def singleton(cls):
+            instances = {}
+            @functools.wraps(cls)
+            def get_instance(*args, **kwargs):
+            if cls not in instances:
+                    instances[cls] = cls(*args, **kwargs)
+                return instances[cls]
+            return get_instance
+            
+        @singleton
+        class MyClass:
+            def __init__(self):
+                print("Creating instance")
+                
+      - Multiple decorators
+        def decorator_one(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                print("Decorator One")
+                return func(*args, **kwargs)
+                return wrapper
+            
+                def decorator_two(func):
+                @functools.wraps(func)
+                def wrapper(*args, **kwargs):
+                print("Decorator Two")
+                return func(*args, **kwargs)
+            return wrapper
+            
+        @decorator_one
+        @decorator_two
+        def say_goodbye():
+            print("Goodbye!")
+            
+        # Outputs and explanations
+        say_hello()
+        # Output:
+        # Before function call
+        # Hello!
+        # After function call
+            
+        greet("Alice")
+        # Output:
+        # Hello, Alice!
+        # Hello, Alice!
+        # Hello, Alice!
+            
+        a = MyClass()
+        b = MyClass()
+        print(a is b)  # Output: True
+            
+        say_goodbye()
+        # Output:
+        # Decorator One
+        # Decorator Two
+        # Goodbye!
+        
+    - Basic Decorator           :  my_decorator adds behavior before and after the say_hello function call.
+    - Decorator with Arguments  :  repeat decorates greet to repeat the greeting three times.
+    - Class Decorator           :  singleton ensures only one instance of MyClass is created.
+    - Multiple Decorators       :  decorator_one and decorator_two both decorate say_goodbye, demonstrating the order of application.
+
+===================================================================================================================================================
+    Abstraction in Python  
+===================================================================================================================================================
+    - Abstraction is one of the four fundamental principles of Object-Oriented Programming (OOP). 
+    - It refers to the concept of hiding the complex implementation details and showing only the essential features of an object. 
+    - This helps in reducing complexity and allows the programmer to focus on interactions at a high level.
+
+  Abstract Classes and Methods
+    - In Python, abstraction can be achieved using abstract classes and abstract methods. 
+    - An abstract class is a class that cannot be instantiated and often contains one or more abstract methods. 
+    - These methods are declared, but contain no implementation. 
+    - Abstract classes and methods are used to define a common interface for a group of subclasses.
+    
+    Using the abc Module
+    - Python's abc module provides the infrastructure for defining abstract base classes (ABCs).
+
+  Defining an Abstract Class and Abstract Method
+  Here’s how you can define an abstract class and an abstract method in Python:
+    - Importing ABC and abstractmethod from abc module:
+    - Defining an Abstract Base Class (ABC):
+    - Defining Abstract Methods.
+    
+
+    from abc import ABC, abstractmethod
+    
+    class Animal(ABC):
+        @abstractmethod
+        def sound(self):
+            pass
+
+            def sleep(self):
+            print("This animal is sleeping")
+
+    class Dog(Animal):
+        def sound(self):
+            print("Bark")
+
+    class Cat(Animal):
+    def sound(self):
+            print("Meow")
+            
+            # Testing the classes
+    # animal = Animal()  # This will raise an error because you can't instantiate an abstract class
+    
+    dog = Dog()
+    dog.sound()  # Output: Bark
+    dog.sleep()  # Output: This animal is sleeping
+
+    cat = Cat()
+    cat.sound()  # Output: Meow
+    cat.sleep()  # Output: This animal is sleeping
+
+    - Abstract Base Class (ABC): Animal is defined with an abstract method sound that must be implemented by subclasses.
+    - Concrete Subclasses: Dog and Cat implement the sound method and inherit the sleep method.
+    - Instantiation: Animal cannot be instantiated directly. Instances of Dog and Cat can be created and used.
+
+    -------------------------------------------------------------------------------
+    Method Resolution Order (MRO) in Python
+    -------------------------------------------------------------------------------
+      - Method Resolution Order (MRO) is the order in which Python looks for a method in a hierarchy of classes. 
+      - This is especially important in the context of multiple inheritance, where a class can inherit from multiple parent classes.
+
+      - Python uses the C3 linearization algorithm (also known as C3 superclass linearization) to determine the MRO. 
+      - The MRO ensures that a consistent and predictable method lookup order is followed.
+
+      - MRO and super()
+        The MRO is used when the super() function is called to ensure that methods are called in the correct order, respecting the inheritance hierarchy.
+
+
+      - Multiple inheritance
+
+          class A:
+              def show(self):
+                  print("A")
+
+          class B(A):
+              def show(self):
+                  print("B")
+                  super().show()
+              
+          class C(A):
+              def show(self):
+                  print("C")
+                  super().show()
+              
+          class D(B, C):
+              def show(self):
+                  print("D")
+                  super().show()
+              
+          d = D()
+          d.show()
+          # Output:
+          # D
+          # B
+          # C
+          # A
+              
+          print(D.__mro__)
+          # Output: (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+              
+          print(D.mro())
+          # Output: [<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>]
+
+      - Singel Inheritance
+
+          class A:
+              def show(self):
+                  print("A")
+
+          class B(A):
+              def show(self):
+                  print("B")
+                  super().show()
+
+          b = B()
+          b.show()
+
+          Output:
+                B
+                A
+
+    -------------------------------------------------------------------------------
+    Global Interpreter Lock (GIL) in Python
+    -------------------------------------------------------------------------------
+      - The Global Interpreter Lock (GIL) is a mutex that protects access to Python objects, preventing multiple threads from executing Python bytecode simultaneously. 
+      - This lock is necessary because Python's memory management is not thread-safe.
+
+    Key Points about GIL
+      - Concurrency     :   GIL allows only one thread to execute Python code at a time even in a multi-threaded environment.
+      - Performance     :   The GIL can be a performance bottleneck in CPU-bound multi-threaded programs. However, I/O-bound programs can benefit from threading.
+      - Implementation  :   The GIL is specific to the CPython implementation of Python. Other implementations like Jython and IronPython do not have a GIL.
+
+
+    import threading
+    import multiprocessing
+    import time
+
+    # CPU-bound task
+      def cpu_bound_task():
+          result = 0
+          for i in range(10**6):
+              result += i
+          return result
+
+    # I/O-bound task
+      def io_bound_task():
+          time.sleep(1)
+
+    # CPU-bound task without threads
+      start_time = time.time()
+      cpu_bound_task()
+      cpu_bound_task()
+      print(f"CPU-bound task without threads: {time.time() - start_time:.2f} seconds")
+
+    # CPU-bound task with threads
+      start_time = time.time()
+      thread1 = threading.Thread(target=cpu_bound_task)
+      thread2 = threading.Thread(target=cpu_bound_task)
+      thread1.start()
+      thread2.start()
+      thread1.join()
+      thread2.join()
+      print(f"CPU-bound task with threads: {time.time() - start_time:.2f} seconds")
+
+    # I/O-bound task without threads
+      start_time = time.time()
+      io_bound_task()
+      io_bound_task()
+      print(f"I/O-bound task without threads: {time.time() - start_time:.2f} seconds")
+
+    # I/O-bound task with threads
+      start_time = time.time()
+      thread1 = threading.Thread(target=io_bound_task)
+      thread2 = threading.Thread(target=io_bound_task)
+      thread1.start()
+      thread2.start()
+      thread1.join()
+      thread2.join()
+      print(f"I/O-bound task with threads: {time.time() - start_time:.2f} seconds")
+
+    # CPU-bound task with multiprocessing
+      start_time = time.time()
+      process1 = multiprocessing.Process(target=cpu_bound_task)
+      process2 = multiprocessing.Process(target=cpu_bound_task)
+      process1.start()
+      process2.start()
+      process1.join()
+      process2.join()
+      print(f"CPU-bound task with multiprocessing: {time.time() - start_time:.2f} seconds")
+
+    # Explanation:
+      # 1. CPU-bound task without threads: Runs sequentially.
+      # 2. CPU-bound task with threads: GIL prevents true parallelism, similar performance as sequential.
+      # 3. I/O-bound task without threads: Runs sequentially.
+      # 4. I/O-bound task with threads: Threads run concurrently, reducing total time.
+      # 5. CPU-bound task with multiprocessing: Processes run in parallel, bypassing the GIL.
+
+      # Output Example:
+      # CPU-bound task without threads: 0.12 seconds
+      # CPU-bound task with threads: 0.14 seconds
+      # I/O-bound task without threads: 2.00 seconds
+      # I/O-bound task with threads: 1.00 seconds
+      # CPU-bound task with multiprocessing: 0.07 seconds
+
+  -------------------------------------------------------------------------------
+  The 'with' Keyword in Python
+  -------------------------------------------------------------------------------
+      - The with keyword in Python is used to simplify exception handling and ensure that resources are properly managed. 
+      - It is commonly used when dealing with file operations, but can also be used with other resource management scenarios such as locking, socket connections, etc.
+
+      Key Points
+      - Context Managers    : The with keyword is used to create a context in which a context manager is active.
+      - Resource Management : Ensures that resources are properly acquired and released.
+      - Automatic Cleanup   : Automatically handles cleanup actions, such as closing a file or releasing a lock, even if an error occurs within the block.
+
+    # Example: Using 'with' for file handling
+      with open('example.txt', 'w') as file:
+          file.write('Hello, world!')
+    # Automatically closes the file after exiting the block
+
+    # Custom Context Manager using a class
+      class MyContextManager:
+          def __enter__(self):
+              print("Entering the context")
+              return self
+
+          def __exit__(self, exc_type, exc_value, traceback):
+              print("Exiting the context")
+
+      with MyContextManager() as manager:
+          print("Inside the context")
+    
+    # Output:
+    # Entering the context
+    # Inside the context
+    # Exiting the context
+
+    - Summary
+      The with keyword        :   Simplifies resource management by ensuring proper acquisition and release.
+      Context Managers        :   Objects that manage resources using __enter__ and __exit__ methods.
+      Automatic Cleanup       :   Ensures resources like files are properly closed, even if errors occur.
+      Custom Context Managers :   Can be created using classes or the contextlib module for more readable and maintainable code.
+
+  -------------------------------------------------------------------------------
+  Static and class methods in Python
+  -------------------------------------------------------------------------------
+
+    Both static and class methods are types of methods in Python classes, but they have different purposes and behaviors. Here's a detailed comparison:
+
+    Class Methods
+      - Decorator: @classmethod
+      - First Parameter: The first parameter is always cls, which refers to the class itself, not the instance.
+      - Purpose: Used to define methods that operate on the class itself, rather than instances of the class.
+      - Access: Can access and modify class state that applies across all instances of the class.
+    
+    Static Methods
+      - Decorator: @staticmethod
+      - First Parameter: No special first parameter (neither self nor cls).
+      - Purpose: Used to define utility methods that perform a task in isolation and do not need access to class or instance data.
+      - Access: Cannot access or modify the class state or instance state.
+
+      class MyClass:
+          class_variable = 0
+
+          @classmethod
+          def class_method(cls):
+              cls.class_variable += 1
+              print(f'Class variable is now {cls.class_variable}')
+
+          @staticmethod
+          def static_method(x, y):
+              return x + y
+
+      # Class Method Usage
+      MyClass.class_method()  # Output: Class variable is now 1
+      MyClass.class_method()  # Output: Class variable is now 2
+
+      # Static Method Usage
+      result = MyClass.static_method(5, 7)
+      print(result)  # Output: 12
+
+      Summary:
+        - Class Method    : Uses @classmethod, takes cls as first parameter, can modify class state.
+        - Static Method   : Uses @staticmethod, takes no special first parameter, cannot modify class or instance state.
+
+===================================================================================================================================================
+    ♣♣♣♣♣♣ IPYTHON ♣♣♣♣♣♣♣
 ===================================================================================================================================================
     MAGIC FUNCTIONS -
-	
+    
     ◙ timeit  →  This will run the code for bunch of times and will tell you how much time it took for execution.
       -------------------------------------------------------------------------------------------------------------------------------------------
     ◙ !ls                  →  This will execute shell command ls in python.
@@ -812,7 +1861,7 @@
     ◙ from itertools import product →  Use this for taking cartesian product.
 
 ===================================================================================================================================================
-  ♣♣♣♣♣♣ Exception Handling in Python | Python Tutorial - Day #36 CodeWithHarry ♣♣♣♣♣♣♣
+♣♣♣♣♣♣ Exception Handling in Python | Python Tutorial - Day #36 CodeWithHarry ♣♣♣♣♣♣♣
 ===================================================================================================================================================
     ◙   try:
             for i in range(1,11):
