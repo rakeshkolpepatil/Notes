@@ -45,26 +45,26 @@
 
 2) To check whether the line contains a specific pattern use this one,
 
-    if re.search("hi","Hi I am here")
-	print ("hi is there in the sample string")   
+    if re.search("hi","Hi I am here"):
+      print ("hi is there in the sample string")   
   ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 3) str = "Hi I am Here. Do not ask know where I am"
     for i in re.finditer("am", str):
-    locTuple =  i.span()
-    print(locTuple)
+      locTuple =  i.span()
+      print(locTuple)
 
     It prints starting and ending indices from string where string "am" matches.
   ---------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  4)  re.findall("[Shmp]at",str)   → It returns the list of all the words from the input string str which start with S,h,m,p and follow with "at".
+      re.findall("[a-z]at", str)   → It returns the list of all the words from the input string str which start with any lower case alphabet followed by         
+      string "at".
+      re.findall("[^m-z]at",str)   → ^ symbol acts as negation. Words that do not start with characters 'm to z and followed by 'at'
+  ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-4)  re.findall("[Shmp]at",str)   → It returns the list of all the words from the input string str which start with S,h,m,p and follow with "at".
-    re.findall("[a-z]at", str)   → It returns the list of all the words from the input string str which start with any lower case alphabet followed by         
-                                    string "at".
-    re.findall("[^m-z]at",str)   → ^ symbol acts as negation.
-
-===================================================================================================================================================
-    - Type of a Variable -
-      print("The type of a variable x is = %s" %type(x)) 
+  5) Type of a Variable -
+    print("The type of a variable x is = %s" %type(x)) 
 
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Lists  ♣♣♣♣♣♣♣
@@ -190,9 +190,9 @@
 
     - Tuple packing and unpacking
         x = ("Guru99", 20, "Education")    # tuple packing
-        (company, emp, profile) = x    # tuple unpacking
+        (company, emp, profile) = x        # tuple unpacking
 
-    - Tuples can be compared. First 1st elements of both are compared if decision can be made then fine or else second and so on.
+    - Tuples can be compared. First elements of both are compared if decision can be made then fine or else second and so on.
         a=(5,6)
         b=(6,4)
         Here, b is greater than a.
@@ -471,15 +471,16 @@
 
             
   -------------------------------------------------------------
-    Sorting Dictionary 
+  Sorting Dictionary 
   -------------------------------------------------------------
 
       - sorted(my_dict): Returns a list of sorted keys from my_dict.
-      - Sorting by Keys: Creates a new dictionary sorted by keys using dictionary comprehension.
-      - Sorting by Values: Creates a new dictionary sorted by values using dictionary comprehension with sorted(my_dict.items(), key=lambda item: item[1]).
+        - Sorting by Keys   : Creates a new dictionary sorted by keys using dictionary comprehension.
+        - Sorting by Values : Creates a new dictionary sorted by values using dictionary comprehension with sorted(my_dict.items(), key=lambda item: item[1]).
+
       - Maintaining Order with OrderedDict:
-      - Sorted by Keys: Uses OrderedDict to maintain the order of keys.
-      - Sorted by Values: Uses OrderedDict to maintain the order of values.
+        - Sorted by Keys    : Uses OrderedDict to maintain the order of keys.
+        - Sorted by Values  : Uses OrderedDict to maintain the order of values.
 
         from collections import OrderedDict
 
@@ -489,32 +490,33 @@
       - Using sorted() on a dictionary returns a list of sorted keys
         sorted_keys = sorted(my_dict)
         print("Sorted keys:", sorted_keys)                                  # Output: ['a', 'b', 'c']
-
+        
       - Sorting dictionary by keys using dictionary comprehension
         sorted_dict_by_keys = {key: my_dict[key] for key in sorted(my_dict)}
         print("Dictionary sorted by keys:", sorted_dict_by_keys)            # Output: {'a': 1, 'b': 3, 'c': 2}
 
       - Sorting dictionary by values using dictionary comprehension
-        sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1])}
+      sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1])}
         print("Dictionary sorted by values:", sorted_dict_by_values)        # Output: {'a': 1, 'c': 2, 'b': 3}
 
       - Using OrderedDict to maintain the sorted order by keys
-        sorted_dict_by_keys_ordered = OrderedDict(sorted(my_dict.items()))
+      sorted_dict_by_keys_ordered = OrderedDict(sorted(my_dict.items()))
         print("OrderedDict sorted by keys:", sorted_dict_by_keys_ordered)   # Output: OrderedDict([('a', 1), ('b', 3), ('c', 2)])
-
-      - Using OrderedDict to maintain the sorted order by values
+        
+        - Using OrderedDict to maintain the sorted order by values
         sorted_dict_by_values_ordered = OrderedDict(sorted(my_dict.items(), key=lambda item: item[1]))
         print("OrderedDict sorted by values:", sorted_dict_by_values_ordered)  # Output: OrderedDict([('a', 1), ('c', 2), ('b', 3)])
-  
-
-===================================================================================================================================================
-  ♣♣♣♣♣♣ Default Dictionary ♣♣♣♣♣♣♣
-===================================================================================================================================================
+        
+        
+  -------------------------------------------------------------
+    Default Dictionary 
+  -------------------------------------------------------------
         from collections import defaultdict
 
         - Creating a defaultdict with int as the default factory. The term "default factory" in the context of defaultdict refers to the function that
           provides the default value for a key that does not exist in the dictionary. 
-        - For example, int is a factory function that returns 0, and list is a factory function that returns an empty list ([]).
+
+        - For example, 'int' is a factory function that returns 0, and 'list' is a factory function that returns an empty list ([]).
 
           default_int_dict = defaultdict(int)
           print(default_int_dict['missing_key'])    # Output: 0 (default int value)
@@ -586,7 +588,7 @@
       difference_set = s1.difference(s2)      # Difference of sets (elements in s1 but not in s2)
       print(difference_set)                   # Output: {1}
 
-      symmetric_difference_set = s1.symmetric_difference(s2)  # Symmetric difference (elements not in both sets)
+      symmetric_difference_set = s1.symmetric_difference(s2)  # Symmetric difference (elements not common in both sets)
       print(symmetric_difference_set)                         # Output: {1, 4}
     
     # Set Methods
@@ -620,6 +622,84 @@
       s5 = {x for x in range(10) if x % 2 == 0}   # Set comprehension
       print(s5)                                   # Output: {0, 2, 4, 6, 8}
 
+  -------------------------------------------------------------
+    Frozen Set  
+  -------------------------------------------------------------
+    - The frozenset is a built-in Python data type that is similar to a set but immutable. Once created, its elements cannot be changed. 
+    - Features
+        Immutability    : Unlike a set, a frozenset cannot be modified after creation.
+        Hashable        : Since frozensets are immutable, they can be used as keys in a dictionary or elements of another set.
+        Unordered       : Elements in a frozenset are not stored in any particular order.
+        Unique Elements : Like sets, frozensets do not allow duplicate elements.
+        Set Operations  : Frozensets support all the standard set operations such as union, intersection, difference, and symmetric difference
+
+    ## Creating an empty frozenset
+    
+        empty_fset = frozenset()
+        print(empty_fset)       # Output: frozenset()
+    
+      - Creating a frozenset from a list
+        fset_from_list = frozenset([1, 2, 3, 4, 5])
+        print(fset_from_list)   # Output: frozenset({1, 2, 3, 4, 5})
+              
+      - Creating a frozenset from a tuple
+        fset_from_tuple = frozenset((1, 2, 3, 4, 5))
+        print(fset_from_tuple)  # Output: frozenset({1, 2, 3, 4, 5})
+        
+    ## Basic operations on frozenset
+        
+        fset1 = frozenset([1, 2, 3, 4])
+        fset2 = frozenset([3, 4, 5, 6])
+
+      - Union
+        union_fset = fset1 | fset2
+        print(union_fset)         # Output: frozenset({1, 2, 3, 4, 5, 6})
+
+      - Intersection
+        intersection_fset = fset1 & fset2
+        print(intersection_fset)  # Output: frozenset({3, 4})
+
+      - Difference
+        difference_fset = fset1 - fset2
+        print(difference_fset)    # Output: frozenset({1, 2})
+
+      - Symmetric Difference
+        symmetric_difference_fset = fset1 ^ fset2
+        print(symmetric_difference_fset)  # Output: frozenset({1, 2, 5, 6})
+
+    ## Methods of Frozenset
+
+        fset = frozenset([1, 2, 3, 4, 5])
+        other_set = {4, 5, 6, 7}
+
+      - Copy - copy(): Returns a shallow copy of the frozenset.
+        copy_fset = fset.copy()
+        print(copy_fset)          # Output: frozenset({1, 2, 3, 4, 5})
+
+      - Difference - difference(iterable): Returns the difference of the frozenset and the iterable.
+        difference_fset = fset.difference(other_set)
+        print(difference_fset)    # Output: frozenset({1, 2, 3})
+
+      - Intersection - intersection(iterable): Returns the intersection of the frozenset and the iterable.
+        intersection_fset = fset.intersection(other_set)
+        print(intersection_fset)  # Output: frozenset({4, 5})
+
+      - Isdisjoint - isdisjoint(iterable): Returns True if the frozenset has no elements in common with the iterable.
+        is_disjoint = fset.isdisjoint(other_set)
+        print(is_disjoint)        # Output: False
+
+      - Issubset - issubset(iterable): Returns True if the frozenset is a subset of the iterable.
+        is_subset = fset.issubset({1, 2, 3, 4, 5, 6})
+        print(is_subset)          # Output: True
+
+      - Issuperset - issuperset(iterable): Returns True if the frozenset is a superset of the iterable.
+        is_superset = fset.issuperset({1, 2})
+        print(is_superset)        # Output: True
+
+      - Union - union(iterable): Returns the union of the frozenset and the iterable.
+        union_fset = fset.union(other_set)
+        print(union_fset)         # Output: frozenset({1, 2, 3, 4, 5, 6, 7})
+
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Deque ♣♣♣♣♣♣♣
 ===================================================================================================================================================
@@ -628,7 +708,7 @@
     from collections import deque
 
     - Deque creation
-      my_deque = deque()                              # Create an empty deque
+      my_deque = deque()                             # Create an empty deque
       my_deque_with_elements = deque([1, 2, 3])      # Create a deque with initial elements
 
     - Adding elements
@@ -696,27 +776,25 @@
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Python Operators ♣♣♣♣♣♣♣
 ===================================================================================================================================================
-        1) Arithmetic Operators : +,-,*,/,//(Floor division),%(mod),**(Exponent),
+        1) Arithmetic Operators : +, -, *, /, //(Floor division), %(mod), **(Exponent)
         2) Logical Operators    : not, and, or
         3) Membership Operators : in, not in
         4) Identity Operators   : is, is not
-        5) Comparison Operators : >,<,>=,<=,==
+        5) Comparison Operators : >, <, >=, <=, ==
         6) Assignment Operators : =, %=, /=, //=, +=, -=, *=, **= (But unary operators ++ and -- are not supported)
-===================================================================================================================================================
 
     ◙ dir(a)  This will list all the methods available for the object a.
 
 ===================================================================================================================================================
-  ♣♣♣♣♣♣ Functions ♣♣♣♣♣♣♣
+  ♣♣♣♣♣♣ Lambda Functions ♣♣♣♣♣♣♣
 ===================================================================================================================================================
     - Usually functions are defined as follows -
         def functionName (Arguments):
           line1
           line2
       
-    - You can use the keyword "lambda" to define a single line function.
-      Lambda functions in Python are small anonymous functions defined using the lambda keyword. 
-      They can have any number of arguments but only one expression. The expression is evaluated and returned
+    - Lambda functions in Python are small anonymous functions defined using the lambda keyword. 
+    - They can have any number of arguments but only one expression. The expression is evaluated and returned
 
     - Basic Lambda Function
       add_ten = lambda x: x + 10
@@ -863,8 +941,8 @@
     strip() Function 
   -------------------------------------------------------------
 
-      - The strip() function removes leading and trailing characters from a string.
-      - By default, it removes whitespace (spaces, tabs, newlines, etc.).
+    # The strip() function removes leading and trailing characters from a string.
+    # By default, it removes whitespace (spaces, tabs, newlines, etc.).
 
         s = "   Hello, World!   "
         print(s.strip())  # Output: "Hello, World!" (removes leading and trailing whitespace)
@@ -885,7 +963,7 @@
         s = "##Hello, #World!##"
         print(s.strip("#"))  # Output: "Hello, #World!" (only leading and trailing '#' are removed)
 
-      - Related functions:
+    # Related functions:
       - lstrip() removes leading characters (from the left).
         s = "  Hello, World!  "
         print(s.lstrip())  # Output: "Hello, World!  " (removes leading whitespace)
@@ -897,7 +975,7 @@
         If you want to remove all the underscore characters from a string use 'replace' function 
 
   -------------------------------------------------------------
-    strip() Function 
+    isaplha() Function 
   -------------------------------------------------------------
       - The isalpha() method checks if all characters in the string are alphabetic.
       - Example 1: All alphabetic characters
@@ -931,7 +1009,7 @@
   -------------------------------------------------------------
     sum() Function 
   -------------------------------------------------------------
-      - The sum() function calculates the sum of all items in an iterable.
+    # The sum() function calculates the sum of all items in an iterable.
       - Example 1: Summing a list of numbers
         numbers_list = [1, 2, 3, 4, 5]
         print(sum(numbers_list))      # Output: 15
@@ -957,6 +1035,7 @@
   -------------------------------------------------------------
     '++i' operation in Python 
   -------------------------------------------------------------
+      - Python does not support uniary -- and ++ operators
       - ++i in Python does not increment i; it is interpreted as +(+i) and leaves i unchanged.
       - Initial value of i
         i = 5
@@ -971,18 +1050,20 @@
   -------------------------------------------------------------
     Function Return Types in Python 
   -------------------------------------------------------------
-
       - In Python, you can specify the return type of a function using type hints, which were introduced in PEP 484. 
       - Type hints provide a way to indicate the expected type of a function's return value, but they do not enforce these types at runtime. 
       - Instead, they serve as documentation and can be checked using static type checkers like 'mypy'.
       - To specify the return type of a function, you use the -> syntax followed by the type after the function's parameter list. Here are a few examples:
+      - The typing module in Python provides a way to specify type hints for variables, function arguments, and return types. 
+      - This improves code readability and helps tools like IDEs and linters to provide better support and error checking. 
+      - Below is an explanation of each of the imported types along with examples of how they can be used.
 
-        from typing import List, Tuple, Optional, Union, Callable
+      from typing import List, Tuple, Optional, Union, Callable
 
       - Example 1: Basic Return Type
         def add(a: int, b: int) -> int:
             return a + b
-
+            
       - Example 2: Returning None
         def print_message(message: str) -> None:
             print(message)
@@ -1000,7 +1081,6 @@
             def __init__(self, name: str, age: int):
                 self.name = name
                 self.age = age
-
         def get_user() -> User:
             return User("Bob", 25)
 
@@ -1022,8 +1102,7 @@
             def multiplier(x: int) -> int:
                 return x * 2
             return multiplier
-
-===================================================================================================================================================
+==================================================================================================================================================
   ♣♣♣♣♣♣ Python Regular Expressions ♣♣♣♣♣♣♣
 ===================================================================================================================================================
 
@@ -1094,7 +1173,7 @@
           findall_result = re.findall(r'\b\w{4}\b', text)
           print("re.findall result:", findall_result)
 
-          Explanation : re.findall: Finds all 4-letter words r'\b\w{4}\b' in the text. The result includes words like "rain", "main", "fall".
+          Explanation : re.findall: Finds all 4-letter words r'\b\w{4}\b' in the text. The result includes words like "rain", "call", "info".
 
         - 4. re.finditer
           finditer_result = re.finditer(r'\bin\b', text)
@@ -1393,6 +1472,28 @@
   # Summary:
     - reversed() returns an iterator that accesses the elements in reverse order.
     - Works with lists, tuples, strings, and any custom object implementing __reversed__() or sequence protocol.
+
+  -------------------------------------------------------------
+    The filter() Function in Python
+  -------------------------------------------------------------
+      - The 'filter' function in Python is used to construct an iterator from elements of an iterable for which a function returns true.
+      - Suppose we have a list of numbers and we want to filter out the even numbers from this list. Here's how you can do it using the filter function:
+
+      - Define a function that returns True if a number is even
+        def is_even(number):
+            return number % 2 == 0
+
+      - List of numbers
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+      - Use the filter function to get even numbers
+        even_numbers = filter(is_even, numbers)
+
+      - Convert the filter object to a list
+        even_numbers_list = list(even_numbers)
+      
+      - Print the list of even numbers
+        print(even_numbers_list)
 
 ===================================================================================================================================================
     try, except, raise and finally 
