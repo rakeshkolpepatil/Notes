@@ -1,4 +1,4 @@
-# -------------------------- Singly Linked List Functions -------------------------------------
+# ----------------- Check a number is between 5 & 20 and print various statements ----------------
 '''
 def process(n):
   if(n % 2 == 1):
@@ -18,7 +18,9 @@ if __name__ == '__main__':
   print(' '.join(*map( str, '12345'.split())) )
   print(' '.join(map( str, '12345'.split())) )
 '''
+# ----------------- Check a number is between 5 & 20 and print various statements end ----------------
 
+# -------------------------- Singly Linked List Functions -------------------------------------
 '''
 class Node:
   def __init__(self, data):
@@ -106,7 +108,7 @@ if __name__ == '__main__':
   # sl.delete(4);
   # sl.display();
 '''
-# ------------------------------ End of Queue Functionality ------------------------------------
+# ------------------------- Singly Linked List Functions End -------------------------------------
 
 # ------------------------------- String Functions Start --------------------------------------
 '''
@@ -169,7 +171,7 @@ print('****************')
 # -------------------------- List Functions Start --------------------------------------
 '''
 # List functions
-# Lis is a unordered mutable collection of items 
+# List is a unordered mutable collection of items 
 
 l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 l2 = list(range(20))
@@ -312,48 +314,56 @@ print(f"\n The contents of the set s after clearing it :- { s }")
 '''
 # --------------------------- Set Functions End -------------------------------------
 
+# --------------------- Deque Functions - Double Ended Queue in Python ----------
 '''
-# Deque Functions - Double Ended Queue in Python
 
 from collections import deque
 
 my_dq = deque([1, 2, 3, 4])
 print(my_dq)
 
+print('------------------')
 my_dq.extend([5, 6])
 print(my_dq)
 my_dq.extendleft([-1, 0])
 print(my_dq)
+print('------------------')
 
 print(my_dq.pop())
 print(my_dq)
 print(my_dq.popleft())
 print(my_dq)
+print('\n------------------')
 
 temp = list(my_dq)
-temp.pop(2)
+temp.pop(0)         # pop the item at specified index
 my_dq = deque(temp)
 print(my_dq)
+print('------------------')
 
 my_dq.insert(1, 0)
 my_dq.insert(3, 2)
 print(my_dq)
+print('\n****************')
 
 my_dq.rotate(1)
 print(my_dq)
 my_dq.rotate(-1)
 print(my_dq)
+print('\n****************')
 
 my_dq.extend([1, 1])
 print(my_dq)
 print(my_dq.count(1))
 
 print( 1 in my_dq)
+print('\n------------------')
 
 print('Printing my_dq by iterating over it :- ' )
 for ele in my_dq:
   print(ele, sep=' ', end='\n')
 
+print('\n------------------')
 my_dq1 = deque(maxlen= 5)
 my_dq1.extend([1, 2, 3, 4, 5, 6, 7, 8, 9])
 print(my_dq1)
@@ -362,6 +372,7 @@ print(my_dq1)
 my_dq1.appendleft(-1)
 print(my_dq1)
 
+print('\n-------- Done ----------')
 print(my_dq1.reverse()) 
 print(my_dq1)
 
@@ -370,12 +381,13 @@ print(my_dq1.copy())
 
 print(my_dq1.remove(9))
 print(my_dq1)
+print('\n-------- Done ----------')
 
 print(my_dq1[1])
 del my_dq1[1]
 print(my_dq1)
 '''
-# ---------------------------------- Deque Functions End ------------------------------------
+# --------------------- Deque Functions - Double Ended Queue in Python ----------
 
 # --------------------------- Dictionary Functions Start -------------------------------------
 '''
@@ -394,7 +406,7 @@ my_dict = {'phy': 65, 'chem': 87, 'math': 89}
 my_dict['coding'] = 200
 print(f'My dictionary - {my_dict}')
 print(f'Converting dictionary into string: {str(my_dict)}')
-print('------------------')
+print('\n------------------')
 
 print('Keys in my_dict')
 for key in my_dict.keys():
@@ -405,7 +417,7 @@ for values in my_dict.values():
   print(values, end=' ')
 
 print()
-print('--------- Iterate Over Dictionary ---------')
+print('\n--------- Iterate Over Dictionary ---------')
 for key, value in my_dict.items():
   print(f'key={key} value={value}')
 
@@ -416,14 +428,14 @@ print('------------------')
 my_dict.update({'eng':80, 'hist':60})
 print(my_dict)
 
-print('--------- Sorting ---------')
+print('\n--------- Sorting ---------')
 dict_keys = list(my_dict.keys())
 dict_keys.sort()
 for k in dict_keys:
   val = my_dict[k]
   print(f'{k}:{val}')
 
-print('----- Sorting as per marks i.e. value ')
+print('\n----- Sorting as per marks i.e. value ')
 print(type(my_dict.items()))
 print( dict(sorted(my_dict.items(), key= lambda item: item[1] )))
 print('---------  ---------')
@@ -680,13 +692,22 @@ def check_palindrome1(s):
     print('Palindrome! \n')
   else:
     print('Not Palindrome! \n')
-  
+
+def check_palindrome2(s):
+  print('s - %s'%s)
+  s_rev = ''.join(reversed(s))
+  print('s_rev - %s'%s_rev)
+  if s == s_rev:
+    print('Palindrome! \n')
+  else:
+    print('Not Palindrome! \n')
+
 if __name__ == '__main__':
   myStrings = ['aba', 'aaba', 'nayan', 'YaY', 'asbsds', 'asdasdfasdf', 'aycddcya', 'zdcpcdz']
   for str in myStrings:
-    check_palindrome1(str)
+    check_palindrome2(str)
 
-#'''
+'''
 # --------------------- Check string palindrome end --------------------
 
 # --------------------- Sorting Dictionary --------------------
@@ -796,6 +817,8 @@ for v in ll:
   if v > maxval:
     maxval = v 
 print(minval, maxval)
+
+print(min(ll), max(ll))
 '''
 # -------------------------------- Find Max and Min value from list without max and min function End --------------------
 

@@ -1253,11 +1253,12 @@
 
     - Patterns with raw strings
       patterns = [
-          r'\b\w{4}\b',  # Matches any 4-letter word
-          r'\d{3}-\d{3}-\d{4}',  # Matches phone numbers in the format 123-456-7890
-          r'\bin\b',  # Matches the word 'in' as a whole word
-          r'\s+',  # Matches one or more whitespace characters
-          r'\b\S+\b'  # Matches words without any whitespace
+          r'\b\w{4}\b'            # Matches any 4-letter word
+          r'\d{3}-\d{3}-\d{4}'    # Matches phone numbers in the format 123-456-7890
+          r'\bin\b'               # Matches the word 'in' as a whole word
+          r'\s+'                  # Matches one or more whitespace characters
+          r'\b\S+\b'              # Matches words without any whitespace
+          r'\\bin\\batch\\'       # Matches with the string '\bin\batch' 
       ]
 
     - Testing the patterns
@@ -1282,7 +1283,7 @@
       match = re.search(pattern, text)
       
       if match:
-      # Using group() to access matched groups
+          # Using group() to access matched groups
           print(match.groups())                   # A groups() expression returns a tuple containing all the subgroups of the match.
           full_match = match.group(0)             # entire match
           name = match.group(1)                   # first group (\w+)
@@ -1327,26 +1328,27 @@
   -------------------------------------------------------------
 
     - In Python, a generator function is a special type of function that returns an iterator. 
-    - Instead of returning a single value, it uses the yield keyword to yield values one at a time, pausing after each yield and resuming from where it left off when the next value is requested. 
+    - Instead of returning a single value, it uses the yield keyword to yield values one at a time, 
+      pausing after each yield and resuming from where it left off when the next value is requested. 
     - This makes generators very memory efficient, especially for large data sets or streams of data.
 
-  Key Features of Generator Functions
-    - Lazy Evaluation: Generators produce items only when requested, which can save memory.
-    - State Retention: Generators maintain their state between yields, allowing them to resume where they left off.
-    - Infinite Sequences: Generators can produce infinite sequences because they yield one item at a time.
-    - Single Iteration: Generators can be iterated only once. After they are exhausted, they cannot be restarted.
+  # Key Features of Generator Functions
+    - Lazy Evaluation     : Generators produce items only when requested, which can save memory.
+    - State Retention     : Generators maintain their state between yields, allowing them to resume where they left off.
+    - Infinite Sequences  : Generators can produce infinite sequences because they yield one item at a time.
+    - Single Iteration    : Generators can be iterated only once. After they are exhausted, they cannot be restarted.
 
     - Basic Generator Function
-      def simple_generator():
-          yield 1
-          yield 2
-          yield 3
+        def simple_generator():
+            yield 1
+            yield 2
+            yield 3
 
-    - Usage of simple_generator
+      # Usage of simple_generator
       gen = simple_generator()
-      print(next(gen))  # Output: 1
-      print(next(gen))  # Output: 2
-      print(next(gen))  # Output: 3
+      print(next(gen))    # Output: 1
+      print(next(gen))    # Output: 2
+      print(next(gen))    # Output: 3
       # print(next(gen))  # Uncommenting this line raises StopIteration
 
     - Generator for Fibonacci Sequence
@@ -1356,7 +1358,7 @@
               yield a
               a, b = b, a + b
 
-    - Usage of fibonacci generator
+      # Usage of fibonacci generator
       fib_gen = fibonacci()
       for _ in range(10):
           print(next(fib_gen))  # Outputs the first 10 Fibonacci numbers
@@ -1367,9 +1369,9 @@
               yield n
               n -= 1
 
-    - Usage of countdown generator
+      # Usage of countdown generator
       for count in countdown(5):
-          print(count)  # Outputs: 5, 4, 3, 2, 1
+          print(count)          # Outputs: 5, 4, 3, 2, 1
 
     - Sending Values to a Generator
       def accumulator():
@@ -1380,7 +1382,7 @@
                   break
               total += value
 
-    - Usage of accumulator generator
+      # Usage of accumulator generator
       gen = accumulator()
       print(next(gen))  # Initialize the generator, Output: 0
       print(gen.send(10))  # Send 10, Output: 10
@@ -1403,7 +1405,7 @@
           yield from generator_a()
           yield from generator_b()
 
-    - Usage of chained generators
+      # Usage of chained generators
       for value in chain_generators():
           print(value)  # Outputs: 0, 1, 2, 3, 4, 5
 
@@ -1417,9 +1419,9 @@
       def process(line):
           print(line.strip())
 
-    - Usage of read_large_file generator
-    - for line in read_large_file('large_file.txt'):
-    -     process(line)  # Process each line without loading the whole file into memory
+      # Usage of read_large_file generator
+      for line in read_large_file('large_file.txt'):
+          process(line)  # Process each line without loading the whole file into memory
 
   -------------------------------------------------------------
   The reversed() Function in Python
@@ -1432,17 +1434,17 @@
   # Reversing a list
     original_list = [1, 2, 3, 4, 5]
     reversed_list = list(reversed(original_list))
-    print(reversed_list)  # Output: [5, 4, 3, 2, 1]
+    print(reversed_list)                          # Output: [5, 4, 3, 2, 1]
 
   # Reversing a tuple
     original_tuple = (1, 2, 3, 4, 5)
     reversed_tuple = tuple(reversed(original_tuple))
-    print(reversed_tuple)  # Output: (5, 4, 3, 2, 1)
+    print(reversed_tuple)                         # Output: (5, 4, 3, 2, 1)
 
   # Reversing a string
     original_string = "hello"
     reversed_string = ''.join(reversed(original_string))
-    print(reversed_string)  # Output: "olleh"
+    print(reversed_string)                        # Output: "olleh"
 
   # Using reversed() in a loop
     for item in reversed([1, 2, 3, 4, 5]):
@@ -1529,7 +1531,7 @@
                 def check_value(x):
                     if x < 0:
                         raise CustomError("Negative value error.")
-                        return x
+                    return x
 
                 try:
                     value = check_value(-10)
@@ -1566,7 +1568,7 @@
 ===================================================================================================================================================
 
       - A decorator is a function that takes another function and extends its behavior without explicitly modifying it. 
-        Decorators are often used in scenarios where cross-cutting concerns, such as logging, are needed.
+      - Decorators are often used in scenarios where cross-cutting concerns, such as logging, are needed.
         
         
         import functools
@@ -1657,7 +1659,7 @@
         # Decorator Two
         # Goodbye!
         
-    - Basic Decorator           :  my_decorator adds behavior before and after the say_hello function call.
+    - Basic Decorator           :  my_decorator adds behavior before and after the 'say_hello' function call.
     - Decorator with Arguments  :  repeat decorates greet to repeat the greeting three times.
     - Class Decorator           :  singleton ensures only one instance of MyClass is created.
     - Multiple Decorators       :  decorator_one and decorator_two both decorate say_goodbye, demonstrating the order of application.
@@ -1680,11 +1682,10 @@
 
   Defining an Abstract Class and Abstract Method
   Here’s how you can define an abstract class and an abstract method in Python:
-    - Importing ABC and abstractmethod from abc module:
-    - Defining an Abstract Base Class (ABC):
-    - Defining Abstract Methods.
+    i) Importing ABC and abstract method from abc module:
+    ii) Defining an Abstract Base Class (ABC):
+    iii) Defining Abstract Methods.
     
-
     from abc import ABC, abstractmethod
     
     class Animal(ABC):
@@ -1692,31 +1693,31 @@
         def sound(self):
             pass
 
-            def sleep(self):
-            print("This animal is sleeping")
+        def sleep(self):
+        print("This animal is sleeping")
 
     class Dog(Animal):
         def sound(self):
             print("Bark")
 
     class Cat(Animal):
-    def sound(self):
+        def sound(self):
             print("Meow")
             
-            # Testing the classes
-    # animal = Animal()  # This will raise an error because you can't instantiate an abstract class
+    # Testing the classes
+    # animal = Animal()   # This will raise an error because you can't instantiate an abstract class
     
     dog = Dog()
-    dog.sound()  # Output: Bark
-    dog.sleep()  # Output: This animal is sleeping
+    dog.sound()           # Output: Bark
+    dog.sleep()           # Output: This animal is sleeping
 
     cat = Cat()
-    cat.sound()  # Output: Meow
-    cat.sleep()  # Output: This animal is sleeping
+    cat.sound()           # Output: Meow
+    cat.sleep()           # Output: This animal is sleeping
 
-    - Abstract Base Class (ABC): Animal is defined with an abstract method sound that must be implemented by subclasses.
-    - Concrete Subclasses: Dog and Cat implement the sound method and inherit the sleep method.
-    - Instantiation: Animal cannot be instantiated directly. Instances of Dog and Cat can be created and used.
+    - Abstract Base Class (ABC) : Animal is defined with an abstract method sound that must be implemented by subclasses.
+    - Concrete Subclasses       : Dog and Cat implement the sound method and inherit the sleep method.
+    - Instantiation             : Animal cannot be instantiated directly. Instances of Dog and Cat can be created and used.
 
     -------------------------------------------------------------------------------
     Method Resolution Order (MRO) in Python
@@ -1907,22 +1908,22 @@
       Custom Context Managers :   Can be created using classes or the contextlib module for more readable and maintainable code.
 
   -------------------------------------------------------------------------------
-  Static and class methods in Python
+    Static and class methods in Python
   -------------------------------------------------------------------------------
 
     Both static and class methods are types of methods in Python classes, but they have different purposes and behaviors. Here's a detailed comparison:
 
     Class Methods
-      - Decorator: @classmethod
-      - First Parameter: The first parameter is always cls, which refers to the class itself, not the instance.
-      - Purpose: Used to define methods that operate on the class itself, rather than instances of the class.
-      - Access: Can access and modify class state that applies across all instances of the class.
+      - Decorator       : @classmethod
+      - First Parameter : The first parameter is always cls, which refers to the class itself, not the instance.
+      - Purpose         : Used to define methods that operate on the class itself, rather than instances of the class.
+      - Access          : Can access and modify class state that applies across all instances of the class.
     
     Static Methods
-      - Decorator: @staticmethod
-      - First Parameter: No special first parameter (neither self nor cls).
-      - Purpose: Used to define utility methods that perform a task in isolation and do not need access to class or instance data.
-      - Access: Cannot access or modify the class state or instance state.
+      - Decorator       : @staticmethod
+      - First Parameter : No special first parameter (neither self nor cls).
+      - Purpose         : Used to define utility methods that perform a task in isolation and do not need access to class or instance data.
+      - Access          : Cannot access or modify the class state or instance state.
 
       class MyClass:
           class_variable = 0
@@ -1942,7 +1943,7 @@
 
       # Static Method Usage
       result = MyClass.static_method(5, 7)
-      print(result)  # Output: 12
+      print(result)           # Output: 12
 
       Summary:
         - Class Method    : Uses @classmethod, takes cls as first parameter, can modify class state.
