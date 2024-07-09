@@ -495,7 +495,7 @@ Managing Branchces
                                                             Therefore,  "git pull = git fetch + git merge"                                                      
 
     git push                                           ->  Push your local repository to remote repository. 
-
+    git push -u origin main
 ===============================================================================================================================================================
 30] If you want to setup multiple Github Accounts on same computer follow these videos - 
 
