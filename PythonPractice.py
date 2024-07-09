@@ -1017,3 +1017,480 @@ print(isinstance(manager, Employee))     # Output: True
 print(isinstance(5, (int, float, str)))  # Output: True
 '''
 # ------------------------------- isinstance() Function end  -----------------------------
+
+# --------------------------------- Python Inbuilt Functions  -----------------------------
+# Return the absolute value of a number
+x = abs(-7.23) 
+print(x)
+print('-------------------------------------\n')
+
+# Return the absolute value of a complex number:
+x = abs(3+5j)
+print(x)
+print('-------------------------------------\n')
+
+'''
+# Check if all items in a list are True:
+mylist = [True, True, True]
+x = all(mylist)
+print(x)
+print(all([False, True, True]))
+
+# Check if any of the items in a list are True:
+mylist = [False, True, False]
+x = any(mylist)
+print(x)
+print(any([False, False, False]))
+
+# Escape non-ascii characters: å will be replaced with \xe5
+x = ascii("My name is Ståle")
+print(x)
+
+# Return the binary version of 36:
+x = bin(36)
+print(x)
+print('-------------------------------------\n')
+
+# Return the boolean value of 1:
+x = bool(1)
+print(x)
+print(bool(None))
+print(bool([]))
+print(bool([None]))
+print(bool({}))
+print(bool({None}))
+print(bool(()))
+print(bool((None)))
+print('-------------------------------------\n')
+
+# The bytearray() function returns a bytearray object.
+# It can convert objects into bytearray objects, or create empty bytearray object of the specified size.
+# bytearray(x, encoding, error)
+
+x = bytearray(4)
+print(x)
+print('-------------------------------------\n')
+
+# Checks if a function is callable:
+def x():
+  a = 5
+print(callable(x))
+print('-------------------------------------\n')
+
+# Get the character that represents the unicode 97:
+x = chr(97)
+for i in range(4050):
+  print( f'{i}-{chr(i)}', end=', ')
+#print(x)
+print('\n-------------------------------------\n')
+
+# Compile text as code, and the execute it:
+x = compile('print(55)', 'test', 'eval')
+exec(x)
+print('-------------------------------------\n')
+
+# The exec() function executes the specified Python code. The exec() function accepts large blocks of code, unlike the eval() 
+# function which only accepts a single expression
+x = 'name = "John"\nprint(name)'
+exec(x)
+print('-------------------------------------\n')
+
+# Convert the number 3 and imaginary number 5 into a complex number:
+x = complex(3, 5)
+print(x)
+print('-------------------------------------\n')
+
+
+#Delete the "age" property from the "person" object:
+class Person:
+  name = "John"
+  age = 36
+  country = "Norway"
+delattr(Person, 'age')
+print('-------------------------------------\n')
+
+# Create a dictionary containing personal information:
+x = dict(name = "John", age = 36, country = "Norway")
+print(x)
+print('-------------------------------------\n')
+
+# The dir() function returns all properties and methods of the specified object, without the values.
+class Person:
+  name = "John"
+  age = 36
+  country = "Norway"
+
+print(dir(Person))
+print('-------------------------------------\n')
+
+# The divmod() function returns a tuple containing the quotient  and the remainder when argument1 (dividend) is divided by argument2 (divisor).
+x = divmod(5, 2)
+print(x)
+print('\n-------------------------------------\n')
+
+# The enumerate() function takes a collection (e.g. a tuple) and returns it as an enumerate object.
+# The enumerate() function adds a counter as the key of the enumerate object.
+x = ('apple', 'banana', 'cherry')
+y = enumerate(x)
+for i in y:
+  print(i)
+print('\n-------------------------------------\n')
+
+# The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
+x = 'print(55)'
+eval(x)
+print('\n-------------------------------------\n')
+'''
+
+# The filter() function returns an iterator where the items are filtered through a function to test if the item is accepted or not.
+# Filter the array, and return a new array with only the values equal to or above 18:
+
+ages = [5, 12, 17, 18, 24, 32]
+
+def myFunc(x):
+  if x < 18:
+    return False
+  else:
+    return True
+
+adults = filter(myFunc, ages)
+
+for x in adults:
+  print(x)
+print('-------------------------------------\n')
+
+# The format() function formats a specified value into a specified format.
+x = format(0.5, '%')
+print(x)
+print('-------------------------------------\n')
+
+# The frozenset() function returns an unchangeable frozenset object (which is like a set object, only unchangeable).
+# Freeze the list, and make it unchangeable:
+mylist = ['apple', 'banana', 'cherry']
+x = frozenset(mylist)
+print(x)
+print('-------------------------------------\n')
+
+# The getattr() function returns the value of the specified attribute from the specified object.
+# Get the value of the "age" property of the "Person" object:
+class Person:
+  name = "John"
+  age = 36
+  country = "Norway"
+
+x = getattr(Person, 'age')
+print(x)
+print(Person.name)
+print('-------------------------------------\n')
+
+'''
+# A symbol table contains necessary information about the current program
+# The globals() function returns the global symbol table as a dictionary.
+x = globals()
+print(x)
+print('-------------------------------------\n')
+
+# The hasattr() function returns True if the specified object has the specified attribute, otherwise False.
+# Check if the "Person" object has the "age" property:
+class Person:
+  name = "John"
+  age = 36
+  country = "Norway"
+
+x = hasattr(Person, 'age')
+print(x)
+print('-------------------------------------\n')
+
+# hash() Returns the hash value of a specified object
+print (hash(Person))
+print('-------------------------------------\n')
+
+# Executes the built-in help system
+print(help(Person))
+print('-------------------------------------\n')
+'''
+
+# hex() Converts a number into a hexadecimal value
+print(hex(10))
+
+# Return the unique id of a tuple object:
+x = ('apple', 'banana', 'cherry')
+y = id(x)
+print(y)
+print('-------------------------------------\n')
+
+
+# The isinstance() function returns True if the specified object is of the specified type, otherwise False.
+# If the type parameter is a tuple, this function will return True if the object is one of the types in the tuple.
+# Check if the number 5 is an integer:
+
+x = isinstance(5, int)
+print(x)
+print(isinstance('Rakesh', str))
+print(isinstance([ 'Rakesh', 'Rajesh', 'Ramesh'], list))
+print(isinstance([ 1, 2, 3], list))
+print(isinstance((1, 2, 3), tuple))
+print(isinstance({1:'one', 2:'two', 3:'three'}, dict))
+print(isinstance(set([1, 3, 5]), set))
+print('-------------------------------------\n')
+
+# The issubclass() function returns True if the specified object is a subclass of the specified object, otherwise False.
+# Check if the class myObj is a subclass of myAge:
+
+class myAge:
+  age = 36
+class myObj(myAge):
+  name = "John"
+  age = myAge
+
+x = issubclass(myObj, myAge)
+print(x)
+print('-------------------------------------\n')
+
+# The iter() function returns an iterator object.
+# Create an iterator object, and print the items:
+
+x = iter(["apple", "banana", "cherry"])
+print(next(x))
+print(next(x))
+print(next(x))
+print('-------------------------------------\n')
+
+
+# The locals() function returns the local symbol table as a dictionary.
+# A symbol table contains necessary information about the current program.
+# Display the local symbol table:
+
+x = locals()
+print(x)
+print('-------------------------------------\n')
+
+# The map() function executes a specified function for each item in an iterable. The item is sent to the function as a parameter.
+# Calculate the length of each word in the tuple:
+
+def myfunc(n):
+  return len(n)
+
+x = map(myfunc, ('apple', 'banana', 'cherry'))
+print(*x)
+print('-------------------------------------\n')
+
+# The max() function returns the item with the highest value, or the item with the highest value in an iterable.
+# Return the largest number:
+
+x = max(5, 10)
+print(x)
+print(max([1, 3, 6, 7, 0])) # List
+print(max((1, 3, 6, 7, 0))) # tuple
+print(max(set([1, 3, 6, 7, 0])) ) # set
+print(max(dict({1:'one', 3:'three', 6:'six', 7:'seven', 0:'zero'})) ) # dict
+print('-------------------------------------\n')
+
+
+# The memoryview() function returns a memory view object from a specified object.
+# Create and print a memoryview object:
+
+x = memoryview(b"Hello")
+print(x)
+
+#return the Unicode of the first character
+print(x[0])
+
+#return the Unicode of the second character
+print(x[1])
+print('-------------------------------------\n')
+
+# The next() function returns the next item in an iterator.
+# Create an iterator, and print the items one by one:
+
+mylist = iter(["apple", "banana", "cherry"])
+
+x = next(mylist)
+print(x)
+
+x = next(mylist)
+print(x)
+
+x = next(mylist)
+print(x)
+print('-------------------------------------\n')
+
+# The object() function returns an empty object.
+# Create an empty object:
+
+x = object()
+print(x)
+print('-------------------------------------\n')
+
+# The oct() function converts an integer into an octal string.
+# Octal strings in Python are prefixed with 0o.
+# Convert the number 12 into an octal value:
+
+x = oct(12)
+print(x)
+print('-------------------------------------\n')
+'''
+# The open() function opens a file, and returns it as a file object.
+# Open a file and print the content:
+
+f = open("demofile.txt", "r")
+print(f.read())
+print('-------------------------------------\n')
+'''
+
+# The ord() function returns the number representing the unicode code of a specified character.
+# Return the integer that represents the character "h":
+
+x = ord("h")
+print(x)
+print(ord('a'))
+print('-------------------------------------\n')
+
+# The pow() function returns the value of x to the power of y (xy).
+# Return the value of 4 to the power of 3 (same as 4 * 4 * 4):
+# If a third parameter is present, it returns x to the power of y, modulus z.
+
+x = pow(4, 3)
+print(x)
+print('-------------------------------------\n')
+
+# The reversed() function returns a reversed iterator object.
+# Reverse the sequence of a list, and print each item:
+
+alph = ["a", "b", "c", "d"]
+ralph = reversed(alph)
+for x in ralph:
+  print(x)
+print('-------------------------------------\n')
+
+# The round() function returns a floating point number that is a rounded version of the specified number, with the specified number of decimals
+# Round a number to only two decimals:
+
+x = round(5.76543, 2)
+print(x)
+print(round(5.76543))
+print('-------------------------------------\n')
+
+# The setattr() function sets the value of the specified attribute of the specified object.
+# Change the value of the "age" property of the "person" object:
+
+import json
+class Person:
+  name = "John"
+  age = 36
+  country = "Norway"
+
+setattr(Person, 'age', 40)
+Person.age = 50
+print(Person.__dict__)
+#json.dumps(vars(Person))
+#json.dumps(Person.__dict__)
+print('-------------------------------------\n')
+
+# The slice() function returns a slice object.
+# A slice object is used to specify how to slice a sequence. You can specify where to start the slicing, and where to end. You can also specify the step, 
+# which allows you to e.g. slice only every other item.
+# Create a tuple and a slice object. Use the slice object to get only the two first items of the tuple:
+
+# Syntax :=
+# slice(start, end, step)
+
+a = ("a", "b", "c", "d", "e", "f", "g", "h")
+x = slice(2)
+print(a[x])
+print(a[slice(6)])
+
+print('-------------------------------------\n')
+
+# The sorted() function returns a sorted list of the specified iterable object.
+# You can specify ascending or descending order. Strings are sorted alphabetically, and numbers are sorted numerically.
+# Note: You cannot sort a list that contains BOTH string values AND numeric values.
+# 
+# Syntax :-
+# sorted(iterable, key=key, reverse=reverse)
+# Sort a tuple:
+
+a = ("b", "g", "a", "d", "f", "c", "h", "e")
+x = sorted(a)
+print(x)
+
+print('-------------------------------------\n')
+
+# The sum() function returns a number, the sum of all items in an iterable.
+# Add all items in a tuple, and return the result:
+# Syntax :-
+# sum(iterable, start)
+
+a = (1, 2, 3, 4, 5)
+x = sum(a)
+print(x)
+print('-------------------------------------\n')
+
+# The super() function is used to give access to methods and properties of a parent or sibling class.
+# The super() function returns an object that represents the parent class.
+# Create a class that will inherit all the methods and properties from another class:
+
+class Parent:
+  def __init__(self, txt):
+    self.message = txt
+
+  def printmessage(self):
+    print(self.message)
+
+class Child(Parent):
+  def __init__(self, txt):
+    super().__init__(txt)
+
+x = Child("Hello, and welcome!")
+x.printmessage()
+
+print('-------------------------------------\n')
+
+# The tuple() function creates a tuple object.
+# Create a tuple containing fruit names:
+
+x = tuple(('apple', 'banana', 'cherry'))
+print(x)
+print('-------------------------------------\n')
+
+# The type() function returns the type of the specified object
+# Return the type of these objects:
+a = ('apple', 'banana', 'cherry')
+b = "Hello World"
+c = 33
+
+x = type(a)
+y = type(b)
+z = type(c)
+print(x, y, z)
+print(x == tuple)
+print(y == str)
+print(z == int)
+print('-------------------------------------\n')
+
+# The vars() function returns the __dict__ attribute of an object.
+# The __dict__ attribute is a dictionary containing the object's changeable attributes.
+# Note: calling the vars() function without parameters will return a dictionary containing the local symbol table.
+# Return the __dict__ atribute of an object called Person:
+
+class Person:
+  name = "John"
+  age = 36
+  country = "norway"
+
+x = vars(Person)
+print(x)
+print('-------------------------------------\n')
+
+
+# The zip() function returns a zip object, which is an iterator of tuples where the first item in each passed iterator is paired together, 
+# and then the second item in each passed iterator are paired together etc.
+# Join two tuples together:
+# If the passed iterables have different lengths, the iterable with the least items decides the length of the new iterator.
+
+a = ("John", "Charles", "Mike")
+b = ("Jenny", "Christy", "Monica", 'Radha')
+
+x = zip(a, b)
+print(*x)
+# ------------------------------- Python Inbuilt Functions end  -----------------------------
