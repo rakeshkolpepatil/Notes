@@ -1,0 +1,480 @@
+
+===================================================================================================================================================
+    https://www.youtube.com/watch?v=wiBQpBv4zf0&list=PL7ersPsTyYt2dj8J0nh0APeXvkwnMknYA
+
+    For coding examples related to the following questions check file 'PythonPractice.py'
+===================================================================================================================================================
+
+1. What kind of language is Python ?
+    - Python is general purpose, dynamically typed, scripting language that also supports object oriented and as well as functional programming.
+    - The type of variables and expressions in Python is decided at runtime, also you can chage their value along with their type at runtime 
+      that is why it is - dynamically typed
+    - Everything in Python in an object - object oriented
+    - Python program can be made even without making any class and by dividing code into functions. In Python, functions are first class objects
+      i.e. functions behave as objects and are referred by some name and functions can be passed as an argument to another function that is why
+      it is also a functional programming language.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Is Python interpreted Language ?
+    - An interpreted language is any programming language that does not generate machine level code before runtime.
+    - Compiled languages convert the source code into machine code and execute this machine code everytime the program is run.
+    - In interpreted languages, no machine level code is stored. Whenever program is needed to run, the code is converted to machine code on the fly.
+    - Python source code is first compiled into intermediate code, called as 'Byte' code, which is not operating system understandable code.
+    - This binary code is then executed by 'Python Virtual Machine'. Python virtual machines are different for different operating systems.
+    - Python virtual machine acts as a Just in time compiler and converts the byte/binary code into machine code.
+    - Just in time compiler is different from interpreter. Interpreter waits for the execution of currently interpreted line before interpretting
+      the next line whereas just in time compiler keeps on translating the lines in the buffer without waiting for the execution, so that execution
+      does not halt.
+    - So, Python has just in time compiler
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. What is difference between list and tuple ?
+    - Both can store heterogeneous elements, can be split
+    - In list we use square brackets whereas in tuple we use round brackets
+    - Tuple is immutable (once made no changes can be made afterwards) wereas list is mutable
+    - List is used when we want frequent insertions and deletions of elements
+    - List takes more meory than tuples
+    - The list class provides many functions for list manipulation, but the tuple class does not have as much functionality.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. How is memory managed in Python ?
+    - In Python, there are two types of memory: stack memory and private heap memory.
+    - The Python Memory Manager allocates this memory, while the garbage collector deallocates it.
+    - Stack memory only stores references, whereas objects are stored in private heap memory.
+    - In Python, the programmer does not need to manually release unused memory; the garbage collector handles this.
+    - The garbage collector frees memory allocated to any object that is no longer referenced by any variable.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. What is identity operator ?
+    - There are two identity operators in Python 'is' and 'is not'
+    - These two identity operators are used to check whether two variables reference the same object or not.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6. What is monkey patching in Python ?
+    - It is dynamic replacement of class attributes at runtime. We change the behavior of the object at runtime.
+    e.g. -
+          class Test:
+              def __init__(self, x):
+                  self.a = x
+              def get_data(self):
+                  print('Some code to fetch data from the database')
+              def f1(self):
+                  self.get_data()
+              def f2(self):
+                  self.get_data()
+
+          t1 = Test(5)
+          t1.f1()
+          t2.f2()
+
+          def get_new_data():
+              print('Some code to fetch new test data')
+
+          Test.get_data = get_new_data
+          print('After monkey patching ...')
+          t1.f1()
+          t2.f2()
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7. How to make generator to produce first N Prime numbers ?
+    - Generator is a function that returns an iterator object. It can be used to pause the execution of the function and restart the 
+      execution from where it had stopped
+    - Function execution stops at keyword 'yield' and again resumes it from there. Also 'yield' returns the value after the 'yield' keyword.
+
+      # Python Generator Functions
+      def isPrime(num):
+        for i in range(2, num//2+1):
+          if num%i == 0:
+            return False
+        return True
+
+      def generatePrimes(num_primes):
+        n = 2
+        while num_primes > 0:
+          if isPrime(n):
+            yield n
+            num_primes -= 1
+          n += 1
+        return    
+
+      for it in generatePrimes(50):
+        print(it, end=' ')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8. How to implement variable lenght arguments in Python ?
+    - To have variable lenght arguments in Python function you need to use tuple. Using '*t' in argument list will create a tuple.
+    e.g.-
+    def average(*t):
+      total = sum(t)
+      avg = total / len(t)
+      print(avg)
+
+    average(10, 20, 30, 40, 50, 60)
+    average(1, 2, 3, 4, 5, 6)
+    average(1, 2, 3, 4)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9. How to reverse a string using slicing operator ?
+    - s = 'Python is best programming language'
+      print(s[::-1])
+    - When start and end are not provided in the split function, Python takes extreme ends as default.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10. How to create instance member variables inside a class ?
+    - Instance member variables can be created at three different places
+      1. Inside __init__() function
+      2. Inside any of the instance member function of that class
+      3. Outside the class body, using instance of the class
+    e.g.-
+
+    class Test:
+      def __init__(self):
+        self.x = 5 # 1st method
+      def f1(self):
+        self.y = 7 # 2nd method
+
+    t1 = Test()
+    t2 = Test()
+    t1.f1()
+    t1.z = 10 # 3rd method
+    print(t1.__dict__) # prints all the instance variables in t1
+    print(t2.__dict__) # prints all the instance variables in t2
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+11. What is a lambda expression in Python ?
+    - These are one line functions 
+    - 'lambda' keyword is followed by arguments followed by ':', which is followed by single expression.
+    - 'lambda' keyword returns a function which can be assigned to a variable.
+    - e.g.
+      1)  def add(a, b):
+            return a+b 
+
+          f = lambda a, b: a+b
+          f(3, 6)
+
+      2) # Recursive lambda function
+          fact = lambda n: 1 if n == 0 else n*fact(n-1)
+          print(fact(4))
+
+      3) No need of even assigning lambda function to a variable if it is not Recursive
+          print((lambda a, b: a*b)(3,6))
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+12. What is list comprehension ?
+    - List comprehension is a single line smart statement that Python provides for creating a list
+    - syntax :-
+      l = [ expression for i in iterator/sequence condition ]
+
+      print([ 2*i for i in range(6)])
+      print([ i  for i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14] if i%2==0 ])
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+13. What is use of split and join functions of Python built in class str ?
+    - Split is a function of str class, which takes a string as an argument and returns a list of strings
+    - Join is a function of str class, which takes a list of strings as an argument and returns a single string
+    - Join is opposite of Split
+
+    s = 'Hello Rakesh, hope you are doing good'
+    print(s.split(' '))
+    print(s.split())
+    print(' '.join(s.split()[::-1]))
+    print('-------------------------------------\n')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+14. Local Variables vs Global Variables
+    - Global variabel is a variable which is not defined inside a class or function
+    - It can be accessed from anywhere in the program
+    - Local variables are the variables that are defined inside a block and their scope is limited to that block
+
+      # Local vs global variables
+        x = 5 # global variable
+        def f():
+          y = 10 # local variable
+          print('x=%d, y=%d' % (x, y))
+        f()
+        print('x=%d' % (x)) # y is not accessible here
+        print('-------------------------------------\n')
+
+      # If you want to access only global variable inside a function you have to use 'global' keyword, But  
+      # you will not be able to create a local variable with the same name as global variable 'gx' in the same 
+      # function
+        gx = 5    # global variable
+        def f():
+          global gx
+          gx = 10 # global variable
+        f()
+        print('The global gx=%d' % (gx)) 
+        print('-------------------------------------\n')
+
+      # If you want to access both global variables and local variables inside a function you need to 
+      # use globals() function which returns a dictionary of global variables.
+        t = 5
+        def f():
+          t=7
+          d = globals()
+          print('The global t=%d' % (globals()['t']))
+          print('The global t=%d' % (d['t']))
+          print('The local t=%d' % (t))
+        f()
+        print('-------------------------------------\n')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+15. What is type conversion in pyton ?
+    - If 'x=5' is a statement in Python, then x is a reference variable that is created in stack space and '5'
+      is stored in private heap space.
+    e.g. -
+            x = 5
+            print(type(x))  # <class 'int'> is output
+            s1 = '123'
+            print(type(s1)) # <class 'str'> is output
+            print(x+int(s1))
+            print(str(x)+s1)
+
+            x = int('23')
+            a = float('23.34')
+            b = complex('2+3j')
+            c = bool('true')
+            d = bool('false')
+            e = bool('True')
+            f = str(12)
+            g = bin(25)
+            h = oct(30)
+            i = hex(25) 
+            j = ord('A')
+            k = chr(97)
+            print(x, a, b, c, d, e, f, g, h, i, j, k, sep=' ')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+16. Decorators in Python ?
+    - Decorator is a function which takes a function as an argument, modifies its functionality by forming a new 
+      function and returns it.
+    - Whenever 'results()' function is called with @decor_result preceeding it, decor_result() function will be
+      executed instead of results() function. 'decor_result' function will return 'distinction()' function, and
+      it will get executed first which will in turn call results() function.
+    - If we remove '@decor_result' decorator, normal behavior will be resumed.
+    - e.g. -
+    
+    # Decorator Functions in Python
+    def decor_result(result_func):
+      def distinction(marks):
+        for mark in marks:
+          if mark >= 75:
+            print('Distinction - %d'%(mark))
+        result_func(marks)
+      return distinction
+
+    @decor_result
+    def results(marks):
+      for x in marks:
+        if x >= 33:
+          pass
+        else:
+          print('Failed')
+          break
+      else:
+        print('Passed')
+      print('-------------------\n')
+
+    results([60, 70, 80, 90, 75])
+    results([30, 70, 80, 90, 75])
+    results([70, 80, 90, 75, 14])
+    results([70, 80, 13, 90, 75])
+    print('-----------------------------------------------\n')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+17. What are negative indices ?
+    - Python language has concept of negative indices
+    - Last element has index -1 in list
+    - Every element has two indices in Python one positive index and another negative index
+    - Every data structure that has indices can be accessed using negative indices e.g. - tuple, list, string.
+    e.g. -
+        l = [1, 2, 3, 4, 5, 6, 7]
+        print(l[-1])
+        print(l[-2])
+        print(l[-3])
+        s = 'RakeshPatil'
+        print(s[0::1])
+        print(s[0:len(s):1])
+        print(s[::-1])
+        print(s[:-len(s):-1])
+        print(s[:-len(s)-1:-1])
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+18. What is an iterator in Python ?
+    - The containers in Python like tuple, dict, range, list on which we can use for loop are iterable containers.
+    - The contianers like int, float are not iterable containers
+    - Internally iterators use for loop only.
+    - With iterator we can access the elements of the iterable container one by one
+    - If iterator object is called more times than the number of elements in the container then 'StopIteration' error 
+      is raised.
+      e.g. 
+        # Iterators in Python
+          my_list = [1, 2, 3, 4, 5, 6, 7, 8]
+          it = iter(my_list)
+          while True:
+            try:
+              print(next(it))
+            except StopIteration:
+              break
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+19. What is generator in Python ?
+    - Generator is a specidal function in Python based on maths concept of generator.
+    - Generator generates data based on some logical pattern in a series
+    - Generator functions has a special keyword 'yield' which returns the value. 
+    - The difference between 'yield' and 'return' is that 'yield' returns the value but not the 
+      control of the execution. Execution is just paused and is resumed when next call happens to 
+      the function.
+    - Generator function always returns 'iterator' object
+
+    # Generator functions
+      def generate_evens(n):
+        i = 0
+        while n:
+          yield 2*i
+          i +=1
+          n -=1
+        return
+
+      def isprime(x):
+        for i in range(2, x//2+1):
+          if x%i == 0:
+            return False
+        return True
+
+      def generate_primes(n):
+        i=2
+        while n:
+          if isprime(i):
+            n -= 1
+            yield i
+          i += 1
+
+      evens = []
+      it = generate_evens(10)
+      while True:
+        try:
+          evens.append(next(it))
+        except StopIteration:
+          break
+      print(evens)
+
+      print('--------- Using for loop ---------\n')
+      for it in generate_evens(10):
+        print(it, sep=' ')
+
+      print('--------- Primes ---------\n')
+      primes = []
+      for it in generate_primes(10):
+        primes.append(it)
+      print(primes)
+      print('-----------------------------------------------\n')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+20. Does Python support the function overloading or not ?
+    - Python does not support the function overloading
+    - Python supports first class functions which means functions are treated as objects.
+    - whenever a function is created, a object is created which stores the function details and
+      a variable with the name of the function is created which stores id of this created object
+
+      def f1():
+        print('Function f1 with no arguments')
+      def f1(a, b):
+        print('Function f1 with two arguments')
+      f1()  # This will throw error saying no arguments were provided. This is because, previous definition of f1
+            # got replaced with later definition of f1
+      f1(2, 4)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+21. What are keyword arguments in Python ?
+    - There are two types of arguments in Python, one is 'Positional arguments' and the other is
+      'keyword arguments'
+    e.g.- 
+      def f(a, b):
+        print("a=", a, "b=", b)
+      f(10, 20)     # These are positional arguments
+      f(b=10, a=20) # These are keyword arguments
+      f(b=10, 20)   # This will give error as positional arguments are not allowed after keyword arguments
+      f(10, a=20)   # This will throw runtime error as both the values are provided only for first argument
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+22. What is difference between sort() and sorted() function in list class ?
+    - sorted() method is a built-in method which can be applied on all types of iterable sequences 
+      including list, tuple, dictionaries etc.
+    - whereas sort() method is list class method
+    - sorted() method requires that the elements of the passed iterable argument should be comparable 
+      with each other
+    - sorted() method always returns the list irrespective of the type of the argument
+
+    e.g. -
+      lst = [45, 67, 33, 47, 37, 2, 1, 50, 90]
+      s_lst = sorted(lst)
+      print(lst)
+      print(s_lst)
+      print(type(s_lst))
+
+      print('--------- Tuple ---------\n')
+      tup = (26, 33, 87, 45, 39, 50, 90, 100)
+      s_tup = sorted(tup)
+      print(tup)
+      print(s_tup)
+      print(type(s_tup))
+
+      print('--------- sort() function ---------\n')
+      lst = [45, 67, 33, 47, 37, 2, 1, 50, 90]
+      s_lst = lst.sort()
+      print(lst)
+      print(s_lst)
+      print(type(s_lst))
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+23. What is difference between the class methods, static methods, and instance methods in Python ?
+    - Class method will affact the actual class while the instance method will affact the instance of the class 
+      and static method might or might not be related to the class and can be used from inside or outside of the class.
+    - Static methods are placed inside the class just because they are logically associated with the class.
+      Static methods do not have 'self' as their first argument
+    - Class methods have 'cls' as the first argument which points to the class object i.e. it accepts a class as its first 
+      argument. Also the name 'cls' can be replced with any other name. Class methods are used to modify the class behaviour.
+
+      - e.g. -
+      # Static Method Example
+        class Calculator:
+          def __init__(self, version):  # This is instance method as we are referring to the 'self'     
+            self.version = version
+
+          def description(self):            # This is instance method as we are referring to the 'self'
+            print(f'The current version of the calulator is {self.version}')
+
+          @staticmethod                     # The 'static' keyword denotes that the following method is 'static' method
+                                            # and its execution is not dependent on the instances of the class 
+          def add_numbers(*numbers):        # This is static method 
+            print( sum(numbers))
+      
+        calc1 = Calculator(10)
+        calc2 = Calculator(20)
+
+        calc1.description()
+        calc2.description()
+        Calculator.add_numbers(10,20,30,40,50,60)
+
+      # Class Method Example
+      from datetime import date
+      class Person:
+        def __init__(self, name, age):
+          self.name = name
+          self.age = age
+          
+        def description(self):
+          print(f'The {self.name} is {self.age} years old')
+      
+        @classmethod                      # The keyword 'classmethod' denotes that the following method is 'classmethod'
+        def age_from_year(cls, name, birth_year):
+          current_year = date.today().year
+          age = current_year - birth_year
+          return cls(name, age)
+      
+      Rakesh = Person.age_from_year('Rakesh', 2000)
+      Rakesh.description()
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+23. How to create static member variables in a class ?
+    - 
