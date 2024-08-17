@@ -1,9 +1,7 @@
 ♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
-♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
                         ==============================================================================
                               ♣♣♣♣♣♣ Python coding - Frequenly required functionalities  ♣♣♣♣♣♣♣
                         ==============================================================================                        
-♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
 ♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
 
 
@@ -19,7 +17,7 @@
 -> The python packages are published at website 
     'pypi.org' - Python package Index org
 
--> 'pip' is a python package manager
+-> 'pip' is a python package manager. It installs python packages through command line
 ===================================================================================================================================================
   ♣♣♣♣♣♣ File Handling ♣♣♣♣♣♣♣
 ===================================================================================================================================================
@@ -74,7 +72,9 @@
   ♣♣♣♣♣♣ Lists  ♣♣♣♣♣♣♣
 ===================================================================================================================================================
 
-    - Ordered, mutable collection of items
+    - List is a class which is Ordered and mutable collection of items
+    - As List is a Python language's inbuilt class its name starts with smallcase 'l' whereas in Python generally class names
+      start with capital letter.
       e.g. - List a,b
 
     - a = b 	                      → This command will not copy the contents of list b to list a. It just copies value of pointer b to pointer a. 
@@ -87,7 +87,6 @@
                                       the object is stored.
 
     - years = range(1950, 2000, 10) 	→ The range function returns the list object. It is fast way to create a list.
-    
     
     - lst = [1, 2, 3, 4, 5]
 
@@ -262,6 +261,8 @@
         print(t1 == t2)   # Equality: True
         print(t1 < t3)    # Lexicographical comparison: True
 
+    - tuple or list or even dictionary can be used while returning multiple return values from a function
+
 ===================================================================================================================================================
   ♣♣♣♣♣♣ 'match' statement ♣♣♣♣♣♣♣
 ===================================================================================================================================================
@@ -272,7 +273,7 @@
     e.g. - 
         x = input("Please enter your name:")
         match x:
-          case 'Rakesh' or 'Ram' or 'Rajesh':
+          case 'Rakesh' | 'Ram' | 'Rajesh':
                 print('Name starts with "R"')
           case 'Rohit':
                 print("Welcome Rohit!")
@@ -288,6 +289,8 @@
 
     - String creation
       my_string = "Hello, World!"                      # Define a string
+      my_string = "Hello, 'Rakesh' "                   # If you use double quotes for defining the string then do not use double quotes inside it.
+      my_string = "Hello, \"Rakesh\" "                 # If you want to use double quotes inside the string then escape them.
       empty_string = ""                                # Define an empty string
 
     - Accessing characters and substrings
@@ -303,7 +306,8 @@
     - String repetition
     	repeated       = my_string * 3                   # 'Hello, World!Hello, World!Hello, World!'
 
-    - String formatting
+    - fstring - String formatting
+      - Any string that starts with 'f' is considered as a fstring.
       name           = "Alice"
       greeting       = f"Hello, {name}!"               # 'Hello, Alice!'
 
@@ -353,6 +357,49 @@
       is_not_numeric = "123abc".isnumeric()            # False
 
 ===================================================================================================================================================
+  ♣♣♣♣♣♣ fStrings - String Formatting in Python ♣♣♣♣♣♣♣
+===================================================================================================================================================
+  # Trick 1 - Format integers
+    n: int         = 1_000_000_000              # Underscores can be added to the lengthy numbers for more redability. They are ignored by compiler.
+    n: float       = 1e9                        # In case of 'float' numbers, number of zeros after '1' can be specified after 'e' as a shortcut.
+    print(f"{n:_}")                             # This will add 'underscores' to the big number while printing it for the sake of readability.
+    print(f"{n:,}")                             # This will add ',' to the big number while printing it for the sake of readability.
+
+  # Trick 2 - Format Float numbers
+    n: float = 3.14159                        
+    print(round(n, 2))                          # Will round the value of 'n' to 2 decimal places.
+    print(f'n:.2f')                             # Will round the value of 'n' to 2 decimal places.
+    print(f'n:.0f')                             # Will round the value so that no decimal digits.
+    print(f'n:,.3f')                            # Will round the value of 'n' to 3 decimal places and will add 'comma' to long numbers to make 
+                                                # it more readable.
+  # Trick 3 - Format Strings
+    x: str = 'Ram'
+    print(f"{x:>30}")                           # This will print 'Ram' and will align it to the right of the 30 character long imaginary string.
+
+    print(f"{x:<30}")                                
+    (OR) print(f"{x:30}")                       # This will print 'Ram' and will align it to the left of the 30 character long imaginary string.
+
+    print(f"{x:^30}")                           # This will print 'Ram' and will align it to the center of the 30 character long imaginary string.
+
+    print(f"{x:_^30}")                               
+    (OR) print(f"{x:|^30}")                     # This will print 'Ram' and will align it to the center of the 30 character long imaginary string.
+                                                # The blank spaces will be filled with either '_' or '|'
+  # Trick 4 - Format Date and Time
+    from datetime import datetime
+    now: datetime = datetime.now()
+    print(f"{now:%y.%m.%d (%H:%M:%S)})          # Prints the current time in the format specified in format string.
+    print(f"{now:%c}")                          # Prints the current time in the system specified format.
+    print(f"{now:%I%P}")                        # Prints the current time in 12 hour am/pm format.
+
+
+  # Trick 5 - Format expressions for ease of debugging
+    a: int = 12
+    b: int = 20
+    print(f'a + b =')                           # Prints 'a + b = 32' as an output string. This king of string formatting helps in debugging.  
+    c: int = 12
+    print(f'bool(c) = ')                        # This will print 'bool(c) = True' as an output string.
+
+===================================================================================================================================================
   ♣♣♣♣♣♣ Dictionaries ♣♣♣♣♣♣♣
 ===================================================================================================================================================
 	- They map hashable keys to arbitrary objects. The hashable means that mutable objects can not be used as keys in the dictionary.
@@ -398,7 +445,7 @@
 
         - Creation of dictionaries
             d1 = {'a': 1, 'b': 2, 'c': 3}                # Creating a dictionary
-            d2 = dict(a=1, b=2, c=3)                     # Creating a dictionary using the dict() constructor
+            d2 = dict(a=1, b=2, c=3)                     # Creating a dictionary using the dict() class constructor
             d3 = {}                                      # Empty dictionary
             d4 = dict()                                  # Another way to create an empty dictionary
 
@@ -490,9 +537,89 @@
             d7.setdefault('a', 10)                       # Does nothing as 'a' is already in the dictionary
             print(d7)                                    # Output: {'a': 1, 'b': 2, 'c': 3}
 
-            
   -------------------------------------------------------------
-  Sorting Dictionary 
+    Dictionary Comprehension
+  -------------------------------------------------------------
+    - Dictionary comprehensions in Python allow you to create dictionaries in a concise and readable way, similar to list comprehensions. 
+    - Below are some examples to illustrate how dictionary comprehensions work.
+
+    1. Basic Dictionary Comprehension
+        - Let's create a dictionary where the keys are numbers from 1 to 5 and the values are their squares.
+
+        e.g.-
+          squares = {x: x**2 for x in range(1, 6)}
+          print(squares)
+        
+        Output:
+          {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+        
+        Explanation:
+        - The comprehension {x: x**2 for x in range(1, 6)} iterates over the range 1 to 5.
+        - For each x, it sets the key as x and the value as x**2.
+
+    2. Dictionary Comprehension with Condition
+        - Let's create a dictionary that only includes even numbers as keys and their squares as values.
+
+        e.g.-
+          even_squares = {x: x**2 for x in range(1, 11) if x % 2 == 0}
+          print(even_squares)
+      
+        Output:
+          {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}
+  
+        Explanation:
+        - The comprehension {x: x**2 for x in range(1, 11) if x % 2 == 0} iterates over numbers 1 to 10.
+        - The condition if x % 2 == 0 filters out odd numbers, so only even numbers are included in the dictionary.
+  
+    3. Using an Existing Dictionary
+        - Let's say you have a dictionary of items and their prices in dollars, and you want to create a new dictionary with the prices 
+          converted to euros.
+
+        e.g.-
+          prices_in_dollars = {'apple': 1.5, 'banana': 0.5, 'cherry': 2.0}
+          exchange_rate = 0.85  # 1 dollar = 0.85 euros
+  
+          prices_in_euros = {item: price * exchange_rate for item, price in prices_in_dollars.items()}
+          print(prices_in_euros)
+      
+        Output:
+          {'apple': 1.275, 'banana': 0.425, 'cherry': 1.7}
+      
+        Explanation:
+        - The comprehension {item: price * exchange_rate for item, price in prices_in_dollars.items()} iterates over each key-value pair 
+          in the prices_in_dollars dictionary.
+        - It converts the price to euros by multiplying it by the exchange_rate.
+  
+    4. Inverting a Dictionary
+        - Let's invert a dictionary, so that the original keys become the values and the original values become the keys.
+  
+          original = {'a': 1, 'b': 2, 'c': 3}
+          inverted = {value: key for key, value in original.items()}
+          print(inverted)
+        
+        Output:
+          {1: 'a', 2: 'b', 3: 'c'}
+
+        Explanation:
+        - The comprehension {value: key for key, value in original.items()} swaps the keys and values of the original dictionary.
+  
+    5. Nested Dictionary Comprehension
+        - You can also use nested comprehensions for more complex structures. For example, let's create a dictionary where each key is a 
+          number from 1 to 3, and the value is another dictionary containing the square and cube of that number.
+  
+          nested_dict = {x: {'square': x**2, 'cube': x**3} for x in range(1, 4)}
+          print(nested_dict)
+  
+        Output:
+          {1: {'square': 1, 'cube': 1}, 2: {'square': 4, 'cube': 8}, 3: {'square': 9, 'cube': 27}}
+  
+        Explanation:
+        - The outer comprehension {x: {'square': x**2, 'cube': x**3} for x in range(1, 4)} creates a dictionary where each key is x.
+        - The value for each key is another dictionary created by the inner comprehension, containing the square and cube of x.
+        - These examples demonstrate the flexibility and power of dictionary comprehensions in Python.
+  
+  -------------------------------------------------------------
+    Sorting Dictionary 
   -------------------------------------------------------------
 
       - sorted(my_dict): Returns a list of sorted keys from my_dict.
@@ -517,17 +644,20 @@
         print("Dictionary sorted by keys:", sorted_dict_by_keys)            # Output: {'a': 1, 'b': 3, 'c': 2}
 
       - Sorting dictionary by values using dictionary comprehension
-      sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1])}
+        sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1])}
         print("Dictionary sorted by values:", sorted_dict_by_values)        # Output: {'a': 1, 'c': 2, 'b': 3}
 
+      - Sorting dictionary by values in reverse order using dictionary comprehension
+        sorted_dict_by_values = {k: v for k, v in sorted(my_dict.items(), key=lambda item: item[1], reverse=True)}
+        print("Dictionary sorted by values:", sorted_dict_by_values)        # Output: { 'b': 3, 'c': 2, 'a': 1,}
+
       - Using OrderedDict to maintain the sorted order by keys
-      sorted_dict_by_keys_ordered = OrderedDict(sorted(my_dict.items()))
+        sorted_dict_by_keys_ordered = OrderedDict(sorted(my_dict.items()))
         print("OrderedDict sorted by keys:", sorted_dict_by_keys_ordered)   # Output: OrderedDict([('a', 1), ('b', 3), ('c', 2)])
         
-        - Using OrderedDict to maintain the sorted order by values
+      - Using OrderedDict to maintain the sorted order by values
         sorted_dict_by_values_ordered = OrderedDict(sorted(my_dict.items(), key=lambda item: item[1]))
         print("OrderedDict sorted by values:", sorted_dict_by_values_ordered)  # Output: OrderedDict([('a', 1), ('c', 2), ('b', 3)])
-        
         
   -------------------------------------------------------------
     Default Dictionary 
@@ -824,9 +954,12 @@
     - Using Lambda in Higher-Order Functions
       nums = [1, 2, 3, 4]
 
-    - map()
+    - map() - map returns a 'map' object, you need to convert it into your desired type
+            - Also note that we just pass function name to the map without paranthesis. 
       doubled = list(map(lambda x: x * 2, nums))
       print(doubled)                   # Output: [2, 4, 6, 8]
+      mystr: str = 'hi how are you'
+      print(*map(str.upper, mystr))
 
     - filter()
       evens = list(filter(lambda x: x % 2 == 0, nums))
@@ -1365,6 +1498,9 @@
             def multiplier(x: int) -> int:
                 return x * 2
             return multiplier
+
+      : Usage:
+        mypy filename.py            - This will display all the type errors in the program
 ==================================================================================================================================================
   ♣♣♣♣♣♣ Python Regular Expressions ♣♣♣♣♣♣♣
 ===================================================================================================================================================
@@ -1374,17 +1510,19 @@
 
     Basic Concepts
       - Special Characters
-        .   : Matches any character except newline
-        ^   : Matches the start of the string
-        $   : Matches the end of the string
-        *   : Matches 0 or more repetitions of the preceeding element
-        +   : Matches 1 or more repetitions of the preceding element
-        ?   : Matches 0 or 1 repetition of the preceding element; also used for non-greedy matching
-        {}  : Matches exactly the specified number of repetitions of the preceding element. {m} matches exactly m times, {m,n} matches from m to n times.
-        []  : Matches any one of the characters inside the brackets. Used to specify a character class.
-        |   : Acts like a boolean OR. Matches either the expression before or the expression after the |.
-        ()  : Groups a pattern. Groups expressions and captures the matched text.
-        \   : Escapes special characters. Escapes a metacharacter, making it a literal character. Also used for special sequences like \d, \w, etc.
+        .    : Matches any character except newline
+        ^    : Matches the start of the string
+        $    : Matches the end of the string
+        *    : Matches 0 or more repetitions of the preceeding element
+        +    : Matches 1 or more repetitions of the preceding element
+        ?    : Matches 0 or 1 repetition of the preceding element; also used for non-greedy matching
+        {m}  : Matches repititions of the preceding element exactly m times. 
+        {m,n}: Matches repititions of the preceding element from m-n times.
+        []   : Matches any one of the characters inside the brackets. Used to specify a character class.
+        [^]  : Matches any one of the characters which are not inside the brackets. Used to specify a character class.
+        |    : Acts like a boolean OR. Matches either the expression before or the expression after the |.
+        ()   : Groups a pattern. Groups expressions and captures the matched text.
+        \    : Escapes special characters. Escapes a metacharacter, making it a literal character. Also used for special sequences like \d, \w, etc.
 
       - Character Classes
         \A  : Matches the start of the string
@@ -1412,52 +1550,95 @@
         (?<=...)  : Positive lookbehind assertion. Matches if preceded by ... .
         (?<!...)  : Negative lookbehind assertion. Matches if not preceded by ... .
         (?>...)   : Matches the following pattern in a possessive way, meaning it does not backtrack.
+        (?:...)   : Groups a pattern. This is non capturing group.
 
-      - When a pattern is not found in the string then these functions will return 'None' which can be used in 'if' statements.
+      - Flags
+        1) re.IGNORECASE (OR) re.I : This flag tells the regex engine to ignore case of the character while matching the regex.
+            e.g.-
+              import re
+              pattern = r"hello"
+              text = "Hello world!"
+
+              # Without IGNORECASE
+              match = re.search(pattern, text)
+              print(match)  # Output: None
+
+              # With IGNORECASE
+              match = re.search(pattern, text, re.IGNORECASE)
+              print(match)  # Output: <re.Match object; span=(0, 5), match='Hello'>
+            
+        2) re.MULTILINE (OR) re.M : This flag tells the regex engine that we want to match text over multiple lines. This flag changes the 
+                                    behavior of ^ and $ to match the start and end of each line in the string, not just the start and end 
+                                    of the entire string.
+            e.g.- 
+              import re
+              pattern = r"^hello"
+              text = """hello world
+              Goodbye world
+              hello again"""
+
+              # Without MULTILINE
+              matches = re.findall(pattern, text)
+              print(matches)  # Output: ['hello']
+
+              # With MULTILINE
+              matches = re.findall(pattern, text, re.MULTILINE)
+              print(matches)  # Output: ['hello', 'hello']
+        
+        3) re.DOTALL (OR) re.S  : This flag tells the regex engine to match '.' with any character including new line character.
+            e.g. -
+              import re
+              pattern = r"hello.*world"
+              text = """hello
+              world"""
+
+              # Without DOTALL
+              match = re.search(pattern, text)
+              print(match)  # Output: None
+
+              # With DOTALL
+              match = re.search(pattern, text, re.DOTALL)
+              print(match)  # Output: <re.Match object; span=(0, 11), match='hello\nworld'>
+
+        - When a pattern is not found in the string then these functions will return 'None' which can be used in 'if' statements.
 
         import re
 
         - Sample text
-          text = "The rain in Spain falls mainly in the plain. Call 123-456-7890 for info."
+              text = "The rain in Spain falls mainly in the plain. Call 123-456-7890 for info."
 
-        - 1. re.match
-          match_result = re.match(r'The', text)
-          print("re.match result:", match_result.group() if match_result else "No match")
+        - 1. re.match  - Checks if the string starts with the pattern r'The'. It does, so it returns a match object.
 
-          Explanation : re.match: Checks if the string starts with the pattern r'The'. It does, so it returns a match object.
+              match_result = re.match(r'The', text)
+              print("re.match result:", match_result.group() if match_result else "No match")
 
-        - 2. re.search
-          search_result = re.search(r'\d{3}-\d{3}-\d{4}', text)
-          print("re.search result:", search_result.group() if search_result else "No match")
+        - 2. re.search - Looks for the first phone number pattern r'\d{3}-\d{3}-\d{4}'. It finds "123-456-7890".
 
-          Explanation : re.search: Looks for the first phone number pattern r'\d{3}-\d{3}-\d{4}'. It finds "123-456-7890".
+              search_result = re.search(r'\d{3}-\d{3}-\d{4}', text)
+              print("re.search result:", search_result.group() if search_result else "No match")
 
-        - 3. re.findall
-          findall_result = re.findall(r'\b\w{4}\b', text)
-          print("re.findall result:", findall_result)
+        - 3. re.findall - Finds all 4-letter words r'\b\w{4}\b' in the text. The result includes words like "rain", 
+                          "call", "info".
 
-          Explanation : re.findall: Finds all 4-letter words r'\b\w{4}\b' in the text. The result includes words like "rain", "call", "info".
+              findall_result = re.findall(r'\b\w{4}\b', text)
+              print("re.findall result:", findall_result)
 
-        - 4. re.finditer
-          finditer_result = re.finditer(r'\bin\b', text)
-          print("re.finditer results:")
-          for match in finditer_result:
-            print(match.group(), "at position", match.span())
+        - 4. re.finditer -  Finds all occurrences of the word "in" and returns an iterator. Each match object 
+                            provides the match and its position.
 
-          Explanation : re.finditer: Finds all occurrences of the word "in" and returns an iterator. Each match object provides the match and its position.
-        
-        - 5. re.sub
-          sub_result = re.sub(r'\d{3}-\d{3}-\d{4}', 'XXX-XXX-XXXX', text)
-          print("re.sub result:", sub_result)
+              finditer_result = re.finditer(r'\bin\b', text)
+              print("re.finditer results:")
+              for match in finditer_result:
+                print(match.group(), "at position", match.span())
 
-          Explanation : re.sub: Replaces the phone number pattern with 'XXX-XXX-XXXX'.
-          
-        - 6. re.split
-          split_result = re.split(r'\s+', text)
-          print("re.split result:", split_result)
+        - 5. re.sub - Replaces the phone number pattern with 'XXX-XXX-XXXX'.
+              sub_result = re.sub(r'\d{3}-\d{3}-\d{4}', 'XXX-XXX-XXXX', text)
+              print("re.sub result:", sub_result)
 
-          Explanation : re.split: Splits the text by any whitespace r'\s+', resulting in a list of words.
-          
+        - 6. re.split - Splits the text by any whitespace r'\s+', resulting in a list of words.
+              split_result = re.split(r'\s+', text)
+              print("re.split result:", split_result)
+
       - More examples:
 
         - Using character classes
@@ -1587,12 +1768,14 @@
       print("Matches found:", matches)
 
   -------------------------------------------------------------
-    Generator Functions in Python
+    'Generator' Functions in Python
   -------------------------------------------------------------
 
     - In Python, a generator function is a special type of function that returns an iterator. 
     - Instead of returning a single value, it uses the yield keyword to yield values one at a time, 
-      pausing after each yield and resuming from where it left off when the next value is requested. 
+      pausing after each yield and resuming from where it left off when the next value is requested.
+    - In short, generator functions return the result after each iteration of the loop instead of executing 
+      all the iterations and returning the result in the end
     - This makes generators very memory efficient, especially for large data sets or streams of data.
 
   # Key Features of Generator Functions
@@ -1687,7 +1870,7 @@
           process(line)  # Process each line without loading the whole file into memory
 
   -------------------------------------------------------------
-  The reversed() Function in Python
+  The 'reversed()' Function in Python
   -------------------------------------------------------------
 
   - The reversed() function in Python is used to reverse the order of elements in a given sequence. 
@@ -1840,6 +2023,16 @@
 
                 except Exception as e:
                     print(f"An unexpected error occurred: {e}")
+
+        -------------------------------------------------------------------------------
+        Example of try-except-else Block :-
+        -------------------------------------------------------------------------------
+          try:
+              x = int(input("Enter a number: "))
+          except Exception as e:
+              print('Encontered an unexpected error')
+          else:
+              print(f'x is {x}')
 
 ===================================================================================================================================================
       Python Decorator 
@@ -2196,6 +2389,7 @@
       - First Parameter : The first parameter is always cls, which refers to the class itself, not the instance.
       - Purpose         : Used to define methods that operate on the class itself, rather than instances of the class.
       - Access          : Can access and modify class state that applies across all instances of the class.
+                        : You do not need to instantiate the class to access the class method.
     
     Static Methods
       - Decorator       : @staticmethod
@@ -2246,7 +2440,7 @@
     ◙   try:
             for i in range(1,11):
                 print(f'{int(a)} x {i} = {int(a)*i}')
-        except exception as e:
+        except Exception as e:
             print("Invalid Input!")
 
     →   except block is executed only when there is an error. Execution of program does not halt it continues.
@@ -2337,7 +2531,6 @@
 ===================================================================================================================================================
 
     ◙ python -m flash --app appFileName run --host=0.0.0.0  → Will give you an IP address where you can view your server or application. 
-
 
 -------------------------------------------------------------
     Python Built in Functions

@@ -477,4 +477,175 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 23. How to create static member variables in a class ?
-    - 
+    - In Python 'static' keyword is not there.
+    - Static variables are those variables which are assigned thier memory inside 'class' object itself. 
+
+    e.g.-
+      class Item:
+          a = 5               # 1st Method: creating static variable directly inside class
+
+          def __init__(self):
+            self.x = 10       # Instance variable
+            y=4               # Local variable
+            Item.b = 6        # 2nd Method: creating static variable inside class constructor
+
+          def f1(self):
+            Item.c = 7        # 3rd Method: creating static variable inside member function
+
+          @staticmethod
+          def f2():
+            Item.d = 8        # 4th Method: static variable can also be created inside static method
+
+          @classmethod
+          def f2(cls):
+            cls.e = 22        # 5th Method: static variable creation inside class method using 'cls' keyword
+            Item.f = 20       # 6th Method: static variable creation inside class method using class name
+
+      Item.g = 34             # 7th Method: Static variable can also be created outside class body 
+                              # using class name.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+24. Using 'else' with loops in python
+    - In python, we can use 'else' keyword with both 'while' and 'for' loops.
+    - Control can come outside of the loop in two conditions: 
+      1. when loop condition becomes false
+      2. whenever 'break' statement is executed inside loop body.
+    - 'else' part that follows the loop gets executed only when loop exits because of loop condition becoming false.
+
+    e.g.-
+    Example 1:
+      i = 0
+      while i< 10:
+        print(i, end=' ')
+        if i == 5:
+          break
+      else:
+        print('Else will not be executed as control came out of loop by executing break')
+
+    Example 2:
+      for i in range(10):
+        print(i, end=' ')
+        if i == 12:
+          break
+      else:
+        print('Else will get executed as control came out of the loop without executing break')
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+25. What is 'name mingling' in python ?
+    - In Python, if the name of a variable starts with '__' then Python appends '_<classname>' to that 
+      variable name. This is known as 'name mingling'.
+    - Name mingling is applicable to any type of variable including instance variables, static variables 
+      or class variables.
+      
+    e.g.-
+        class Item:
+            x = 10
+            __p = 20
+
+        print(f'{Item.x = }')
+        try:
+            print(f"{Item.__p}")
+        except Exception as e:
+            print(e)
+            print('Python has modified the name of "__p" variable to "_Item__p"')
+        finally:
+            print(f"{Item._Item__p = }")
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+26. What is the difference between instance object and class object in Python ?
+    - Whenever we create a class in Python, a class object is created which contains class variables and static variables
+    - Class object is created irrespective of whether we create any instance variables or not and the class variables
+      are accessed through the class name.
+    - To create an instance variable, we have to use paranthesis after the class name. This will create an instance variable, 
+      call '__init__()' method and will return this instance variable. 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+27. What is __init__() method ?
+    - __init__() function is somewhat similar to C++/Java contructors. However, unlike Java/C++ where constructor will be created by 
+      default, in Python, __init__() method will not get created by default.
+    - The first argument to __init__() method is 'self' and can not be changed.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+28. What are default arguments in Python functions ? 
+    - Only rule about the default arguments is that all default arguments should be at the end of the argument list i.e. no non-default
+      argument should be after default arguments.
+
+    e.g.- 
+        def add(a, b, c=10):
+        # def add(a, b=6, c): This is invalid syntax as non-default argument has come after default argument.
+          return a + b + c
+        add(1, 2, 3)
+        add(1, 2)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+29. Extract int type values from a list of heterogeneous elements
+    - You can use type() function to get the data type of an element in the list.
+    
+    e.g.-
+        l1 = [1, 2, 'Jhalu', 'Shaalu', 'Maali', '2+3i', True, False, 3.1415, 11]
+        l2 = []
+        for i in l1:
+          if type(i) == int:
+            l2.append(i)
+        print(l1)
+        print(l2)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+30. Does Python support multiple inheritance ?
+    - Like C++, Python support multiple inheritance. However, Java does not support multiple inheritance.
+    - In Python, you can have 2/3/4/.. number of classes in case of multiple inheritance
+
+    e.g.-
+      - Example 1
+          class A1:
+              pass
+
+          class A2:
+              pass
+
+          class A3:
+              pass
+
+          class B(A1, A2, A3):
+              pass
+
+      - Example 2
+          # Base class 1
+          class Person:
+              def __init__(self, name, age):
+                  self.name = name
+                  self.age = age
+
+              def display_person_info(self):
+                  print(f"Name: {self.name}, Age: {self.age}")
+
+          # Base class 2
+          class Employee:
+              def __init__(self, employee_id, salary):
+                  self.employee_id = employee_id
+                  self.salary = salary
+
+              def display_employee_info(self):
+                  print(f"Employee ID: {self.employee_id}, Salary: ${self.salary}")
+
+          # Derived class using multiple inheritance
+          class Manager(Person, Employee):
+              def __init__(self, name, age, employee_id, salary, department):
+                  # Initializing both parent classes
+                  Person.__init__(self, name, age)
+                  Employee.__init__(self, employee_id, salary)
+                  self.department = department
+
+              def display_manager_info(self):
+                  self.display_person_info()
+                  self.display_employee_info()
+                  print(f"Department: {self.department}")
+
+          # Create an instance of Manager
+          manager = Manager("Alice", 35, "E123", 85000, "IT")
+
+          # Display manager information
+          manager.display_manager_info()
+------------------------------------------------------------------------------------------------------------------------------
