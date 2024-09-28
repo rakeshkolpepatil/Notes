@@ -1469,7 +1469,7 @@ print('-------------------------------------\n')
 # The vars() function returns the __dict__ attribute of an object.
 # The __dict__ attribute is a dictionary containing the object's changeable attributes.
 # Note: calling the vars() function without parameters will return a dictionary containing the local symbol table.
-# Return the __dict__ atribute of an object called Person:
+# Return the __dict__ attribute of an object called Person:
 
 class Person:
   name = "John"
@@ -1815,7 +1815,7 @@ class Calculator:
     self.version = version
 
   def description(self):            # This is instance method as we are referring to the 'self'
-    print(f'The current version of the calulator is {self.version}')
+    print(f'The current version of the calculator is {self.version}')
 
   @staticmethod                     # The 'static' keyword denotes that the following method is 'static' method
                                     # and its execution is not dependent on the instances of the class 

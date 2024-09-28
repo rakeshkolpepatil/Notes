@@ -521,7 +521,7 @@ class Student:
         self.name = name
         self.age = age
 
-    @property                    # spcifies to python that this is an getter function
+    @property                    # specifies to python that this is an getter function
     def name(self):
         return self._name
     
@@ -531,7 +531,7 @@ class Student:
             raise ValueError('Name is not from specified set of names!')
         self._name = name
 
-    @property                   # spcifies to python that this is an getter function
+    @property                   # specifies to python that this is an getter function
     def age(self):
         return self._age
     

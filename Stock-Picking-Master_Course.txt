@@ -1,5 +1,5 @@
 ==================================================================================================================================================================
-                               Stock Picking Master Course -  True Investing Academy Notes
+                                Stock Picking Master Course -  True Investing Academy Notes
 ==================================================================================================================================================================
 
   -------------------------------------------------------------------------------------------------------------------
@@ -94,11 +94,11 @@
   - In good economic conditions companies take loan to increase business. However, when economic slowdown comes, profit of Company
     goes down and interest payment becomes burden and companies go bankrupt.
 
-  - Financial Strenght of a company is judged by following 4 things 
+  - Financial Strength of a company is judged by following 4 things 
 
   1) Debt to Equity Ratio (D/E Ratio)
     - Tells how much debt company has on 1 rupee of Equity.
-      e.g - IF D/E ratio is 5 mean that for 1 rupee of networth company has taken loan of 5 rupees.
+      e.g - IF D/E ratio is 5 mean that for 1 rupee of net worth company has taken loan of 5 rupees.
     - Less than 1 is financially strong
     - More than 1 is risky
 

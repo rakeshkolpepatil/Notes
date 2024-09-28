@@ -21,15 +21,15 @@
   Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, 
   system tools, system libraries and settings.
 
-    docker build -t myName:01   			          :- Build an Image from a 'Dockerfile' present in current directory, with name 'myName' and version 01.
-                                                   You can also add or tag an image name and version to an existing image id.
-    docker build -t myName:02   			          :- To create an image of next version of the 'myName' app. Issue this command after making desired changes to the
-                                                   codebase. Most of the time 'Dockerfile' will remain the same.
-                                                   
-    docker images 		      	                  :- List local images
-    docker rmi <image_name:01> 	                :- Delete an Image named 'image_name' and tag '01'. You can also specify image Id here.
-    docker image prune 		                      :- Remove all unused images
-    docker build -t <image_name> . –no-cache  	:- Build an Image from a Dockerfile without the cache
+    docker build -t myName:01   			          :-  Build an Image from a 'Dockerfile' present in current directory, with name 'myName' and version 01.
+                                                    You can also add or tag an image name and version to an existing image id.
+    docker build -t myName:02   			          :-  To create an image of next version of the 'myName' app. Issue this command after making desired changes to the
+                                                    codebase. Most of the time 'Dockerfile' will remain the same.
+                                                  
+    docker images 		      	                  :-  List local images
+    docker rmi <image_name:01> 	                :-  Delete an Image named 'image_name' and tag '01'. You can also specify image Id here.
+    docker image prune 		                      :-  Remove all unused images
+    docker build -t <image_name> . –no-cache  	:-  Build an Image from a Dockerfile without the cache
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   DOCKER HUB :- 
@@ -70,38 +70,38 @@
     Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between
     development and staging.
 
-     docker -d                                                 :- Start the docker daemon
-     docker --help                                             :- Get help with Docker. Can also use –help on all subcommands
-     (OR)
-     docker ps --help
-     (OR)
-     docker image --help
-     (OR)
+      docker -d                                                 :- Start the docker daemon
+      docker --help                                             :- Get help with Docker. Can also use –help on all subcommands
+      (OR)
+      docker ps --help
+      (OR)
+      docker image --help
+      (OR)
 
-     docker info                                               :- Display system-wide information
-     docker stats                                              :- Display a live stream of resource usage statistics for running Docker containers. 
-                                                                  It provides real-time data on CPU, memory, network I/O, and block I/O usage for each container.
+      docker info                                               :-  Display system-wide information
+      docker stats                                              :-  Display a live stream of resource usage statistics for running Docker containers. 
+                                                                    It provides real-time data on CPU, memory, network I/O, and block I/O usage for each container.
 
-     systemctl start docker.service                            :- Start docker service manually
-     systemctl status docker.service                           :- Get status of docker service
-     docker run --name <container_name> <image_name>		       :- Create and run a container from an image 'image_name', with a custom name 'container_name'
-     docker run --rm  <image_name>		                         :- '--rm' switch will remove the container immediately after it is stopped, so that we will not be 
+      systemctl start docker.service                            :- Start docker service manually
+      systemctl status docker.service                           :- Get status of docker service
+      docker run --name <container_name> <image_name>		        :- Create and run a container from an image 'image_name', with a custom name 'container_name'
+      docker run --rm  <image_name>		                          :- '--rm' switch will remove the container immediately after it is stopped, so that we will not be 
                                                                   required it to remove manually, by issuing command 'docker rm <container_name>'
 
-     docker top <containerId/Name>                             :- Display the running processes within a Docker container
+      docker top <containerId/Name>                             :- Display the running processes within a Docker container
 
-     docker run -p <host_port>:<container_port> <image_name>	 :- Run a container with and publish a container’s port(s) to the host
-     (Or)
-     docker run -P <image_name>	                               :- Run a container from image 'image_name' and publish its all ports to the host
+      docker run -p <host_port>:<container_port> <image_name>	  :- Run a container with and publish a container’s port(s) to the host
+      (Or)
+      docker run -P <image_name>	                                :- Run a container from image 'image_name' and publish its all ports to the host
 
-     docker start|stop <container_name> (or <container-id>)	   :- Start or stop an existing container
-     docker inspect <container_name> (or <container_id>)	     :- To inspect a running container
-     docker run -d <image_name>		                             :- Run a container in the background i.e. detached mode
-     docker rm <container_name>		                             :- Remove a stopped container
+      docker start|stop <container_name> (or <container-id>)	    :- Start or stop an existing container
+      docker inspect <container_name> (or <container_id>)	        :- To inspect a running container
+      docker run -d <image_name>		                              :- Run a container in the background i.e. detached mode
+      docker rm <container_name>		                              :- Remove a stopped container
 
-     docker logs -f <container_name>	                         :- Fetch and follow the logs of a container named <container_name> in real-time
-     (OR) docker logs <container_id> --follow
-     (OR) docker logs <container_id> -f
+      docker logs -f <container_name>	                            :- Fetch and follow the logs of a container named <container_name> in real-time
+      (OR) docker logs <container_id> --follow
+      (OR) docker logs <container_id> -f
       Switches with logs command - 
                                   --tail or -n        : To view the last N number of log lines
                                   --timestamps or -t  : To include timestamps
@@ -109,38 +109,38 @@
                                   --until or -u       : To view logs before a specific timestamp
                                   docker logs <container_id> | grep <pattern>
 
-     docker exec -it <container_name> sh	                     :- Open a shell inside a running container. This executes the program like 'sh' specified 
+      docker exec -it <container_name> sh	                     :- Open a shell inside a running container. This executes the program like 'sh' specified 
                                                                   in the command after running the container. 
                                                                   '-it' switch stands for 'interactive terminal' which binds to terminal to the running container.
 
-     docker ps		                                             :- To list currently running containers
-     docker ps --all	
-     (Or) docker ps -a
-     (Or) docker ps -q	                                       :- List all docker containers (running and stopped)
+      docker ps		                                             :- To list currently running containers
+      docker ps --all	
+      (Or) docker ps -a
+      (Or) docker ps -q	                                       :- List all docker containers (running and stopped)
 
-     docker diff                                               :- View the differences between the container's filesystem and its base image
+      docker diff                                              :- View the differences between the container's filesystem and its base image
                                                                   Output indicates -
                                                                                     'A' for added files or directories
                                                                                     'C' for changed files or directories
                                                                                     'D' for deleted files or directories
 
-     docker container stats	                                   :- View resource usage stats
+      docker container stats	                                  :- View resource usage stats
 
-     docker port <containerId>                                 :- Display the port mappings for the container with the ID 'containerId'
+      docker port <containerId>                                 :- Display the port mappings for the container with the ID 'containerId'
 
-     docker rename Old_name New_name                           :- Rename the container named 'Old_name' to 'New_name'
+      docker rename Old_name New_name                           :- Rename the container named 'Old_name' to 'New_name'
 
-     docker commit ad9f71ce3a04 myNewImage:latest              :- This command will create a new Docker image named 'myNewImage:latest' from the changes made to 
-                                                                  the container with the ID 'ad9f71ce3a04'
-
-     docker run --add-host myhost:192.168.1.100 myimage        :- Create a new Docker container from the myimage image and add a host entry for myhost with the IP 
-                                                                  address 192.168.1.100
-                                                                  - Host entries are used to map hostnames to IP addresses.
-                                                                  - They are stored in the '/etc/hosts' file within the container.
-
-     docker tag <imageId> name:version                         :- Gives name 'name' and version 'version' to the image with id 'imageId'.
-                                                                  You can also use this command to change the tag/name associated with the existing image.
-                                                                  I think it will not rename the tag but create a copy of the existing image with new tag.
+      docker commit ad9f71ce3a04 myNewImage:latest              :-  This command will create a new Docker image named 'myNewImage:latest' from the changes made to 
+                                                                    the container with the ID 'ad9f71ce3a04'
+ 
+      docker run --add-host myhost:192.168.1.100 myimage        :-  Create a new Docker container from the myimage image and add a host entry for myhost with the IP 
+                                                                    address 192.168.1.100
+                                                                    - Host entries are used to map hostnames to IP addresses.
+                                                                    - They are stored in the '/etc/hosts' file within the container.
+ 
+      docker tag <imageId> name:version                         :-  Gives name 'name' and version 'version' to the image with id 'imageId'.
+                                                                    You can also use this command to change the tag/name associated with the existing image.
+                                                                    I think it will not rename the tag but create a copy of the existing image with new tag.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Docker Volumes  :- Nice Video for file sharing between computer and container - https://www.youtube.com/watch?v=gyddZyc8r48

@@ -232,17 +232,14 @@ OR
 	upgrade individual programs to most recent version OR upgrade all packages by having no further arguments.
 
 =============================================================================================================================================================
-33]
-    sudo apt-get dist-upgrade [package name 1] [package name 2] �? [package name n]
+33] sudo apt-get dist-upgrade [package name 1] [package name 2] �? [package name n]
 OR
     sudo apt-get dist-upgrade
 
 	Sometimes the new version has slightly modified name or requires new package to be installed as the dependency
     in such cases 'dist-upgrade' will work.
 =============================================================================================================================================================
-34]
-        sudo apt-get -s upgrade
-
+34] sudo apt-get -s upgrade
     This command is to check which softwares will be upgraded, if I run 'dist-upgrade' command. 
 
 =============================================================================================================================================================
@@ -331,12 +328,12 @@ sudo ln -s /usr/bin/g++-4.4 /usr/bin/g++
 =============================================================================================================================================================
 42.1] LD_LIBRARY_PATH
 
-   Usually links to shared libraries are there in executable, but if you want to search for newer or specific versions of the libraries before going to 
-   the versions specified in executable, put these specific versions in "LD_LIBRARY_PATH". So, dynamically linked shared libraries are first searched in
-   this path.
+  Usually links to shared libraries are there in executable, but if you want to search for newer or specific versions of the libraries before going to 
+  the versions specified in executable, put these specific versions in "LD_LIBRARY_PATH". So, dynamically linked shared libraries are first searched in
+  this path.
 
-   You can temporarily substitute a different library for this particular execution. In Linux, the environment variable LD_LIBRARY_PATH is a colon-separated
-   set  of directories where libraries should be searched for first, before the standard set of directories; 
+  You can temporarily substitute a different library for this particular execution. In Linux, the environment variable LD_LIBRARY_PATH is a colon-separated
+  set  of directories where libraries should be searched for first, before the standard set of directories; 
 =============================================================================================================================================================
 43]
     locate <command or software name>
@@ -344,8 +341,7 @@ sudo ln -s /usr/bin/g++-4.4 /usr/bin/g++
 This is used to check wheather particular software is installed or not.
 =============================================================================================================================================================
 44] If sudo nautilus do not work then use following command
-
-   sudo pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY nautilus
+  sudo pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY nautilus
 =============================================================================================================================================================
 
 45] ps -eaf
@@ -355,115 +351,114 @@ This is used to check wheather particular software is installed or not.
 46] I/O redirection to both display output and to a file.
     
     try
-   
     "./a.out |tee output.log"     instead of    "./a.out > output.log"
 
 =============================================================================================================================================================
- 47] htop
-     This command is used to check the usage of your CPUs and to check which processes are currently running on your 
-     machine.
+47] htop
+    This command is used to check the usage of your CPUs and to check which processes are currently running on your 
+    machine.
 
 =============================================================================================================================================================
 
- 48] tar -czf my.tar.gz /home/rakesh/gpgpu-sim_distribution/
-     This command will take backup of "/home/rakesh/gpgpu-sim_distribution/" directory in the file "my.tar.gz".
+48] tar -czf my.tar.gz /home/rakesh/gpgpu-sim_distribution/
+    This command will take backup of "/home/rakesh/gpgpu-sim_distribution/" directory in the file "my.tar.gz".
 
 =============================================================================================================================================================
 
- 49] to print duplicate lines along with their count 
-     sort FILE | uniq -cd
+49] to print duplicate lines along with their count 
+    sort FILE | uniq -cd
 =============================================================================================================================================================
 
- 49.1] If you want to remove the duplicate entries but without sorting the input then use following command -
+49.1] If you want to remove the duplicate entries but without sorting the input then use following command -
 
-       output_to_be_sorted > awk '!x[$0]++'
+      output_to_be_sorted > awk '!x[$0]++'
 
 =============================================================================================================================================================
 
- 49.2] I think, Important point here is that columns should have uniform width from top to bottom.
+49.2] I think, Important point here is that columns should have uniform width from top to bottom.
 
-       Read this "http://docstore.mik.ua/orelly/unix3/upt/ch22_03.htm" before sorting. and always check output of the sort command by running script to 
-       check whether it has been sorted properly or not.
+      Read this "http://docstore.mik.ua/orelly/unix3/upt/ch22_03.htm" before sorting. and always check output of the sort command by running script to 
+      check whether it has been sorted properly or not.
 
-       By default the field delimiter is non-blank to blank transition so tab should work just fine.
+      By default the field delimiter is non-blank to blank transition so tab should work just fine.
 
-       sort -k2,2 file	        Sorting a file with respect to values in column 2. sorting is done in alphbetical order.
+      sort -k2,2 file	        Sorting a file with respect to values in column 2. sorting is done in alphbetical order.
 
-       sort -g -k2,2 file       Sorting a file with respect to values in column 2, but taking into account numerical values in column. 
-       
+      sort -g -k2,2 file       Sorting a file with respect to values in column 2, but taking into account numerical values in column. 
+      
 	"-g" option             "-g" option is used to sort based on the numeric values in the specified columns. 
 
-       sort -k2,2 -k3,3         Sorting a file with respect to values in column 2, and if column 2 values are same then with respect to column 3 values.
+      sort -k2,2 -k3,3         Sorting a file with respect to values in column 2, and if column 2 values are same then with respect to column 3 values.
 
-       sort -t' ' -k2,2 -k3,3   here -t switch is used to specify delimiter for identifying different fields, -k2,2 is used to specify only field 2
- 				if you specify like this -k2 then all fields starting from 2nd field are used as a key.
-
-=============================================================================================================================================================
-
- 49.2] msort  -- Use this command to sort multiline records. You can specify record seperator by option -d
-
-       msort -q -b -w   --> "-b" tells msort to use block of lines as a record. Each block should be seperated by blank line.
-			  "-w" tells msort to sort records based on whole record values instead of a specific key.
-                          "-q" tells do sorting quitely. Do not print any log information.
-
-
-       msort -q -b -w | awk 'BEGIN{RS=""} //{arr[$0]++} END{for(i in arr) { print i; print "" ; } }'        --> Use this command to find uniq records.
+      sort -t' ' -k2,2 -k3,3   here -t switch is used to specify delimiter for identifying different fields, -k2,2 is used to specify only field 2
+      if you specify like this -k2 then all fields starting from 2nd field are used as a key.
 
 =============================================================================================================================================================
 
- 50] byobu
-     for splitting the screen very useful software.
+49.2] msort  -- Use this command to sort multiline records. You can specify record seperator by option -d
+
+      msort -q -b -w   -->  "-b" tells msort to use block of lines as a record. Each block should be seperated by blank line.
+                            "-w" tells msort to sort records based on whole record values instead of a specific key.
+                            "-q" tells do sorting quitely. Do not print any log information.
+
+
+      msort -q -b -w | awk 'BEGIN{RS=""} //{arr[$0]++} END{for(i in arr) { print i; print "" ; } }'        --> Use this command to find uniq records.
+
 =============================================================================================================================================================
 
- 51] How to check whether library is installed on system or not 
-     e.g.= suppose you want to check whether boost is installed or not.
+50] byobu
+    for splitting the screen very useful software.
+=============================================================================================================================================================
 
-     ldconfig -p |grep libboost
+51] How to check whether library is installed on system or not 
+    e.g.= suppose you want to check whether boost is installed or not.
 
-     If libboost is not installed, there will be no output. If it is installed, you will get a line for each version 
-     available.
+    ldconfig -p |grep libboost
 
-     OR whereis libboost
-   
-     OR /sbin/ldconfig -p
+    If libboost is not installed, there will be no output. If it is installed, you will get a line for each version 
+    available.
+
+    OR whereis libboost
+  
+    OR /sbin/ldconfig -p
         This option will list all the packages that are installed on you system.
 
 ============================================================================================================================================================= 
- 52] For Building the source code follow the follwing steps 
- 
-     ./configure    - This will run configure file in current directory where ./ means current directory.  
-     make 
-     make install
+52] For Building the source code follow the follwing steps 
+
+    ./configure    - This will run configure file in current directory where ./ means current directory.  
+    make 
+    make install
 
 ==============================================================================================================================================================
 
  53] How to search for a word in all files present in current directory.
 
-     grep <word to be searched> * -r     --> where * means in all the files in current directory and r means search recursively.
-     grep -B x -A y   			 --> print x lines before and y lines after the matching pattern.
-     grep -Fr 'exacttext'                --> -F flag will search for the exact text verbatim. Use -r to search on
-                                             Multiple files.
+      grep <word to be searched> * -r     --> where * means in all the files in current directory and r means search recursively.
+      grep -B x -A y   			              --> print x lines before and y lines after the matching pattern.
+      grep -Fr 'exacttext'                --> -F flag will search for the exact text verbatim. Use -r to search on
+                                              Multiple files.
 ==============================================================================================================================================================
 
 53.1] IF you want to exclude particular directory from being explored by grep command then -
- 
-     grep --exclude-dir=<dir> "pattern" "directory_where_to_search"
-e.g- grep -rn --exclude-dir=build --exclude-dir=lib  "gpgpu_shader_registers" "./"
+
+      grep --exclude-dir=<dir> "pattern" "directory_where_to_search"
+e.g-  grep -rn --exclude-dir=build --exclude-dir=lib  "gpgpu_shader_registers" "./"
 
       If you want to search only in files having .h or .cpp extension.
 e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
 
 ==============================================================================================================================================================
 
- 53.2] grep -o "pattern" file        --> It prints only words that match the pattern instead of whole line.
-       grep -v "pattern" file        --> Print lines from the "file" which do not containg pattern. 
-       grep -E "regular_expression"  --> If your pattern conatains sofisticated regular expression use this option of -E.
-       grep -irL BYE *               --> Lists all the files from current directory which do not contain pattern "BYE"
+53.2] grep -o "pattern" file        --> It prints only words that match the pattern instead of whole line.
+      grep -v "pattern" file        --> Print lines from the "file" which do not containg pattern. 
+      grep -E "regular_expression"  --> If your pattern conatains sofisticated regular expression use this option of -E.
+      grep -irL BYE *               --> Lists all the files from current directory which do not contain pattern "BYE"
 
-       grep -e "pat1" -e"pat2" --and -v "pat3"  --> "and" switch in grep. It greps lines which contain "pat1" or "pat2" but not "pat3"
-(OR)   grep 'pattern1\|pattern2' filename       --> Grep "pattern1" or "pattern2"
-(OR)   grep -E 'pattern1|pattern2' filename     --> If you use -E option, you do not need "\" to escape "|"
-(OR)   egrep 'pattern1|pattern2' filename       --> egrep is exactly same as "grep -E"
+      grep -e "pat1" -e"pat2" --and -v "pat3"  --> "and" switch in grep. It greps lines which contain "pat1" or "pat2" but not "pat3"
+(OR)  grep 'pattern1\|pattern2' filename       --> Grep "pattern1" or "pattern2"
+(OR)  grep -E 'pattern1|pattern2' filename     --> If you use -E option, you do not need "\" to escape "|"
+(OR)  egrep 'pattern1|pattern2' filename       --> egrep is exactly same as "grep -E"
   
 
       grep -E 'pattern1.*pattern2' filename
@@ -478,32 +473,31 @@ e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
       grep -rn "peer" . | gvim -                                --> To open the grepped file in a gvim.
 ==============================================================================================================================================================
 
- 54] If you want to skip over the failed builds. That is if you are building so many files and some of the files throw some 
-     error, in such cases compilation is aborted. so, if you do the following command compilation will continue till end.
-
-     make -i
+54] If you want to skip over the failed builds. That is if you are building so many files and some of the files throw some 
+    error, in such cases compilation is aborted. so, if you do the following command compilation will continue till end.
+    make -i
 
 ==============================================================================================================================================================
- 55] If you want to delete a particular file from a directory, if it is present there then use follwing command.
+55] If you want to delete a particular file from a directory, if it is present there then use follwing command.
 
-     
-     find .            
-(OR) find .  -print      --> Both commands print all the files & directories in the specified path.
+    
+      find .            
+(OR)  find .  -print      --> Both commands print all the files & directories in the specified path.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-     find ./ -name '*_cuobj*'|xargs rm -rf
-(OR) find .  -empty      --> Used to find empty files.
+      find ./ -name '*_cuobj*'|xargs rm -rf
+(OR)  find .  -empty      --> Used to find empty files.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -->  Negating the match - This will match all the files whose names do not end in .txt.
 
-     find . ! -name "*.txt" 
+      find . ! -name "*.txt" 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -->  To search in a directory but exclude a particular directory.
 
-     find build -not \( -path build/external -prune \) -name \*.js
-(OR) find  -iname make* -not -path "./BIN*"        --> This command searches for filenames starting with "make" but does not put files from directory "BIN*"
+      find build -not \( -path build/external -prune \) -name \*.js
+(OR)  find  -iname make* -not -path "./BIN*"        --> This command searches for filenames starting with "make" but does not put files from directory "BIN*"
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --> find / -mtime 50           --> To find all the files which are modified 50 days back.
@@ -514,14 +508,14 @@ e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
 
     find / -mmin -60           --> To find all the files which are modified in last 1 hour.
 
-    find ./test ./dir2 -type f -name "abc*"    --> Searching in multiple directories together.
+    find ./test ./dir2 -type f -name "abc*"         --> Searching in multiple directories together.
 
-    find ./dir -maxdepth 2 -iname "*.log"      --> Search the files ending with .log in directory "dir" till max depth of 2.
+    find ./dir -maxdepth 2 -iname "*.log"           --> Search the files ending with .log in directory "dir" till max depth of 2.
 
-    find 'ls *.log' -iname "*" -exec echo {} \;    --> If you want find command to iterate over files in alphabetic order.
+    find 'ls *.log' -iname "*" -exec echo {} \;     --> If you want find command to iterate over files in alphabetic order.
 
-    find dir* -type f -iname "*.log"               --> Always put name of file withing double quotes. You can use some pattern inside
-                                                       path value. In this case dir*
+    find dir* -type f -iname "*.log"                --> Always put name of file withing double quotes. You can use some pattern inside
+                                                        path value. In this case dir*
 
     -> This following command is used to copy all the files with same name to a same directory.
 
@@ -534,12 +528,12 @@ e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -->  find -exec switch. (Match last occurance in the file using grep)
 
-     find . -iname "myocyte.log" -exec echo {} \;   -exec sh -c ' tac {} | grep -m1 -a "gpu_tot_ipc" ' \; 
-             Here each {} will be replaced by a search from the find command. Use multiple -exec switches if you want to run multiple commands for each find 
-             result. 
+      find . -iname "myocyte.log" -exec echo {} \;   -exec sh -c ' tac {} | grep -m1 -a "gpu_tot_ipc" ' \; 
+              Here each {} will be replaced by a search from the find command. Use multiple -exec switches if you want to run multiple commands for each find 
+              result. 
 
-             Here 'm1' will match only one occurance of the pattern.
-             and  -a   option will ignore some binary data when you are processing a file in reverse order.
+              Here 'm1' will match only one occurance of the pattern.
+              and  -a   option will ignore some binary data when you are processing a file in reverse order.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> find -printf switch
 
@@ -547,9 +541,9 @@ e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -->  find uses -type switch to select types of files to be selected.
 
-     find . -type d    				 -->  It lists only directories in the current directory.
-     find . -type f     			 -->  List only regular files. 
-     find /mydir/mysubdir -executable -type f    -->  To find all the executable files under a given directory.
+      find . -type d    				 -->  It lists only directories in the current directory.
+      find . -type f     			 -->  List only regular files. 
+      find /mydir/mysubdir -executable -type f    -->  To find all the executable files under a given directory.
 
 (Use following characters along with -type to select a specific file type)       
 
@@ -563,436 +557,436 @@ e.g-  grep 'search-pattern' --include \*.cpp --include \*.h
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -->  Deleting the files matched by file
 
-     find . -name "*.txt" -delete
+      find . -name "*.txt" -delete
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -->  Search files based on file size
   
-     find . -type f -size +2k   --> Files of size greater than 2kb
-     find . -type f -size -2k   --> Files of size less than 2kb
-     find . -type f -size 2k    --> Files of size exactly than 2kb
+      find . -type f -size +2k   --> Files of size greater than 2kb
+      find . -type f -size -2k   --> Files of size less than 2kb
+      find . -type f -size 2k    --> Files of size exactly than 2kb
 ==============================================================================================================================================================  
- 56] To redirect the output of a command to vim editor, use follwing command
+56] To redirect the output of a command to vim editor, use follwing command
 
-     <your command> | vim -
-     note the dash after vim command. 
-==============================================================================================================================================================  
-
- 57] While you are debugging a program with gdb, how to direct the output of the program to a file and open that file in 
-     another terminal while output is being written to that file.
-
-     first create the file "file_name"
-     when you are inside gdb issue "tty <file_name>" command.
-     now in another terminal issue "tail -f <file_name>" command.
-
-==============================================================================================================================================================  
- 57.1] To change a line in a file use following -
-
-  cat /home/rakesh/gpgpu-sim_distribution/configs/GTX480/gpgpusim.config |sed -e "s/#-gpgpu_scheduler gto/-gpgpu_scheduler gto/" 
-       -e "s/-gpgpu_scheduler lrr/#-gpgpu_scheduler lrr/" > tempone
-
-  mv -f tempone /home/rakesh/gpgpu-sim_distribution/configs/GTX480/gpgpusim.config
-
+      <your command> | vim -
+      note the dash after vim command. 
 ==============================================================================================================================================================  
 
- 58] To check cpu details like cache size AND number of cores
+57] While you are debugging a program with gdb, how to direct the output of the program to a file and open that file in 
+    another terminal while output is being written to that file.
 
-     cat /proc/cpuinfo
-     OR 
-     lscpu
-     OR
-     x86info -c
-     OR
-     sudo dmidecode -t cache
-     OR
-     sudo lshw -C memory
+    first create the file "file_name"
+    when you are inside gdb issue "tty <file_name>" command.
+    now in another terminal issue "tail -f <file_name>" command.
+
+==============================================================================================================================================================  
+57.1] To change a line in a file use following -
+
+      cat /home/rakesh/gpgpu-sim_distribution/configs/GTX480/gpgpusim.config |sed -e "s/#-gpgpu_scheduler gto/-gpgpu_scheduler gto/" 
+      -e "s/-gpgpu_scheduler lrr/#-gpgpu_scheduler lrr/" > tempone
+
+      mv -f tempone /home/rakesh/gpgpu-sim_distribution/configs/GTX480/gpgpusim.config
+
 ==============================================================================================================================================================  
 
- 59] To switch to the previous working directory in terminal 
-     cd - 
+58] To check cpu details like cache size AND number of cores
+
+    cat /proc/cpuinfo
+    OR 
+    lscpu
+    OR
+    x86info -c
+    OR
+    sudo dmidecode -t cache
+    OR
+    sudo lshw -C memory
 ==============================================================================================================================================================  
 
- 60] How to make the window half and move to one side of the screen.
+59] To switch to the previous working directory in terminal 
+    cd - 
+==============================================================================================================================================================  
 
-     ctr + window_button + arrow_key
+60] How to make the window half and move to one side of the screen.
+
+    ctr + window_button + arrow_key
 ===================================================================================================================================================  
 
- 61] To switch from one workspace to other
+61] To switch from one workspace to other
 
-     ctrl + alt + arrow_key
+    ctrl + alt + arrow_key
 ===================================================================================================================================================
- 61.1] bg, fg, job, kill and ctr+z
- 
-     & 		 --> appending ampersend at the end of the job makes it to run in background.
-     ctrl+z bg   --> suspend current job and start executing it in background. Helps if you forgot to put ampersand then you need not kill this job.
-                    suspend it temporarily by pressing ctrl z and then start running it in background by issuing fg command.
+61.1] bg, fg, job, kill and ctr+z
 
-    jobs         --> issue this command to get status of all jobs running in background.
-    fg 		 --> if we do not specify any of the argument to this command it brings most recent background job to foreground.
-    fg %1        --> It will bring job with id 1 to foreground. Here %1 is job id and you can obtain it by running job command.
-    kill %1      --> It will kill background job with job id %1.
-    kill $(jobs -p)  --> To kill all background jobs.
+    & 		            --> appending ampersend at the end of the job makes it to run in background.
+    ctrl+z bg         --> suspend current job and start executing it in background. Helps if you forgot to put ampersand then you need not kill this job.
+                          suspend it temporarily by pressing ctrl z and then start running it in background by issuing fg command.
+
+    jobs              --> issue this command to get status of all jobs running in background.
+    fg 		            --> if we do not specify any of the argument to this command it brings most recent background job to foreground.
+    fg %1             --> It will bring job with id 1 to foreground. Here %1 is job id and you can obtain it by running job command.
+    kill %1           --> It will kill background job with job id %1.
+    kill $(jobs -p)   --> To kill all background jobs.
 
     pgrep <firefox>   --> It will list the pids of all the instances of firefox in chronological order i.e. the pid of first instance will be on the top.
     kill -9 <pid>     --> If normal "kill <pid>" you are unable to kill a process by this command then use this command. It should work.
     killall <firefox> --> Instead of killing by pid you can kill all instances of an application by using killall command followed by application name.
 
-    ctrl+d       --> I think it will kill backgroud jobs.
-    command1 && command2 &   --> In this case, command2 will be executed only if command1 is completed successfully.
-    command1 || command2 &   --> In this case, command2 will be executed only if command1 is fails.
+    ctrl+d                    --> I think it will kill backgroud jobs.
+    command1 && command2 &    --> In this case, command2 will be executed only if command1 is completed successfully.
+    command1 || command2 &    --> In this case, command2 will be executed only if command1 is fails.
 
     If you have list of the process IDs that you want to kill then use following syntax
 
         ps -u | grep '<process_name>' |  | while read x; do kill -9 x; done
 
 ===================================================================================================================================================
- 61.2] Jobs command options 
- 
-     -l 	Lists process IDs in addition to the normal information.
-     -n 	List only processes that have changed status since the last notification. 
-     -p 	Lists process IDs only.
-     -r 	Restrict output to running jobs.
-     -s 	Restrict output to stopped jobs.
+61.2] Jobs command options 
+
+      -l 	Lists process IDs in addition to the normal information.
+      -n 	List only processes that have changed status since the last notification. 
+      -p 	Lists process IDs only.
+      -r 	Restrict output to running jobs.
+      -s 	Restrict output to stopped jobs.
 
 ===================================================================================================================================================
- 61.3] Service and System Controls
+61.3] Service and System Controls
 
-     sudo service <service_name> start   --> This is command to start the service named "service_name"
-     sudo service <service_name> stop
-     sudo systemctl start <service_name> --> Starts a service named "service_name" using system control.
-     sudo systemctl stop <service_name>
-
-===================================================================================================================================================
- 61.4] Crontab
-     crontab -e  			--> Opens a file to config crontabs for the current user.
-     sudo crontab -e                    --> It opens the crontab for root user.
-     m h  dom mon dow   command         --> This is the format in which commands are writeen in crontab file. m-minute, h-hour, dom-dayOfMonth,
-					    mon-month, dow-dayOfWeek, command-commandThatYouWantToRun.
-     0 5 * * 0 ls                       --> 5am on every sunday it will execute command ls.
+      sudo service <service_name> start   --> This is command to start the service named "service_name"
+      sudo service <service_name> stop
+      sudo systemctl start <service_name> --> Starts a service named "service_name" using system control.
+      sudo systemctl stop <service_name>
 
 ===================================================================================================================================================
- 62] Files having ".a" extension
+61.4] Crontab
+      crontab -e  			              --> Opens a file to config crontabs for the current user.
+      sudo crontab -e                 --> It opens the crontab for root user.
+      m h  dom mon dow   command      --> This is the format in which commands are writeen in crontab file. m-minute, h-hour, dom-dayOfMonth,
+                                          mon-month, dow-dayOfWeek, command-commandThatYouWantToRun.
+     0 5 * * 0 ls                     --> 5am on every sunday it will execute command ls.
+
+===================================================================================================================================================
+62] Files having ".a" extension
   
-     https://en.wikipedia.org/wiki/Static_library
+    https://en.wikipedia.org/wiki/Static_library
 
-     ".a" files are static libraries typically generated by the archive tool (ar utility in linux). They are statically linked i.e. when you are
-     using -c option while compiling with gcc. 
+    ".a" files are static libraries typically generated by the archive tool (ar utility in linux). They are statically linked i.e. when you are
+    using -c option while compiling with gcc. 
 
-     Static library also means whenever you change the library, you need to compile and build the code once again.
+    Static library also means whenever you change the library, you need to compile and build the code once again.
 
-     when you are using some static library code, it is taken from the library and is embeded into your binary. But when you use dynamic libraries i.e.
-     .so files, some library funciton code is not embeded into your binary file, instead it is just referenced and loded/added to your code at
-     runtime. They are linked dynamically means they are referenced after creation of .o files.   
+    when you are using some static library code, it is taken from the library and is embeded into your binary. But when you use dynamic libraries i.e.
+    .so files, some library funciton code is not embeded into your binary file, instead it is just referenced and loded/added to your code at
+    runtime. They are linked dynamically means they are referenced after creation of .o files.   
 
-     while compiling, we usually include the header files associated with that static library and link to the library.
+    while compiling, we usually include the header files associated with that static library and link to the library.
 
-     Static library is usually collection of ".o" files.
+    Static library is usually collection of ".o" files.
 
-     To use static libraries with gcc, collect all .a files in a lib/ folder and then link with "-Llib/" (note there is no white space between -L 
-     and directory) and "-l<name of specific library>".
+    To use static libraries with gcc, collect all .a files in a lib/ folder and then link with "-Llib/" (note there is no white space between -L 
+    and directory) and "-l<name of specific library>".
 
-     Collection of all .a files into lib/ is optional. Doing so makes for better looking directories with nice separation of code and libraries,
-     
-     We can see the contents of a "foo.a" static library by using "ar tv foo.a"
+    Collection of all .a files into lib/ is optional. Doing so makes for better looking directories with nice separation of code and libraries,
+    
+    We can see the contents of a "foo.a" static library by using "ar tv foo.a"
 ===================================================================================================================================================
 
- 62.1] To send notfication to desktop after job is finished in ubuntu use -
+62.1] To send notfication to desktop after job is finished in ubuntu use -
 
-     notify-send "Message to be flashed on screen"
-     notify-send -u critical -t 0 "hi"             --> If you want your note to stay untill you close it.
- 
-======================================================================================================================================================
-
- 63] Files having ".so" extension
-
-     https://en.wikipedia.org/wiki/Library_%28computing%29#Shared_libraries
-======================================================================================================================================================
-
- 64] What are static and dynamic libraries? How to create them and use them ?
-
-     http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
-======================================================================================================================================================
-
- 65] ar command and it's uses in linux
-     
-     UNIX ar Examples: How To Create, View, Extract, Modify C Archive Files (*.a) i.e static libraries ?
-
-     http://www.thegeekstuff.com/2010/08/ar-command-examples/
-======================================================================================================================================================
-
- 66] compiling c++ code with a library "libarith.a" from "/home/guest/" directory.
-
-     gcc -Wall example.c -L/home/guest/ -larith -o example
-======================================================================================================================================================
-
- 67] -fno-inline-small-functions -fno-default-inline
+      notify-send "Message to be flashed on screen"
+      notify-send -u critical -t 0 "hi"             --> If you want your note to stay untill you close it.
 
 ======================================================================================================================================================
- 68] To shorten the pwd path shown at left side of the terminal and again revet to normal use following -
 
-     $ export OLD_PS1=$PS1                    # save Long Prompt to OLD_PS1
-     $ export PS1="\u > "export PS1="\u $ "   # change to PS1 to Short Prompt
-     $ export PS1=$OLD_PS1                    # restore Long Prompt to PS1
+63] Files having ".so" extension
 
-(OR) or you can just do like this :-
-     export PS1='\u@\h$ '
+    https://en.wikipedia.org/wiki/Library_%28computing%29#Shared_libraries
+======================================================================================================================================================
+
+64] What are static and dynamic libraries? How to create them and use them ?
+
+    http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+======================================================================================================================================================
+
+65] ar command and it's uses in linux
+    
+    UNIX ar Examples: How To Create, View, Extract, Modify C Archive Files (*.a) i.e static libraries ?
+
+    http://www.thegeekstuff.com/2010/08/ar-command-examples/
+======================================================================================================================================================
+
+66] compiling c++ code with a library "libarith.a" from "/home/guest/" directory.
+
+    gcc -Wall example.c -L/home/guest/ -larith -o example
+======================================================================================================================================================
+
+67] -fno-inline-small-functions -fno-default-inline
+
+======================================================================================================================================================
+68] To shorten the pwd path shown at left side of the terminal and again revet to normal use following -
+
+    $ export OLD_PS1=$PS1                    # save Long Prompt to OLD_PS1
+    $ export PS1="\u > "export PS1="\u $ "   # change to PS1 to Short Prompt
+    $ export PS1=$OLD_PS1                    # restore Long Prompt to PS1
+
+(OR)  or you can just do like this :-
+      export PS1='\u@\h$ '
             and to revert back you need to just close the terminal and open, so that again you will be able to see pwd at your left side.
 =========================================================================================================================================================
 
- 69] how to keep ssh session alive for long time, if you are working on ther remote server - 
+69] how to keep ssh session alive for long time, if you are working on ther remote server - 
     
-     https://docs.oseems.com/general/application/ssh/disable-timeout
+    https://docs.oseems.com/general/application/ssh/disable-timeout
 
-     If you want to keep only your session alive on server, without changing other user's settings, add this option "ServerAliveInterval 30" to file
-     "~/.ssh/config". or while establishing ssh connection use this parameter -
+    If you want to keep only your session alive on server, without changing other user's settings, add this option "ServerAliveInterval 30" to file
+    "~/.ssh/config". or while establishing ssh connection use this parameter -
 
-     ssh -o ServerAliveInterval=30 user@example.com
+    ssh -o ServerAliveInterval=30 user@example.com
 =========================================================================================================================================================
 
- 70] passwd     -->	Use this command to change the password of your account via ssh connection.
+70] passwd     -->	Use this command to change the password of your account via ssh connection.
 =========================================================================================================================================================
- 71] ldd <executable>
+71] ldd <executable>
 
-     -d and -r options are useful in handeling "undefined symbol" errors.
+    -d and -r options are useful in handeling "undefined symbol" errors.
 
-     here executable should be .so file, I think it does not work for .a type of libraries and normal binary files.
+    here executable should be .so file, I think it does not work for .a type of libraries and normal binary files.
 
-     ldd is the utility, with which you can find out whether loader is able to find all the dynamically linked libraries required to run this 
-     executable. It will list out all the libraries, and specify where those libraries are located or list not found if not able to find.
+    ldd is the utility, with which you can find out whether loader is able to find all the dynamically linked libraries required to run this 
+    executable. It will list out all the libraries, and specify where those libraries are located or list not found if not able to find.
 
- -->    ldd <TestCppProgram_executable>
+-->    ldd <TestCppProgram_executable>
 
-     (Shows you where your program is getting it's libraries from. An early-on careful inspection of this would've quickly let me to my problem!)
-     
- -->    ldd -d -r TestCppProgram 
+    (Shows you where your program is getting it's libraries from. An early-on careful inspection of this would've quickly let me to my problem!)
+    
+-->    ldd -d -r TestCppProgram 
 
-     ( Shows you any undefined symbols. There shouldn't be any undefined symbols for an executable, but there will be for a shared lib if it depends on
-       another shared lib. Somebody please correct me if I'm wrong )
+      ( Shows you any undefined symbols. There shouldn't be any undefined symbols for an executable, but there will be for a shared lib if it depends on
+      another shared lib. Somebody please correct me if I'm wrong )
 
- -->    readelf -d TestCppProgram 
+-->    readelf -d TestCppProgram 
 
-     ( Shows library dependencies. It is similar to ldd.)
-=========================================================================================================================================================
-
-  71.1] nm utility program (check this webpage http://gdwarner.blogspot.in/2009/03/c-runtime-symbol-lookup-error.html )
- 
- --> nm TestCppProgram | c++filt 
- 
-    (displays unmangled symbol information)
- 
- --> nm TestCppProgram 
-
-    ( Displays mangled symbol information. ie: You should be able to find stuff like ZN12CppProgramC1Ev in here. In my problem above, I found which line
-     number the undefined symbol in question was on, and then looked it up in the unmangled version to see what function it was trying to resolve. It let
-     me know, but it didn't really help me find out what my problem was.)
-
+      ( Shows library dependencies. It is similar to ldd.)
 =========================================================================================================================================================
 
-  71.2] strings <executable>
+71.1] nm utility program (check this webpage http://gdwarner.blogspot.in/2009/03/c-runtime-symbol-lookup-error.html )
 
- --> strings is mainly useful for determining the contents of non-text files. 
+      --> nm TestCppProgram | c++filt 
 
- --> I was getting some undefined symbol error for symbol cudaGraphicsGLRegisterBuffer, so to check whether that symbol is there in particular executable
-     I used command -
+          (displays unmangled symbol information)
 
-		strings <executable> | grep "cudaGraphicsGLRegisterBuffer"  
+      --> nm TestCppProgram 
+
+          ( Displays mangled symbol information. ie: You should be able to find stuff like ZN12CppProgramC1Ev in here. In my problem above, I found which line
+          number the undefined symbol in question was on, and then looked it up in the unmangled version to see what function it was trying to resolve. It let
+          me know, but it didn't really help me find out what my problem was.)
+
+=========================================================================================================================================================
+
+71.2] strings <executable>
+
+      --> strings is mainly useful for determining the contents of non-text files.   
+
+      --> I was getting some undefined symbol error for symbol cudaGraphicsGLRegisterBuffer, so to check whether that symbol is there in particular executable
+          I used command -
+
+      strings <executable> | grep "cudaGraphicsGLRegisterBuffer"  
       
 =========================================================================================================================================================
- 71.3] wc    -> Use this command to count number of words, lines and bytes in given file.
- 71.4] watch -> Execute a program periodically, showing output fullscreen.
- 72.5] nl    -> Using this you can give line numbers to the ouput.
+71.3] wc    -> Use this command to count number of words, lines and bytes in given file.
+71.4] watch -> Execute a program periodically, showing output fullscreen.
+72.5] nl    -> Using this you can give line numbers to the ouput.
 
 =========================================================================================================================================================
 
- 72] objdump -f libboost_filesystem.a | grep ^architecture
+72] objdump -f libboost_filesystem.a | grep ^architecture
 
-     This is the command to find out whether given library is 32 bit or 64 bit library.
+    This is the command to find out whether given library is 32 bit or 64 bit library.
 ========================================================================================================================================================
 
- 73] To download all the videos from a playlist of a youtube, copy url of first video in that playlist, now paste that in www.youtubemultidownloader.com
-     website and you will get big text file containing urls, now use batch download from clipboard feature of "uget" and import this text file, thus you
-     can download all videos from this playlist.
+73] To download all the videos from a playlist of a youtube, copy url of first video in that playlist, now paste that in www.youtubemultidownloader.com
+    website and you will get big text file containing urls, now use batch download from clipboard feature of "uget" and import this text file, thus you
+    can download all videos from this playlist.
 
-     or else download using 4k youtube to mp3 software. it downloads and converts only 25 videos at a time to mp3. so copy url links to a file and
-     import that file.
+    or else download using 4k youtube to mp3 software. it downloads and converts only 25 videos at a time to mp3. so copy url links to a file and
+    import that file.
 ======================================================================================================================================================
 
- 74] printenv
+74] printenv
 
-     Use above command to print all the environment variables set in current terminal.
+    Use above command to print all the environment variables set in current terminal.
 ======================================================================================================================================================
 
- 75] To find where the executable file is stored, use following commands-
+75] To find where the executable file is stored, use following commands-
   
-     which <executable>
-     whereis <executable> 
+    which <executable>
+    whereis <executable> 
 ======================================================================================================================================================
 
- 76] How to set default include paths where header files will be searched for both c and cpp ?
+76] How to set default include paths where header files will be searched for both c and cpp ?
 
 set 
- C_INCLUDE_PATH (for C header files) and
- CPLUS_INCLUDE_PATH (for C++ header files).
- CPATH will set the path for both C and C++.
+  C_INCLUDE_PATH (for C header files) and
+  CPLUS_INCLUDE_PATH (for C++ header files).
+  CPATH will set the path for both C and C++.
 ================================================================================================================================================================================
 
- 77] "bash" command in linux
+77] "bash" command in linux
 
       When you run bash you are creating a new bash subshell within your current shell (even if your current shell was already bash), the $SHLVL 
       environment variable will also be incremented within that new shell.
 ================================================================================================================================================================================
 
- 78] echo $SHELL
-     command to know which shell (bash/dash) you are currently working on.
+78] echo $SHELL
+    command to know which shell (bash/dash) you are currently working on.
 ================================================================================================================================================================================
 
- 79] To set up size limit on the cumulative file sizes that are being written by processes in  current shell script, use following command
+79] To set up size limit on the cumulative file sizes that are being written by processes in  current shell script, use following command
 
-     ulimit -f $((200*1024))                -This sets 200 MB file size limit for all the processes run in the current shell.  
+    ulimit -f $((200*1024))                -This sets 200 MB file size limit for all the processes run in the current shell.  
 ================================================================================================================================================================================
 
- 80] To see the difference between two files use "diff" command -
+80] To see the difference between two files use "diff" command -
 
-          -s convey message when two files are same
-  	  -y two column output
-	  -i ignore case while comparing
-	  -w ignore white-spaces
-	  -r recursively compare files between the two directories specified
-	  -q report if files differ, not the details of difference
-   
+    -s convey message when two files are same
+    -y two column output
+    -i ignore case while comparing
+    -w ignore white-spaces
+    -r recursively compare files between the two directories specified
+    -q report if files differ, not the details of difference
+
         see this website for more details..
 
 	diff file1.txt file2.txt -y -W 128
 	-y will output two files in columns format and -W specifies width of each column.
 
- 	https://www.quora.com/What-is-the-best-Unix-command-to-compare-two-different-text-files-in-a-comprehensive-manner
+  https://www.quora.com/What-is-the-best-Unix-command-to-compare-two-different-text-files-in-a-comprehensive-manner
 
   ---> To get difference between two different directories.
 
-       diff -qr dir1/ dir2/
-(OR)   diff  --brief --recursive dir1/ dir2/
+      diff -qr dir1/ dir2/
+(OR)  diff  --brief --recursive dir1/ dir2/
 
-       Both of the above commands are exactly same and they will just list out the files from both the directories which differ in content.   
+      Both of the above commands are exactly same and they will just list out the files from both the directories which differ in content.   
 
   ---> Files existing in first directory but not in the other directory, use this command
- 
-       diff -r dir1 dir2 | grep dir1 | awk '{print $4}'   (NOT SURE WHETHER THIS WILL WORK OR NOT.)
+
+      diff -r dir1 dir2 | grep dir1 | awk '{print $4}'   (NOT SURE WHETHER THIS WILL WORK OR NOT.)
 
   ---> Another good way to do is to use git 
 
- (OR)  git diff --no-index dir1/ dir2/
+  (OR)  git diff --no-index dir1/ dir2/
 
   ---> Another good way to do diff using vim is  
 
- (OR)  vim -c "DirDiff dir1 dir2"
+  (OR)  vim -c "DirDiff dir1 dir2"
 
- (OR)  diffuse - A tool to get difference between multiple files.
- =====================================================================================================================================================================================
+  (OR)  diffuse - A tool to get difference between multiple files.
+=====================================================================================================================================================================================
 
- 81] I used commands from this website to install pantheon
+  81] I used commands from this website to install pantheon
 
   http://www.noobslab.com/2014/03/elementary-os-file-manager-pantheon.html
 
   and removed marlin file browser so that pantheon can work properly.
 =====================================================================================================================================================================================
- 
- 82] du -sh <directory>
 
-     This command is used to get the size of the directory <directory>. Here '-s' option means summarise, '-h' option means human readable.
+  82] du -sh <directory>
 
-     du -sch <directory> <directory>
+    This command is used to get the size of the directory <directory>. Here '-s' option means summarise, '-h' option means human readable.
 
-     In the same command you can specify more than one directories. '-c' option will print total size of the directory after printing all the directories 
-     along with their respective sizes.
+    du -sch <directory> <directory>
 
-     du -bsh <directory>
+    In the same command you can specify more than one directories. '-c' option will print total size of the directory after printing all the directories 
+    along with their respective sizes.
 
-     '-b' option will give actual byte sizes of the files.
+    du -bsh <directory>
+
+    '-b' option will give actual byte sizes of the files.
 =====================================================================================================================================================================================
 
- 83] df -h .        -->     This command is used to know the free space in the disk.
+  83] df -h .        -->     This command is used to know the free space in the disk.
 ===========================================================================================================================================================
 
- 84] In some linux commands, we can specify only one space as delimiter to distinguish between fields. So use the truncate command to reduce multiple 
-     spaces to single space.
+  84] In some linux commands, we can specify only one space as delimiter to distinguish between fields. So use the truncate command to reduce multiple 
+      spaces to single space.
 
-     cat text.txt | tr -s ' ' | cut -d ' ' -f4
+      cat text.txt | tr -s ' ' | cut -d ' ' -f4
 
-     -s, --squeeze-repeats   replace each input sequence of a repeated character
+      -s, --squeeze-repeats   replace each input sequence of a repeated character
                         that is listed in SET1 with a single occurrence
                         of that character
 
-     Here, tr truncates the multiple spaces characters to single space character. Then we use cut command to print only first 4 fields.  
+      Here, tr truncates the multiple spaces characters to single space character. Then we use cut command to print only first 4 fields.  
 ======================================================================================================================================================================
 
- 85] To match multiple line pattern you can use "pcregrep" command instead of grep. It is similar to grep command but used "pcre" regular expression library to
-     support patterns that are compatible with regular expressions of perl 5.
+  85] To match multiple line pattern you can use "pcregrep" command instead of grep. It is similar to grep command but used "pcre" regular expression library to
+      support patterns that are compatible with regular expressions of perl 5.
 
 
-     pcregrep -M --buffer-size=100k "^L2Cache Block Address:.*[\n].* t=10 .*[\n] Evicted" wp.log 
+      pcregrep -M --buffer-size=100k "^L2Cache Block Address:.*[\n].* t=10 .*[\n] Evicted" wp.log 
 
-     -M 		 option allows to match patterns more than one line.
-     --buffer-size	 If some of the lines in file are big then default buffer size of 20k is not sufficient, so change buffer size to randomlly bigger
-			 value.
+      -M 		 option allows to match patterns more than one line.
+      --buffer-size	 If some of the lines in file are big then default buffer size of 20k is not sufficient, so change buffer size to randomlly bigger
+      value.
 
-     Go through this "pcre" regular expression library cheat sheet "https://www.debuggex.com/cheatsheet/regex/pcre"
+    Go through this "pcre" regular expression library cheat sheet "https://www.debuggex.com/cheatsheet/regex/pcre"
 ======================================================================================================================================================================
 
- 86] To copy a file or output of a command to clipboard so that you can paste it outside by using mouse, 
- 
-     sudo apt-get install xclip
-     cat file | xclip
-     cat file | xclip -sel clip   --> Now the content is copied to clipboard and you can use ctrl+v command to paste it wherever you want.
+86] To copy a file or output of a command to clipboard so that you can paste it outside by using mouse, 
 
-     To use content copied by mouse for I/O redirection in terminal use this command -
-     xclip -o
+    sudo apt-get install xclip
+    cat file | xclip
+    cat file | xclip -sel clip   --> Now the content is copied to clipboard and you can use ctrl+v command to paste it wherever you want.
+
+    To use content copied by mouse for I/O redirection in terminal use this command -
+    xclip -o
 ======================================================================================================================================================================
- 
- 87] 
-     alias ll='ls -l'     --> ll command in bash will be mapped to "ls -l"
-     alias  		  --> It will show all alias command mapping that you are currently using.
-     type <your command>  --> This will show the mapping of your used defined command to linux command.
+
+87] 
+    alias ll='ls -l'     --> ll command in bash will be mapped to "ls -l"
+    alias  		  --> It will show all alias command mapping that you are currently using.
+    type <your command>  --> This will show the mapping of your used defined command to linux command.
 
 eg - Some standard alias for ls
 
- alias l =’ls�?        # save fingers!
+  alias l =’ls�?        # save fingers!
 
- alias ll=’ls -l�?     # long listing of ls
+  alias ll=’ls -l�?     # long listing of ls
 
- alias lf=’ls -CF�?    # colors and file types
+  alias lf=’ls -CF�?    # colors and file types
 
- alias lx=’ls -lXB�?   # sort by filename extension
+  alias lx=’ls -lXB�?   # sort by filename extension
 
- alias lk=’ls -lSr�?   # sort by size
+  alias lk=’ls -lSr�?   # sort by size
 
- alias la=’ls -A�?     # show hidden files
+  alias la=’ls -A�?     # show hidden files
 
- alias lt=’ls -ltr'   # sort by date
+  alias lt=’ls -ltr'   # sort by date
 ======================================================================================================================================================================
 
- 88] If you want to know the name of binary file itself inside it while it is executing, you can get it at
-     /proc/self/exe
+88] If you want to know the name of binary file itself inside it while it is executing, you can get it at
+      /proc/self/exe
 ======================================================================================================================================================================
 
- 89] Scheduling a command/ running a script after some time in terminal.
+89] Scheduling a command/ running a script after some time in terminal.
 
-     use sleep command follwed by command to execute that script file.
+    use sleep command follwed by command to execute that script file.
 
-     sleep  15s ; echo "15 SECONDS COMPLETE" ; echo "HI"     -----> It will wait for 15 seconds then first it will print message "15 SECONDS COMPLETE" to 
+    sleep  15s ; echo "15 SECONDS COMPLETE" ; echo "HI"     -----> It will wait for 15 seconds then first it will print message "15 SECONDS COMPLETE" to 
                                                                     screen followed by message "HI"
 ======================================================================================================================================================================
- 
- 90] basename `pwd`
 
-     Basename command will discard the leading directory path and will return the name of last folder in argumented directory path.
+90] basename `pwd`
+
+    Basename command will discard the leading directory path and will return the name of last folder in argumented directory path.
 
 realpath <filename>     Use thiscommand to get full path of a file.
 (Or)
 readlink -f <filename>
 ======================================================================================================================================================================
 
- 91] #include <pstream.h>
-     This header file contains some routines which can be used to execute linux shell commands in cpp program and store the output of that command in the string.
+91] #include <pstream.h>
+    This header file contains some routines which can be used to execute linux shell commands in cpp program and store the output of that command in the string.
 
 	Below is example of this from gpu-sim.h file.
 
@@ -1001,36 +995,36 @@ readlink -f <filename>
 	std::getline(proc.out(), line); 
 ======================================================================================================================================================================
 
- 92] To get login history of a computer use following command -
+92] To get login history of a computer use following command -
 
-     last -f /var/log/wtmp.1
-     last -f /var/log/wtmp.0
-     last -n 20                --> Displays last 20 logins
+    last -f /var/log/wtmp.1
+    last -f /var/log/wtmp.0
+    last -n 20                --> Displays last 20 logins
 ======================================================================================================================================================================
 
- 93] To check whether a file is currently being written by any process or is open and being accessed by any process use 
-   
-     lsof <filename>
-     lsof *                -> all the files opened by some processes from current directory.
-     lsof +D dir           -> all the files opened by some processes from the directory dir.
-     lsof /var/log/syslog  -> list of all processes which opened current file.
-     lsof -c ssh           -> it lists all the files which are opened by a process whose name starts with ssh
-     lsof -u vikas	   -> it lists all the files opened by a specific user.
-     lsof -u ^vikas	   -> it lists all the files opened by all users except vikas.
-     lsof -p 1234          -> List of all the files which have been opened by a particular process.
-     lsof -i               -> List of all the open ports in Linux.
+93] To check whether a file is currently being written by any process or is open and being accessed by any process use 
+
+    lsof <filename>
+    lsof *                -> all the files opened by some processes from current directory.
+    lsof +D dir           -> all the files opened by some processes from the directory dir.
+    lsof /var/log/syslog  -> list of all processes which opened current file.
+    lsof -c ssh           -> it lists all the files which are opened by a process whose name starts with ssh
+    lsof -u vikas	        -> it lists all the files opened by a specific user.
+    lsof -u ^vikas	      -> it lists all the files opened by all users except vikas.
+    lsof -p 1234          -> List of all the files which have been opened by a particular process.
+    lsof -i               -> List of all the open ports in Linux.
 
 ======================================================================================================================================================================
 
- 94] To paste output of commands in column wise manner like one column after another instead of one below other with one temporary file.
+94] To paste output of commands in column wise manner like one column after another instead of one below other with one temporary file.
 
       to=$(< temp); grep -irn 'L1D_total_cache_miss_rate' $i | paste to - > temp" 
 (OR)
       to=$(cat temp); grep -irn 'L1D_total_cache_miss_rate' $i | paste to - > temp" 
 
 
-      $(< temp)    --> This command will cat contents of file "temp" and store it into variable "to". 
-                       Where temp file stores previous columanized output.
+      $(< temp)    -->  This command will cat contents of file "temp" and store it into variable "to". 
+                        Where temp file stores previous columanized output.
 
       paste to -   --> paste will output contents of file "to" and grep command in column wise manner and will also redirect it to "temp" file.
       
@@ -1038,48 +1032,48 @@ readlink -f <filename>
 
 (OR) Finally following command worked for me. I am using two temporary files "yoyo" and "to".  
 
-     echo > yoyo; echo > to; for i in `find  latest_origdev_4kb_2kthreads/  latest_origdev_4kb_morecta32_2kthreads/  -iname "cfd*" `; do \cp yoyo to; echo $i;
-     grep -e 'L1I_total_cache_miss_rate' $i | paste to - > yoyo;  done
+      echo > yoyo; echo > to; for i in `find  latest_origdev_4kb_2kthreads/  latest_origdev_4kb_morecta32_2kthreads/  -iname "cfd*" `; do \cp yoyo to; echo $i;
+      grep -e 'L1I_total_cache_miss_rate' $i | paste to - > yoyo;  done
 
 ======================================================================================================================================================================
 
- 95] If you are unable to create a file or write it to a directory then you can issue following command.
+95] If you are unable to create a file or write it to a directory then you can issue following command.
 
-     chmod -R 0777 /mydirectory              ---> Will allow all users read and write access to all files and folders within that directory
-     chmod +t /mydirectory		     ---> you may want to read about sticky bits, which allow all users to create new files, but not to delete or edit other 
+    chmod -R 0777 /mydirectory              --->  Will allow all users read and write access to all files and folders within that directory
+    chmod +t /mydirectory		                --->  you may want to read about sticky bits, which allow all users to create new files, but not to delete or edit other 
                                                   files in a directory
 ======================================================================================================================================================================
 
- 96] free command - Is used to check RAM status.
+96] free command - Is used to check RAM status.
 
-     free -h = It shows RAM status in human readable format.
-     free -m = In MBs
-     free -b = In Bytes
-     free -k = In Kilo Bytes.
+    free -h = It shows RAM status in human readable format.
+    free -m = In MBs
+    free -b = In Bytes
+    free -k = In Kilo Bytes.
 ======================================================================================================================================================================
 
- 97] set completion-ignore-case On   --> It will ignore case while using tab for autocompletion in bash 
+97] set completion-ignore-case On   --> It will ignore case while using tab for autocompletion in bash 
 ======================================================================================================================================================================
- 
- 98]  To run a command with a certain environment without changing the environment of the calling shell, you can call the command prefixed by the variable assignment:
+
+98]  To run a command with a certain environment without changing the environment of the calling shell, you can call the command prefixed by the variable assignment:
 
       LD_LIBRARY_PATH=/usr/mozilla/lib firefox
 
       This is a way to call Firefox and get it to run with the  LD_LIBRARY_PATH variable set to /usr/mozilla/lib (the default place to look for system libraries 
       would usually be just /usr/lib)
 ======================================================================================================================================================================
- 
- 99] Search among pdf files in a given directory use "pdfgrep" command.
 
-     pdfgrep -nHiR 'pattern' /path
+99] Search among pdf files in a given directory use "pdfgrep" command.
 
-     H: Print the file name for each match.
-     i: Ignore case distinctions.
-     R: Search directories recursively.
-     n: Tell the page number on which match was found.	
+    pdfgrep -nHiR 'pattern' /path
+
+    H: Print the file name for each match.
+    i: Ignore case distinctions.
+    R: Search directories recursively.
+    n: Tell the page number on which match was found.	
 ======================================================================================================================================================================
 
- 100] pushd, popd and dirs commands in linux
+100] pushd, popd and dirs commands in linux
 
       pushd    - use this command to push any directory on the stack.
       dirs     - use this command to view all directories on the stack.
@@ -1087,23 +1081,23 @@ readlink -f <filename>
       dirs -v  - It will show the directories along with their numbers, then use "cd ~1" to go the first directory. 
 ======================================================================================================================================================================
 
- 101] Trimming last n characters of each variable length line. Useful especially to remove extensions from filename.
+101] Trimming last n characters of each variable length line. Useful especially to remove extensions from filename.
 
         ls -1 | rev | cut -c 6- | rev
 ======================================================================================================================================================================
 
- 102] Printing file name along with matching pattern in grep    
+102] Printing file name along with matching pattern in grep    
 
         grep -H "pattern" file
- 
+
 ======================================================================================================================================================================
 
- 102.1] While using grep command on reversed file to print last occurance of the pattern, you should use -a switch.
+102.1] While using grep command on reversed file to print last occurance of the pattern, you should use -a switch.
 
         tac file.txt | grep  -m1 -a "pattern"     
 ======================================================================================================================================================================
 
- 102.2] Parallel grep (OR) parallelize any linux command.
+102.2] Parallel grep (OR) parallelize any linux command.
 
         find . -type f | parallel -j+1 grep mypattern
         find . -type f -print0  | xargs -0 -P number_of_processes -n 1 grep mypattern > output    --> "-0" tells stdin is a null-terminated list. For this you need to output
@@ -1112,12 +1106,12 @@ readlink -f <filename>
                                                                                                   --> "-n" tells max no of arguments to be passed to each invocation.
 ======================================================================================================================================================================
 
- 103] You can avoid error messages, like permission denied messages, by redirecting standard error's output to /std/null. like this
+103] You can avoid error messages, like permission denied messages, by redirecting standard error's output to /std/null. like this
 
       du -h 2> /std/null   
 ======================================================================================================================================================================
 
- 104] To delete lines in a file inplace, you can use following commands.
+104] To delete lines in a file inplace, you can use following commands.
     
       ed -s filename <<"IN"
       45d
@@ -1129,7 +1123,7 @@ readlink -f <filename>
       This deletes line 45 from file filename. Then it deletes lines 20 to 37.
 =====================================================================================================================================================================
 
- 105] For addition of numbers in a column using bash.
+105] For addition of numbers in a column using bash.
 
       use linux commands like grep, awk, cut to print contents of interested column to the terminal. Now pipe that output to the following commmand.
 
@@ -1138,7 +1132,7 @@ readlink -f <filename>
 (OR)  .....|jq -s 'add'
 
 =====================================================================================================================================================================
- 106] If you create a file on linux it will not be fromatted properly if you open it windows. Use following packages and commands to convert files from linux to windows
+106] If you create a file on linux it will not be fromatted properly if you open it windows. Use following packages and commands to convert files from linux to windows
       format and in reverse manner.
 
       sudo apt-get install dos2unix
@@ -1150,31 +1144,31 @@ readlink -f <filename>
       Usually you do not need to convert dos formatted files to unix format. Linux handles dos format files quite well.
 
 =====================================================================================================================================================================
- 107] shopt
+107] shopt
 
       This command controls lot of bash options which will affact how bash reacts. enable or disable autocode check using this command.
 
 	https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
 =====================================================================================================================================================================
- 108] timeout 10s command1   --> This will run the process launched by command1 for 10 seconds after that it kills that process.      
+108] timeout 10s command1   --> This will run the process launched by command1 for 10 seconds after that it kills that process.      
 
 =====================================================================================================================================================================
 
- 109] To launch the processes in background using for loop. Note that there is no semicolon before done.
+109] To launch the processes in background using for loop. Note that there is no semicolon before done.
 
       for i in /home/rakesh/cuda_4.2/NVIDIA_GPU_Computing_SDK/C/bin/linux/release/* ; do echo $i; $i  & done
 =====================================================================================================================================================================
 
     ************************
-     Process Accounting  -- http://www.shibuvarkala.com/2009/04/howto-enable-process-accounting-in.html
-                         -- ftp://ftp.gnu.org/old-gnu/Manuals/acct-6.3.2/html_mono/accounting.html
+      Process Accounting  -- http://www.shibuvarkala.com/2009/04/howto-enable-process-accounting-in.html
+                          -- ftp://ftp.gnu.org/old-gnu/Manuals/acct-6.3.2/html_mono/accounting.html
     ************************
 
     $ sudo apt-get install acct   --> Installing package for starting process accounting.
     $ sudo touch /var/log/pacct   --> Make a log file for process accounting
     $ sudo accton /var/log/pacct  --> Enable process accounting on,
-				  --> Command followed by filename.
+                                  --> Command followed by filename.
       (or)
     $ /etc/init.d/acct start
 
@@ -1189,12 +1183,12 @@ readlink -f <filename>
     $ sudo sa -m           --> Display the number of processes and number of CPU minutes on a per-user basis.
 =====================================================================================================================================================================
 
- 110] To convert the n consecutive lines from a file to column use "pr" command.
+  110] To convert the n consecutive lines from a file to column use "pr" command.
 
     cat file | 	pr --columns 3 -l 5    --> This command prints contents of "file" into 3 columns and page size is 5 lines. 
 =====================================================================================================================================================================
 
- 111] tr command   -->      This command is usefull in converting one character into other.
+  111] tr command   -->      This command is usefull in converting one character into other.
 
 	tr [:space:] '\t'      --> Convert space into tab.
 	tr -s [:space:] '\t'   --> It will squezze multiple spaces into single space and then convert space into tab.
@@ -1205,56 +1199,54 @@ readlink -f <filename>
         tr -cd [:print:]       --> This command removes all non printable characters from a file.
 ====================
 To open list of files searched by find command in vim use -
-      find . -type f -iname "*.c" -exec vi -p { } +
-this opens all the files in tabs.
+      find . -type f -iname "*.c" -exec vi -p { } +                         - this opens all the files in tabs.
 
-       find . -type f -iname "*.c" -exec vi { } \ ;
-this open files sequentially.
+      find . -type f -iname "*.c" -exec vi { } \ ;                          - this open files sequentially.
 
-       find . -type f -iname "*.c" | xargs -0 vim      - did not work.
+      find . -type f -iname "*.c" | xargs -0 vim                            - did not work.
 
-       find . -type f -iname "*.c" | xargs -d '\n'       - check this one.
+      find . -type f -iname "*.c" | xargs -d '\n'                           - check this one.
 
-       find . -type f -iname "*.c" | while read line; do vi $line; done     - this also did not work
+      find . -type f -iname "*.c" | while read line; do vi $line; done      - this also did not work
 
-     for i in $( find . -type f -iname "*.c" ); do vi $i; done.    - this works fine.
+      for i in $( find . -type f -iname "*.c" ); do vi $i; done.            - this works fine.
 
 ======================================================================================================================================================================
 
-112] To get the statistics of all the open ports on Linux machine - 
-     cat /etc/services
-     netstat -atu             ->  -a :show all sockets, -t :show TCP connections, -u :show UDP connections, -p : show pId of the processes
-     netstat -vaun            -> Show only UDP ports.
-     netstat -vatn            -> Show only TCP ports.
+112]  To get the statistics of all the open ports on Linux machine - 
+      cat /etc/services
+      netstat -atu             ->  -a :show all sockets, -t :show TCP connections, -u :show UDP connections, -p : show pId of the processes
+      netstat -vaun            -> Show only UDP ports.
+      netstat -vatn            -> Show only TCP ports.
 
-     lsof -n -P | grep LISTEN -> Disply open sockets.
+      lsof -n -P | grep LISTEN -> Disply open sockets.
 
-     lsof -i tcp              -> List all TCP connections.
-(OR) nmap -sT -O localhost
+      lsof -i tcp              -> List all TCP connections.
+(OR)  nmap -sT -O localhost
 
 
-     lsof -i udp              -> List all UDP connections.
-(OR) nmap -sU localhost
-     
+      lsof -i udp              -> List all UDP connections.
+(OR)  nmap -sU localhost
+    
 ======================================================================================================================================================================
-113] To copy all the files with same name to the same folder on linux machine make use of date command to generate random numbers, but I think it is not exactly random 
+113]  To copy all the files with same name to the same folder on linux machine make use of date command to generate random numbers, but I think it is not exactly random 
 
- find . -type d -name "FAIL*" | while read line; do echo $line; find $line -type f -name i2s_out.wav ; done | grep wav |  while read line; do xx=$(date +%N) ; cp -v  $line ../Rakesh/io$xx. wav; done 
+      find . -type d -name "FAIL*" | while read line; do echo $line; find $line -type f -name i2s_out.wav ; done | grep wav |  while read line; do xx=$(date +%N) ; cp -v  $line ../Rakesh/io$xx. wav; done 
 
 ======================================================================================================================================================================
 
 114] Python scripts to convert trailing whitespace characters and tabs to spaces are given below -
 
-     https://gist.github.com/Mizipzor/4da24230e31206650bff2f970a7093f3
-     Mizipzor/trimwhitespace.py  - check this one on github.
+    https://gist.github.com/Mizipzor/4da24230e31206650bff2f970a7093f3
+    Mizipzor/trimwhitespace.py  - check this one on github.
 
-     https://gist.github.com/antivanov/59e00f6129725e9b4404
-     antivanov/tabs2spaces.py    - check this on github
+    https://gist.github.com/antivanov/59e00f6129725e9b4404
+    antivanov/tabs2spaces.py    - check this on github
 ======================================================================================================================================================================
 
 115] Use following command to kill all the processes related to "anydesk"
- 
-     ps -ef | grep "anydesk" | awk '{print $2}' | while read line;  do sudo kill -9 $line  ; done
+
+      ps -ef | grep "anydesk" | awk '{print $2}' | while read line;  do sudo kill -9 $line  ; done
 ======================================================================================================================================================================
 
 116] 

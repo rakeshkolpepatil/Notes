@@ -7,7 +7,7 @@
 -------------------------------------------------------------
   - Python Functions must be defined before their use (above the line of usage)
     e.g.-
-    However, the following example will not throw any error as hello() function is not called untill main() function is called
+    However, the following example will not throw any error as hello() function is not called until main() function is called
     and main() function is called at the end of the file.
 
     def main():
@@ -347,9 +347,9 @@ e.g. -
 ----------------------------------------------------------------------------------------------------------
   Getter, setter function in python -
 ----------------------------------------------------------------------------------------------------------
-    Even through the Python language does not have the concept of private and public variables i.e. all the variabels are
+    Even through the Python language does not have the concept of private and public variables i.e. all the variables are
     public. There is a work around to hide variables and make them look private using decorators. Please note that python
-    do not enforce priateness of the variables. It is just an honor system and is based on hiding real variable names form 
+    do not enforce privateness of the variables. It is just an honor system and is based on hiding real variable names form 
     the user.
     
     eg.-
@@ -359,7 +359,7 @@ e.g. -
           self.name = name
           self.age = age
 
-        @property                    # spcifies to python that this is an getter function
+        @property                    # specifies to python that this is an getter function
         def name(self):
           return self._name
 
@@ -369,7 +369,7 @@ e.g. -
             raise ValueError('Name is not from specified set of names!')
           self._name = name
   
-        @property                   # spcifies to python that this is an getter function
+        @property                   # specifies to python that this is an getter function
         def age(self):
           return self._age
 

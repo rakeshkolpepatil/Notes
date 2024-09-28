@@ -1,6 +1,6 @@
 ♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
                         ==============================================================================
-                              ♣♣♣♣♣♣ Python coding - Frequenly required functionalities  ♣♣♣♣♣♣♣
+                              ♣♣♣♣♣♣ Python coding - Frequently required functionalities  ♣♣♣♣♣♣♣
                         ==============================================================================                        
 ♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣♣
 
@@ -38,7 +38,7 @@
 ===================================================================================================================================================
   ♣♣♣♣♣♣ Regular Expressions ♣♣♣♣♣♣♣
 ===================================================================================================================================================
-1) finding tokens having specified pattrn from a string using regular expressions in python.
+1) finding tokens having specified pattern from a string using regular expressions in python.
 
     temp = re.findall(r'\d{1,3}', stringToBeSearched)
 
@@ -955,7 +955,7 @@
       nums = [1, 2, 3, 4]
 
     - map() - map returns a 'map' object, you need to convert it into your desired type
-            - Also note that we just pass function name to the map without paranthesis. 
+            - Also note that we just pass function name to the map without parenthesis. 
       doubled = list(map(lambda x: x * 2, nums))
       print(doubled)                   # Output: [2, 4, 6, 8]
       mystr: str = 'hi how are you'
@@ -1513,16 +1513,16 @@
         .    : Matches any character except newline
         ^    : Matches the start of the string
         $    : Matches the end of the string
-        *    : Matches 0 or more repetitions of the preceeding element
+        *    : Matches 0 or more repetitions of the preceding element
         +    : Matches 1 or more repetitions of the preceding element
         ?    : Matches 0 or 1 repetition of the preceding element; also used for non-greedy matching
-        {m}  : Matches repititions of the preceding element exactly m times. 
-        {m,n}: Matches repititions of the preceding element from m-n times.
+        {m}  : Matches repetitions of the preceding element exactly m times. 
+        {m,n}: Matches repetitions of the preceding element from m-n times.
         []   : Matches any one of the characters inside the brackets. Used to specify a character class.
         [^]  : Matches any one of the characters which are not inside the brackets. Used to specify a character class.
         |    : Acts like a boolean OR. Matches either the expression before or the expression after the |.
         ()   : Groups a pattern. Groups expressions and captures the matched text.
-        \    : Escapes special characters. Escapes a metacharacter, making it a literal character. Also used for special sequences like \d, \w, etc.
+        \    : Escapes special characters. Escapes a meta character, making it a literal character. Also used for special sequences like \d, \w, etc.
 
       - Character Classes
         \A  : Matches the start of the string
@@ -1530,7 +1530,7 @@
         \B  : Matches a position that is not a word boundary
         \d  : Matches any digit (equivalent to [0-9])
         \D  : Matches any non-digit
-        \s  : Matches any whitespace character (spaces, tabs, linebreaks)
+        \s  : Matches any whitespace character (spaces, tabs, line breaks)
         \S  : Matches any non-whitespace character
         \w  : Matches any alphanumeric character plus underscore (equivalent to [a-zA-Z0-9_])
         \W  : Matches any non-alphanumeric character

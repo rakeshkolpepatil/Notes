@@ -7,7 +7,7 @@
 
 1. What kind of language is Python ?
     - Python is general purpose, dynamically typed, scripting language that also supports object oriented and as well as functional programming.
-    - The type of variables and expressions in Python is decided at runtime, also you can chage their value along with their type at runtime 
+    - The type of variables and expressions in Python is decided at runtime, also you can change their value along with their type at runtime 
       that is why it is - dynamically typed
     - Everything in Python in an object - object oriented
     - Python program can be made even without making any class and by dividing code into functions. In Python, functions are first class objects
@@ -16,12 +16,12 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 2. Is Python interpreted Language ?
     - An interpreted language is any programming language that does not generate machine level code before runtime.
-    - Compiled languages convert the source code into machine code and execute this machine code everytime the program is run.
+    - Compiled languages convert the source code into machine code and execute this machine code every time the program is run.
     - In interpreted languages, no machine level code is stored. Whenever program is needed to run, the code is converted to machine code on the fly.
     - Python source code is first compiled into intermediate code, called as 'Byte' code, which is not operating system understandable code.
     - This binary code is then executed by 'Python Virtual Machine'. Python virtual machines are different for different operating systems.
     - Python virtual machine acts as a Just in time compiler and converts the byte/binary code into machine code.
-    - Just in time compiler is different from interpreter. Interpreter waits for the execution of currently interpreted line before interpretting
+    - Just in time compiler is different from interpreter. Interpreter waits for the execution of currently interpreted line before interpreting
       the next line whereas just in time compiler keeps on translating the lines in the buffer without waiting for the execution, so that execution
       does not halt.
     - So, Python has just in time compiler
@@ -30,15 +30,15 @@
 3. What is difference between list and tuple ?
     - Both can store heterogeneous elements, can be split
     - In list we use square brackets whereas in tuple we use round brackets
-    - Tuple is immutable (once made no changes can be made afterwards) wereas list is mutable
+    - Tuple is immutable (once made no changes can be made afterwards) whereas list is mutable
     - List is used when we want frequent insertions and deletions of elements
-    - List takes more meory than tuples
+    - List takes more memory than tuples
     - The list class provides many functions for list manipulation, but the tuple class does not have as much functionality.
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 4. How is memory managed in Python ?
     - In Python, there are two types of memory: stack memory and private heap memory.
-    - The Python Memory Manager allocates this memory, while the garbage collector deallocates it.
+    - The Python Memory Manager allocates this memory, while the garbage collector de-allocates it.
     - Stack memory only stores references, whereas objects are stored in private heap memory.
     - In Python, the programmer does not need to manually release unused memory; the garbage collector handles this.
     - The garbage collector frees memory allocated to any object that is no longer referenced by any variable.
@@ -100,8 +100,8 @@
         print(it, end=' ')
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-8. How to implement variable lenght arguments in Python ?
-    - To have variable lenght arguments in Python function you need to use tuple. Using '*t' in argument list will create a tuple.
+8. How to implement variable length arguments in Python ?
+    - To have variable length arguments in Python function you need to use tuple. Using '*t' in argument list will create a tuple.
     e.g.-
     def average(*t):
       total = sum(t)
@@ -181,7 +181,7 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 14. Local Variables vs Global Variables
-    - Global variabel is a variable which is not defined inside a class or function
+    - Global variable is a variable which is not defined inside a class or function
     - It can be accessed from anywhere in the program
     - Local variables are the variables that are defined inside a block and their scope is limited to that block
 
@@ -218,7 +218,7 @@
         print('-------------------------------------\n')
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-15. What is type conversion in pyton ?
+15. What is type conversion in python ?
     - If 'x=5' is a statement in Python, then x is a reference variable that is created in stack space and '5'
       is stored in private heap space.
     e.g. -
@@ -247,7 +247,7 @@
 16. Decorators in Python ?
     - Decorator is a function which takes a function as an argument, modifies its functionality by forming a new 
       function and returns it.
-    - Whenever 'results()' function is called with @decor_result preceeding it, decor_result() function will be
+    - Whenever 'results()' function is called with @decor_result preceding it, decor_result() function will be
       executed instead of results() function. 'decor_result' function will return 'distinction()' function, and
       it will get executed first which will in turn call results() function.
     - If we remove '@decor_result' decorator, normal behavior will be resumed.
@@ -301,7 +301,7 @@
 
 18. What is an iterator in Python ?
     - The containers in Python like tuple, dict, range, list on which we can use for loop are iterable containers.
-    - The contianers like int, float are not iterable containers
+    - The containers like int, float are not iterable containers
     - Internally iterators use for loop only.
     - With iterator we can access the elements of the iterable container one by one
     - If iterator object is called more times than the number of elements in the container then 'StopIteration' error 
@@ -318,7 +318,7 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 19. What is generator in Python ?
-    - Generator is a specidal function in Python based on maths concept of generator.
+    - Generator is a special function in Python based on maths concept of generator.
     - Generator generates data based on some logical pattern in a series
     - Generator functions has a special keyword 'yield' which returns the value. 
     - The difference between 'yield' and 'return' is that 'yield' returns the value but not the 
@@ -428,12 +428,12 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 23. What is difference between the class methods, static methods, and instance methods in Python ?
-    - Class method will affact the actual class while the instance method will affact the instance of the class 
+    - Class method will affect the actual class while the instance method will affect the instance of the class 
       and static method might or might not be related to the class and can be used from inside or outside of the class.
     - Static methods are placed inside the class just because they are logically associated with the class.
       Static methods do not have 'self' as their first argument
     - Class methods have 'cls' as the first argument which points to the class object i.e. it accepts a class as its first 
-      argument. Also the name 'cls' can be replced with any other name. Class methods are used to modify the class behaviour.
+      argument. Also the name 'cls' can be replaced with any other name. Class methods are used to modify the class behavior.
 
       - e.g. -
       # Static Method Example
@@ -442,7 +442,7 @@
             self.version = version
 
           def description(self):            # This is instance method as we are referring to the 'self'
-            print(f'The current version of the calulator is {self.version}')
+            print(f'The current version of the calculator is {self.version}')
 
           @staticmethod                     # The 'static' keyword denotes that the following method is 'static' method
                                             # and its execution is not dependent on the instances of the class 
@@ -478,7 +478,7 @@
 
 23. How to create static member variables in a class ?
     - In Python 'static' keyword is not there.
-    - Static variables are those variables which are assigned thier memory inside 'class' object itself. 
+    - Static variables are those variables which are assigned their memory inside 'class' object itself. 
 
     e.g.-
       class Item:
@@ -556,13 +556,13 @@
     - Whenever we create a class in Python, a class object is created which contains class variables and static variables
     - Class object is created irrespective of whether we create any instance variables or not and the class variables
       are accessed through the class name.
-    - To create an instance variable, we have to use paranthesis after the class name. This will create an instance variable, 
+    - To create an instance variable, we have to use parenthesis after the class name. This will create an instance variable, 
       call '__init__()' method and will return this instance variable. 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 27. What is __init__() method ?
-    - __init__() function is somewhat similar to C++/Java contructors. However, unlike Java/C++ where constructor will be created by 
+    - __init__() function is somewhat similar to C++/Java constructors. However, unlike Java/C++ where constructor will be created by 
       default, in Python, __init__() method will not get created by default.
     - The first argument to __init__() method is 'self' and can not be changed.
 
