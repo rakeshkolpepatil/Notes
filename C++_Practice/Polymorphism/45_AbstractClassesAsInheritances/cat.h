@@ -1,0 +1,30 @@
+#ifndef CAT_H
+#define CAT_H
+
+#include "feline.h"
+
+class Cat: public Feline {
+  public:
+    Cat() = default;
+    Cat(const std::string_view fur_style, const std::string_view description);
+    virtual ~Cat();
+
+    virtual void miaw() const{
+      std::cout << "Cat::miaw() called for cat " << m_description << std::endl;
+    }
+
+    virtual void breathe() const override {
+      std::cout << "Cat::breathe()    called for " << m_description << std::endl;
+    }
+
+    virtual void run() const {
+      std::cout << "Cat " << m_description <<" is running." << std::endl;
+    }
+
+    virtual void stream_insert( std::ostream& out) const override {
+      out << "Cat [ m_fur_style: " << m_fur_style << ", m_description: " << m_description << " ]" << std::endl;
+    }
+
+};
+
+#endif // CAT_H

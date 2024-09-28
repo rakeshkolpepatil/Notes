@@ -1,0 +1,119 @@
+
+==================================================================================================================================================================
+                                                  PWA - Progressive Web APPs
+                        https://www.youtube.com/watch?v=BByUknfLTuA&list=PLlrxD0HtieHjqO1pNqScMngrV7oFro-TY
+==================================================================================================================================================================
+
+  - PWA - Progressive Web APPs 
+  - Build an App for all the devices such as tablet, mobile, desktop etc from one code base.
+  - 'Progressive' means that the app developed will progressively enhance to match the different capabilities of these devices.
+
+  - Device Specific Apps
+    i)   These apps are developed in device specific languages.
+    ii)  They are compiled and packaged as executables.
+    iii) One code and executable per device.
+    iv)  They get installed on device and can be distributed in app store.
+
+  - PWA -
+    i)   Developed in HTML, CSS, and JavaScript
+    ii)  Hosted on web server.
+    iii) Single code base and single hosted app.
+    iv)  Can be installed or can be accessed via URL or search engine.
+    v)   Can be distributed in app store.
+
+  - PWAs are similar to websites in the sense that 
+    i)   They have similar technologies, 
+    ii)  They are linkable
+    iii) Discoverable
+    iv)  Safe
+    v)   Can also have own icon 
+    vi)  Own Window 
+    vii) PWA has additional advanced capabilities such as 
+          - sharing content with another apps 
+          - offline functionality :- pwa can keep on functioning even if you are offline just like mobile apps.
+          - can cache information for local storage
+          - download things or movies for offline viewing
+          - update data in background on regular basis
+                    which is not possible for websites.
+
+  - Progressive web apps are closing the gap between the native apps and the websites.
+  - Web Assembly - Wasm
+        i) Web assembly allows to run native modules like c++ code that can be compiled and can be run on the website or webapp with speed that is
+           near to native apps.
+        ii) Also progressive web apps have access to APIs to talk over bluetooth, USB or NFCs.
+
+  - Progressive web apps has 3 layers of functionality
+
+      Layer 3 -   Device          Os                  Offline
+                  Adaptation      Integration         Support
+
+      Layer 2 -   Manifest        Service-Worker      HTTPS
+
+      Layer 1 -   HTML            CSS                 JavaScript
+
+  - Websites can not be published directly on app store but the tool called pwmbuilder.com can be used to convert the websites into packages that
+    can be installed on android or iOS
+    
+  - 💻Important resources and links:
+    🔗PWA on Microsoft Edge documentation : https://aka.ms/learn-pwa/workshop/edg...
+    🔗Learn PWA in 30 days                : https://aka.ms/learn-pwa/30Days-blog
+    🔗MDN                                 : https://developer.mozilla.org/en-US/docs/Web/Progressive Web apps
+
+  - Google 
+    https://web.dev/learn/pwa/
+
+	-------------------------------------------------------------
+		2. Introduction to Service Workers
+	-------------------------------------------------------------
+  - Service Worker is a JavaScript file that is added to your app that makes your application reliable. 
+  - They are the main brain behind the PWA app.
+  - The typical web site has HTML homepage, called index.html, there you need to use a JavaScript function called 'navigator.serviceworker.register'
+    which is used by browsers to load the service worker.
+  - Usually, the websites are run as a single thread application, whereas service workers run in separate threads apart from website thread.
+  - Service workers make it possible to run the application run in background.
+  - Service workers are responsible for intercepting, modifying, and responding to the network requests by making use of two APIs
+    i)  Fetch API
+    ii) Catch API
+  - It decides whether to send data from server or from the local cache when an application is requesting for the data.
+  - Service worker should download enough information in the cache so that the application can display without any internet connection.
+  - Typically, service workers download the HTML, CSS and JavaScript i.e. all static resources before hand using cache API and stores that into the cache
+    so that it can display app at the start even without internet connection.
+  - Service workers cache all the static resources.
+  - If app needs any dynamic data such as latest messages that can also be stored in cache or indexDB.
+
+  - summarized task list
+    i)   Cache static resources 
+    ii)  Redirect to custom offline page
+    iii) More complicated offline scenarios
+            - as service workers run parallel to the app or can run even app is not open, they can listen to the push messages from server and catch them
+              and show notification on screen when they occur.
+            - also service workers can do periodic updates. 
+    iv)  Resources and Libraries
+
+  - Resources 
+      i)   https://docs.pwabuilder.com
+      ii)  #30DaysOfPWA - https://aka.ms/learn-pwa/30Days-blog
+      iii) Google - https://web.dev/learn/pwa/
+      iv)  PWA on Microsoft Edge docs - https://aka.ms/learn-pwa/workshop/edge-docs
+      v)   MDN - https://developer.mozilla.org/en-US/docs/Web/Progressive web apps 
+      vi)  Workbox library makes it easy to code service workers
+
+  -------------------------------------------------------------
+    3. Web Capabilities & Native Integrations
+  -------------------------------------------------------------
+    - PWA has two different capabilities, one that are coming from Web group as PWA are originally websites and second are PWA OS integration.
+    A] Which web capabilities do PWAs have access to ?
+        i)   Entire functionality of HTML, CSS and JavaScript is available for PWAs
+        ii)  Media                   - text, images, movies, audio API (generate sound directly from browser), generate 2D/3D graphics using webgl/ Canvas.
+        iii) Hardware                - bluetooth, USB, NFC (You can create an app that interfaces with other devices where your app is installed)
+        iv)  web payment API         - allows your app to process payment requests
+        v)   web authentication API  - authentication using windows hello or iOS fingerprint to log the user into your web app.
+
+    B] How can PWAs integrate into the Operating System ?
+        A great PWA begin with the great web experience but if you want to make the app feel more belongs to the device then you have to focus on OS integration.
+            i)   Manage Files           - using file handlers
+            ii)  File System access API - to store changes to the file
+            iii) Sharing                - PWAs can actually interface with OS share dialogue which mean that they can share the content to/from other applications 
+                                          and 
+            iv)  Badges                 - PWAs can show Badge on the top of the app to get attention of the user within the app.
+            v)   Ability to handle links and protocols.

@@ -1,0 +1,2953 @@
+
+
+Strings
+	What’s difference between char s[] and char *s in C?
+
+char s[] -- character array terminated by '\0'
+char* s  -- pointer of type char*
+char* s = "hello"  -- sizeof(s) will give 8, i.e. size of pointer on 64 bit machine while 4 on 32 bit machine
+char s[] = "hello" -- sizeof(s) will give "number of characters in string + 1 " = 6 in this case.
+arr[0] and 0[arr] are same as both get translated to *(arr +0)
+
+===================================================================================================================================================
+	C++ Programming Course - Beginner to Advanced - https://www.youtube.com/watch?v=8jLOx1hD3_o&t=2254s
+===================================================================================================================================================
+
+--------------------------------------------------------------------------
+  Setting up different C++ compilers in VScode.
+--------------------------------------------------------------------------
+
+	- There are multiple compilers for C/C++ such as gcc/g++, clang/clang++, MSVC, Apple Clang, NVIDIA HPC C++, Intel C++ etc.
+	- You can visit this website - 'https://en.cppreference.com/w/cpp/compiler_support' to get details about which compiler supports which 
+		features of the C++ language.
+	- In this course we will be mainly using 'GCC' compiler.
+	- Download and install the C++ compilers from here - https://winlibs.com/. This will install gcc, g++, clang, clang++ compilers
+	- To install microsoft's gcc/g++ compiler, known as 'MSVC compiler' follow these steps -
+			1. 	Install community edition of visual studio	editor, MSVC compiler will get installed automatically. 
+			2. 	Open 'Developer PowerShell for VS 2020' or 'Developer Command prompt for VS 2020' which has all the variables 
+					set for using microsoft compiler.
+			3.  Execute 'cl.exe' command which will give you version of microsoft compiler
+	- Thus we have installed all the 3 compilers for C++ language viz Mingw, Msvc and Clang llvm.
+
+	- Setting the compiler inside vscode editor to compile C++ programs.
+			1. Click Terminal Tab (from Top Ribbon) -> Configure Tasks -> select the C++ compiler of your choice.
+			2. .vscode folder will get created with tasks.json file inside.
+			3. In task.json file, inside 'args' add "-std=c++20" this argument.
+
+	- Compiling the given .cpp program 
+			1. Select 'main.cpp' file and go to 'Terminal' from file menu, select option 'Run Task', select the compiler. 
+			2. This will create 'main.exe' file. 
+
+	- In 'tasks.json' file, modify 'args' to following, so that it will compile all the .cpp files in workspace directory.
+		'tasks' : [
+			{
+				"args": [
+					"-g",
+					"-std=c++20",
+					"${workspaceFolder}\\*.cpp",
+					"-o",
+					"${fileDirname}\\output.exe"
+				]
+			}
+		]
+
+	- Compiling the program using microsoft compiler
+		1. Open the project directory inside 'Developer Powershell for VS 2020' and open the directory in vscode using command 'code .'
+		2. Now, you can see that 'cl.exe' command is available in the terminal.
+		3. Now, follow the same steps as used while compiling using g++ or clang++ compiler.
+		4. Change the MSVC configuration from tasks.json to match below -
+				{
+					"type": "cppbuild",
+					"label": "Build with MSVC",
+					"command": "cl.exe",
+					"args": [
+								"/Zi",
+								"/std:c++latest",
+								"/EHsc",
+								"/Fe:",
+								"${fileDirname}\\output.exe",
+								"${workspaceFolder}\\*.cpp"
+					],
+					"options":{
+						"cwd":"${fileDirname}"
+					},
+					"problemMatcher":[
+						"$msCompile"
+					],
+					"group":"build",
+					"detail": "compiler: cl.exe"
+				}
+
+	- If the files to be compiled with 'MSVC' compiler are in dropbox or any auto-syncing software, please pause syncing to avoid
+		errors while compiling the files.
+
+	- Program to check whether C++-20 is supported by the compiler or not. It should print '0'
+				int main(){
+					auto result = (10 <=> 20) > 0;    // This syntax is used to check whether C++-20 is supported or not.
+					std::cout << result << std::endl;
+				}
+
+	- Setting up VScode configuration for C++ - 
+		Go to command pallet - C/C++: Edit Configurations (UI) 
+		Here you can configure compiler path, compiler arguments, C/C++ standard etc
+		Video - https://www.youtube.com/watch?v=8jLOx1hD3_o&t=2254s Timestamp - 53.00 Minutes 
+
+	- Setting up compiler on Linux 
+		1. 	sudo apt-get install gcc-12
+				sudo apt-get install g++-12
+				sudo apt-get install gdb
+				sudo apt-get install clang-18
+				sudo apt-get install clang++-18
+		2.  In this course, in Linux, we are going to install only g++ and clang++ compilers.
+		3. 	All these softwares are installed inside /usr/bin directory
+		4.  If you want to install multiple versions of the gcc on linux you can use 'homebrew' package manager.
+		5. 	Download ".deb" package from the VScode website and install.
+
+	- All this information can be found in details section of C/C++ extension page.
+	-	The project that currently we set, we will use this to create new projects so that we need not set the compilers 
+		in each project again and again.
+
+	- There are few websites where you can compile your C/C++ programs online 
+				1. Wandbox - You can choose compiler versions, C++ versions and share the code
+				2. Coliru 
+				3. Compiler Explorer - 
+
+--------------------------------------------------------------------------
+	(1:43:01) Chapter 2: Diving in
+--------------------------------------------------------------------------
+	- #include <iostream> - This is the library that makes std::cout and std::cin functions available in C++ programs.
+	- #include statements do not need ';' at the end.
+	- Statements in the main function are run from top to bottom and the program exits when '}' of main function is executed.
+	- // This is single line comment in C++
+  - /*
+			This is 
+			multiline comment
+		*/
+	- Multiline/Block comments can not be nested
+
+	---------------------------------------------------------------
+		Errors 
+	---------------------------------------------------------------
+		1. Compilation Errors
+					Compilation will fail. Will point out syntax errors.
+					e.g.- 
+						'missing semicolon ';' error'
+
+		2. Runtime Error
+					Program will crash at runtime
+
+		3. Warnings 
+					Program compiles successfully, but compiler give warning regarding possbile chances of program failure at runtime.
+
+	---------------------------------------------------------------
+		Statements and functions 
+	---------------------------------------------------------------
+		- A statement is a basic unit of computation in a C++ program
+		- Every C++ program is a collection of statements organized in a certain way to achieve some goal.
+		- Statements end with ';'
+		- Statements are executed from top to bottom when program is run.
+		- Execution keeps on going until there is a statement causing the program to terminate, or run another sequence of statements
+		- 'Function' is like a machine which takes some input (arguments) and gives an output.
+					returnType FunctionName (arguments)
+					{
+						statements
+						return variable
+					}
+		- Function needs to be defined before it is used/called.
+		- You can define a number and initialize it as follows:
+					int i = 10;
+					int i {10};
+
+	---------------------------------------------------------------
+		Input and Output
+	---------------------------------------------------------------
+		- std::cout << "Hi Rakesh"; 
+					In the above statement, the data i.e. 'Hi Rakesh' is going from program to std::cout.
+
+		- There are different ways by which program can write data to the console.
+			1) std::cout  - Printing data to the console(terminal)
+			2) std::cin 	- Reading data from the terminal
+			3) std::cerr  - Printing error messages to console
+			4) std::clog  - Printing log messages to the console
+
+					There are these many way of printing because different programs format these output streams differently.
+					These are the different ways of conveying the messages and intent behind them to the user.
+
+		- Chaining std::cin 
+					int age;
+					std::string name:
+					cin >> name >> age;
+					cout << "Hello, " << name << "! You care " << age << " years old." << endl;
+
+		- While using 'cin' to input a string, C++ will not allow you to capture the string with spaces, it will assume 
+			the string with spaces as different variables. To avoid this use following -
+
+					std::cout << "\n Please enter your full name "<< std::endl;
+					std::getline(std::cin, name);
+
+		- You can span cout or cin statements over multiple lines like below :-
+				cout 	<< "Hello, " << name << "! You care " 
+							<< age << " years old." 
+							<< endl;
+
+	---------------------------------------------------------------
+		C++ Program Execution Model and Memory Model
+	---------------------------------------------------------------	
+		- The C++ program is compiled into binary file which is loaded into RAM and executed by CPU by reading from RAM.
+
+	---------------------------------------------------------------
+		C++ core language Vs Standard library Vs STL
+	---------------------------------------------------------------
+		- C++ core language features define how variables, statements or function should be defined.
+		- STL is a part of the C++ standard library but it is a collection of container types. It contains set of types which allows
+			us to store collections, algorithms that work on these collections, and have specialized types called iterators.
+		- STL is specialized part of standard C++ library.
+
+	---------------------------------------------------------------
+		Variables and data types
+	---------------------------------------------------------------
+		- int 
+		- double
+		- float
+		- char
+		- bool
+		- void
+		- auto
+
+	---------------------------------------------------------------
+		Number system in C++
+	---------------------------------------------------------------
+  	int num = 15;      								// decimals
+  	int num2 = 014;    								// octal - Numbers that start with zero i.e. '0'
+  	int num3 = 0x23;   								// hexadecimal - Numbers that start with '0x'
+  	int num4 = 0b000010101;  					// binary -C++14 - Numbers that start with '0b'
+    cout<< "num = "<< num << endl;
+    cout<< "num2 = " << num2 << endl;
+    cout<< "num3 = " << num3 << endl;
+    cout<< "num4 = " << num4 << endl;
+		
+		- In computer, all the data is represented by a bunch of grouped cells 0's and 1's in memory.
+		- As the range of your data grows so does the number of digits you need to represent the data in the memory.
+		- Hexadecimal system makes it easier for humans to handle streams of data with 0's and 1's.
+		- Octal has the same goal as hexadecimal, but it is almost no longer used in modern times. 
+
+	---------------------------------------------------------------
+		int
+	---------------------------------------------------------------
+		- int stores decimals i.e. whole numbers 
+		- typically occupies 4 bytes or more in the memory.
+		- variable is a named space in the memory that is used to store a specific type of data.
+		e.g.-
+			// Initializing integer Variables - braced initialization
+					// Variable may contain some random garbage value. Warning
+						
+						int elephant_count;
+						int lion_count {};  					// Initializes the variable to 0
+						int dog_count {10}; 					// Initializes the variable to 10
+						int cat_count {15}; 					// Initializes the variable to 15
+
+						// can use expression as initializer
+						int domesticated_animals = {dog_count + cat_count}; 
+
+						// won't compile, the expression in the braces uses undeclared variables
+						int bad_initialization = {doesnt_exist1 + doesnt_exist2}
+
+						// 2.9 is of type double, with wider range than int. ERROR or Warning.
+						int narrowing_conversation {2.9} 
+
+			// Initializing integer Variables - functional variable initialization
+			- In functional variable initialization we use parenthesis instead of curly braces for initialization.
+
+					int apple_count(5)
+					int orange_count(10)
+					int fruit_count(apple_count + orange_count)
+					int bad_initialization_count( doesnt_exist1 + doesnt_exist2 )
+
+					// The float number will be rounded to '2'
+					int narrowing_conversation_functional(2.8)
+					
+	  	// Initializing integer Variables - assignment initialization
+					cout << "\n---------- Integer variable initialization ---------" << endl;
+					int bike_count = 2;
+					int truck_count = 7;
+					int vehicle_count = bike_count + truck_count ;
+
+					// The float number will be rounded to '2'
+					int narrowing_conversion_assignment = 2.9;
+
+		- sizeof() function returns the size of the argument in bytes
+
+	---------------------------------------------------------------
+		int modifiers
+	---------------------------------------------------------------
+		- signed int   - range: -2^(n-1) 	to (2^(n-1))-1
+		- unsigned int - range:  0 				to (2^n)-1
+
+		- 2 Bytes
+					short, 
+					short int, 
+					signed short,
+					signed short int,
+					unsigned short, 
+					unsigned short int,
+
+		- 4 Bytes
+					int,
+					unsigned, 
+					unsigned int,
+					signed, 
+					signed int,
+
+		- 4 or 8 Bytes
+					long,
+					long int,
+					singed long,
+					signed long int,
+					unsigned long,
+					unsigned long int,
+
+		- 8 Bytes
+					long long,
+					long long int,
+					signed long long,
+					signed long long int,
+					unsigned long long,
+					unsigned long long int,
+
+		- These modifiers are applicable only to integral type: those in which you can store decimal numbers.
+		- long long int a = 100'000'000'000'000;         // From C++14 or newer compilers, apostrophes can be used to make very big numbers more readable.
+
+	---------------------------------------------------------------
+		Fractional Numbers/ Floating Point Numbers
+	---------------------------------------------------------------
+		- Used to represent numbers with fractional parts in C++
+		- There are 3 types of fractional numbers
+					1. float        : 4 bytes   	 : recommended 7 precision by default
+					2. double				: 8 bytes			 : recommended 15 precision  by default
+					3. long double  : 12/16 bytes  : more precision than double
+
+		- Declare and initialize the floating point variables
+					float number1 {1.12345546467467456};
+					double number2 {1.423556567754534523};
+					long double number3 {1.364545667567456345};
+					std::cout << "sizeof float: " << number1 << endl;
+					std::cout << "sizeof double: " << number2 << endl;
+					std::cout << "sizeof long double: " << number3 << endl; 
+
+		- scientific notation - 'e8' means 10^8, 'e-11' means 10^-11
+					- The number5, number6 and number7 are roughly the same.
+						double number5 {192400023};
+						double number6 {1.92400023e8};
+						double number7 {1.924e8};
+
+					- The number8 and number9 are roughly the same.
+						double number8 {0.00000000003948};
+						double number9 {3.948e-11};
+
+		- IEEE 754 standard is followed to represent the floating point numbers in binary format.
+		- Narrowing errors will happen when user tries to assign bigger numbers than those supported by the data type.
+		e.g.-
+					Precision for float should be 7 digits i.e. it can handle at max 7 digits including before and after decimal point.
+					double can handle 15 digits precision safely
+					long double can handle 15+ digits precision safely
+
+					float number23 {213345850}; // This will give narrowing conversion error as float can have precision of maximum 7 digits. 
+																			// Mostly will give compiler error as we are using braced initialization
+
+					float number25 (143556467); // If we use functional initialization, narrowing conversion error will not be caught at compile time
+																			// and rounding will happen.
+
+
+		- std::setprecision() Vs std::setfixed
+			1)  When you use std::setprecision() on its own, it sets the total number of significant digits to be displayed for 
+					floating-point numbers. This means the precision includes both the digits before and after the decimal point.
+			2)  When you combine std::setprecision() with std::fixed, the setprecision value now controls the number of digits 
+					after the decimal point, rather than the total number of significant digits.
+			3)  '#include <iomanip>' - Do not forget to add this library if you want to use setprecision() function.
+			e.g.-
+									#include <iostream>
+									#include <iomanip>
+
+									int main() {
+										double num = 123.456789;
+									
+										// Without std::fixed (using significant digits)
+										std::cout << "Without std::fixed:" << std::endl;
+										std::cout << std::setprecision(5) << num << std::endl;  							// Significant digits
+									
+										// With std::fixed (using digits after the decimal point)
+										std::cout << "With std::fixed:" << std::endl;
+										std::cout << std::fixed << std::setprecision(5) << num << std::endl;  // Digits after the decimal point
+									
+										return 0;
+									}
+					Output :
+									Without std::fixed:
+									123.46
+									With std::fixed:
+									123.45679
+
+		- There are few things that you can do with floating point numbers that can not be done with integers such as
+			1) Diving by zero -
+					n(floating point number)/0 = (+/-) Infinity  - 	If the n is positive we get + infinity else if the n is negative 
+																													we get - infinity
+
+			2) A '0' floating point number can be divided by another '0' floating point number
+					This gives NaN - Not a number as a result but program will not crash.
+
+		- You need to remember the suffixes when initializing floating point variables, otherwise the input numbers will be assumed 'double' by default.
+		- Double data type works very well in many situations, so it is more often used.
+		e.g. - 
+						float num1 {1.12345678901d234567890f};
+						float num1 {1.12345678901d234567890};         // No suffix is used, so '1.12345678901d234567890' is considered as 'double'     
+						double num2 {1.12345678901d234567890};        // No suffix is used so the number is assumed as 'double' and anyways we want it to be double.
+						long double num3 {1.12345678901d234567890L};
+						long double num3 {1.12345678901d234567890};   // No suffix is used, so '1.12345678901d234567890' is considered as 'double' 
+
+						When initializing float variable, you need to append 'f' suffix, for double append no prefix as it is default and for
+						long double append 'L' suffix.
+
+		- Float Problems
+			The precision of 'float' is too limited to handle lot of common applications.
+			      float num4 {1234567890.12345f}  // This will lead to narrowing conversion problems as the max precision 'float' supports is 7.
+						double num4 {1234567890.12345} 
+
+	---------------------------------------------------------------
+		Booleans true / false
+	---------------------------------------------------------------
+		- 'Boolean' takes a byte of memory and just stores two values 'True' or 'False'
+		- Though a byte of memory can store 256 different values, storing just two is a waste of resources especially in case of 
+			devices with hard memory constraints, such as embedded devices.
+		- There are techniques to pack more data into byte that we will learn in upcoming videos.
+    - By default, stdout will print '1' for 'true' and '0' for 'false
+    - If you want to print 'true' and 'false' for '1' and '0' the first use this statement -
+            
+        std::cout << std::boolalpha;
+
+	---------------------------------------------------------------
+		Characters
+	---------------------------------------------------------------
+    - are defined by 'char' keyword
+    - a single char occupies 1 byte in memory and hence can have '256' values in total. This is known as 'ASCII' encoding where
+      each combination of 8 bits in a byte represents a separate character.
+    e.g.-
+                  char a = 65;
+                  std::cout << "a = " << a << std::endl;
+                  std::cout << "value(a)" << static_cast<int>(a) << std::endl;
+    - You can also print the ascii value associated with the character by using 'static_cast' method.
+    - The symbols of other languages such as Hindi, Marathi, Japanese can not be stored in ASCII for that we use UTF-8 encoding.
+
+	---------------------------------------------------------------
+		std::string vs std::string_view
+	---------------------------------------------------------------
+		- In C++, std::string and std::string_view are both used to represent and manipulate strings, but they serve different purposes 
+			and have different characteristics:
+
+		1] std::string
+				Definition					: A dynamically allocated, mutable string class that manages its own memory.
+				Ownership						: 'std::string' owns the string data it holds. When you create a 'std::string', it allocates memory to store the string.
+				Mutable							: You can modify the contents of a 'std::string' (e.g., append, change characters).
+				Memory Management		: Handles memory allocation, de-allocation, and copying (deep copy).
+				Performance					: Since it involves dynamic memory allocation, it can be relatively slower, especially when copying or passing strings by value.
+				Use Case						: Use 'std::string' when you need to own and modify the string, or when you need to store a string for a longer duration.
+
+		2] std::string_view
+				Definition					: A non-owning view over a sequence of characters (usually from a std::string or a raw character array). Introduced in C++17.
+				Ownership						: 'std::string_view' does not own the string data. It simply provides a view over a part of an existing string, meaning it references
+															memory owned by someone else.
+				Immutable						: You cannot modify the contents of a 'std::string_view'. It is a read-only view.
+				No Memory Allocation: 'std::string_view' does not allocate or manage memory, making it lightweight and efficient for passing around string data without copying.
+				Performance					: Much faster than 'std::string' when passing or using substrings since it avoids memory allocation and copying.
+				Safety							: You must be cautious when using 'std::string_view' to ensure the underlying data it references remains valid during the lifetime of the 'string_view'. 
+															If the underlying string is destroyed, the 'string_view' becomes a dangling reference.
+				Use Case						: Use 'std::string_view' when you need to efficiently pass or access a string without copying, especially for temporary operations, 
+															string parsing, or read-only scenarios.
+
+		3] Key Differences
+				-------------------------------------------------------------------------------------------------------
+				Aspect								std::string																std::string_view
+				-------------------------------------------------------------------------------------------------------
+				Ownership							Owns the string data											Does not own the string data
+				Mutability						Mutable																		Immutable
+				Memory Management			Allocates and manages memory							Does not manage memory
+				Performance						Can be slower due to allocation						Lightweight and efficient
+				Safety								Safe, self-contained											Requires care to avoid dangling refs
+				Use Case							When you need to own/modify								When you need a read-only view
+
+		Example:
+			#include <iostream>
+			#include <string>
+			#include <string_view>
+
+			int main() {
+					std::string str = "Hello, world!";
+
+					// std::string (owns and manages the string)
+					std::string str_copy = str;
+					str_copy[0] = 'h';  									// Mutate the string
+					std::cout << str_copy << std::endl;
+			
+					// std::string_view (non-owning view)
+					std::string_view str_view = str;
+					std::cout << str_view << std::endl;
+
+					return 0;
+			}
+
+		In this example:
+			- 'str_copy' is a deep copy of the string and can be modified.
+			- 'str_view' is a non-owning view of the original 'str', and changes to 'str' would reflect in 'str_view', but you cannot modify 'str_view' itself.
+
+  ---------------------------------------------------------------
+		'auto' keyword
+	---------------------------------------------------------------
+    - 'auto' keyword lets compiler deduce the data type of the value.
+    - default of integer is 'signed integer'
+    - default of floating point is 'double'
+    - f will be deduced as 'float'
+    - u will be deduced as 'unsigned'
+    - l will be deduced as 'long'
+    - ll will be deduced as 'long long'
+
+  ---------------------------------------------------------------
+		Assignments
+	---------------------------------------------------------------
+    - int var {22} // declaration and initialization of a variable 'var'
+      std::cout << "var = "  << var << endl;
+      var = 44     // assignment to a variable 'var'
+
+    - auto var {212u} 
+      var = -45   // 'var' was interpreted as an unsigned variable but assigned singed value.
+                  // Though this will not raise compiler error, it will assign garbage value to the variable.
+
+  ---------------------------------------------------------------
+    Basic Operations
+  ---------------------------------------------------------------
+    - +: Plus, -: Minus, *: Mul, /: Div, %: Mod 
+    - Mul,Div - Higher precedence than Plus, Minus
+    - Precedence    - which operation should be performed first
+    - Associativity - In which direction the operations with same precedence should be performed
+    - https://en.cppreference.com/w/cpp/language/operator_precedence
+    - Brackets are used to perform low precedence operations before higher precedence operations
+    e.g.- 
+                  (a+b) / (c-d)
+    - Compound Assignment operators - +=, -=, *=, /=, %= which are equivalent to val = val + x
+    - Relational operators - <, >, <=, >=, ==, != 
+    e.g.-
+            cout << "num1 < num2 :" << num1<num2 << endl;    // This will throw error as '<<' will take precedence 
+                                                             // over '<' operator.
+            cout << "num1 < num2 :" << (num1<num2) << endl;
+    - Logical Operators - &&, || and !
+
+  ---------------------------------------------------------------
+    Output Formatting
+  ---------------------------------------------------------------
+    - There are two libraries in C++ that handle output formatting - ios, iomanip
+    - std::endl                         - Prints end of line character.
+    - std::flush                        - causes immediate sending of data to the device connected to the stream.
+    - std::showpos                      - show or hide the + sign for positive numbers
+    - std::dec, std::hex, std::oct      - print the numbers in different number systems
+    - std::showbase / std::noshowbase   - show the base for integer types
+    - std::uppercase / std::nouppercase - print in uppercase
+    - std::fixed                        - show the output in fixed format
+    - std::boolalpha / std::noboolalpha - control bool output format : 1/0 or true/false
+    - std::scientific                                           - show floating points in scientific notation
+    - std::cout.unsetf(std::ios::scientific | std::ios::fixed)  - to print the floating point numbers in default format
+    - #include<ios> - std::showpoint/ std::noshowpoint          - show trailing zeros if necessary
+    - std::setprecision()               - sets the number of digits printed out for the floating point numbers, default 6.
+    - std::right                        - justify data to the right 
+    - std::left                         - justify data to the left
+    - std::setfill('c')                 - Fills the white space with specified character 'c' while justifying the text.
+    - std::setw()                       - Adjusts the field with for the item about to be printed.
+                                          The setw() manipulator only affects the next value to be printed.
+    - std::internal                     - Internal Justified : Sign is left justified, whereas data is right justified"
+    - std::setprecision()               - the number of digits printed out for a floating point. Default precision is 6.
+    - std::showpoint/std::noshowpoint   - show trailing zeros if necessary. Force output of the decimal point.
+
+  ---------------------------------------------------------------
+    #include <limits>
+  ---------------------------------------------------------------
+    This library is used to get range of any given datatype.
+    - std::numeric_limits<int/char>::min()     -  Returns minimum value that can be stored in datatype in argument.
+                                                  Returns the smallest positive value representable by the type if the type is a floating-point type. For integral 
+                                                  types (like int or char), it returns the minimum representable value, which is the smallest (most negative)
+                                                  value if the type is signed.
+    - std::numeric_limits<int/char>::max()     -  Returns maximum value that can be stored in datatype in argument.
+    - std::numeric_limits<int/char>::lowest()  -  Returns maximum value that can be stored in datatype in argument.
+                                                  Returns the lowest (most negative) finite value representable by the type. For floating-point types, lowest()
+                                                  is often equivalent to -max(). For integral types, lowest() is equivalent to min().
+    - std::numeric_limits<int>is_integer       -  Returns true for all other inbuilt data types except floating 
+                                                  point data types.
+        e.g.- 
+              cout << " is 'long int' an integer ? :- " << std::numeric_limits<long int>::is_integer << endl;
+    
+  ---------------------------------------------------------------
+    cmath library
+  ---------------------------------------------------------------
+    - floor(8.6) = 8
+    - ceil(8.1) = 8
+    - abs(-8.6) = 8
+    - exp(5) = e^5
+    - pow(3,6) = 3^6
+    - log(34) = log e (34)
+    - log10(23) = log 10 (23)
+    - round(34.754) = 35
+      round(2.4) = 2
+    - sqrt(49) = 7
+    
+  ---------------------------------------------------------------
+    Weird Integral types
+  ---------------------------------------------------------------
+    - Integral types of size less than 4 bytes do not support arithmetic operations. Compiler smartly converts them into int data types which is of 4 bytes.
+    e.g. char and short int do not support arithmetic operations.
+    - Similarly, integral types of size less than 4 bytes also do not support bitwise operations and same behavior can also be observed in case of 
+      other operations.
+    
+  ---------------------------------------------------------------
+    Conditional Statements
+  ---------------------------------------------------------------
+    - Switch statement
+      1)  The 'break' statement after each case is very important. It stops the processing after the a successful case has been found. If the 'break' statement
+          is not there then program control will continue processing all the following case statements.
+      2)  Only Integral types: int, short int, long int etc. and enums are allowed as a condition in case statements. 'case' statements can also accept variables
+          provided they are of 'const' type.
+
+    - Ternary Operator
+      result = (condition)? TrueOption1: FalseOption
+      Types of option1 and option2 must be same or convertible.
+
+    - Loops
+      Any loop has following components:
+        1) Iterator
+        2) Starting point
+        3) Test condition
+        4) Increment/Decrement
+        5) Loop Body
+      e.g- 
+                  for (int i{}; i < 10; i++){
+                    cout << "I Love C++ " << endl;
+                  }
+
+                  for (int i{}; i < 10; ++i){
+                    cout << "I Love C++ " << endl;
+                  }
+
+                  for (size_t i{}; i < 10; ++i){
+                    cout << "I Love C++ " << endl;
+                  }
+
+    - 'size_t' is not a type in C++, It is just an alias for 'unsigned int'. It is generally used inside loop iterators, specifying sizes of the things etc. 
+      especially all the things that do not take negative values.
+      
+    - scope of iterator 
+        int main(int argc, char** argv) {
+          for (size_t i = 0; i < 10; i++) {
+            // i is valid to use within the boundaries of {} here.
+            cout << "i is usable here, the value is " << i << endl;
+          }
+          // If you try to access 'i' here you will get an error. 'i' does not exist in functional scope of 'main' function.
+          return 0;
+        }
+
+        size_t j{};
+        for (; j < 10; j++) {
+          cout << " j =" << j << endl; 
+        }
+        cout << " The loop is done. The value of j = " << j << endl;
+
+    - It is advised to not to use hard-coded values in loop conditions.
+        size_t COUNT {10};
+        for (int i{}; i < COUNT; i++){
+          cout << "I Love C++ " << endl;
+        }
+
+    - while loop
+        const unsigned int COUNTER {10};
+        size_t iter {};
+        while(iter < COUNT){
+          cout << "iter : " << iter << endl;
+          iter++;
+        }
+
+    - do while loop
+      It will execute the loop body at least once.
+
+        const int COUNT {10};
+        size_t i {0};
+        do {
+          cout << i <<" : " << " I Love C++ "<< endl;
+          i++;
+        }
+        while(i < COUNT);
+
+  ---------------------------------------------------------------
+    Arrays
+  ---------------------------------------------------------------
+    1) Arrays are collection of objects of same data type.
+    2) Array elements are accessed by indices.
+    e.g.-
+        int arr[10];                                        // declare an array of size 10.
+        double salaries[] {12.6, 143.4, 145.44, 67.0, 134}  // declare and initialize an array. 
+                                                            // Array size is automatically deduced by compiler.
+        int arr[6] {2, 4, 7}                                // remaining elements are initialized to zero.
+        const double heights [] {12, 16, 23, 34, 56};       // Read only arrays.
+        std::size(arr)                                      // Returns the size of the array in terms of number of elements in item.
+        sizeof(arr)/sizeof(arr[0])                          // Returns the size of the array. sizeof() give size in bytes.
+    
+    3) Range based for loop
+        double ages [] {12, 16, 23, 34, 56};
+        for(auto age: ages) {
+          cout << " age : "  << age << endl;
+        }        
+
+  ---------------------------------------------------------------
+    Arrays of characters
+  ---------------------------------------------------------------
+    char message [5] {'H', 'E', 'L', 'L', 'O'};
+
+    cout << "\nmessage : ";
+    for (auto c: message) {
+      cout << c; 
+    }
+    cout << " size : " << std::size(message);
+
+    i) You can not print character arrays directly in C++. Only strings can be printed directly in C++. 
+        Strings are the nothing but the character arrays that end with null characters i.e. '\0'
+
+    ii) Following will print garbage characters at the end.  
+        char message_str2 [] {'H', 'E', 'L', 'L', 'O' };
+        cout << "message_str2 : " << message_str2 << endl;
+
+    iii) compiler will automatically add trailing '\0' in the remaining part of the character array
+        char message_str1 [8] {'H', 'E', 'L', 'L', 'O' };
+        cout << "message_str1 : " << message_str1 << endl;
+
+    iv) Will print proper string as we added '\0' at the end explicitly.
+        char message_str [] {'H', 'E', 'L', 'L', 'O', '\0'};
+        cout << "message_str : " << message_str << endl;
+
+    v) Literal C string
+        char message4[] {"Hello"};
+        cout << "message4 : " << message4 << endl;
+        cout << "size : " << std::size(message4) << endl;
+
+        // spaces are allowed in literal strings
+        char message5[] {"Hello, world!"};
+        cout << "message5 : " << message5 << endl;
+        cout << "size : "<< std::size(message5);
+
+    vi) Only character arrays can be printed directly, integer arrays will give compile time error.
+        int numbers[] {1, 2, 3, 4, 5, 6, 7, 8};
+        cout << "numbers - " << numbers << endl;
+        
+  - Bounds of an array
+    i) If you want to modify the data out of the bounds of an array, program might get crashed, as the 
+        memory that you are trying to access might be of another program or of operating system etc.
+    ii) Reading or writing the data at locations out of the bounds of an array is allowed by C++ compiler,
+        but might read the garbage data or might write to the memory locations owned by other programs. This
+        can corrupt the data used by other programs.
+    e.g.-
+          i)
+              int numbers[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+              std::cout << "numbers[12] : " << numbers[12] << endl;
+
+              numbers[12] = 123;
+              std::cout << "numbers[12] : " << numbers[12] << endl;
+
+          ii) If you go really crazy and use memory locations to far fetched than the array bounds, the 
+              C++ compiler will compile the program without any error but program will crash during runtime.
+
+              int numbers[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+              numbers[1234123] = 10;
+              cout << "numbers[1234123] = " << numbers[1234123] << endl;
+
+  ---------------------------------------------------------------
+    Pointers
+  ---------------------------------------------------------------
+    - All the variables in C++ are stored in some memory locations. The address of these memory locations
+      is stored in special type of variables which are known as 'pointer'.
+    - Pointers store address of other variables.
+    - Pointers are denoted by '*' symbol after the data type.
+    e.g.- 
+          int*, char*, double*, float*, long int* etc.
+
+    - We can have pointers even to custom data types.
+    - Declaring a pointer
+        int* p_number{};               // can only store an address of a variable of type int.  
+        double* p_fractional_number{}; // can only store an address of a variable of type double.
+
+    - Initializing a pointer explicitly to nullptr, nullptr means that the pointer is not pointing to 
+      any memory location.
+        int* p_number1{nullptr};
+        int* p_fractional_number1{nullptr};
+
+    - All pointers have the same size - as all type of the pointers save memory address their size is same.
+			However, a pointer can store memory address of a variable whose type is same as itself.
+
+    - Position of '*' symbol while declaring the pointer does not matter
+      e.g.-
+          int*  p_number2 {nullptr};
+          int * p_number3 {nullptr};
+          int  *p_number4 {nullptr};  // All work same, but *p_number4 is easier to understand in case of
+                                      // multiple variables.
+
+          int* p_number5 {}, other_int_var{};  // p_number5 is a pointer but other_int_var is a normal int variable.
+
+		- Assigning data to pointer variable
+				int int_var{23};
+				int *p_int{&int_var}; // The address of & operator is used to get address of the variable and store it in the pointer variable.
+
+		- dereferencing a pointer variable
+				int int_var{23};
+				int *p_int{&int_var}; 
+				cout << "int_var = " << *p_int << endl; // dereferencing a pointer variable
+				
+  ---------------------------------------------------------------
+    Pointer to char
+  ---------------------------------------------------------------
+		- pointer to char can be declared in same way as pointer to integer.
+			  char *p_char {nullptr};
+				char c_var1 {'A'};
+				p_char = &c_var1;
+
+		- You can print entire string using p_char2. That is beauty of character pointers.
+				const char *p_char2 {"Hello"};
+  			cout << "p_char2 = " << p_char2 << endl;                          // Prints entire string.                
+  			cout << "\nThe value stored at p_char2 = " << *p_char2 << endl;   // Prints first character of the string.
+
+		- If you want to modify the characters in string literal then use pure array.
+				char p_char3 [] {"Hello World!"}; 
+				cout << "p_char3 = " << p_char3 << endl;
+				p_char3[0] = 'B';
+				cout << "p_char3 after modification = " << p_char3 << endl;
+
+	---------------------------------------------------------------
+		Virtual Memory
+	---------------------------------------------------------------
+		- A trick that fools your program to think that it is the only program that is running on your OS and all the memory resources
+			belong to it.
+		- Each program is abstracted into a process, and each process has access to the memory range 0 - (2^(N)-1) where N is 32 on 32 bit
+			systems and 64 on 64 bit systems.
+		- Thus 
+					Real Memory Size = RAM Size 
+					Virtual Memory Size = ((2^N) - 1)
+		- The entire program is not loaded into memory by CPU and MMU. Only the parts that are about to be executed are loaded into memory. 
+			Thus making effective use of real memory, a valuable and lacking resource.
+		- Memory management unit takes care of this mapping between virtual memory and real memory.
+		- The memory map is the standard format defined by the OS. All the programs written for that OS must confirm it. It is actually 
+			divided into sections such as -
+				System
+				Stack  - Stores local variables, function calls
+				Heap   - The memory that can be allocated and queried at runtime.
+				Data 
+				Text 
+
+	---------------------------------------------------------------
+		Dynamic Memory Allocation
+	---------------------------------------------------------------
+		- Stack
+			i) 		Memory is finite.
+			ii) 	The developer is not in full control of memory lifetime.
+			iii) 	Lifetime is controlled by the scope mechanism.
+
+		- Heap
+			i)		Memory is finite.
+			ii)		The developer is in full control of when memory is allocated and when it is released.
+			iii)  Lifetime is controlled explicitly through new and delete operators.
+						e.g.- 
+								#include <iostream>
+								int main(int argc, char** argv)
+								{
+									{
+										int local_scope_var {33};
+										int *local_ptr_var = new int;
+									} // scope of variable "local_scope_var" dies here.  
+									return 0;
+								} 	// 'local_ptr_var' is available in entire program until will explicitly delete it.
+
+		- Reading or writing to initialized pointer's memory location will not throw any compiler error but will fail the program very badly.
+		- Releasing and Resetting of dynamic memory
+			e.g.- 
+							int *p_number4{nullptr};
+							p_number = new int;   				// Memory location contains junk value.
+							delete p_number;							// The memory that 'p_number' points to is freed and pointer itself still holds the address
+																						// of that memory location.
+
+							p_number = nullptr;  					// It is bit strange that we are assigning the memory to nullptr after deleting the pointer.
+							                     					// But this is standard practice to release the memory after no longer in use.
+
+							int *p_number5{new int(23)}; 	// Direct initialization method.
+
+							int *p_number6{new int{23}};  // Uniform initialization method.
+
+
+			e.g.-   Following this also works, but no need to delete the "p_number" pointer twice.
+							#include <iostream>
+
+							int main() {
+								int* p_number = new int(42); // Dynamically allocate memory
+								std::cout << "Value: " << *p_number << std::endl;
+							
+								delete p_number; 		// Free the memory
+								p_number = nullptr; // Set pointer to nullptr
+							
+								// Safe to delete again
+								delete p_number; 		// This is safe and does nothing
+								return 0;
+							}
+
+		- Calling 'delete' twice on a pointer twice will lead to undefined behavior leading to crashing the program and should be avoided
+			in any case.
+			e.g.- 
+							int *p_number7{new int{23}};
+							delete p_number7;
+							delete p_number7;     // Anything can happen bcz of deleting the pointer twice.
+
+		- It's important to note that you should only use delete on pointers that were dynamically allocated using new. 
+			Attempting to delete a pointer that was not dynamically allocated or attempting to delete the same memory twice can lead 
+			to undefined behavior and potential crashes.
+
+		- Additionally, it's crucial to ensure that you have a matching delete or delete[] (for arrays) for every new or new[] in your code. 
+			Failing to do so can result in memory leaks, where dynamically allocated memory is not properly freed, leading to a gradual 
+			increase in memory usage over time.
+
+		- Dangling pointer
+			i)  A pointer that does not point to a valid memory address. Trying to dereference or use it will result in undefined behavior.
+			ii) Following 3 types of behavior will lead to creation of dangling pointers 
+							- Uninitialized pointer
+							- Deleted Pointer
+							- Multiple Pointers pointing to same memory location
+			iii) Solution to the dangling pointer problem
+							- Always initialize your pointers
+							- Reset pointers after you delete
+							- For multiple pointers to same address, make sure owner pointer is very clear.
+
+		- 'new' operator fail
+			The 'new' operator fails very rarely in practice. Many programs assume that 'new' operator always allocates the memory and 
+			do not check for its failure. Depending on the application failed memory allocations can be very bad and you should handle it.
+			e.g.-
+						// Try to allocate insanely huge array in one go. Unhandled new failure : crash	
+						int* very_big_int_array {new int[1'000'000'000'000'000'000'000'000'000]};
+
+						// Use a huge loop to try and exhaust the memory capabilities of your system. When new fails your program is going to 
+						// forcefully terminate.
+
+						for (size_t i{}; i < 1'000'000'000'000; i++){
+							int* lots_of_ints2 {new int[1'000'000'000'000'000}};
+						}
+
+		- The new() operator failures are handled by two methods
+				i)  try-catch method     - new() fails are handled by catch block.
+				ii) std::nothrow method  - When new() fails, 'nullptr' is returned instead of raising exception.  
+
+	---------------------------------------------------------------
+		Null Pointer safety
+	---------------------------------------------------------------
+		- Null Pointer safety is nothing but making sure that you are working with pointers containing valid memory addresses.
+		- You do not use that pointer if it does not contain valid memory addresses.
+		e.g.-
+				int *p_int1{ new int{}};
+				if(p_int1){  // or if(p_int1 != nullptr){
+					cout << "p_int points to a VALID address : "<< p_int << endl;
+				}else{
+					cout << "p_int points to an INVALID address : "<< p_int << endl;
+				}
+
+		- Calling delete on a nullptr is OK
+				int *p_number1 {};
+				delete p_number1;  // This will not cause any problem if p_number1 contains nullptr.
+
+				// so no need to overdo something like this
+				if(p_number1){
+					delete p_number1;
+					p_number1 = nullptr;
+				}
+
+	--------------------------------------------------------------
+		Memory Leaks
+	--------------------------------------------------------------
+		- Memory leak happens when we loose access to memory that is dynamically allocated.
+		- Memory leads are bad and should be avoided in all circumstances.
+		- Memory leaks become a serious issue when we want to keep our program running for longer time or for days. 
+		- This can happen in three ways
+				i) Reassignment of stack address to active dynamic address pointer.
+					e.g.-
+								int *p_num1{new int{34}}; // Points to some address lets call it address1.
+								int number = 32;          // stored at address2.
+
+								p_num1 = &number;         // Now, p_num1 points to address2. However, the address1 is still used by our 
+								                          // program. But, our program has lost access to that memory location.
+																					// Memory has been leaked.
+
+					(Solution) :- 
+								int *p_num1{new int{34}}; 
+								int number = 32;          
+
+								delete p_num1; 						 // Release the memory pointed by 'p_num1' before assigning new value to it.
+								p_num1 = &number;         
+
+				ii) Double allocation to a pointer
+						e.g.-
+								int *p_num1{new int{34}};   
+								p_num1 = new int{44};      // memory with int{34} leaked.
+						(Solution) :-
+								int *p_num1{new int{34}};
+								delete p_num1; 						// Release the memory pointed by 'p_num1' before Reassignment.
+								p_num1 = new int{44};     // memory with int{34} leaked.
+
+
+				iii) Pointer in local scope i.e. Nested scope with dynamically allocated memory
+							Whenever a pointer in an local scope is assigned address of memory then if the memory pointed by this pointer is 
+							not released before the pointer goes out of scope, a memory leak is created.
+							e.g.-
+									#include <iostream> 
+									int main(int argc, char *argv){
+										{
+											int *p_number2 { new int{234}};
+										}
+										// 'p_number2' goes out of scope and memory with int{234} gets leaked.
+										return 0;
+									}
+
+							(Solution) :-
+									#include <iostream> 
+									int main(int argc, char *argv){
+										{
+											int *p_number2 { new int{234}};
+											delete p_number2;
+										}
+										return 0;
+									}
+
+	--------------------------------------------------------------
+		Dynamically Allocated Arrays
+	--------------------------------------------------------------
+		- Arrays are allocated on the heap with the help of new() operator. std::nothrow version of new() can also be used.
+		- Different ways of dynamic array allocation -
+				size_t size {10};          // For static arrays this variable should be of type 'const size_t' unless that compiler will throw an error.
+
+				double *p_salaries { new double[size] };                            // 'p_salaries' array will contain garbage values.
+				int *p_students  { new(std::nothrow) int[size]{} };									// 'p_students' array will contain 10 integer values initialized to 0.
+				double *p_scores { new(std::nothrow) double[size]{1, 2, 3, 4, 5}};  // 'p_scores' array will contain 10 double values. First 5 will be initialized as specified 
+																																						// and remaining 5 will be initialized to 0.
+
+			if(p_salaries){
+				for(size_t i = 0; i < size; i++){
+					// For printing array elements we can use regular array access notation, or pointer arithmetic syntax.
+					cout << " p_salaries[" << i << "] : " << p_salaries[i] << " - " << *(p_salaries + i) << endl;
+				}
+			}
+
+		- Releasing the dynamically allocated memory for arrays
+				delete[] p_salaries; 
+				p_salaries = nullptr;
+
+				delete[] p_students; 
+				p_students = nullptr;
+
+				delete[] p_scores; 
+				p_scores = nullptr;
+
+	--------------------------------------------------------------
+		Difference between Static and Dynamic Arrays
+	--------------------------------------------------------------
+		- Pointers and arrays are different. The 'std::size' operator will not work on pointers pointing to the dynamically allocated arrays. 
+		- Also, these pointers do not have properties of an array, so range based for loop will not work on these pointers.
+		e.g. 
+					double *students {new(std::nothrow) double[]{1.1, 2.2, 3.3, 4.4, 5.5, 6.6}};
+
+					// std::size() operator will not work on pointers pointing to the dynamically allocated arrays
+					cout << "Size of array students : " << std::size(students) << endl;
+
+					// range based for loop will not work on pointers pointing to dynamically allocated arrays
+					cout << "Content of students array : - " << endl;
+					for (auto i: students){
+						cout << " i : " << i << endl;
+					}
+
+	--------------------------------------------------------------
+		References
+	--------------------------------------------------------------
+		- Declaring and using the references
+			e.g.-
+						int int_val{23};
+						double d_val{22.11};
+
+						int& 		ref_to_int_val {int_val};   	// reference assigning through initialization
+						int& 		ref_to_int_val = int_val;   	// reference assigning through assignment
+						double& ref_to_d_val{d_val}; 			
+
+		- You need to declare and initialize references in single line. If you just declare the reference but do not initialize it
+			then compiler will throw compile time error.
+						int& ref_i; // This will throw error
+
+		- If you modify the data through reference then the original variable will get modified and vice versa is also true i.e. when 
+			you modify the data through original variable the reference variable data will get modified as both are pointing to the same
+			memory location.
+
+	--------------------------------------------------------------
+		References Vs Pointers
+	--------------------------------------------------------------
+		- References 
+			i)   References do not need to be dereferenced for reading or writing the values stored in it.
+			ii)  Must be initialized while declaring them and can not be changed to reference something else afterwards.
+			iii) Must be initialized at declaration time.
+
+		- Pointers
+			i)   Must undergo referencing or dereferencing to read or write the stored values.
+			ii)  Can be changed to point somewhere else.
+			iii) Can be declared un-initialized (will contain garbage addresses.
+
+		- References behave like constant pointers but they have a much friendlier syntax as they don't require dereferencing 
+			to read and write through the referenced data.
+
+					double *const const_p_d_val {&d_data};
+					const_p_d_val = &other_d_data;
+
+	--------------------------------------------------------------
+		Const and Non-Const references
+	--------------------------------------------------------------
+		- If a reference is non-constraint we can update the original variable through it.
+			However, constant reference cannot modify original variable.
+			e.g.-
+							// const reference
+							int score{99};
+							const int& ref_score {score};
+
+							// const pointer
+							int* const p_score {&score};
+
+							// Const Pointer to Const variable 
+							const int pi{3};
+							const int* const p_pi{&pi};
+
+--------------------------------------------------------------
+	Character manipulation and Strings
+--------------------------------------------------------------
+		- #include <cctype> - include this library for character manipulation
+		- C-strings are not that easy or convenient to work with. You only need to keep track of how big the string is in memory,
+		  need to make sure that it ends correctly etc.
+		- C-strings do not provide many functions to manipulate strings. 
+		- C++ provides another type that builds on top of character arrays named - std::string but gives us easier interface to store 
+			strings and offer better string functionality.
+		- STL functions for manipulating characters -
+				1) std::isalnum() - Check whether the argument character is alphanumeric or not i.e. 0-9 digits or upper/lower case alphabets.
+				2) std::isalpha() - Check whether the argument character is alphabet or not i.e. upper/lower case alphabet.
+				3) std::isblank() - Check whether the argument character is ' ' i.e. space character or not.
+				4) std::isupper() - returns True if argument character is in upper case.
+				5) std::islower() - returns True if argument character is in lower case.
+				6) std::toupper() - returns the upper case of the argument character.
+				7) std::tolower() - returns the lower case of the argument character.
+
+-------------------------------------------------------------
+	C-string manipulation
+-------------------------------------------------------------
+		- #include <cstring>
+		- To store a string into a pointer, you must declare a 'const char*' pointer. The only 'char*' type pointer will not work.
+			e.g.-
+						const char* s = "This is a string.";
+						char* s1 = "Assigning a string into a char* pointer." // This will throw a warning - converting a string constant to 'char*'.
+
+		- If you want to declare a constant C-string using a pointer use following syntax:
+			e.g.-
+						const char* const s = "This is constant string.";
+					  //s[0] = 't';  // This operation is not allowed as this is a constant string
+
+		- Strlen() Vs sizeof()
+			i) strlen() :-
+					- Returns length of the string in terms of characters
+					e.g. -
+								char message [] {"Earth is round in shape."};
+								cout << " The no of characters in 'message' is = " << strlen(message) << endl;
+
+					- Also works on decayed arrays
+					e.g. -
+								const char* p_message {"Earth is round in shape."}; // Array decays into pointer when we use 'const char*'.
+								cout << " The no of characters in 'message' is = " << strlen(p_message) << endl;
+
+			ii) sizeof() :-
+					- Returns length of the string in terms of bytes. And as 1 character is of 1 byte, it can be used to get number of characters in the string. 
+						However, it will also count null character at the end of the string
+						e.g.-
+								char message [] {"Earth is round in shape."};
+								cout << " The no of characters in 'message' is = " << sizeof(message) << endl;  // Returns size of 'message' in terms of bytes.
+
+								const char* p_message {"Earth is round in shape."}; 	// Array decays into pointer when we use 'const char*'.
+								cout << " The no of characters in 'message' is = " << sizeof(p_message) << endl; // Returns size of 'const char*' pointer.
+
+			iii) strcmp() - int strcmp(const char* a, const char* b)
+					- Returns negative number if lhs appears before rhs lexicographically, '0' if both are equal and positive number if lhs appears lexicographically after rhs.
+					- In lexicographic order 'A' comes before 'a' i.e. capital case letters come before small case letters.
+
+			iv) strncmp() - int strncmp(const char* a, const char* b, size_t size)
+					- Same as strcmp() function, however compares only first 'n' number of characters as specified by 'size'.
+
+			v)  strchr() - Return pointer to first occurrence of input character.
+					- Returns the pointer to the first occurrence of the argument character in the string.
+
+			vi) strrchr() - Return pointer to last occurrence of input character.
+					- Returns the pointer to the last occurrence of the argument character in the string.
+
+-------------------------------------------------------------
+	C-string Concatination and Copying
+-------------------------------------------------------------
+		- #include <cstring>
+		- std::strcat(dest, src) - char* strcat(char* dest, const char* src)
+			i) join second string to the first string 
+			ii) You need to make sure that the first string is big enough to store both the strings.
+			iii) Because of these serious limitations, that you only need to keep track of the size of the first string, many compilers do not even allow to use this function.
+
+		- std::strncat(dest, src, n) :-   char* strncat(char* dest, const char* src, std::size_t count)
+			Concatenates first n characters from 'src' string to the first n characters of 'dest' string modifying the 'dest' string and finally creates a copy of resultant 
+			'dest' string and returns its pointer.
+
+		- std::strcpy()  :- char* strcpy(char* dest, const char* src)
+			Copies the string from 'src' to 'dest' and also returns a pointer to the copy of resultant string.
+
+		- std::strncpy()  :- char* strncpy(char* dest, const char* src, size_t count)
+			Copies the first 'count' number of characters from 'src' string to the first 'count' number of characters to 'dest' string and returns a pointer to the copy of 
+			resultant string.
+
+-------------------------------------------------------------
+	Introducing std::string 
+-------------------------------------------------------------
+		- The C-strings whether defined staticly on stack or dynamically on heap have few problems. We need to keep track of the size of the string manually.
+		- Also in C-strings we need to take care of '/0'-Null character manually.
+		- The best part of std::string is that it can grow automatically and we need not worry about its size.
+
+		---------------------------------------
+			Declaring and using std::string
+		---------------------------------------
+				- #include <string>
+					std::string full_name;                   											// Empty string
+					std::string planet {"Earth! The planet where sky is blue."}; 	// Initialize with string literal.
+					std::string preferred_planet {planet}; 												// Initialize with other existing string.
+					std::string message{"Hello, world!", 8}; 											// Initialize with part of string literal. Contains 'Hello, w', Copies 8 characters.
+					
+					std::string weird_message (3, 'e'); 													// Initialize with multiple copies of char. Here, 'eeee'
+					std::string weird_message {3, 'e'}; 													// This syntax is not working.
+					
+					std::string greeting {"Welcome, Home!"}; 
+					std::string say_welcome {greeting, 0, 7};                     // Initialize with part of existing string, starting at index 0 and taking 7 characters.
+
+		- The pointers pointing to the string literal can be changed at runtime, However doing so will cause memory leak. As the memory used to store old string literal is 
+			still alloted to the program but not in use. This is not the case with std::strings. Dynamically reassigning strings will not cause memory leaks.
+			e.g.-
+						const char* str {"Sky is very cloudy. Today might rain heavily."};
+						str = "whoa! It started raining."
+
+	-------------------------------------------------------------
+		One Definition Rule 
+	-------------------------------------------------------------
+		- Definitions can not show more than once in your entire program or Translation units.
+		- The same function implementation cannot show up in global name space more than once.
+		- We will see one definition rule in context of 
+				i)   Free standing variables.
+				ii)  Functions
+				iii) Classes
+				iv)  Class member Functions.
+				v)   Class static member variables.
+
+		- Only exception to this rule is 'class' definitions. There can be multiple definitions of a Class, however there should be only one definition per translation unit.
+		- variables can be defined only once.
+			e.g.-
+					double weight {}  // The variable 'weight' can not be defined twice whether in same file or other file from same project.
+
+		- Multiple definitions of a Class are allowed but in different translation units. Following 'Point' class is also defined in file 'otherfile.cpp'. Defining 'Point' 
+			class in multiple files is allowed.
+
+					struct Point {         
+						int x;               
+						int y;
+					};
+
+		- Function is a reusable piece of code that can take number of optional inputs and produce some desirable output.
+					return_type function_name (parameter1, parameter2, ...){
+						// operations
+						return return_type;
+					}
+
+		- Each function in C++ should have unique signature. The function signature comprises of 'function name' and it's parameters.
+
+		- Parameters passed without reference or pointer to the function are scoped locally in the function. Changes to them are not
+			visible outside the function. That is what we have inside the function are actually copies of the arguments passed to the
+			function.
+			e.g.- 
+						double increment_multiply(double a, double b) {
+							std::cout << "Inside function, before increment" << endl;
+							std::cout << " a : " << a << endl;
+							std::cout << " b : " << b << endl;
+							
+							double result = (++a) * (++b);
+							std::cout << "Inside function, after increment" << endl;
+							std::cout << " a : " << a << endl;
+							std::cout << " b : " << b << endl;
+							return result;								
+						}
+
+		- Function Declaration OR Function Prototype
+			The prototype needs to come before the function call in your file. Otherwise the compilation will fail.
+			The full function definition coming out before the main() function also doubles as a prototype (declaration).
+			e.g.-
+						int max (int a, int b); 
+						(OR) 
+						int max (int, int);         // You can omit the variable names in the function declaration.
+
+		- Function Definition
+						int max (int a, int b){
+							if(a> b)
+								return a;
+							else
+								return b;
+						}
+
+		- Functions across multiple files - Compilation model revisited.
+			i)  Compiler Converts C++ program into binary file which can be executed on computer.
+			ii) Compiler steps 
+						- Preprocessing - Pastes content of the header files into the program to be compiled.
+							e.g. -
+									When you are using standard library headers, please use angular brackets whereas when you are using your own defined headers, use double quotes. 
+										#include <iostream>
+										#include "compare.h"
+
+						- These preprocessed files are known as translation units. (TU)
+						- Compiler generates an object file for each translation unit separately.
+						- Linker - 	Linker links all these separate binary files or object files into single exe file which we execute on computer.
+												The linker searches for Function definitions on in all translation units (.cpp) files in the project. The definition 
+												does not have to live in the same .cpp file with the same name as the header.
+
+											- ld returned 1 exit status :- This is the linker error you should be looking for. 'ld' is the name of the linker that GCC uses.
+											- LNK2019: unresolved external symbol :- This is the linker error given by MSVC compiler.
+
+											
+	-------------------------------------------------------------
+		Pass By Value
+	-------------------------------------------------------------
+		i) Pass By Value :-
+			When variables are passed by value to a function, local copy of variables is created in the function. And any changes to this 
+			local copy does not have any effect on the main variables.
+
+		ii) Pass By Pointer :-
+			The address of the variable is passed. The changes made in the function are actually done on the main variables.
+
+		iii) Pass By Reference :-
+			Reference (int&) are passed to the function. The changes to the function are actually done on the main variables. However,
+			without the use of dereference operators. 
+
+	-------------------------------------------------------------
+		Getting things Out of Functions 
+	-------------------------------------------------------------
+		- We can get the output of a function either by a pointer or by a reference or by directly returning a value from it in a variable.
+
+		- Output parameters should be passed in such a way that you can modify the arguments from inside the function. They can be passed
+			either by reference or by pointer. References are preferred in C++
+
+		- Input parameters should not be modifiable from inside the function. You enforce modification restrictions with const keyword.
+			The input parameters can be passed either by const reference, passing by pointer to const or even passing by const pointer to const.
+
+		- By default, the values returned from a function are considered 'return by value'.
+
+		- In modern compilers, return by value is commonly optimized out by the compiler whenever possible and the function is modified 
+			behind your back to return by reference to avoid unnecessary copies
+
+	-------------------------------------------------------------
+		Function Overloading
+	-------------------------------------------------------------
+		- In C++, multiple functions can have same name However they must have different signatures.
+		- Multiple functions having same name but different signatures is known as function overloading.
+		- Also, overloading the functions just on different return types is not allowed in C++.
+		e.g.-
+						int max(int x, int y);
+						//double max(int x, int y);                 // Can not overload on return type. Compiler Error.
+						double max(double x, double y);
+						std::string max(std::string& x, std::string& y);
+
+		- Overloading the function with same function name is possible by changing following -
+						i)   Order of parameters.
+						ii)  Number of parameters.
+						iii) Types of the parameters.
+
+		- No function will be called if there is ambiguity with type of parameters of the overloaded functions. In this scenario you need to 
+			type cast the parameters explicitly or check whether you have the version of the overloaded function for the parameters you are sending.
+
+	-------------------------------------------------------------
+		Lambda Functions
+	-------------------------------------------------------------
+		- Lambda functions is a mechanism in C++ language to set up anonymous functions i.e. functions without name.
+		- Once we have them set up we can either give them names and call them, or we can even get them to do things directly.
+		- Syntax of lambda function - 
+						[capture list] (parameters) -> return type{
+							// Function body
+						}
+		- Below is the example of named lambda function
+		e.g. -
+						auto func = [](){
+							std::cout << "This is a lambda function." << std::endl;
+						}
+						func(); // Calling of lambda function.
+
+		- Below is the example of the anonymous lambda function which is called immediately after it is defined
+		e.g. -
+						[](){
+							std::cout << "Hello world!" << std::endl;
+						}();
+
+		- lambda function that takes arguments
+		e.g. -
+						[](double a, double b){
+							std::cout << " a + b : " << (a + b) << std::endl;
+						}(10.1, 23.3);
+		
+		- lambda function that takes arguments and returns the result
+		e.g. -
+						auto result = [](double a, double b) -> double{
+							return a + b;
+						}(10.1, 23.3);
+						std::cout << " result = " << result << std::endl;
+
+		- lambda function that takes arguments and returns the result, explicitly specifying 
+			the return type. The 'int' return type will convert the output type to 'int' irrespective
+			of the argument type.
+		e.g. -
+						auto result = [](double a, double b) -> int{
+							return a + b;
+						}(10.1, 23.3);
+						std::cout << " result = " << result << std::endl;
+
+		- Print the result of the lambda function directly
+		e.g. -
+						std::cout << " result = " << [](double a, double b)-> double{
+							return a + b;
+						}(2.3, 4.5) << std::endl;
+
+					(OR) - Without explicitly specifying the type of the result.
+
+						std::cout << " result = " << [](double a, double b){
+							return a + b;
+						}(2.3, 4.5) << std::endl;
+
+	-------------------------------------------------------------
+		Capture Lists
+	-------------------------------------------------------------
+		- The body of the lambda function does not have access to the context of the outside of the lambda function.
+		- Capture lists are used to give the lambda function the access of context of it's outside's variables.
+			e.g. -
+						double a{10};
+						double b{20};
+
+						auto func = [a, b] () {
+							std::cout << " a + b = "<< a+b << endl;
+						};
+						func();
+
+		- capturing by value : what we have in the lambda function is a copy.
+			cout << "\n--- Capture Lists :- capturing by value ---" << std::endl;
+			int c{54};
+	    auto func1 = [c](){     // The value of variable 'c' at previous line of code will be passed by value to capture list.
+				std::cout << "First lambda func: c = "<< c << endl;
+			};
+			for(size_t i = 0; i < 5; i++){
+				std::cout << "Outer value: c = "<< c << endl;
+				func1();
+				++c;
+			}
+	    auto func11 = [c](){    // The value of variable 'c' at previous line of code will be passed by value to capture list.
+				std::cout << "func11 lambda func: c = "<< c << endl;
+			};
+			func11();
+
+		- capturing by reference : what we have in the lambda function is actual reference.
+			cout << "\n--- Capture Lists :- capturing by reference ---" << std::endl;
+			int d{54};
+	    auto func2 = [&d](){    // reference is passed in capture list, so whenever 'd' is modified it is visible in lambda function.
+				std::cout << "Inner value: d = "<< d << endl;
+			};
+			for(size_t i = 0; i < 5; i++){
+				std::cout << "Outer value: d = "<< d << endl;
+				func2();
+				++d;
+			}
+	    auto func22 = [&d](){    // reference is passed in capture list, so whenever 'd' is modified it is visible in lambda function.
+				std::cout << "fun22 lambda func: d = "<< d << endl;
+			};	
+			func22();
+						
+		- Capture all by Value :- capture entire context from outside of lambda function to its inside
+			cout << "\n--- Capture Lists :- capturing everything by value ---" << std::endl;
+			int c{54};
+			auto func1 = [=](){     // The '=' sign inside capture list means that entire context is available inside lambda function by value.
+				std::cout << "First lambda func: c = "<< c << endl;
+			};
+			for(size_t i = 0; i < 5; i++){
+				std::cout << "Outer value: c = "<< c << endl;
+				func1();
+				++c;
+			}
+
+		- Capture all by Reference :- capture entire context from outside of lambda function to its inside by reference
+			cout << "\n--- Capture Lists :- capturing everything by reference ---" << std::endl;
+			int c{54};
+			auto func1 = [&](){     // The '&' sign inside capture list means that entire context is available inside lambda function by reference.
+				std::cout << "First lambda func: c = "<< c << endl;
+			};
+			for(size_t i = 0; i < 5; i++){
+				std::cout << "Outer value: c = "<< c << endl;
+				func1();
+				++c;
+			}
+
+	-------------------------------------------------------------
+		Function Templates
+	-------------------------------------------------------------
+		- Function templates are just blueprints. They are not real C++ code consumed by the compiler. The compiler generates real
+			C++ code by looking at the arguemnts you call your function template with.
+
+		- The real C++ function generated by the compiler is called a 'Template instance'.
+
+		- Real function declarations and definitions aka template instances are created when you call the function with arguments.
+
+		- If the template parameters are of the same type (T,T), then the arguments you call the function with must also match, 
+			or else you get a compiler error.
+
+		- Template instances won't always do what you want. A good example is when you call out maximum function with pointers. 
+			I think, you should not use pointers with template functions.
+
+		- There are tools like cppinsights.io that can show you template instantiations. You can even use the debugger to infer 
+			that information from the activation record of a template function.
+
+		- The arguments passed to a function template must support the operations that are done in the body of the function.
+
+	-------------------------------------------------------------
+		Template type deduction and explicit arguments
+	-------------------------------------------------------------
+		- We can explicitly specify the template instance type that we want to be called/created.
+			e.g. -
+							template <typename T> T maximum(T a, T b){
+								return a > b ? a : b;
+							}
+							double c{22.11};
+							double d{10.11};
+
+							std::string e{"Hello, "};
+							std::string f{"world!"};
+							maximum<double> (c, d); 		// explicitly say that we want the double version called, if the instance is not 
+																					// there already, it will be created.
+
+							maximum<double> (c, e);			// Compiler error will be thrown as for parameter 'e', conversion from 'std::string' to
+							                            // 'double' is not possible.  
+
+		- While explicitly calling the template type function, if the parameter is of some different type then compiler will
+			try to do type conversion implicitly. However, if the parameter is not implicitly convertible then compiler error will be
+			thrown.
+
+	-------------------------------------------------------------
+		Template specialization
+	-------------------------------------------------------------
+		- This is the mechanism in C++, by which we can bypass the default template behavior.
+		- Template specialization is used when the default template does not satisfy your needs.
+		- Template specialization - Using template specialization we can overload the template function for the special data types 
+																where we need to modify the function code slightly to suit the specific needs.
+			e.g. -
+								template <typename T> T maximum(T a, T b);
+
+								// Template specialization
+								template<>
+								const char* maximum<const char*>(const char* a, const char* b);
+
+	-------------------------------------------------------------
+		Static Asserts - C++11 feature
+	-------------------------------------------------------------
+		- A static assert is a way to perform compile-time assertions. It ensures that certain conditions are met during compilation, 
+			preventing the program from compiling if the condition is false. This is useful for catching errors early.
+
+			Syntax		: static_assert(condition, message);
+									-	condition	: A constant expression that is evaluated at compile time.
+									-	message		: A string that gets displayed if the assertion fails.
+																If the condition evaluates to false, the compiler throws an error with the provided message.
+
+			e.g. -
+					static_assert(sizeof(int) == 4, "Size of int must be 4 bytes.");
+					
+					If the size of int is not 4 bytes on a given platform, this will cause a compilation error with the message 
+					"Size of int must be 4 bytes.".
+
+		- static asserts are used for following conditions - 
+			i)   Ensuring template parameters meet certain requirements.
+			ii)  Checking for platform-specific conditions.
+			iii) Validating certain properties of types at compile time.
+
+	-------------------------------------------------------------
+		Type Traits 
+	-------------------------------------------------------------
+		- #include <type_traits>
+		- Type traits are a collection of templates provided in the <type_traits> header that allow you to query or modify types at 
+			compile time. They are used for type introspection and type transformations, helping to write more flexible and generic code.
+
+		- Some of the common type traits are:
+			std::is_integral<T>				: Checks if T is an integral type.
+			std::is_floating_point<T>	: Checks if T is a floating-point type.
+			std::is_same<T1, T2>			: Checks if T1 and T2 are the same type.
+			std::is_const<T>					: Checks if T is a const type.
+
+			- Example:
+								#include <iostream>
+								#include <type_traits>
+
+								template <typename T>
+								void checkType() {
+										if (std::is_integral<T>::value) {
+											std::cout << "T is an integral type.\n";
+										} else if (std::is_floating_point<T>::value) {
+												std::cout << "T is a floating-point type.\n";
+										} else {
+												std::cout << "T is neither integral nor floating-point.\n";
+										}
+								}
+
+								int main() {
+								    checkType<int>();       	// Outputs: T is an integral type.
+								    checkType<double>();    	// Outputs: T is a floating-point type.
+								    checkType<std::string>(); // Outputs: T is neither integral nor floating-point.
+								}
+
+		- Type Traits for Type Transformations:
+			In addition to type checks, you can also perform type transformations using type traits.
+					std::remove_const<T>	: Removes the const qualifier from T.
+					std::add_pointer<T>		: Adds a pointer to T.
+
+			- Example:
+								#include <iostream>
+								#include <type_traits>
+
+								int main() {
+										using T = const int;
+								    using NoConst = std::remove_const<T>::type; 		// NoConst is int
+								    std::cout << std::is_same<NoConst, int>::value; // Outputs: 1 (true)
+								}
+
+	-------------------------------------------------------------
+		Concepts - C++20 feature
+	-------------------------------------------------------------
+		- #include <concepts>
+		- 'Concepts' is one of the important features of C++20.
+		- 'Concepts' is a mechanism to place constraints on your template type parameters. Using 'Concepts' we can specify that our function template
+			should only be called with integer, double or string data types and if this is violated compiler error is generated.	
+		- 'Concepts' are the feature of the C++20.
+		- A mechanism to place constraints on your template type parameters.
+		- Both 'char' and 'int' are of integral type.
+
+		- syntax 1 :-
+									template <typename T>
+									requires std::integral<T>    // This is concept syntax, 'requires' keyword followed by 'std::integral' or 'condition'
+									                             // followed by 'typename' 
+									T add (T a, T b){            // Normal 'template' declaration.
+										return a + b;
+									}
+
+		- syntax 2 :-
+									template <std::integral T>
+									T add (T a, T b){ 
+										return a + b;
+									}
+
+		- syntax 3 :-
+									auto add (std::integral auto a, std::integral auto b){
+										return a + b;
+									}
+
+		- syntax 4 :- 
+									template <typename T>
+									T add (T a, T b) requires std::integral<T>{
+										return a + b;
+									}
+
+	-------------------------------------------------------------
+		Custom Concepts
+	-------------------------------------------------------------
+		- #include <type_traits>              															// For std::is_integral_v<T>;
+		- Following are different ways to create/define concepts
+		- Please not that, if we use 'require' keyword just once then the compiler will only check for the syntax but it 
+			will not enforce the semantic meaning of that statement
+
+		i) syntax 1 :-
+								template <typename T>
+								concept myIntegral = std::is_integral_v<T>;    // Just makes sure that the arguments are of integral type.
+				
+		ii) 	syntax 2 :- 
+					In this syntax, if we do not pass the template parameters of type which are not compatible 
+					or do not support multiplication operation, the concept will fail.
+
+								template <typename T>
+								concept multipliable = requires(T a, T b){
+									a * b;                                       // Just makes sure that the syntax is valid.  
+								};
+
+		iii)  syntax 3 :-
+					If the template parameter does not support increment/decrement operations the compilation will fail.
+					
+						template <typename T>
+						concept Incrementable = requires(T a){
+							a+=1;                                           // Just makes sure that the syntax is valid.
+							a++;
+							++a;
+						};
+
+	- Following are different ways of using concepts
+		i) 	template <typename T>
+				requires MyIntegral<T> 
+				T add1( T a, T b){
+					return a + b;
+				}
+
+		ii) template <MyIntegral T>
+				T add2 (T a, T b){
+					return a + b;
+				}
+
+		iii)auto add3(MyIntegral auto a, MyIntegral auto b){
+					return a + b;
+				} 
+
+		iv) The following syntax will make sure that whatever parameter is passed to the function 'fun1', it has to 
+				be compatible with syntax of '+=', prefix/postfix '++' operators.
+				
+					template <Incrementable T>
+					fun1(T a){
+						return a+100;
+					};
+
+	-------------------------------------------------------------
+		requires clause : zoom in
+	-------------------------------------------------------------
+		- The requires clause can take in four kinds of the requirements.
+		1) Simple requirements 
+				template <typename T>
+				concept TinyType = requires (T a){
+					sizeof(a) <= 4;                     		// Simple requirements only check syntax. Checks whether sizeof() operator can be used on 'T'
+				} 																				// This concept can also be satisfied or return 'True' for 'long long int' data type which is of size 8.
+
+		2) Nested requirements
+				template <typename T>
+				concept TinyType = requires (T a){
+					sizeof(a) <= 4;                     		// Simple requirements only check syntax. Checks whether sizeof() operator can be used on 'T'
+					requires sizeof(a) <= 4; 								// Nested requirements : also checks for the condition.
+				} 																				// This concept will enforce that the data type is of size less than 4 bytes.
+		
+		3) Compound requirements
+				template <typename T>
+				concept Addable = requires (T a, T b){
+					{a + b} -> std::convertible_to<int>; 		// Checks if 'a + b' is a valid syntax and the result is convertible to 'int'. 
+				}
+				
+		4) Type requirements
+				These are advanced type of requirements. These are not discussed in this course.
+
+	-------------------------------------------------------------
+		Combining Concepts
+	-------------------------------------------------------------
+		- Concepts can be combined with logical operators && and ||.
+		e.g. -
+				// Defining the concept
+					template <typename T>
+					concept TinyType<T> =  requires (T a){
+						sizeof(T) <= 4;
+						requires sizeof(T) <= 4:
+					}
+
+				// Combining Concepts - The argument should be either of integral or of floating point type
+					template <typename T> 
+					T func (T x) requires std::integral<T> || std::floating_point<T> {
+						std::cout << " x is both integral and of floating type !" << std::endl;
+					}
+
+				// Combining concepts - The argument should be both integral and less than or equal to 4 bytes in size.
+					template <typename T>
+					T func(T a) requires std::integral<T> && requires (T a){
+																											sizeof(a) <= 4;
+																											requires sizeof(a) <= 4;
+																										}
+					{
+						std::cout << " Value : " << a << std::endl;
+						return 2*a;
+					}
+
+	-------------------------------------------------------------
+		Concepts and Auto
+	-------------------------------------------------------------
+		- This syntax constraints the auto parameters you pass in to comply with the std::integral concept
+		e.g. -
+					std::integral auto add (std::integral auto a, std::integral auto b){
+						return a + b;
+					}
+
+================================================================
+	'Class' in C++
+================================================================
+	- Classes is a mechanism in C++ to design our own types.
+	- Unless explicitly specified the members of the class are private by default.
+	- 'public' members are accessible from outside of the class whereas 'private' members are not accessible from outside of the class.
+	- All the members are available to other members of the class.
+	- Everything after the 'public' keyword is public until next 'private' or 'public' keyword.
+	- Class member variables can either be raw stack variables or heap variables i.e. pointers.
+	- However, member variables can never be 'references' as reference variables have to be always initialized and class variables can sometimes be uninitialized.
+	- Classes have functions that let them do things.
+	- Class methods have access to the member variables, regardless of whether they are private or public.
+	- Private members of the classes (variables or functions) are not accessible from the outside class definition.
+
+	----------------------------------------------------------------
+		Constructors
+	----------------------------------------------------------------
+		- Class constructor is a special kind of method that is called when an instance of a class is created.
+		- Constructor 
+					i) 		is always public.
+					ii)   has no return type.
+					iii) 	has same name as class.
+					iv)		can have parameters or can have empty parameter list.
+					v)  	is usually used to initialize member variables of a class.
+
+	----------------------------------------------------------------
+		Getters/Setters
+	----------------------------------------------------------------
+		- getter/setter are the class member functions defined by the user, which are public and are used to get/set the values of the private 
+			member variables of the class.
+
+	----------------------------------------------------------------
+		Class across multiple files
+	----------------------------------------------------------------
+		- It is best practice to use '#ifndef' statement at the beginning of the header file to avoid multiple definitions if the header files is 
+			included in multiple files.
+			
+					#ifndef CYLINDER_H
+						#define CYLINDER_H
+					#endif
+
+		- Usually, .h files contains only function declarations whereas the .cpp files contain function definitions.
+		- By convention, the corresponding header file (.h) and .cpp files names are same.
+		- when you split the code between .h file and a .cpp file make sure that all the definitions are moved to .cpp file and all the declarations
+			are moved to .h file. This makes debugging easier.	
+	
+	----------------------------------------------------------------
+		Managing Class Objects Through Pointers
+	----------------------------------------------------------------
+		- The Cylinder class variables can be defined in two ways: one on stack and another on heap.
+		e.g.-
+						Cylinder c1(10, 20);        					// Stack variable
+						Cylinder* c2 = new Cylinder(10, 20); 	// Heap variable
+					
+		- Members of heap variables are accessed using '->' operator or '(*c2).' operator.
+
+	----------------------------------------------------------------
+		Destructors
+	----------------------------------------------------------------
+		- These are the special methods that are called when an object dies.
+		- Destructors do not accept any arguments
+		- Destructors are needed when an object needs to release some dynamic memory, or for some other kind of cleanup.
+		- Destructors are called when 
+					i)   Local stack object goes out of scope (dies)
+					ii)  When a heap object is release with delete keyword.
+		- Destructor is also released at weird places 
+					i)   When an object is passed by value to a function
+					ii)  When a local object is returned from a function (for some compilers)
+
+	----------------------------------------------------------------
+		Constructor and	Destructors Call Order
+	----------------------------------------------------------------
+		- Constructors are called in the same order in which the objects are declared However destructors are called in the reverse order 
+			in which the objects are declared.
+
+	----------------------------------------------------------------
+		'this' Pointer
+	----------------------------------------------------------------
+		- Each class member function contains a hidden pointer called 'this' pointer.
+		- The 'this' pointer contains the address of the current object for which the method is being executed.
+		- 'this' pointer is also available for constructors and destructors.
+		- Chained calls using this pointer
+
+				Dog* set_name(std::string_view name){
+		      //name = name;        // This will do nothing, we need to use 'this' pointer.
+					this->name = name;
+					return this;
+				}
+			
+				Dog* set_breed(std::string_view breed){
+					this->breed = breed; 
+					return this;
+				}
+			
+				// Chained calls using pointers
+				d1.set_name("Puppy")->set_breed("Indian")->set_age(4);
+
+				
+				// Setter Functions - Chained Calls using References
+				Dog& set_name(std::string_view name){
+		      //name = name;        // This will do nothing, we need to use 'this' pointer.
+					this->name = name;
+		      return *this;
+				}
+				Dog& set_breed(std::string_view breed){
+					this->breed = breed; 
+		      return *this;
+				}
+
+				Dog& set_age(int age) {
+					this->age = age;
+		      return *this;
+				}
+				
+				// Chained calls using references
+				d1.set_name("Puppy").set_breed("Indian").set_age(4);
+
+	----------------------------------------------------------------
+		'struct' Pointer
+	----------------------------------------------------------------
+		- Similar to 'class' keyword 'struct' keyword can also be used to create user defined objects.
+		- The difference is that 'class' members are 'private' by default whereas 'struct' members are 'public' by default.
+		- 'struct' are commonly used where all the members need to be public by default
+		e.g.-
+					struct Point {
+						double x;
+						double y;
+					}
+		- Also, structs are usually used when we want to declare just public variables but we do not want to declare public methods.
+
+	----------------------------------------------------------------
+		Size of Class Objects
+	----------------------------------------------------------------
+		- The size of the class object is the sum of the sizes of its member variables. The member functions reside somewhere in the memory but 
+			do not get included in the size of the class object.
+		- The member functions are affiliated with the class but not with the class objects.
+		- std::strings are implemented as a class which stores data internally as a 'const char*'.
+		- Sometimes, because of the phenomenon called 'Boundary Alignment' the size of the class object is more than the cumulative size of the 
+			member variables.
+		- Usually, member variables are stored at addresses which are multiple of 4, so in case if the data type is of size less than 4 bytes 
+			then the variables are aligned at addresses which are multiple of 4 resulting in some memory gaps, which increases the size of objects.
+		- If an object contains a std::string variable, then usually it occupies the size of just one pointer variable.
+		
+	----------------------------------------------------------------
+		'const' function
+	----------------------------------------------------------------
+		- In C++, a constant member function is a function that does not modify any member variables of the class. It is declared by adding the const 
+			keyword after the function declaration. 
+		- Constant functions can only call other constant member functions and cannot modify the object's state.
+
+		-	Syntax:
+
+				return_type function_name() const;
+
+				i)  The const keyword is placed after the parameter list but before the function body (or before the semicolon if it's a declaration).
+				ii) This signals that the function will not modify any member variables of the class.
+
+		- Example:
+									#include <iostream>
+
+									class Example {
+									public:
+											Example(int x) : data(x) {}
+									
+											// Constant function declaration
+											int getData() const {
+													return data;
+											}
+										
+											// Non-constant function (can modify class members)
+											void setData(int x) {
+													data = x;
+											}
+										
+									private:
+											int data;
+									};
+
+									int main() {
+											Example e(10);
+									
+											std::cout << "Initial Data: " << e.getData() << std::endl;  // Calls constant function
+									
+											e.setData(20);  // Modifies the object
+											std::cout << "Updated Data: " << e.getData() << std::endl;
+									
+											return 0;
+									}
+
+		- Key Points:
+			i)  The getData() function is declared as const, meaning it guarantees not to modify the internal state of the object.
+			ii) The constant member function getData() can be called on both constant and non-constant objects, whereas non-constant functions cannot be called on const objects.
+
+					- Example with const Object:
+								const Example e(10);
+								std::cout << e.getData() << std::endl;  	// This works since getData() is const
+								// e.setData(20);  												// Error: setData is not const, so cannot be called on a const object
+
+					- A constant member function ensures immutability, making it safer to use in situations where the object's state should not be modified.
+
+	----------------------------------------------------------------
+		Difference between 'friend' function and 'member' function
+	----------------------------------------------------------------
+		- In C++, both friend functions and member functions are used to access and manipulate class data, but they have distinct differences in how 
+			they interact with class members, how they are called, and their purpose.
+
+		- Key Differences Between friend Function and Member Function:
+
+			-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			Feature												Member Function																											Friend Function
+			-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			Definition Location						Defined inside the class body.																			Defined outside the class but declared as a friend inside the class.
+
+			Access to Members							Can access all members (public, protected, and private)							Can access all members (-public, protected, and private) of the class where it is 
+																		of the class in which it is defined.																declared a friend, but it's not part of the class itself.
+
+			Calling Syntax								Called using an object of the class 																Called like a normal function, with the object(s) passed as argument(s) 
+																		(e.g., obj.memberFunction()).																				(e.g., friendFunction(obj)).
+
+			Association with Class				Part of the class and can directly manipulate the 									Not a member of the class, but can still access private and protected members 
+																		object it belongs to.																								due to the friend declaration.
+
+			Usage Context									Best when the function logically belongs to the class and           Best for operations that require access to private data of multiple classes or for 
+																		operates on its internal data.																			operator overloading where it's awkward to make the function a member.
+
+			Inheritance										Can be inherited by derived classes.																Cannot be inherited, because it's not part of the class itself.
+
+			Scope Resolution							Can be called on an object directly (implicit this pointer).				Needs to be called explicitly with the object passed as an argument.
+
+			'this' pointer								Can use 'this' pointer inside function.                             Can not use 'this' pointer.
+
+	----------------------------------------------------------------
+		Inheritance
+	----------------------------------------------------------------
+		- Inheritance is a defining feature of object oriented programming in C++
+		- Helps in building types on the top of other types
+		- Inheritance hierarchies can be set up to suit your needs
+		- Inheritance improves code reuse.
+
+		- Public Inheritance :-
+			i) 		With public inheritance, derived class can have access of only public members of the base class and can not access private 
+						members of the base class.
+			ii) 	Same applied for the friends of the derived class. They can access all the members of the derived class but can access only public 
+						members of the base class and can not access private members of the base class.
+			iii) 	In Public inheritance, 'Protected' members of the base class are accessible to derived class member functions but are not 
+						accessible outside derived class.
+			iv)   In public inheritance, the 'private', 'protected' and 'public' members of the base class remain same as 'private', 'protected' and 
+						'public' in derived class. I think this statement is in the context where the derived class is used as an base class for next inheritance.
+			e.g. -
+							Class Person{
+								public:
+									m1;
+								protected: 
+									m2;
+								private: 
+									m3;
+							}
+						
+							Class Player: public Person{
+								public:
+									m1;
+								protected: 
+									m2;
+								private: 
+									m3;
+							}
+
+		- Protected Inheritance :- 	
+			i)		In protected inheritance, 'public' and 'protected' members of base class are inherited as 'protected' members in derived class.
+			ii)		'public' members of base class are accessible both inside and outside the member functions of the derived class.
+			iii)	'protected' members of base class are accessible only inside the member functions of the derived class.
+			iv)  	However, 'private' members of base class are not accessible even inside the member functions of the derived class, in any type of 
+						inheritance.
+			e.g.-
+							Class Person{
+								public:
+									m1;
+								protected: 
+									m2;
+								private: 
+									m3;
+							}
+						
+							Class Player: protected Person{
+								protected:
+									m1;
+								protected: 
+									m2;
+								private: 
+									m3;
+							}
+
+		- Private Inheritance :- 	
+			i)   	In private inheritance, 'public' and 'protected' members of base class are inherited as 'private' members in derived class.
+			ii)	 	This means that 'public' and 'protected' members of base class can be accessed inside the member functions of the derived class but not outside.
+			iii) 	However, 'private' members of base class are not accessible even inside the member functions of the derived class, in any type of 
+						inheritance.
+			iv)   The class that does 'private' inheritance is really selfish as it does not forward anything that is coming from the base class to the class which
+						derives from it.
+			e.g.-
+						Class Person{
+							public:
+								m1;
+							protected: 
+								m2;
+							private: 
+								m3;
+						}
+					
+						Class Player: private Person{
+							private:
+								m1;
+							private: 
+								m2;
+							private: 
+								m3;
+						}
+
+		- In any type of inheritance, 'private' members of base class are never accessible in member functions of the derived classes.
+
+	----------------------------------------------------------------
+		Resurrecting members back in scope
+	----------------------------------------------------------------
+		- Resurrecting of members has to be done in the same selfish class which privately inherits from the base class.
+		- Resurrecting a overloaded member function is also possible.
+		- Resurrecting of private variables is not supported.
+
+		- In C++, you might encounter situations where a member variable or function of a base class is hidden or overshadowed in a derived class due to inheritance,
+			particularly when member functions in the derived class have the same name as those in the base class. This is known as name hiding or member overshadowing.
+
+			To resurrect or bring back members from the base class into the scope of the derived class, you can explicitly use the scope
+			resolution operator (::) or the using declaration.
+
+			1. 	Using the Scope Resolution Operator:
+					You can use the scope resolution operator (::) to directly access the member function or variable of the base class within the derived class.
+
+			Example:
+					#include <iostream>
+
+					class Base {
+					public:
+							void display() const {
+									std::cout << "Base class display()" << std::endl;
+							}
+					};
+
+					class Derived : public Base {
+					public:
+							void display() const {
+									std::cout << "Derived class display()" << std::endl;
+							}
+						
+							void callBaseDisplay() {
+					        Base::display();  	// Resurrecting Base class display() method
+							}
+					};
+
+					int main() {
+							Derived obj;
+					    obj.display();         	// Calls Derived class display()
+					    obj.callBaseDisplay();  // Calls Base class display()
+							return 0;
+					}
+
+			Output:
+					Derived class display()
+					Base class display()
+
+					In this example: The display() method in the derived class overshadows the one in the base class.
+					By explicitly using Base::display(), we "resurrect" the base class method and call it within the derived class.
+
+			2.	Using the using Declaration:
+					Another way to bring base class members back into scope in the derived class is by using the 'using' declaration. 
+					This allows you to use the base class's member functions without explicitly qualifying them with the base class name.
+
+			Example:
+					#include <iostream>
+
+					class Base {
+					public:
+							void display() const {
+									std::cout << "Base class display()" << std::endl;
+							}
+						
+							void show() const {
+									std::cout << "Base class show()" << std::endl;
+							}
+					};
+
+					class Derived : public Base {
+					public:
+					    using Base::display;  // Bring Base::display() into the scope of Derived
+					
+							void display() const {
+									std::cout << "Derived class display()" << std::endl;
+							}
+						
+							void show() const {
+									std::cout << "Derived class show()" << std::endl;
+							}
+					};
+
+					int main() {
+							Derived obj;
+					    obj.display();  			// Calls Derived class display(), Base::display() also in scope
+					    obj.Base::display();  // Explicit call to Base class display() (resurrected using scope resolution)
+					    obj.show();     			// Calls Derived class show()
+							return 0;
+					}
+
+			Output:
+					Derived class display()
+					Base class display()
+					Derived class show()
+
+			In this example: 
+					By adding using Base::display;, we bring the base class's display() function into the derived class's scope, so it can be accessed without the explicit scope resolution operator.
+					The derived class still has its own display() method, but the base class version can also be called by explicitly qualifying it using Base::display().
+
+			Key Points:
+					Scope resolution (::) is used to explicitly call a member of the base class in the derived class, even when it is hidden by the derived class.
+					using declaration allows you to "resurrect" one or more base class members so that they can be used without qualification inside the derived class.
+
+	----------------------------------------------------------------
+		Default arg constructors with inheritance
+	----------------------------------------------------------------
+		- In case of inheritance, compilers will call the constructors of the base class first and then that of the derived class.
+		- The same thing applied in case of the multi-level inheritance. The constructor of the innermost base class will be called first and 
+			then progressively that of the derived classes.
+		- It is always advisable to provide a default constructor for the classes, especially if they are going to be the part of the inheritance hierarchy,
+			to avoid compiler errors.
+		- While building an object of the derived class, the object of the innermost base class will be constructed first and layer by layer object of the derived class 
+			will be constructed.
+
+	----------------------------------------------------------------
+		Custom constructors with inheritance
+	----------------------------------------------------------------
+		- Custom constructors of base class can be called inside initializer list of custom constructors of derived classes.
+		- The private members of base class are not accessible inside constructor list or constructor body of the derived class.
+
+	----------------------------------------------------------------
+		Copy constructors with inheritance
+	----------------------------------------------------------------
+		- While writing the code for copy constructor of the derived class you can make use of copy constructor of the base class.
+		- You can directly pass an object of the derived class to the base class copy constructor, compiler will smartly copy the data 
+			related to the base class from derived class object. 
+		- Problem with not using copy constructor of the base class and trying to directly initialize the base class object -
+			e.g. -
+
+					Engineer::Engineer(const Engineer& source)
+						: Person(source.m_full_name, source.m_age, source.m_address), contract_count(source.contract_count)
+					{
+							std::cout << "Engineer Copy Constructor Called." << std::endl;
+					}
+
+					i)   	In above code, we are not using the copy constructor of the 'Person' class.
+					ii)  	'm_address' is private to the 'Person' class and can not be accessed directly form outside the class. 
+								This will lead to compiler error.
+					iii) 	We could even use the getter method for the 'm_address' but this will go against the design guidelines.
+
+			Desired Way :-					
+
+					Engineer::Engineer(const Engineer& source)
+						: Person(source), contract_count(source.contract_count)
+					{
+							std::cout << "Engineer Copy Constructor Called." << std::endl;
+					}
+
+	----------------------------------------------------------------
+		Inherit the constructor
+	----------------------------------------------------------------
+		- If the 'Person' class is the base class and 'Engineer' class is the inherited class, then base class constructor is inherited to derived class 
+			as follows -
+
+			class Engineer : public Person{
+
+					using Person::Person;    					// Inheriting the constructor.
+
+				public:
+					Engineer(const Engineer& source); // Copy constructor.
+					~Engineer(); 
+
+				protected:
+					int contract_count{100};
+			};
+
+		- As a result of base class constructor inheritance, the compiler will generate following code -
+			Engineer (const std::string& fullname, int age, const std::string& address)
+							: Person(fullname, age, address)
+							{
+
+							}
+							
+		- Inheriting the base constructor will initialize only base class related members.
+
+		- Some Facts -
+			i)  	Copy constructors are not inheritable and you will get compiler error if you try to do that. Mostly we do not need to inherit copy
+						constructors as compiler will automatically insert copy constructors.
+			ii) 	Inherited constructors are base constructors. These base constructors do not have knowledge of the derived class. Any member of the 
+						derived class will just contain junk or whatever default value it is initialized with.
+			iii) 	Constructors are inherited with whatever access specifier they had in base class.
+			iv)   On the top of inherited constructors you can add your own functionality to properly initialize derived member variables.
+			v)    Inheriting constructors adds a level of confusion to your code, as it is not clear which constructor is building your object. It is 
+						recommended to avoid them and only use this feature if no other option is available.
+
+	----------------------------------------------------------------
+		Inheritance the Destructors
+	----------------------------------------------------------------
+		- The constructors are called for the base class first and then for the derived classes whereas destructors are called in the reverse order
+			to that of constructors. 
+		- Destructor for derived class is called first and then for the base classes.
+		
+	----------------------------------------------------------------
+		Reused Symbols in Inheritance
+	----------------------------------------------------------------
+		- If you define a member in a derived class with same name/signature as that in the base class, C++ will give preference to the member 
+			defined in the derived class i.e. members in child class are going to hide the members in the parent class.
+		- You can also access the same name member from base class by making use of scope resolution operator. But the condition is that this 
+			member variable should be accessible from the derived class.
+
+	----------------------------------------------------------------
+		Polymorphism
+	----------------------------------------------------------------
+		- Polymorphism is all about accessing the different derived class objects using the pointer or reference of the base class from which
+			they are derived and still calling the respective methods of these derived classes.
+		- Polymorphism also enables the C++ users to create an array of base class pointer or references type and store the derived class objects in it.
+		- Using polymorphism, we can create functions that can accept pointers/references of the base class type and accept all the derived class objects,
+			so that we need not create separate functions to accept objects of each derived class.
+
+			------------------------------------------
+				'static' binding with base class pointer
+			------------------------------------------
+				- Static binding is the default behavior that we get, when we have a method with same name in all the inherited classes.
+				- Static binding calls the method of an object for which pointer has been defined and not for an object which is actually stored in that pointer.
+				- In Static binding, if we define a pointer of base class and store objects of inherited classes in that pointer, then irrespective of the type of 
+					an object stored, the method of the base class will be called always.
+					
+							Shape 	shape1("shape1");
+							Oval 		oval1(2, 3.4, "Oval1");
+							Circle	circle1(2, "circle1");
+
+							std::cout << "Calling methods through pointers (Static Binding)" << std::endl;
+
+							Shape* shape_ptr = &shape1;
+							shape_ptr->draw();            // We wish for Shape::draw() to be called and compiler will also call the same Shape::draw() method.
+							
+							Shape* shape_ptr = &Oval1;
+							shape_ptr->draw();            // 	We wish for Oval::draw() to be called but compiler will look at the 'Shape*' pointer 
+																						//	type and call 'Shape::draw()' method.
+														
+							Shape* shape_ptr = &Circle1;
+							shape_ptr->draw();            // We wish for Circle::draw() to be called but compiler will look at the 'Shape*' pointer 
+																						// type and call 'Shape::draw()' method.
+
+				- 'static binding' is a bad design, as we need to have separate function for each object type, if we use base class type pointer to store
+					objects of derived classes in it and want to call 'draw()' method of those particular classes.
+
+				- Because of static binding we can not have single collection for all the inherited class objects. We need to create separate arrays/collection
+					for each inherited class objects.
+					e.g. - 
+									Circle circle_array[] {circle1, Circle(10.3, "circle2"), Circle(20.3, "circle3") };
+									Oval   oval_array[] 	{oval1, 	Oval(2.2, 3.3, "oval2"), Oval(2.2, 3.3, "oval3") };
+
+			--------------------------------------------------------
+			'Dynamic' binding or 'Late' binding - polymorphism with virtual functions.
+			--------------------------------------------------------
+				- If we prefix the functions, which have same signature and are member of derived classes, with 'virtual' keyword, then this is called as 
+					'Dynamic' binding.
+
+				- In dynamic binding, the base class pointer can be used to store the objects of the derived classes and when virtual function is invoked using
+					this pointer, the function related to the object class will be called instead of calling the function depending on the type of the pointer.
+
+				- Dynamic binding will not work if the method is not defined as virtual. The base class type of pointer, will only be able to call the methods
+					of the derived class objects which are of virtual type.
+					e.g.- 
+								Shape* raw_ptr;
+								raw_ptr = &oval1;
+								// raw_ptr->get_x_rad();     // get_x_rad() is not a virtual method, so pointer of base class will not be able to access it. Compiler Error.
+
+	--------------------------------------------------------
+		Size of Polymorphic objects and slicing
+	--------------------------------------------------------
+		- Dynamic binding is not free, we need to pay in terms of memory to achieve dynamic binding. C++ stores some information in 'virtual tables' to resolve 
+			function calls dynamically.									
+
+		- Object Slicing :-
+			When you assign a derived-class-object directly to the base-class type variable, the derived object is sliced off, the compiler copies only base-class 
+			part of that derived-class object into that variable. So, calling of virtual methods on the base-class type variable will result in invoking of base 
+			class method.
+			e.g.- 
+						Circle c3(3.4, "circle3");
+						Shape  s3 = c3;              // Only 'Shape-class' part of the 'circle' object will be assigned to the 's3' object.
+						s3.draw();                   // This will invoke 'draw()' method of the "Shape" class.
+
+	--------------------------------------------------------
+		In C++, can we create an array of references ?
+	--------------------------------------------------------
+		- In C++, creating an array of references is not allowed. This restriction arises from the nature of references themselves, which are not 
+			objects and do not occupy storage space like regular variables do. Here’s a detailed explanation:
+
+		- Why Arrays of References Are Illegal
+			References as Aliases				: A reference in C++ acts as an alias for another variable. When you declare a reference, it must be initialized 
+																		to refer to an existing object, but it does not itself create a new object or allocate storage. Therefore, you 
+																		cannot create an array that consists of references, as there would be no storage allocated for the references themselves.
+
+			C++ Standard Specifications	: According to the C++ standard, an object is defined as a region of storage. Since a reference does not have its own storage, 
+																		attempting to declare an array of references leads to a compilation error. For instance, the following code will not compile:
+
+			e.g. - 
+							int a = 1, b = 2, c = 3;
+							int& arr[] = {a, b, c}; 	// Error: illegal array of references
+	
+						This is because 'arr' is expected to be an array of objects, but 'references' do not qualify as objects.
+
+		- Alternative Approaches:
+			1) 	std::reference_wrapper :-
+					While you cannot create an array of references directly, you can use 'std::reference_wrapper' from the C++ Standard Library. 
+					This allows you to create an array-like structure that holds references:
+					e.g. - 
+									#include <iostream>
+									#include <functional> // for std::reference_wrapper
+
+									int main() {
+											int a = 1, b = 2, c = 3;
+											std::reference_wrapper<int> arr[] = {std::ref(a), std::ref(b), std::ref(c)};
+											for (auto& ref : arr) {
+													std::cout << ref.get() << " "; 			// Outputs: 1 2 3
+											}
+											return 0;
+									}
+		
+					- This approach effectively simulates an array of references while adhering to the language's constraints.
+
+			2) 	Structs as Workarounds :-
+					Another method involves using a struct that contains a reference as a member. You can then create an array of such structs:
+					e.g. -
+									struct RefWrapper {
+											int& ref;
+									};
+
+									int main() {
+											int x = 10, y = 20;
+											RefWrapper refs[] = { {x}, {y} };    // Now refs[0].ref refers to x and refs[1].ref refers to y.
+									}
+	
+					In summary, while C++ does not allow arrays of references due to their nature as non-object aliases, alternative methods such 
+					as std::reference_wrapper or using structs can achieve similar functionality without violating the language's rules.
+
+	--------------------------------------------------------
+		'smart pointers' in C++
+	--------------------------------------------------------
+		- In C++, smart pointers are used to automatically manage the lifetime of dynamically allocated objects. The two most commonly used types
+			are 'std::unique_ptr' and 'std::shared_ptr', both part of the C++11 standard and beyond. These help avoid memory leaks and ensure that resources 
+			are properly released when they are no longer needed.
+
+			--------------------
+			1. 	std::unique_ptr
+			--------------------
+					A 'unique_ptr' is a smart pointer that owns and manages a dynamically allocated object, and ensures exclusive ownership. This means that only
+					one 'unique_ptr' can point to a given object at a time. Once the 'unique_ptr' is destroyed, the memory allocated for the object is automatically
+					released (freed).
+
+					Key Properties:
+						i)   Exclusive ownership: Only one unique_ptr can own an object.
+						ii)  Cannot be copied, but can be moved to transfer ownership to another unique_ptr.
+						iii) Automatically deletes the object when the unique_ptr goes out of scope.
+
+					Example:
+
+									#include <iostream>
+									#include <memory>  // For std::unique_ptr
+
+									class MyClass {
+									public:
+											MyClass() {
+													std::cout << "MyClass Constructor" << std::endl;
+											}
+											~MyClass() {
+													std::cout << "MyClass Destructor" << std::endl;
+											}
+										
+											void display() {
+													std::cout << "Displaying MyClass" << std::endl;
+											}
+									};
+
+									int main() {
+											std::unique_ptr<MyClass> ptr1 = std::make_unique<MyClass>();  // Create unique_ptr
+									
+											ptr1->display();  		// Use unique_ptr
+									
+											// std::unique_ptr<MyClass> ptr2 = ptr1;  					// Error: unique_ptr cannot be copied
+											std::unique_ptr<MyClass> ptr2 = std::move(ptr1);  	// Move ownership to ptr2
+											if (!ptr1) {
+													std::cout << "ptr1 is now nullptr after moving ownership." << std::endl;
+											}
+										
+											ptr2->display();  		// Use ptr2 now
+											return 0;  						// MyClass is automatically destroyed when ptr2 goes out of scope
+									}
+
+					Output:
+									MyClass Constructor
+									Displaying MyClass
+									ptr1 is now nullptr after moving ownership.
+									Displaying MyClass
+									MyClass Destructor
+
+					Explanation:
+											The unique_ptr ensures that only one smart pointer owns the object at any time. When ptr1 is moved to ptr2, ptr1 becomes a nullptr, 
+											and ptr2 now owns the object. The destructor is automatically called when the unique_ptr goes out of scope.
+
+			-------------------
+			2. std::shared_ptr
+			-------------------
+					A shared_ptr is a smart pointer that manages a dynamically allocated object through reference counting. Multiple shared_ptr instances can point 
+					to the same object, and the object is only destroyed when the last shared_ptr pointing to it goes out of scope (or is reset).
+
+			Key Properties:
+					Shared ownership: Multiple shared_ptr can own the same object.
+					Uses reference counting to keep track of how many shared_ptr instances are pointing to the object.
+					When the reference count drops to zero (i.e., all shared_ptr have been destroyed or reset), the object is automatically deleted.
+
+			Example:
+					#include <iostream>
+					#include <memory>  // For std::shared_ptr
+
+					class MyClass {
+					public:
+							MyClass() {
+									std::cout << "MyClass Constructor" << std::endl;
+							}
+							~MyClass() {
+									std::cout << "MyClass Destructor" << std::endl;
+							}
+
+							void display() {
+									std::cout << "Displaying MyClass" << std::endl;
+							}
+					};
+
+					int main() {
+					    std::shared_ptr<MyClass> ptr1 = std::make_shared<MyClass>();  					// Create shared_ptr
+
+							{
+					        std::shared_ptr<MyClass> ptr2 = ptr1;  															// ptr2 shares ownership with ptr1
+					        std::cout << "Reference count: " << ptr1.use_count() << std::endl;  // Output: 2
+
+									ptr2->display();
+					    }  // ptr2 goes out of scope, reference count decreases
+
+					    std::cout << "Reference count after ptr2 goes out of scope: " << ptr1.use_count() << std::endl;  // Output: 1
+
+							ptr1->display();
+					    return 0;  								// MyClass is destroyed when the last shared_ptr (ptr1) goes out of scope
+					}
+
+			Output:
+							MyClass Constructor
+							Reference count: 2
+							Displaying MyClass
+							Reference count after ptr2 goes out of scope: 1
+							Displaying MyClass
+							MyClass Destructor
+
+			Explanation:
+									ptr1 and ptr2 both share ownership of the MyClass object.
+									The reference count increases as more shared_ptr instances point to the object (via use_count()).
+									Once ptr2 goes out of scope, the reference count drops to 1.
+									When ptr1 goes out of scope at the end of main(), the reference count drops to 0, and the object is automatically deleted.
+
+			----------------------------------------
+			Comparison of unique_ptr and shared_ptr:
+			----------------------------------------
+					Feature		:-						std::unique_ptr																							std::shared_ptr
+
+					Ownership	:-						Exclusive ownership (only one pointer can 									Shared ownership (multiple pointers can own the same object).
+																	own the object).
+
+					Copyable	:-						Not copyable (only movable).																Copyable (increases reference count).
+
+					Memory Management :-		Automatically deletes object when the unique_ptr is         Uses reference counting to manage object lifetime. Object is 
+																	destroyed or reset.																					deleted when reference count reaches zero.
+
+					Overhead	:-						Very lightweight (no reference counting).										Slight overhead due to reference counting.
+
+					Usage			:-						For scenarios where only one pointer 												For scenarios where multiple pointers need to share ownership 
+																	should own the resource.																		of the resource.
+			-------------
+			When to Use:
+			-------------
+					Use std::unique_ptr when you want exclusive ownership of a resource and don't want to share it with other parts of the code.
+					Use std::shared_ptr when you need shared ownership and expect multiple parts of your code to share and manage the same resource. 
+					However, be mindful of the slight overhead due to reference counting.
+
+	--------------------------------------------------------
+		Polymorphic objects stored in Collections 
+	--------------------------------------------------------
+		- C++ References are not left assignable, i.e. once declared they can not be modified to point to the another object. Doing so, will not modify the reference but it will
+			modify the object that the reference is pointing to.
+
+		- Also, in C++ an array can not be created of objects which are not left-assignable. So, we can not create an array of references.
+
+		- In following 'shape_array' array, the copies of circle1/2/3 and oval1/2/3 are sliced to accommodate inside the Shape type objects and stored in array.
+
+		e.g. -
+					Circle circle1 (3.14, "circle1");
+					Oval   oval1   (6.6, 4.5, "oval1");
+					Circle circle2 (10, "circle2");
+					Oval   oval2   (2.2, 4.4, "oval2");
+					Circle circle3 (8, "circle3");
+					Oval   oval3   (1.1, 9.9, "oval3");
+
+					Shape shape_array[] {circle1, circle2, circle3, oval1, oval2, oval3};
+
+		- Raw Pointers - Polymorphism through virtual functions was designed to work with base pointers that were managing the derived objects.
+			cout << "\n------------------ Polymorphism using Raw Pointers -------------------" << endl;
+			Shape* s_ptr[] = {&circle1, &circle2, &circle3, &oval1, &oval2, &oval3};
+			for(Shape* ptr: s_ptr){
+				std::cout << "\nInside array: sizeof(*ptr) : " << sizeof(ptr) << std::endl;
+				ptr->draw();
+			}
+		
+		- Smart Pointers - Shared Smart Pointers
+			cout << "\n------------------ Polymorphism using Smart Pointers -------------------" << endl;
+			std::shared_ptr<Shape> sha_ptr_arr [] = { std::make_shared<Circle>(20, "circle20"), std::make_shared<Circle>(30, "circle30"),
+																								std::make_shared<Oval>(10, 20, "oval12"), std::make_shared<Oval>(20, 30, "oval23")};
+			for( auto &s: sha_ptr_arr ){
+				s->draw();
+			}
+			
+	--------------------------------------------------------
+		"Override" keyword  
+	--------------------------------------------------------
+		- In C++, the 'override' keyword is used in inheritance to indicate that a member function in a derived class is meant to override 
+			a virtual function in a base class. 
+
+		- This provides better compile-time checking and helps avoid mistakes such as misspelling the function name or mismatching the function
+			signature.
+			
+		- Benefits of override:
+			Compile-time safety: 	The compiler checks if a function is correctly overriding a virtual function. If the base class function is not virtual, 
+														or if the signatures don’t match, the compiler will throw an error.
+
+			Without override, a mistake like a misspelled function name or mismatched parameter list would silently define a new function in the derived 
+			class, leading to unexpected behavior.
+
+		- It is always advised to use the 'override' keyword while declaring virtual functions to explicitly tell the compiler that we want to 
+			override the method from base class with exact signature with the method in derived class.  
+
+	--------------------------------------------------------
+		Overloading, Overriding and hiding  
+	--------------------------------------------------------
+		- Shape -> Oval -> Circle
+		- If we have a virtual function that is overloaded, then defining only one of them with keyword 'override' and not others will result in
+			getting other member functions that are overloads of this function get masked and become unavailable for the downstream classes.
+			e.g. - 
+						
+		- Overload functions defined in the derived class are not available to the base class objects.
+			e.g. - 
+						If we define a virtual function in 'Oval' class it will not be available to objects of 'Shape' class.
+
+		- If you assign the derived object to the base object, the derived functions are going to get wiped out as part of the slicing.
+
+	--------------------------------------------------------
+		Inheritance and Polymorphism at different levels  
+	--------------------------------------------------------
+		- It is advisable to make the class destructor also virtual if there is a virtual function in your class.
+		- While creating an array, if you create an array of derived class type pointers then you can not store an object of base class type.
+		- You can not store an object of base class type into a pointer variable of derived class type.
+		- If a polymorphism is created in derived class then it is not available in the base class objects.
+
+	--------------------------------------------------------
+		Inheritance and Polymorphism with static members
+	--------------------------------------------------------
+		- 'Static' variables can be used similar to non-static members in inheritance.
+
+	--------------------------------------------------------
+		'Final' specifier in Inheritance 
+	--------------------------------------------------------
+		- Final keyword will allow you to - 
+			i)  Restrict how you override methods in derived classes
+					e.g.-
+								class Dog: public Feline{
+									public:
+										void run() const override final{
+											std::cout << "Dog::run() called << std::endl;
+										}
+								}
+								// The run() method can not be overrided in derived classes of 'Dog' class as it is declared as 'final'
+								// These derived classes must use the implementation of run() method from the Dog class.
+
+			ii) Restrict how you can derive from a base class
+					e.g.-
+								class Cat final: public Feline{
+									public:
+											Cat()= default;
+
+											// miaw() is a useless virtual method. As 'Cat' is final, no one will be deriving from the 'Cat' class
+											// and have chance to specialize it.
+											virtual void miaw() const{
+												std::cout << "Cat::miaw() called for Cat. " << m_description << std::endl;
+											}
+
+											// As the following run() method is declared as 'override' It is overriding the virtual method 
+											// from 'Feline' class, so it is useful.
+											virtual void run() const override{
+											}
+
+								};
+								// As 'Cat' class is declared as 'final', no other class can be inherited from 'Cat' class.
+					
+					- Example of final lone class.
+
+							class Plane final {
+									Plane() = default;
+							};
+							
+							// Trying to inherit 'Plane' class will generate compiler error. 
+							class FighterJet : public Plane {
+								public:
+											FighterJet() = default;
+							}
+
+		- 'virtual' and 'final' are mutually contradicting ideas. 'Virtual' means you want to specialize that method in 
+			derived classes. Whereas 'final' means you do not want to specialize it in downstream classes. In both of the 
+			specializers 'final' will be given more preference.
+
+	--------------------------------------------------------
+		Virtual functions with default arguments 
+	--------------------------------------------------------
+		- Default arguments are handled at compile time.
+		- Virtual functions are called at runtime with polymorphism. Compiler does dynamic binding of the methods but not of the default arguments.
+		- If you use default arguments with virtual functions, you might get weird (erroneous) results with polymorphism. 
+		- Default arguments with virtual functions can be very confusing. They are best if avoided.
+		e.g.- 
+					class Base
+					{
+						Public:
+							Base();
+							~Base();
+
+							virtual double add(double a=5, double b=5) const {
+								std::cout << "Base::add() called "<< std::endl;
+								return (a + b + 1);
+							}
+					}
+
+					class Derived : public Base
+					{
+						Public:
+							Derived();
+							~Derived();
+
+							virtual double add(double a=10, double b=10) const override{
+								std::cout << "Derived::add() called "<< std::endl;
+								return (a + b + 2);
+							}
+					}
+
+	--------------------------------------------------------
+		Virtual destructors 
+	--------------------------------------------------------
+		- Animal -> Feline -> Dog
+		- Destructors are called in an order from the most specialized class to the most base class.
+			e.g. 
+					In above case, order of destructor calls for an Dog object is := Dog - Feline - Animal 
+		- If we do not make the destructors virtual then compiler is going to use static binding for resolving which destructor method to be called.
+		- In this case, if we use a base pointer to store an derived class object then compiler will call the destructor method of the base class for 
+			destroying the derived class object which is wrong.
+		- If we call a destructor using a base class pointer which is storing an derived class object then C++ standard says that the behavior will
+			be undefined.
+
+	--------------------------------------------------------
+		Dynamic_cast<>() 
+	--------------------------------------------------------
+		- Dynamic cast is facility in C++ to do downstream transformations between the polymorphic types.
+
+		- Using dynamic cast we are able to convert any base class pointer to the derived class object pointer and use it as an raw object pointer.
+
+		- Using dynamic cast we convert the base class pointer to the derived class object and access non polymorphic methods.
+
+		- Dynamic cast enables following two facilities -
+				i)  Transforming from base class pointer/reference to derived class pointer/reference, at runtime.
+				ii) Makes it possible to call non polymorphic methods on derived pointer/references.
+
+		- Here is our class hierarchy -
+											Animal - Feline - Dog
+
+		- If an Animal class pointer is pointing to the 'Feline' class object then this pointer can be dynamically casted to Feline class pointer 
+			but can not be cast into 'Dog' class pointer.
+
+		- Usually, dynamic casting is done in functions which accept a base class pointer.
+
+		- Overusing, down casts is a sign of bad design, if you find yourself doing this a lot to call non polymorphic methods on derived objects,
+			may be you should make that function polymorphic in the first place. 
+
+		- Dynamic casts are going to work only with polymorphic inheritance hierarchies i.e. transformations are allowed between the pointers/references
+			of the base and derived class. This will not work for inbuilt data types like char, int, double etc.
+
+	--------------------------------------------------------------------------------
+		Never call virtual(polymorphic) functions from constructors or destructors
+	--------------------------------------------------------------------------------
+		- Constructor and destructor call order -
+											
+											Base Constructor
+											Derived Constructor
+													// Use constructed object
+											Derived Destructor
+											Base Destructor
+
+		- If you call a virtual function from constructor/destructor the call will never go to a more derived class than the currently 
+			executing class.
+		- Calling a virtual function from a constructor or destructor won't give you polymorphic results.
+		- If you call virtual functions from the constructor or destructor you are going to get static binding results, this is bcz if 
+			you call a virtual function in Base constructor, till that time derived object would have not been created yet. And similarly,
+			if you call virtual function in base destructor, derived object's destructor would have been called and derived object would 
+			have been destroyed already.
+		- Never call virtual functions from the constructors or destructors
+		- It is advisable to call virtual functions, directly on object, if required, immediately after the object has been setup/created.
+		
+	--------------------------------------------------------------------------------
+		Pure Virtual Functions and Abstract Classes
+	--------------------------------------------------------------------------------
+		- If a class has at least one pure virtual function, it becomes an abstract class.
+		- You can not create objects of an abstract class, if you do that, you shall get a hard compiler error.
+		- Derived classes from an abstract class must explicitly override all the pure virtual functions from the abstract parent class,
+			if they don't they themselves will become an abstract class.
+		- Pure virtual functions do not have implementation in the abstract class. They are meant to be implemented by deriving classes.
+		- You can not call the pure virtual functions from the constructor of an abstract class.
+		- The constructor of an abstract class is used by deriving class to build up the base part of the object. 
+
+	--------------------------------------------------------------------------------
+		Abstract Classes as Interfaces
+	--------------------------------------------------------------------------------
+		- An abstract class with only pure virtual functions and no member variable can be used to model what is called an interface
+			in Object Oriented Programming.
+		- An interface is a specification of something that will be fully implemented in a derived class, but the specification itself 
+			resides in the abstract class.
+		- An interface is a thing that we can attach to a data type to give it a super power or features that they originally did not have.
+
+	--------------------------------------------------------------------------------
+		typeid() in C++
+	--------------------------------------------------------------------------------
+		- In C++, the typeid operator is used to obtain the type information of an expression or an object at runtime. It is part of the Run-Time Type Information (RTTI)
+			system in C++. 
+		- The typeid operator returns an object of type 'std::type_info', which contains information about the type of the object.
+
+		- Key Features of typeid:
+			i)   It is used to query the type of an object or a type.
+			ii)  It can be used with both basic types and user-defined types.
+			iii) It is especially useful when working with polymorphism to determine the dynamic type of a base class pointer/reference when pointing to a derived class object.
+
+		-	Syntax:
+							typeid(expression)
+
+		- Requirements:
+			i)  If the expression is not polymorphic (i.e., does not involve virtual functions), typeid returns the static type (the type determined at compile-time).
+			ii) If the expression is polymorphic (involving virtual functions), typeid returns the dynamic type (the type determined at runtime).
+
+			------------------------
+			Example 1: Basic Usage
+			------------------------
+
+									#include <iostream>
+									#include <typeinfo>  // Required for typeid and std::type_info
+
+									int main() {
+											int a = 5;
+											double b = 3.14;
+
+											std::cout << "Type of a: " << typeid(a).name() << std::endl;
+											std::cout << "Type of b: " << typeid(b).name() << std::endl;
+
+											return 0;
+									}
+
+									Output (depending on the compiler):-
+
+									Type of a: i  // 'i' represents int
+									Type of b: d  // 'd' represents double
+																// The output format for the type name (name()) is implementation-specific, so the exact string you get may vary between compilers.
+
+			--------------------------------------
+			Example 2: 	typeid with Polymorphism
+			--------------------------------------
+									typeid is often used with polymorphic types (classes with virtual functions) to determine the dynamic type of an object.
+
+									#include <iostream>
+									#include <typeinfo>  // Required for typeid and std::type_info
+
+									class Base {
+									public:
+									    virtual ~Base() {}  // Virtual destructor to enable RTTI
+									};
+
+									class Derived : public Base {};
+
+									int main() {
+											Base* basePtr = new Derived();
+
+									    // Static type: the type that the pointer is declared as
+											std::cout << "Static type of basePtr: " << typeid(basePtr).name() << std::endl;
+
+									    // Dynamic type: the actual type of the object the pointer is pointing to
+									    std::cout << "Dynamic type of *basePtr: " << typeid(*basePtr).name() << std::endl;
+
+											delete basePtr;
+											return 0;
+									}
+
+							Output (depending on the compiler):
+
+									Static type of basePtr: P4Base  			// 'P4Base' represents pointer to Base
+									Dynamic type of *basePtr: 7Derived  	// '7Derived' represents Derived
+
+							In this example:
+									typeid(basePtr)  returns the static type, which is Base*.
+									typeid(*basePtr) returns the dynamic type (Derived), because basePtr is actually pointing to a Derived object.
+
+		- Key Points about typeid:
+			i) 	Polymorphic Types: 	
+					When used with polymorphic types (i.e., types that have at least one virtual function), typeid returns the dynamic type of the object.
+					Example: 
+									If a Base class pointer points to a Derived class object, typeid(*ptr) will return Derived if Base has a virtual function.
+
+			ii) Non-polymorphic Types: 
+					If the type is not polymorphic, typeid returns the static type, even if the object is a derived type.
+					Example: 
+									If Base does not have a virtual function, typeid(*ptr) will return Base, even if ptr is pointing to a Derived object.
+
+			iii) Return Type: 
+					The result of typeid is an object of type std::type_info. It has the following useful methods:
+					name() - returns an implementation-specific string representation of the type.
+					
+		- Operators such as '==' and '!=' can be used to compare two std::type_info objects to check if two types are the same.
+			
+			Example 3: Comparing Types
+
+									#include <iostream>
+									#include <typeinfo>
+
+									int main() {
+											int a = 10;
+											double b = 10.5;
+
+											if (typeid(a) == typeid(b)) {
+													std::cout << "a and b are of the same type" << std::endl;
+											} else {
+													std::cout << "a and b are of different types" << std::endl;
+											}
+
+											return 0;
+									}
+
+								Output:
+											a and b are of different types
+
+		- Use Cases of typeid:
+			i)   Polymorphism: When working with base class pointers that may point to derived class objects, typeid allows you to query the actual type of the object.
+			ii)  Debugging and Logging: You can use typeid to log or display the types of variables or objects during development.
+			iii) Generic Programming: In template-based code, typeid can be used to query types for debugging or conditional logic based on types.
+			iv)  Limitations:
+						a) 	Compiler-Dependent Output: 
+								The name() function of std::type_info returns a string that is not standardized and is implementation-specific. For instance, 
+								different compilers may produce different strings for the same type.
+
+						b) 	Only Works with Polymorphic Types at Runtime: 
+								typeid returns the dynamic type only when used with polymorphic types (i.e., classes with at least one virtual function). 
+								Otherwise, it returns the static type known at compile time.
