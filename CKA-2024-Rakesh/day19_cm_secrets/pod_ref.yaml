@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: Pod
+metadata:
+  name: env-configmap-ref
+spec:
+  containers:
+  - name: env-vars-test-container1
+    image: nginx
+    env:
+      - name: CONFIGMAP_USERNAME
+        valueFrom:
+          configMapKeyRef:
+            name: app-cm      
+            key: firstname

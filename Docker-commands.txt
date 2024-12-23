@@ -36,11 +36,11 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com
 
-    docker login -u <username>   		      :- Login into Docker using the username and password that you use for dockerhub.com
+    docker login -u <username>   		          :- Login into Docker using the username and password that you use for dockerhub.com
     (OR) docker login
-    docker push <username>/<image_name>	  :- Publish an image to Docker Hub
-    docker search <image_name>		        :- Search Hub for an image
-    docker pull <image_name>		          :- Pull an image from a Docker Hub
+    docker push <username>/<image_name>:tag	  :- Publish an image to Docker Hub, <username> - your username on 'dockerhub.com'.  
+    docker search <image_name>		            :- Search Hub for an image, <image_name> should be as specified on 'dockerhub.com'.
+    docker pull <image_name>		              :- Pull an image from a Docker Hub
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -51,10 +51,18 @@
     
         FROM node                  :- Select the latest node image for creating the docker image for the app. 
         WORKDIR /myapp             :- Sets /myapp as working directory
+
         COPY . .                   :- Copy content of the local directory to the WORKDIR which is /myapp directory. 
-        RUN npm install            :- The created image should have npm packages installed already.
+        (OR)
+        COPY package*.json ./      :- Copy all the files starting with "package" string and ending with "json" string to "./" directory.
+        (OR)
+        COPY --from=installer /app ./ :- Copy "/app" file from "installer" stage to "./" directory in current stage. (multistage docker build)
+
+        RUN npm install            :- The created image should have npm packages installed already. Command to add dependencies of the app 
+                                      to the image. This command is run while building an image from docker file while 'CMD' commands are run
+                                      while creating container from an image. 
         EXPOSE 3000                :- Exposes a port 3000
-        CMD [ "npm", "start" ]     :- CMD runs the specified command while creating a container from an image.
+        CMD [ "npm", "start" ]     :- CMD runs the specified command while creating a container from an image. It is an entry point to the container.
 
   - Once you create a docker file as described above inside a directory, to build it and create an image, execute following commands in same directory
 
@@ -95,7 +103,11 @@
       docker run -P <image_name>	                                :- Run a container from image 'image_name' and publish its all ports to the host
 
       docker start|stop <container_name> (or <container-id>)	    :- Start or stop an existing container
-      docker inspect <container_name> (or <container_id>)	        :- To inspect a running container
+
+      docker inspect <container_name> (or <container_id>)	        :-  To inspect a running container. Returns low level details of a container in JSON format. System administrators 
+                                                                      can use this command to monitor resource usage and configurations of running containers. By using the "--format" 
+                                                                      option, scripts can automate tasks based on specific attributes of Docker objects.
+
       docker run -d <image_name>		                              :- Run a container in the background i.e. detached mode
       docker rm <container_name>		                              :- Remove a stopped container
 
@@ -141,6 +153,18 @@
       docker tag <imageId> name:version                         :-  Gives name 'name' and version 'version' to the image with id 'imageId'.
                                                                     You can also use this command to change the tag/name associated with the existing image.
                                                                     I think it will not rename the tag but create a copy of the existing image with new tag.
+
+      docker scout quickview <user_name>/<repo_name>:<tag>      :-  View a summary of image vulnerabilities and recommendations 
+      e.g. -
+              docker scout quickview rakeshpatil/kubetutorial:v1
+
+      docker system prune -a                                    :-  This command is used to clean up unused Docker resources and reclaim disk space.
+                                                                    Purpose: The command is designed to remove all unused containers, networks, images
+                                                                    (both dangling and unreferenced), and optionally volumes. This helps in freeing up 
+                                                                    storage space that Docker might be using unnecessarily. 
+                                                                    
+                                                                    Using docker system prune -a can be quite destructive, especially on systems where multiple projects 
+                                                                    are using shared resources. It is advisable to ensure that no critical images or containers are inadvertently removed. 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Docker Volumes  :- Nice Video for file sharing between computer and container - https://www.youtube.com/watch?v=gyddZyc8r48

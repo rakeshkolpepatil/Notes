@@ -1,0 +1,92 @@
+\documentclass{article}               % # Specifies type of the document
+\usepackage{mathtools}                % 'amsmath' is part of 'mathtools'
+\usepackage{graphicx}
+
+\usepackage{caption}
+\usepackage{subcaption}               % For combined images
+
+\title{Creating first document in \LaTeX}   % # Title of the document
+\author{Rakesh}                             % # Author of the document
+\date{\today}        
+
+\begin{document}
+  \maketitle
+  % \tableofcontents
+  % \listoftables
+  \listoffigures
+    
+  \section{Including Images in Latex}
+
+      \subsection{ Original Image }
+      \includegraphics{image.jpg}
+
+      \subsection{ Change Height Image }
+      \includegraphics[height=3cm]{image.jpg}
+
+      \subsection{ Change Width Image }
+      \includegraphics[height=5cm]{image.jpg}
+
+      \subsection{ Change Height and width Image }
+      \includegraphics[height=8cm, width=5cm]{image.jpg}
+
+      \subsection{ Scale Image }
+      \includegraphics[scale=0.5]{image.jpg}
+
+      % Image clipping is specified in this order left, bottom, right and top
+      \subsection{ Clipped Image }
+      \includegraphics[clip=true, trim=15mm 5mm 7mm 3mm]{image.jpg}
+
+      \subsection{ Rotate Image }
+      \includegraphics[angle=60]{image.jpg}
+
+
+      % Add border to the image
+      \fbox{ \includegraphics[angle=60]{image.jpg} }
+
+      % Add border to the image and set its width
+      \setlength{\fboxrule}{5pt}
+      \fbox{ \includegraphics[angle=60]{image.jpg} }
+
+
+      % Add border to the image and set its width and also add padding
+      \setlength{\fboxrule}{5pt}
+      \setlength{\fboxsep}{50pt}
+      \fbox{ \includegraphics[angle=60]{image.jpg} }
+
+
+  \pagebreak    
+  \section{Figure Environment}
+
+      \begin{figure}[h]
+        \centering 
+        \includegraphics [width=5cm] {image.jpg}
+        \caption {Original Image}
+      \end{figure}
+
+  \pagebreak    
+  \section{Sub Figures }
+      \begin{figure}[h]
+        \centering
+        
+        \begin{subfigure}{0.2\textwidth}
+          \includegraphics [width=\textwidth] {image.jpg}
+          \caption{Image 1}
+        \end{subfigure}
+        \hfill 
+
+        \begin{subfigure}{0.2\textwidth}
+          \includegraphics [width=\textwidth] {image.jpg}
+          \caption{Image 2}
+        \end{subfigure}
+        \hfill
+
+        \begin{subfigure}{0.2\textwidth}
+          \includegraphics [width=\textwidth] {image.jpg}
+          \caption{Image 3}
+        \end{subfigure}
+        
+        \caption {List of Images}
+      \end{figure}
+
+
+\end{document}

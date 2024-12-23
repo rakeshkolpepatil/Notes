@@ -1,0 +1,13 @@
+apiVersion: v1         # For each 'kind', to get its version, run this command - 'kubectl explain pod' command.
+kind: Pod
+metadata:              # Inside 'metadata' or 'spec' we can add only fields that it supports. However, in 'labels' field we can have any key:value pair.
+  name: nginx-pod
+  labels:
+    env: demo              
+    type: frontend
+spec:
+  containers: 
+  - name: nginx-container
+    image: nginx
+    ports:
+    - containerPort: 80  

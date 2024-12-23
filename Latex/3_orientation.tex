@@ -1,0 +1,44 @@
+%\documentclass[twocolumn]{article}          % # Specifies type of the document
+\documentclass{article}                      % # Specifies type of the document
+\usepackage{multicol}
+\title{Creating first document in \LaTeX}   % # Title of the document
+\author{Rakesh}                             % # Author of the document
+\date{\today}                               % # Date of the document
+\usepackage{lipsum}
+%\usepackage[portrait]{geometry}
+\usepackage{lscape}                         % Rotates content by 90%
+%\usepackage{pdflscape}                      % Rotates page by 90%
+
+\begin{document}
+  \maketitle
+  \section{Title One }
+  \lipsum[1-10]
+  
+  \begin{landscape}
+    \section{Title Two }
+    \lipsum[1-4]
+  \end{landscape}
+  
+  \section{Title Three }
+  \lipsum[1-3]
+  
+  \pagebreak
+  \newpage
+  \section{Title Four }
+  \lipsum[1-4]
+  
+  \section{Title Five }
+  Language is the medium of communication between the human beings. 
+  It is one of the characteristic of the evolved creatures on this planet Earth
+  \footnote{Theory of Evolution by Charles Darwin}. The languages kept on evolving 
+  with the evolution of human beings. Sanskrit, Tamil, Hebrew are said to be one of the 
+  oldest languages known to mankind.\footnote{Language Research}
+
+  \section{Title Six}
+  \setlength {\columnsep}{20pt}
+  \setlength {\columnseprule}{1pt}
+  \begin{multicols}{3}
+    \lipsum[1-4]
+  \end{multicols}
+
+\end{document}

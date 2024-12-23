@@ -1,0 +1,157 @@
+
+\documentclass[dvipsnames, aspectratio=169]{beamer}
+\usepackage{graphicx}
+\usepackage{color}
+\title[Tiger]{The Bengal Tiger}
+\author[R.R.P.]{Rakesh}
+\date{\today}
+\institute[IIT Madras]{\large Indian Institute of Technology Madras}
+\logo{\includegraphics[height=1cm]{tiger2.png}}
+
+%\usetheme{AnnArbor}
+%\usecolortheme{crane}
+
+%\usetheme{Dresden}
+%\usecolortheme{beaver}
+
+% \usetheme{Berkeley}
+% \usecolortheme{default}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+% Beamer Customize Themes 
+\setbeamercolor{structure}{fg=brown}
+% \setbeamercolor{structure}{fg=green}
+% \setbeamercolor{structure}{fg=violet}
+
+% Changing the theme color of the pelettes.  
+\setbeamercolor{palette tertiary}{bg=yellow, fg=black}    % Changing the theme color of tertiary pelette.
+\setbeamercolor{palette secondary}{bg=white, fg=red}      % Changing the theme color of secondary pelette.
+\setbeamercolor{palette primary}{bg=blue, fg=white}       % Changing the bg/fg color of primary pelette.
+
+\setbeamercolor{background canvas}{bg=yellow!16}          % Changing the background canvas color for entire ppt.
+
+
+\begin{document}
+
+  \begin{frame}
+    \maketitle
+  \end{frame}
+
+  \begin{frame}{Outline}
+    \tableofcontents
+  \end{frame}
+  
+  \section{Welcome}
+      \begin{frame}[c]
+        Welcome everyone !
+      \end{frame}
+  
+  \section{Introduction}
+      \begin{frame}[c]{Introduction}
+        The Bengal tiger or Royal Bengal tiger is a population of the Panthera tigris tigris \
+        subspecies and the nominate tiger subspecies. It ranks among the biggest wild cats \
+        alive today. It is estimated to have been present in the Indian subcontinent since \
+        the Late Pleistocene for about 12,000 to 16,500 years. Its historical range covered \
+        the Indus River valley until the early 19th century, almost all of India, western Pakistan,
+        southern Nepal, Bangladesh, Bhutan and southwestern China. Today, it inhabits India,
+        Bangladesh, Nepal, Bhutan, and southwestern China.
+        It is threatened by poaching, habitat loss and habitat fragmentation!
+      \end{frame}
+
+  \section{Images}
+      \begin{frame}[c]
+        \includegraphics[scale=0.22]{tiger.jpg}
+      \end{frame}
+      \begin{frame}[c]
+        \includegraphics[scale=0.28]{tiger2.png}
+      \end{frame}
+      \begin{frame}[c]
+        \includegraphics[scale=0.28]{tiger2.png}
+      \end{frame}
+
+  \section{Blocks}
+      \begin{frame}[c]{Basic Blocks}
+            \begin{block}{Information}
+              This is topic 6
+            \end{block}
+            
+            \begin{alertblock}{Information}
+              This is topic 7
+            \end{alertblock}
+        
+            \begin{example}
+              $$ 2 + 2 = 4 $$
+            \end{example}
+      \end{frame}
+
+  \section{Columns}
+      \begin{frame}[c]{Basic Blocks}
+          \begin{columns}
+              \column{0.3\textwidth}
+              \begin{block}{Information}
+                This is topic 6
+              \end{block}
+            
+              \column{0.3\textwidth}
+              \begin{alertblock}{Information}
+                This is topic 7
+              \end{alertblock}
+            
+              \column{0.3\textwidth}
+              \begin{example}
+                $ 2 + 2 = 4 $
+              \end{example}
+          \end{columns}
+      \end{frame}
+
+  \section{Animation}
+      \begin{frame}
+        \begin{enumerate}
+          \item red   \pause
+          \item blue  \pause
+          \item green \pause
+        \end{enumerate}
+      \end{frame}
+
+      \begin{frame}
+        \begin{enumerate}
+          \item<6-> lion   
+          \item<4-> deer  
+          \item<2-> crow 
+          \item<5-> pigeon 
+          \item<3-> dog 
+          \item<1-> cat 
+        \end{enumerate}
+      \end{frame}
+
+      \begin{frame}
+        \begin{enumerate}
+          \item<6-> Rose   
+          \item<4-> Carnation  
+          \item<2-> Jasmine 
+          \item<5-> Lily
+          \item<3>  Sunflower
+          \item<1-> Lavender
+        \end{enumerate} 
+      \end{frame}
+
+      \begin{frame}
+          \centering
+          \begin{table}
+            \begin{tabular}{ll}
+              \hline
+                \onslide<1-> No. & Item \\
+              \hline
+                \onslide<5-> 1   & Pen    \\
+                \onslide<4-> 2   & Pencil \\ 
+                \onslide<3-> 3   & Scale  \\
+                \onslide<2-> 4   & Eraser \\
+              \hline
+            \end{tabular}
+            \caption{stationary Items}
+          \end{table}
+      \end{frame}
+
+\end{document}

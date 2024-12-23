@@ -1,0 +1,392 @@
+\documentclass{article}               %# Specifies type of the document
+\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage{color}                    % For basic colors
+\usepackage[dvipsnames]{xcolor}       % For more colors
+\usepackage{ragged2e}                 % For 'justified' text
+\usepackage{setspace}  
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{mathtools}                % 'amsmath' is part of 'mathtools'
+\usepackage{arydshln}                 % 'amsmath' is part of 'mathtools'
+
+\title{Creating first document in \LaTeX}   % # Title of the document
+\author{Rakesh}                             % # Author of the document
+\date{\today}        
+
+\begin{document}
+  \maketitle
+  \section{Introduction to Text Formatting}
+
+  
+  \textbf{Text formatting} refers to the \emph{process of altering the appearance and layout of text in a 
+  document or on a webpage}. This involves applying various \\
+  \underline{styles},                         \\
+  \textsc{ sizes, colors, and other visual }  \\
+  \textrm{enhancements to improve }     \\
+  \textsf{readability and aesthetics}.  \\
+  \texttt{ This is monospaced text.}    \\
+  x\textsuperscript{2}y is a quadratic equation.    \\
+  H\textsubscript{2}O is chemical formula of water. \\
+  other visual enhancements to improve readability and aesthetics. \\
+
+  \section{Text Fonts}
+  
+      \tiny          This is tiny text.
+
+      \scriptsize    This is the script sized text.
+
+      \footnotesize  This is footnote sized text.
+
+      \small       This is small sized text.
+
+      \normalsize  This is normal sized text.
+
+      {\large   This is large sized text. }
+
+      {\Large    This is bit large sized text.}
+
+      {\LARGE    This is bit more large sized text.}
+
+      {\huge     This is text with huge size.}
+
+      {\Huge     This is the biggest sized text.}
+
+
+
+
+  \section{Colored Text}
+
+      \pagecolor{Goldenrod!40}
+      \textcolor{red}{Red Colored Text}                     \\    
+      \textcolor{Plum}{Plum Colored Text}                   \\    
+      \textcolor{blue}{Blue Colored Text}                   \\    
+      \textcolor{red!70}{70\% red and 30\% white Text}      \\  % 70% red and 30% whilte
+      \textcolor{red!70!blue}{Combination of Red and Blue}  \\  % Mixture of red and blue
+
+  \newpage
+  \section{Text Alignment }
+
+      \subsection{One : Left Aligned}
+      \begin{flushleft}
+        This is left aligned text. 
+        \lipsum[1]
+      \end{flushleft}
+
+      \subsection{Two : Center Aligned}
+      \begin{center}
+        \lipsum[1]
+      \end{center}
+
+      \subsection{Three : Right Aligned}
+      \begin{flushright}
+        This is Right aligned text. This is Right aligned text. 
+        \lipsum[1]
+      \end{flushright}
+
+      \subsection{Four : Justified Aligned}
+      \begin{justify}
+        This is Right aligned text. This is Right aligned text. 
+        \lipsum[1]
+      \end{justify}
+
+
+  \newpage
+  \section{Vertical and Horizontal Spacing }
+      \begin{singlespace}
+        \lipsum[1]
+      \end{singlespace}
+
+
+      \begin{onehalfspace}
+        \lipsum[1]
+      \end{onehalfspace}
+
+
+      \begin{doublespace}
+        \lipsum[1]
+      \end{doublespace}
+
+  \newpage    
+  \section{Vertical  Spacing }
+      
+      \paragraph{}
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      \smallskip 
+      
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      \medskip 
+
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      \bigskip
+      
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+
+      \vspace{20pt}
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+
+      \pagebreak
+      
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+
+      \vfill 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      
+      \vfill 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+      This is some random text. This is some random text. This is some random text. 
+
+  \pagebreak	
+  \section{Horizontal Spacing }
+
+      This is '\ ' single space. \\
+      This is '\, ' more than single space. \\
+      This is '\hspace{20pt}' space of 20 points. \\
+      This occupies \hfill the \hfill entire line. \\ 
+
+
+  \pagebreak
+  \section{Lists }
+
+    Bulleted list
+      \begin{itemize}
+        \item Blue
+            \begin{itemize}
+              \item Dark Blue
+              \item Light Blue
+            \end{itemize}
+        \item Red
+            \begin{enumerate}[i.]
+              \item Dark Red
+              \item Light Red
+            \end{enumerate}
+        \item Green
+            \begin{enumerate}[(a)]
+              \item Teal Green 
+              \item Dark Green
+            \end{enumerate}
+      \end{itemize}
+
+
+  \noindent
+  \subsection{Fruits}
+      \begin{itemize}
+        \renewcommand{\labelitemi}{$\diamond$} 
+        \renewcommand{\labelitemii}{$\blacksquare$} 
+        \item Citrius Fruits
+              \begin{itemize}
+                \item Lemon 
+                \item Lime 
+                \item Oranges
+              \end{itemize}
+        \item Tropical Fruits
+              \begin{itemize}
+                \item Mango
+                \item Papaya
+              \end{itemize}
+      \end{itemize}
+
+
+      \noindent
+  \subsection{Numbered List}
+          \begin{enumerate}
+            \item One
+            \item Two
+            \item Three
+          \end{enumerate}
+        
+      \noindent
+      
+  \subsection{Description List}
+        \begin{description}
+          \item [Input Devices] : mouse, keyboard
+          \item [Output Devices] : Monitor, Printer
+        \end{description}
+
+  \noindent
+  \section{Math Expressions}
+      \subsection{Inline Equations}
+        $2^{2} + 2^{2} = 8$   \\
+        $\sqrt[4]{4096} = 8 $ \\
+        The union of two sets A and B is denoted as 
+        $ A \cup B = \{ x \in A \  \text{or} \  x \in B \} $
+
+       \subsection{ Blocked Equations }
+        $$2 \times 2 = 4$$
+        \[ \sin^2 \theta + \cos^2 \theta = 1  \]  
+
+       \subsection{ These are some rational numbers} 
+        $\frac{a}{b}$ \\
+        $\frac{a}{\frac{b}{c}} \ge 1 $
+        
+       \subsection{ These are some Additional rational numbers }
+        $$ \frac{a}{b} $$ \\
+        \[ \frac{a}{\frac{b}{c}} \ge 1 \]
+
+        $$ \Bigg[ \Big \{  \frac{a}{b}    \Big\}    \times
+                  \Big \{  \frac{c}{d}    \Big\}
+            \Bigg]  $$
+
+       \subsection{ Summation }
+       
+        $$ \sum_{i=1}^{b} g(i)=0  \text{ for } b<a $$
+        \[ \sum_{i=1}^{n} i = \frac{n(n+1)}{2}   \] 
+        
+       \subsection{ Integration}
+        $$ \int_{min}^{max} $$                  
+
+        % Integration
+        $$ \int_{0}^{\infty} f(x)dx $$
+       
+       \subsection{ Limits }
+       $$ \lim_{x \to c} f(x) = L $$
+
+        
+  \noindent
+  \section{Matrix}
+        
+    \subsection{p matrix}
+        $$
+        \begin{pmatrix}
+        1 & 2 \\
+        3 & 4 \\
+        \end{pmatrix}
+        +
+        \begin{pmatrix}
+          5 & 6 \\
+          7 & 8 \\
+          \end{pmatrix}
+        = 
+        \begin{pmatrix}
+          6 & 8 \\
+          10 & 12 \\
+          \end{pmatrix}
+        $$
+        
+	\subsection{b matrix}
+	$$
+	\begin{bmatrix}
+		1 & 2 \\
+		3 & 4 \\
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+		5 & 6 \\
+		7 & 8 \\
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+		6 & 8 \\
+		10 & 12 \\
+	\end{bmatrix}
+	$$
+
+        
+	\subsection{Bmatrix}
+	$$
+	\begin{Bmatrix}
+		1 & 2 \\
+		3 & 4 \\
+	\end{Bmatrix}
+	+
+	\begin{Bmatrix}
+		5 & 6 \\
+		7 & 8 \\
+	\end{Bmatrix}
+	= 
+	\begin{Bmatrix}
+		6 & 8 \\
+		10 & 12 \\
+	\end{Bmatrix}
+	$$
+
+        
+	\subsection{vmatrix}
+	$$
+	\begin{vmatrix}
+		1 & 2 \\
+		3 & 4 \\
+	\end{vmatrix}
+	+
+	\begin{vmatrix}
+		5 & 6 \\
+		7 & 8 \\
+	\end{vmatrix}
+	= 
+	\begin{vmatrix}
+		6 & 8 \\
+		10 & 12 \\
+	\end{vmatrix}
+	$$
+        
+    \subsection{Vmatrix}
+        $$
+        \begin{Vmatrix}
+        1 & 2 \\
+        3 & 4 \\
+        \end{Vmatrix}
+        +
+        \begin{Vmatrix}
+          5 & 6 \\
+          7 & 8 \\
+        \end{Vmatrix}
+        = 
+        \begin{Vmatrix}
+          6 & 8 \\
+          10 & 12 \\
+        \end{Vmatrix}
+        $$
+
+                
+  \noindent
+  \section{Equations}
+
+     \subsection{Writting numbered Equations} 
+        \begin{equation}
+          2x + 3y = 89
+        \end{equation}
+
+        \begin{equation}
+          5x + 8y = 20
+        \end{equation}
+
+        \begin{equation}
+          x^2 - y^2 = (x+y)(x-y)
+        \end{equation}
+        
+	\subsection{Writting numbered Equations}
+        \begin{align}         % Equations are aligned on = sign
+          3x - 6 &= 9  \\
+          3x &= 9 + 6 \nonumber \\
+          3x &= 15  \nonumber \\
+          x  &= 5 \nonumber
+        \end{align}   
+
+
+
+
+
+\end{document}

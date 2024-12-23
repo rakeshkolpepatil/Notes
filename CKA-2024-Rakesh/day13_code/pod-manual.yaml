@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-new1
+  name: nginx-new1
+spec:
+  containers:
+  - image: nginx
+    name: nginx-new1
+    resources: {}
+  nodeName: cka-cluster-worker2
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

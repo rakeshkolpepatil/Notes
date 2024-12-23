@@ -1,0 +1,15 @@
+# configuration for creating a service
+apiVersion: v1            # kubectl explain service
+kind: Service
+metadata:
+  name: nodeport-svc
+  labels:
+    env: demo
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 80
+    targetPort: 80
+  selector:
+    env: demo

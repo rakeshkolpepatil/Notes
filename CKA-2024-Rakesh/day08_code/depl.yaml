@@ -1,0 +1,25 @@
+apiVersion: apps/v1            # For each 'kind', to get its version, run this command - 'kubectl explain rs' command.
+kind: Deployment
+metadata: 
+  name: nginx-depl 
+  labels:
+    app: nginx-new
+    env: demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-new
+  strategy: {}
+  template:                # The 'template' field contains the details of Pod specifications. 
+    metadata:              # Inside 'metadata' or 'spec' we can add only fields that it supports. However, in 'labels' field we can have any key:value pair.
+      name: nginx
+      labels:
+        app: nginx-new
+        env: demo
+    spec:
+      containers: 
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80  

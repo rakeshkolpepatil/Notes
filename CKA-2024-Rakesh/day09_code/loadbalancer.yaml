@@ -1,0 +1,14 @@
+# configuration for creating a service
+apiVersion: v1            # kubectl explain service
+kind: Service
+metadata:
+  name: loadbalancer-svc
+  labels:
+    env: demo
+spec:
+  type: LoadBalancer   
+  ports:
+  - port: 80            # We do not need 'NodePort' for 'LoadBalancer' service
+    targetPort: 80
+  selector:
+    env: demo

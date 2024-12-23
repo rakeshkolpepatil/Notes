@@ -1,0 +1,374 @@
+##===============================================================================================================================================================
+=================================================================================================================================================================
+                                                                 LaTeX Commands
+=================================================================================================================================================================
+=================================================================================================================================================================
+
+1]  for new line you can use any of these 3 commands -
+
+    \\ (two backslashes)
+    \newline
+    \hfill \break 
+=================================================================================================================================================================
+
+2] If you are unable to give newline space then in that case you can use
+
+   ~//
+   where ~ is invisible character.
+=================================================================================================================================================================
+
+3] Different sizes of font available in LaTeX
+
+   \tiny, \scriptsize, \footnotesize, \small, \normalsize, \large, \Large, \LARGE, \huge, and \Huge
+
+=================================================================================================================================================================
+
+4] Putting numbers inside the dollar symbols like this "$ 23^{rd} OCT$" will enable math mode for the text within these two dollars.
+
+=================================================================================================================================================================
+   Horizental Space in Latex
+   \:
+   1
+(or) \hspace*{2 cm/ 3 em }
+=================================================================================================================================================================
+   \pagebreak vs \newpage (OR) \clearpage
+
+   \newpage 
+   forces a new page at the point at which it occurs.
+   just fills the page with empty space.
+
+
+   \pagebreak 
+   without options forces a new page at the end of the line in which it occurs.
+   tries to make the page the same height as other pages if it's possible (by stretching intervals between paragraphs etc)
+=================================================================================================================================================================
+\textbf{something}    - for bold text
+\textit{something}    - for italic text
+\underline{something} - Underline the text.
+\emph {something}     - emphasize the text, it depends upon the context.
+
+\linespread{1}
+
+ This is used to give spacing of 1 between two consequtive lines across whole document.
+=================================================================================================================================================================
+\hfil  - will center the text
+\hfill - If inserted at the begining of text will align it rightsize and if inserted at the end will align text to left side.
+=================================================================================================================================================================
+
+\vspace*{-0.5cm}
+ 
+ To reduce spacing between the current two lines by 0.5 cm.
+=================================================================================================================================================================
+
+If you load csquotes by \usepackage{csquotes} you can use \enquote{quoted text}. The package's macros are context sensitive such that the quotation marks are adapted appropriately when nested and to the language used by babel. It also has other great features such as facilities for block quotations and integration with biblatex.
+
+\usepackage{csquotes}
+
+\begin{document}
+
+\enquote{quote}
+
+\enquote*{quote}
+
+\enquote{quote \enquote{quote in quote}}
+
+RESULT:
+
+"quote"
+'quote'
+"quote 'quote in quote'"
+=================================================================================================================================================================
+
+\mbox{text}
+ Here "text" is a group of words that you don't want to get split on different lines.
+=================================================================================================================================================================
+
+ To not to give numbering to some pages in documents use
+ \pagenumbering{gobble}
+
+ To give numbering in the document use this 
+ \pagenumbering{arabic}
+=================================================================================================================================================================
+
+ To write letters at subscript, we use underscore symbol and letters to be written at subscript between curley braces.
+ And put all this expression in between two $ symbols.
+ eg. - $R_{tb}$
+
+ For superscript we use ^ symbol.
+=================================================================================================================================================================
+
+How to write about citations in a .bib file
+
+
+@article 
+    An article from a magazine or a journal.
+
+        Required fields: author, title, journal, year.
+        Optional fields: volume, number, pages, month, note.
+
+@article{Xarticle,
+    author    = "",
+    title     = "",
+    journal   = "",
+    %volume   = "",
+    %number   = "",
+    %pages    = "",
+    year      = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+
+
+@book 
+    A published book
+
+        Required fields: author/editor, title, publisher, year.
+        Optional fields: volume/number, series, address, edition, month, note.
+
+@book{Xbook,
+    author    = "",
+    title     = "",
+    publisher = "",
+    %volume   = "",
+    %number   = "",
+    %series   = "",
+    %address  = "",
+    %edition  = "",
+    year      = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+@booklet 
+    A bound work without a named publisher or sponsor.
+
+        Required fields: title.
+        Optional fields: author, howpublished, address, month, year, note.
+
+@booklet{Xbooklet,
+    %author   = "",
+    title     = "",
+    %howpublished   = "",
+    %address  = "",
+    %year      = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+@conference 
+    Equal to inproceedings
+
+        Required fields: author, title, booktitle, year.
+        Optional fields: editor, volume/number, series, pages, address, month, organization, publisher, note.
+
+@conference{Xconference,
+    author    = "",
+    title     = "",
+    booktitle = "",
+    %editor   = "",
+    %volume   = "",
+    %number   = "",
+    %series   = "",
+    %pages    = "",
+    %address  = "",
+    year      = "XXXX",
+    %month    = "",
+    %publisher= "",
+    %note     = "",
+}
+---------------------------------------------------------------
+@inbook 
+    A section of a book without its own title.
+
+        Required fields: author/editor, title, chapter and/or pages, publisher, year.
+        Optional fields: volume/number, series, type, address, edition, month, note.
+
+@inbook{Xinbook,
+	author	= "",
+	editor	= "",
+	title	= "",
+	chapter	= "",
+	pages	= "",
+	publisher= "",
+	%volume	= "",
+	%number	= "",
+	%series	= "",
+	%type	= "",
+	%address= "",
+	%edition= "",
+	year	= "",
+	%month	= "",
+	%note	= "",
+}
+---------------------------------------------------------------
+@incollection 
+    A section of a book having its own title.
+
+        Required fields: author, title, booktitle, publisher, year.
+        Optional fields: editor, volume/number, series, type, chapter, pages, address, edition, month, note.
+
+@incollection{Xincollection,
+	author	= "",
+	title	= "",
+	booktitle= "",
+	publisher= "",
+	%editor	= "",
+	%volume	= "",
+	%number	= "",
+	%series	= "",
+	%type	= "",
+	%chapter= "",
+	%pages	= "",
+	%address= "",
+	%edition= "",
+	year	= "",
+	%month	= "",
+	%note	= "",
+}
+---------------------------------------------------------------
+@inproceedings 
+    An article in a conference proceedings.
+
+        Required fields: author, title, booktitle, year.
+        Optional fields: editor, volume/number, series, pages, address, month, organization, publisher, note.
+
+@inproceedings{Xinproceedings,
+	author		= "",
+	title		= "",
+	booktitle	= "",
+	%editor		= "",
+	%volume		= "",
+	%number		= "",
+	%series		= "",
+	%pages		= "",
+	%address	= "",
+	%organization	= "",
+	%publisher	= "",
+	year		= "",
+	%month		= "",
+	%note		= "",
+}
+---------------------------------------------------------------
+@manual 
+    Technical manual
+
+        Required fields: title.
+        Optional fields: author, organization, address, edition, month, year, note.
+
+@manual{Xmanual,
+	title		= "",
+	%author		= "",
+	%organization	= "",
+	%address	= "",
+	%edition	= "",
+	year		= "",
+	%month		= "",
+	%note		= "",
+}
+---------------------------------------------------------------
+@mastersthesis 
+    Master's thesis
+
+        Required fields: author, title, school, year.
+        Optional fields: type (eg. "diploma thesis"), address, month, note.
+
+@mastersthesis{Xthesis,
+    author    = "",
+    title     = "",
+    school    = "",
+    %type     = "diploma thesis",
+    %address  = "",
+    year      = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+
+@misc 
+    Template useful for other kinds of publication
+
+        Required fields: none
+        Optional fields: author, title, howpublished, month, year, note.
+
+@misc{Xmisc,
+    %author    = "",
+    %title     = "",
+    %howpublished = "",
+    %year     = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+@phdthesis 
+    Ph.D. thesis
+
+        Required fields: author, title, year, school.
+        Optional fields: address, month, keywords, note.
+
+@phdthesis{Xphdthesis,
+	author		= "",
+	title		= "",
+	school		= "",
+	%address	= "",
+	year		= "",
+	%month		= "",
+	%keywords	= "",
+	%note		= "",
+}
+---------------------------------------------------------------
+@proceedings 
+    The proceedings of a conference.
+
+        Required fields: title, year.
+        Optional fields: editor, volume/number, series, address, month, organization, publisher, note.
+
+@proceedings{Xproceedings,
+	title		= "",
+	%editor		= "",
+	%volume		= "",
+	%number		= "",
+	%series		= "",
+	%address	= "",
+	%organization	= "",
+	%publisher	= "",
+	year		= "",
+	%month		= "",
+	%note		= "",
+}
+---------------------------------------------------------------
+@techreport 
+    Technical report from educational, commercial or standardization institution.
+
+        Required fields: author, title, institution, year.
+        Optional fields: type, number, address, month, note.
+
+@techreport{Xtreport,
+    author    = "",
+    title     = "",
+    institution = "",
+    %type     = "", 
+    %number   = "",
+    %address  = "",
+    year      = "XXXX",
+    %month    = "",
+    %note     = "",
+}
+---------------------------------------------------------------
+@unpublished 
+    An unpublished article, book, thesis, etc.
+
+        Required fields: author, title, note.
+        Optional fields: month, year.
+
+@unpublished{Xunpublished,
+	author	= "",
+	title	= "",
+	%year	= "",
+	%month	= "",
+	note	= "",
+}
+---------------------------------------------------------------
+
+
+

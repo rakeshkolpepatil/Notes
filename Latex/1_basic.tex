@@ -1,0 +1,45 @@
+\documentclass{article}                     % # Specifies type of the document
+\usepackage{lipsum}
+\usepackage{comment}
+
+\title{Creating first document in \LaTeX}   % # Title of the document
+\author{Rakesh}                             % # Author of the document
+\date{\today}                               % # Date of the document
+
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+
+  \pagebreak
+  % \chapter 
+  \section{Introduction}
+  \paragraph[]{ Latex Information}
+  \LaTeX (pronounced "Lah-tech" or "Lay-tech") is a \\ markup language built on top of Donald Knuth's TeX typesetting system. 
+  It is specifically designed to facilitate the creation of complex documents, especially those that include mathematical 
+  formulas and structured content. Unlike traditional word processors, LaTeX separates the content from the formatting, 
+  allowing authors to focus on writing rather than design aspects
+
+  \paragraph{First Paragraph}
+  Markup languages are systems used to annotate a document in a way that is syntactically distinguishable 
+  from the text. They provide a means to structure, format, and present content, allowing for the specification 
+  of various elements such as headings, paragraphs, lists, links, and images.
+    \subsection{Purpose}
+    \subsection{Scope}
+  
+  \section[Background]{Background Of My Research }
+  \lipsum[1-5]
+
+  \section{Experimental Setup}
+  \paragraph{}
+  \lipsum[1-2]
+    \subsection{Physical Setup}
+      \lipsum[1-2]
+      
+      \begin{comment}
+      	\subsection{Analytical Setup}
+      	\lipsum[1-2]
+      \end{comment}
+      
+\end{document}       
+

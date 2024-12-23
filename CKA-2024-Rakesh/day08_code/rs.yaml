@@ -1,0 +1,23 @@
+apiVersion: apps/v1            # For each 'kind', to get its version, run this command - 'kubectl explain rs' command.
+kind: ReplicaSet
+metadata: 
+  name: nginx-rs 
+  labels:
+    env: demo
+spec:
+  template:                # The 'template' field contains the details of Pod specifications. 
+    metadata:              # Inside 'metadata' or 'spec' we can add only fields that it supports. However, in 'labels' field we can have any key:value pair.
+      name: nginx
+      labels:
+        env: demo              
+        type: frontend
+    spec:
+      containers: 
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80  
+  replicas: 5
+  selector:
+    matchLabels:
+      env: demo

@@ -11,13 +11,13 @@
 
 - Serialization Language means a common upon agreed format for different applications to transfer data between each other.
 
-- Files use extention .yaml or .yml
+- Files use extension .yaml or .yml
 
 - It is super human-readable and intuitive.
 
 - Used for writing config files of Dev-op tools like Ansible, Prometheus, kubernetes, docker compose etc.
 
-- Data structures in YAML are defined using indentations, line-seperators and spaces.
+- Data structures in YAML are defined using indentations, line-separators and spaces.
 
 - Written in terms of key-value pairs.
   E.g. -
@@ -27,7 +27,7 @@
         port: 9000
         version: 1.7
 
-- YAML does not recongnize special characters like '\n' unless written in double quotes or in strings format.
+- YAML does not recognize special characters like '\n' unless written in double quotes or in strings format.
 
 - Comments start with "#".
 
@@ -46,11 +46,11 @@
     - python
     - web Developer
     - mysql
-  course_ta: ["anirudh", "rakesh"]
+  course_ta: ["Anirudh", "Rakesh"]
   ta_details:
-    - name: "anirudh"
+    - name: "Anirudh"
       email: "ani@lco.dev"
-    - { name: "rakesh", email: "rak@lco.dev", role: "DevOps Engineer"}
+    - { name: "Rakesh", email: "rak@lco.dev", role: "DevOps Engineer"}
   short_description: >
     here is a short 
     description for Django 
@@ -65,7 +65,9 @@
 - preferred date format in YAML is YYYY-MM-DD
   release_date: 2021-04-30 23:02:00
 
-- Following syntax creates "microservice" object -
+--------------------------------------------------------------------------------------------------------------------------
+- Objects are created with the help of indentation. 
+- Following syntax creates "microservice" object which has 3 fields 'app', 'port' and 'version'.
   microservice:
     app: "user-authentication \n"
     port: 9000
@@ -86,11 +88,17 @@
 
 - You can use "<<" symbol to copy and paste the entire object referenced by a variable.
   adv: &adv
-    mykey: myval
+    mykey: myval      # 'adv' variable now references to the key:val pair 'mykey: myval' 
 
   another_adv:
     one: two
     <<: *adv
+
+- After processing, the structure of another_adv will look like this:
+  text
+  another_adv:
+    one: two
+    mykey: myval
 
 --------------------------------------------------------------------------------------------------------------------------
 
@@ -118,12 +126,25 @@
 - List items can have indentation or not.
 --------------------------------------------------------------------------------------------------------------------------
 
-- When you want to have a multi-line string as a value you need to use pipe symbols '|'
-  multilineString: |
-    this is a multi-line string,
-    that will be displayed across multiple lines. 
+- When you want to have a multi-line string as a value you need to use pipe symbols '|' 
+- Used for making literal blocks
+- Newline Handling: 
+  All newlines in the text are preserved exactly as they are written. 
+  This means that if you have multiple lines of text, each line break will be maintained in the output.
+- Indentation: 
+  The indentation of subsequent lines must be consistent with the first line of the block.
+- Use Case: 
+  Useful when you want to maintain the exact formatting, such as for multiline strings or code snippets.
 
-  E.g. - Shell scripts can be used inside YAML files using multi-line comments like below :-
+  Eg 1- multilineString: |
+          this is a multi-line string,
+          that will be displayed across multiple lines. 
+
+        Rendered output:-
+          this is a multi-line string,
+          that will be displayed across multiple lines. 
+
+  Eg 2- Shell scripts can be used inside YAML files using multi-line comments like below :-
         command:
           - sh 
           - -C 
@@ -137,11 +158,23 @@
             }
             http "/app/kibana"
 
+- For making folded blocks we use '>' symbol
+- Newline Handling:
+  Newlines are converted into spaces, which means that when you write a multiline string, it will be treated as a single
+  line in the output unless there are consecutive blank lines (which create paragraph breaks).
+- Indentation: 
+  Similar to literal blocks, subsequent lines must be indented consistently. However, leading whitespace on each line is removed.
+- Use Case: 
+  Ideal for long strings where you want to keep the text compact and readable without worrying about the exact formatting.
+  e.g.- 
+        multilineString: >
+          this is a single line string,
+          that should be all on one line.
+          some other stuff.
 
-  multilineString: >
-    this is a single line string,
-    that should be all on one line.
-    some other stuff.
+        Rendered output:-
+          this is a single line string, that should be all on one line. some other stuff.
+
 --------------------------------------------------------------------------------------------------------------------------
 
 - Environment variables can be used in YAML files using "$" symbols
@@ -173,15 +206,15 @@ E.g. -
 
 --------------------------------------------------------------------------------------------------------------------------
 
-- In single YAML file we can use multiple components and to separate them we can use three dashes. This is very handy when we 
-  can have multiple components such as kubernetes.
+- In single YAML file we can use multiple components/documents and to separate them three dashes are used. This is very handy when we 
+  can have multiple components/documents such as in kubernetes.
 
   apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: mosquitto-config-file
+    name: mosquito-config-file
   data:
-    mosquitto-config: |
+    mosquito-config: |
       log_dest stdout
       log_type all
       log_timestamp true
@@ -190,9 +223,9 @@ E.g. -
   apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: mosquitto-config-file
+    name: mosquito-config-file
   data:
-    mosquitto-config: |
+    mosquito-config: |
       log_dest stdout
       log_type all
       log_timestamp true

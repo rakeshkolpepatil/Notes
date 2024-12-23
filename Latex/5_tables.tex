@@ -1,0 +1,210 @@
+\documentclass{article}               % # Specifies type of the document
+\usepackage{mathtools}                % 'amsmath' is part of 'mathtools'
+\usepackage{arydshln}                 % 'amsmath' is part of 'mathtools'
+\usepackage{multirow}                 % Package Merge multiple rows
+\usepackage{longtable}                % Package for big tables
+
+\title{Creating first document in \LaTeX}   % # Title of the document
+\author{Rakesh}                             % # Author of the document
+\date{\today}        
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \listoftables
+  
+  \noindent
+  \section{Tables}
+
+      \subsection{Table 1}
+      \begin{tabular}{clrl}
+        No. & Item & Price & Qty \\
+        1 & Pen & 23 & 12 \\
+        2 & Notebook & 100 & 5 \\
+        3 & Bag & 1000 & 1 
+      \end{tabular} 
+      
+      \noindent
+      
+      \subsection{Table 2}
+      \begin{tabular}{cp{3cm}rl}
+        No. & Item & Price & Qty \\
+        1 & Pen & 23 & 12 \\
+        2 & Notebook & 100 & 5 \\
+        3 & Bag & 1000 & 1 
+      \end{tabular} 
+
+      \subsection{Table 3}
+      \begin{tabular}{|c|p{3cm}|r|l|}
+        \hline
+        No. & Item & Price & Qty \\
+        \hline
+        1 & Pen & 23 & 12 \\
+        \hline
+        2 & Notebook & 100 & 5 \\
+        \hline
+        3 & Bag & 1000 & 1  \\
+        \hline
+      \end{tabular} 
+
+      \subsection{Table 4}
+      \begin{tabular}{|c|p{3cm}|r|l|}
+        \hline
+        No. & Item & Price & Qty \\
+        \hline
+        1 & Pen & 50 & 12 \\
+        \cline {1-2} \cline {4-4}
+        2 & Notebook &  &  \\
+        \hline
+        3 & Bag & 1000 & 1  \\
+        \hline
+      \end{tabular} 
+      
+      \subsection{Table 5}
+      \begin{tabular}{:c:p{3cm}:r:l:}
+        \hdashline[3pt/5pt]
+        No. & Item & Price & Qty \\
+        \hdashline[3pt/5pt]
+        1 & Pen & 50 & 12 \\
+        \cdashline {1-2} \cdashline {4-4}
+        2 & Notebook &  &  \\
+        \hdashline[3pt/5pt]
+        3 & Bag & 1000 & 1  \\
+        \hdashline[3pt/5pt]
+      \end{tabular} 
+
+      
+      \subsection{Table 6}
+      \begin{tabular}{:c:p{3cm}:r:l:}
+        \hdashline
+        No. & Item & Price & Qty \\
+        \hdashline
+        1 & Pen & 50 & 12 \\
+        \cdashline {1-2} \cdashline {4-4}
+        2 & Notebook &  &  \\
+        \hdashline
+        3 & Bag & 1000 & 1  \\
+        \hdashline
+      \end{tabular}       
+      
+  \pagebreak
+  \section{Merge Rows and Columns}
+
+      
+      \subsection{Table 7}
+      \renewcommand{\arraystretch}{1.5}
+      \begin{tabular}{|c|p{3cm}|r|l|}
+        \hline
+        \multicolumn {4}{|c|}{Items List} \\
+        \hline
+        No. & Item & Price & Qty \\
+        \hline
+        1 & Pen & \multirow{2}{*}{50} & 12 \\
+        \cline{1-2} \cline{4-4}
+        2 & Notebook & & 5 \\
+        \hline
+        3 & Bag & 1000 & 1   \\
+        \hline
+      \end{tabular} 
+
+
+  \pagebreak
+  \section{Long Table}
+
+      \iffalse
+      \subsection{Table 8}
+      \renewcommand{\arraystretch}{2}
+      %\begin{tabular}{|c|p{3cm}|r|l|}
+      \begin{longtable}{|c|l|r|l|}
+		\hline
+     	No & Item & Price & Qty \\
+        \hline
+        1 & Pen & 23 & 12 \\
+        \hline
+        2 & Notebook & 100 & 5 \\
+        \hline
+        3 & Bag & 1000 & 1  \\
+        \hline
+        4 & Pen & 23 & 12 \\
+        \hline
+        5 & Notebook & 100 & 5 \\
+        \hline
+        6 & Bag & 1000 & 1  \\
+        \hline
+        7 & Pen & 23 & 12 \\
+        \hline
+        8 & Notebook & 100 & 5 \\
+        \hline
+        9 & Bag & 1000 & 1  \\
+        \hline
+        10 & Pen & 23 & 12 \\
+        \hline
+        11 & Notebook & 100 & 5 \\
+        \hline
+        12 & Bag & 1000 & 1  \\
+        \hline
+        13 & Pen & 23 & 12 \\
+        \hline
+        14 & Notebook & 100 & 5 \\
+        \hline
+        15 & Bag & 1000 & 1  \\
+        \hline
+        16 & Pen & 23 & 12 \\
+        \hline
+        17 & Notebook & 100 & 5 \\
+        \hline
+        18 & Bag & 1000 & 1  \\
+        \hline
+        19 & Pen & 23 & 12 \\
+        \hline
+        20 & Notebook & 100 & 5 \\
+        \hline
+        21 & Bag & 1000 & 1  \\
+        \hline
+        22 & Pen & 23 & 12 \\
+        \hline
+        23 & Notebook & 100 & 5 \\
+        \hline
+        24 & Bag & 1000 & 1  \\
+        \hline
+        25 & Pen & 23 & 12 \\
+        \hline
+        26 & Notebook & 100 & 5 \\
+        \hline
+        27 & Bag & 1000 & 1  \\
+        \hline
+        28 & Bag & 1000 & 1  \\
+        \hline
+        29 & Bag & 1000 & 1  \\
+        \hline
+        30 & Bag & 1000 & 1  \\
+        \hline
+      %\end{tabular} 
+      \end{longtable} 
+      \fi
+
+  
+  \pagebreak 
+  \section{Table Environment} 
+
+  \begin{table}[h]
+    \centering
+    \caption {This is Stationary List}
+
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|p{3cm}|r|l|}
+      \hline
+      \multicolumn {4}{|c|}{Items List} \\
+      \hline
+      No. & Item & Price & Qty \\
+      \hline
+      1 & Pen & \multirow{2}{*}{50} & 12 \\
+      \cline{1-2} \cline{4-4}
+      2 & Notebook & & 5 \\
+      \hline
+      3 & Bag & 1000 & 1   \\
+      \hline
+    \end{tabular} 
+  \end{table}
+      
+\end{document}

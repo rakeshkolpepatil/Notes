@@ -1,0 +1,14 @@
+# configuration for creating a service
+apiVersion: v1            # kubectl explain service
+kind: Service
+metadata:
+  name: clusterip-svc
+  labels:
+    env: demo
+spec:
+  type: ClusterIP    # By default the services are of type 'ClusterIP' so even if you remove this info the created service will be of type 'ClusterIP'
+  ports:
+  - port: 80         # We do not need 'NodePort' for 'ClusterIP' service, as the intention of this service is of internal communication.
+    targetPort: 80
+  selector:
+    env: demo

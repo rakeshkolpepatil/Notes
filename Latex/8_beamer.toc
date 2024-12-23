@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Welcome}{3}{0}{1}
+\beamer@sectionintoc {2}{Introduction}{4}{0}{2}
+\beamer@sectionintoc {3}{Images}{5}{0}{3}
+\beamer@sectionintoc {4}{Blocks}{8}{0}{4}
+\beamer@sectionintoc {5}{Columns}{9}{0}{5}
+\beamer@sectionintoc {6}{Animation}{10}{0}{6}

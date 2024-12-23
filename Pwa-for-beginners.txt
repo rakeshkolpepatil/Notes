@@ -51,9 +51,10 @@
 
       Layer 1 -   HTML            CSS                 JavaScript
 
-  - Websites can not be published directly on app store but the tool called pwmbuilder.com can be used to convert the websites into packages that
+  - Websites can not be published directly on app store but the tool called 'https://www.pwabuilder.com/' can be used to convert the websites into packages that
     can be installed on android or iOS
-    
+    🔗Convert website to android/iOS app  : https://www.pwabuilder.com/ 
+
   - 💻Important resources and links:
     🔗PWA on Microsoft Edge documentation : https://aka.ms/learn-pwa/workshop/edg...
     🔗Learn PWA in 30 days                : https://aka.ms/learn-pwa/30Days-blog

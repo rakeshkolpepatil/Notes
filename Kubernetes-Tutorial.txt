@@ -25,7 +25,6 @@ ________________________________________________________________________________
   - High availability or no downtime. Applications have very less/no downtime.
   - Scalability or high performance
   - Disaster recovery - backup and restore. Restore functionality offers container to run from latest state, after recovery.
-
 _________________________________________________________________________________________________________________________________________________________________________________________
 
   Kubernetes components
@@ -86,7 +85,7 @@ Chapter 5 :
           - All administrative tasks are coordinated by the kube-apiserver
           - it is central control place component running on the control plane node.
           - Intercepts all the RESTfull calls from users, administrators, developers, operators and external agents, validates and processes them.
-          - During processing API server reads kubernetes cluster's current state from the key-value store, and after call's execution, the resulting state of kubernete's 
+          - During processing API server reads kubernetes cluster's current state from the key-value store, and after call's execution, the resulting state of Kubernetes 
             cluster is saved to the key-value store for persistance.
           - The API server is the only control plane component to talk to the key-value store both to read from and to save kubernetes cluster state information.
           - It is highly configurable and customizable.
@@ -139,7 +138,7 @@ Chapter 5 :
 
           - etcd is based on the Raft Consensus Algorithm which allows a collection of machines to work as a coherent group that can survive the failures of some of its members.
             At any given time, one of the nodes is a group leader.
-          - leader/follower hierarchy is different from primary/secondary hierarchy, meaning that neither node is favored for the leader role and neigther node outranks other nodes.
+          - leader/follower hierarchy is different from primary/secondary hierarchy, meaning that neither node is favored for the leader role and neither node outranks other nodes.
           - etcd is written in Go programming language.
           - Along with cluster state, etcd also stores configuration details such as subnets, ConfigMaps, Secrets etc.                 
 
@@ -325,119 +324,381 @@ CHAPTER 6 :-
     Create minikube cluster
   __________________________________________________________________________________________________________________________________________
 
-      - minikube start --vm-driver=hyperkit                :- Create minikube cluster using 'hyperkit' driver. This is for Mac System.
+      - minikube start --vm-driver=hyperkit                 :- Create minikube cluster using 'hyperkit' driver. This is for Mac System.
 
-      - minikube start --driver=docker                     :- Create minikube cluster using 'docker' driver. Can be used for Windows System.
+      - minikube start --driver=docker                      :- Create minikube cluster using 'docker' driver. Can be used for Windows System.
 
       - minikube start --vm-driver=hyperv --hyperv-virtual-switch=Minikube
-                                                           :- Create minikube cluster using 'hyperkit' driver and virtual switch.
+                                                            :- Create minikube cluster using 'hyperkit' driver and virtual switch.
 
       - minikube start  --vm-driver=hyperkit --v=7 --alsologtostderr
 
-      - minikube start --kubernetes-version=v1.20.0        :- If you want to use 1.20.0 version of Kubernetes with your Minikube.  
+      - minikube start --kubernetes-version=v1.20.0         :- If you want to use 1.20.0 version of Kubernetes with your Minikube.  
 
       - minikube delete 
       
-      - minikube status                                    :- Get status of minikube cluster.
+      - minikube status                                     :- Get status of minikube cluster.
 
-      - minikube dashboard                                 :- Opens minikube dashboard web UI. 
+      - minikube dashboard                                  :- Opens minikube dashboard web UI. 
       
-      - minikube logs                                      :- Get minikube logs.    
+      - minikube logs                                       :- Get minikube logs.    
       
-      - minikube ssh                                       :- Access Minikube Virtual Machine.
+      - minikube ssh                                        :- Access Minikube Virtual Machine.
           Default credentials for the Minikube VM are:
           Username: docker
           Password: tcuser
 
-      - minikube update-check                              :- Gives the installed version and latest version. 
+      - minikube update-check                               :- Gives the installed version and latest version. 
 
-      - minikube service nginx-my-service                  :- This will assign an IP address to the service and will return an URL to access
-                                                              this service. You need to execute this command after you have created the service
-                                                              by executing command 'kubectl expose'.  
+      - minikube service nginx-my-service                   :-  This will assign an IP address to the service and will return an URL to access
+                                                                this service. You need to execute this command after you have created the service
+                                                                by executing command 'kubectl expose'.  
 
       - Steps to update minikube on windows 
           i) In powershell with admin privilege run following commands -
-             - minikube stop
-             - minikube delete
-             - Invoke-WebRequest -Uri "https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe" 
-               -OutFile "minikube-installer.exe"
-             - Start-Process "minikube-installer.exe" -Wait
+              - minikube stop
+              - minikube delete
+              - Invoke-WebRequest -Uri "https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe" 
+                -OutFile "minikube-installer.exe"
+              - Start-Process "minikube-installer.exe" -Wait
 
           (OR)
 
-          ii) winget.exe install minikube               :- This will install the minikube if it is not installed and will upgrade to the 
-                                                           latest minikube version if newer version is available.
+          ii) winget.exe install minikube               :-  This will install the minikube if it is not installed and will upgrade to the 
+                                                            latest minikube version if newer version is available.
+
+=========================================================================================================================================
+  'kind' commands  
+=========================================================================================================================================
+  - kind create cluster --name <cluster-name>                             :-  Create a cluster with name 'cluster-name'
+  - kind create cluster --name <cluster-name> --config <config.yaml>      :-  Create a cluster with name 'cluster-name' as per 'config.yaml' configuration.
+  
+  - kind get clusters                                                     :-  List Existing Clusters
+  - kubectl config use-context kind-[cluster-name]                        :-  To switch to the one of the clusters listed above.
+  - kubectl config current-context                                        :-  To check the current kind cluster being used.
+  - kubectl get nodes                                                     :-  Get the nodes in the current kind cluster.
+  - kubectl describe node <node_name>                                     :-  Describe the node, get its status related info.u                 
+
+  - kind delete cluster --name <cluster-name>                             :-  Delete the Cluster having name 'cluster-name'
+  - kind delete cluster                                                   :-  If you only have one cluster and it is named "kind," you can simply delete it without 
+                                                                              specifying the name of the cluster. However, if your cluster has a different name, you 
+                                                                              must specify it as mentioned above. The command without a specified name defaults to
+                                                                              "kind," which may lead to confusion if your cluster has a different name.
+
+  - echo "source <(kind completion bash)" >> ~/.bashrc          :- Enables auto-completion for 'kind' commands in bash permanently.
+    (OR)
+    source <(kind completion bash)                              :- Enables auto-completion for 'kind' commands in bash for this session.
+
+  - kind load docker-image <image-name>                         :- Load Docker Image into Kind:
+
+  - kubectl cluster-info --context kind-<cluster-name>          :- Get Current Context Info
+
+  - kind create cluster --config <config-file.yaml>             :- Create a Cluster with Config File
+
+  - kind version                                                :- Check Kind Version
+
+  - Example Config File (cluster-config.yaml) - 1 control node and 3 worker nodes.
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    networking:
+      disableDefaultCNI: false  # Set to true if you want to disable the default CNI
+    nodes:
+      - role: control-plane
+        extraPortMappings:
+          - containerPort: 30000
+            hostPort: 30000
+            protocol: TCP
+      - role: worker
+      - role: worker
+      - role: worker
 
 =========================================================================================================================================
   Kubectl commands  
 =========================================================================================================================================
 
-      - kubectl get pods                                    :- List all pods in deployment. Also, gives information about how many times
-                                                               that pod was restarted, its age and status.
+      - Refer this document for list of kubectl commands          :-  https://kubernetes.io/docs/reference/kubectl/quick-reference/
 
-      - kubectl get nodes                                   :- Get status of nodes in cluster.(OR) 'minikube status'
-      
-      - kubectl get services                                :- List all the services in deployment.
-      
-      - kubectl get replicaset                              :- Get details of all the deployments.
-      
-      - kubectl get deployment                              :- Get details of all the deployments.
-      
-      - kubectl create deployment nginx-depl --image=nginx  :- Creates deployment with name 'nginx-depl' and image is specified 
-                                                               with '--image' switch. By default images are searched on docker 
-                                                               repos.
+      - echo 'source <(kubectl completion bash)' >> ~/.bashrc           :-  Enable autocompletion for kubectl commands
+        echo 'complete -o default -F __start_kubectl k' >> ~/.bashrc    :-  Enable autocompletion for kubectl alias 'k'
 
-      - kubectl create deployment mongo-depl --image=mongo  :- Creates mongoDb deployment with name 'mongo-depl' and image 'mongo' specified 
-                                                               with switch '--image'.
+      - kubectl get all                                           :-  Returns the list of all the Kubernetes objects such as pods, replicaSets, Deployments etc.
+        (OR) kubectl get all --all-namespaces                     :-  Returns the list of all the Kubernetes objects for all the namespaces.
 
-      - kubectl edit deployment nginx-depl                  :- To edit the config file of the deployment nginx-depl.
+      - kubectl get all --namespace=kube-system                   :-  Returns the details of the namespace named "kube-system"
+        (OR) kubectl get all -n=kube-system
+        e.g. 
+              kubectl get all -n=default
+
+      - kubectl get pods                                          :-  List all pods in deployment. Also, gives information about how many times
+                                                                      that pod was restarted, its age and status.
+        
+      - kubectl get pods -A                                       :-  If present, list the requested object(s) across all namespaces. Namespace in current 
+                                                                      context is ignored even if specified with '--namespace'. '-A' can be appended to any command
+                                                                      to ask that command to give results from all the namespaces.
+
+      - kubectl get pods -w  
+        (OR) kubectl get pods --watch                             :- Will fetch the pods from default namespace and will keep on wait for any further events to show to terminal.  
+
+      - kubectl label nodes <node-name> key=value                 :-  Adds a label with 'key' and 'value' to a specified node 
+
+      - kubectl label nodes <node-name> key=new-value --overwrite :-  Modifying the existing label on the node.
+
+      - kubectl label nodes <node-name> key-                      :-  To remove the existing label from a node.
+
+      - kubelet --node-labels="role=worker,environment=production"    :- If you want to label a node as a "worker" and specify its environment.
+
+      - kubectl get pods nginx-pod --show-labels                  :-  Get details of the labels associated with the pod named 'nginx-pod'
+
+      - kubernetes get pods --selector run=nginx-new1             :-  Filtering pods based on the label 'run: nginx-new1' from the current namespace.
+        (OR) kubectl get pods --selector run=nginx-new1 --all-namespaces
+        (OR) kubectl get pods --selector run=nginx-new1 -A
+                                                                  :-  Filtering pods based on the label 'run: nginx-new1' across all namespaces,
+
+      - kubectl get pods -o wide                                  :-  Gives the information about the pods in little more detail. Such as the IP address
+        (OR) kubectl get pods --output=wide                           where the pod is running.
+                                                                      
+      - kubectl get services                                      :-  List all the services in deployment.
+        (OR) kubectl get svc
+                                                                      
+      - kubectl get nodes                                         :-  Get status of nodes in cluster.(OR) 'minikube status'
+
+      - kubectl get nodes --show-labels                           :-  Shows labels associated with the nodes.
+
+      - kubectl get namespaces                                    :-  Get details of all the namespaces.
+        (OR) kubectl get ns
+
+      - kubectl get replicaset                                    :-  Get details of all the deployments.
+      
+      - kubectl get deployment                                    :-  Get details of all the deployments.
+        (OR) kubectl get deployment -n demo                           For 'demo' namespace get deployment details.
+
+      - kubectl get endpoints                                     :-  This will return the services and their respective endpoints from default namespace.
+        (OR) kubectl get ep 
+        (OR) kubectl get ep -n demo
+
+      - kubectl get cm                                            :-  This will return the configMaps default namespace.
+
+      - kubectl get pv                                            :-  List all the persistent volumes in the cluster.
+
+      - kubectl get csr                                           :-  List all the Certificate Signing Requests.
+
+      - kubectl get roles                                         :-  Get all the roles in current namespace.
+
+      - kubectl get rolebinding[/s]                               :-  Get all the rolebinding[/s] in current namespace.
+      
+      - kubectl get clusterrole[/s]                               :-  Get all the clusterrole[/s] in current namespace.
+      
+      - kubectl get clusterrolebinding[/s]                        :-  Get all the clusterrolebinding[/s] in current namespace.
+      
+      - kubectl get sa                                            :-  Get service accounts in the current namespace.
+
+      - kubectl delete sa                                         :-  Delete the service account from the current namespace.
+
+      - kubectl get secret                                        :-  Get secrets in the current namespace.
+
+      - kubectl get netpol                                        :-  Get network policy from the current namespace.
+        (OR) kubectl get networkpolicy 
+        
+      - kubectl get csr adam -o yaml > issueCert.yaml             :-  To get the Certificate named 'adam'
+
+      - kubectl certificate approve adam                          :-  Approve the 'Certificate Signing Request' named 'adam'
+
+      - kubectl top nodes                                         :-  Show metrics for all nodes.
+        (OR) kubectl top nodes node_name                          :-  Show metrics for a specific node. 
+
+      - kubectl top nodes -l,
+        (OR) kubectl top nodes --selector                         :-  Filter nodes based on specific labels.
+
+      - kubectl top nodes --show-capacity                         :-  Display node resources based on capacity instead of allocatable resources.
+
+      - kubectl top nodes --sort-by                               :-  Sort the output by a specified field, either 'cpu' or 'memory'.
+
+      - kubectl top nodes --no-headers                            :-  Suppress headers in the output.
+
+      - kubectl top pod nginx-new                                 :-  This will fetch the resource details of the pod 'nginx-new'. Stats will be generated after some time 
+                                                                      the pod has been created. 
+
+      - kubectl config set-context --current --namespace=<desired-namespace> --user=<user> --cluster=<cluster>
+                                                                  :-  Set the namespace to 'desired-namespace' for all the subsequent commands.
+        e.g. -
+              kubectl config set-context --current --namespace=default
+
+      - kubectl config delete-context Adam                        :-  Delete the context named "Adam"
+
+      - kubectl config set-credentials Adam --client-key=adam.key --client-certificate=adam.csr
+                                                                  :-  Setting up the credentials for the user 'adam'
+
+      - kubectl config set-context adam --cluster=kind-cka-cluster
+                                                                  :-  Creates a new context named 'adam'
+
+      - kubectl config current-context                            :-  Determines which cluster is currently in use with kubectl
+
+      - kubectl config get-contexts                               :-  List all the contexts 
+
+      - kubectl config get-contexts adam                          :-  Get details of the context named 'adam' 
+
+      - kubectl config use-context adam                           :-  Switch to context 'adam' 
+    
+      - kubectl config view --minify | grep namespace             :-  To confirm that the namespace has been set correctly, you can check your current context.
+
+      - kubectl config view                                       :-  To get details of the current context. 
+
+      - kubectl cluster-info                                      :-  Get the info of the clusters that were created using 'kind' or other tool.  
+
+      - kubectl cluster-info dump                                 :-  To further debug or diagnose the issues with the cluster.
+
+      - kubectl certificate approve adam                                  :-  Approve the certificate signing request named 'adam' 
+
+      - kubectl set image deploy/nginx-deploy nginx=nginx:1.9.1   :-  Change the image that is being used in the deployment 'nginx-deply' to nginx:1.9.1
+
+      - kubectl rollout history deploy/nginx-deploy               :-  This command provides a summary of the deployment's revision history, including the revision
+                                                                      number and any associated change causes. 
+
+      - kubectl rollout history deployment/nginx-deploy --revision=2 
+                                                                  :-  If you want to see more details about a particular revision, you can specify it with the 
+                                                                      --revision flag
+
+      - kubectl rollout undo deployment/nginx-deploy --to-revision=2
+                                                                  :-  If you find that a recent change has caused issues, you can rollback to a previous revision 2.
+                                                                  
+      - kubectl rollout status deployment/nginx-deploy            :-  After executing 'kubectl rollout' command, check the status of the rollout with 'rollout status' 
+                                                                      command.
+
+      - kubectl create deployment nginx-depl --image=nginx    
+        (OR)  kubectl create deploy/nginx-depl --image=nginx      :-  Creates deployment with name 'nginx-depl' and image is specified 
+                                                                      with '--image' switch. By default images are searched on docker 
+                                                                      repos.
+
+      - kubectl create deployment mongo-depl --image=mongo        :-  Creates mongoDb deployment with name 'mongo-depl' and image 'mongo' specified 
+                                                                      with switch '--image'.
+
+      - kubectl create deployment mongo-depl --image=mongo -n demo
+        (OR)  kubectl create deploy/mongo-depl --image=mongo -n demo
+                                                                  :-  Creates mongoDb deployment with name 'mongo-depl' and image 'mongo' as specified in 
+                                                                      namespace named 'demo'
+
+      - kubectl create -f pod_config.yaml                         :-  Create a pod as specified in the configuration file 'pod_config.yaml'
+        (OR)  kubectl apply -f pod_config.yaml                    :-  Apply the configuration in file 'pod_config.yaml' to the running pod and if pod is not 
+                                                                      there then create it.
+
+      - kubectl create deploy deploy/nginx-new --image=nginx  --dry-run=client -o yaml
+                                                                  :- Output a yaml format config file for creating a new deployment with name 'nginx-new' and image 'nginx'
+
+      - kubectl create ns demo                                    :- Create a namespace named 'demo'. 
+
+      - kubectl create --save-config -f app.config                :- Creates a configMap using the yaml file 'app.config'
+
+      - kubectl taint nodes node1 key1=value1:NoSchedule          :- Apply a taint 'key1=value1' to the node named 'node1' that prevents any pod from being scheduled to that node 
+                                                                      unless it has a matching toleration.
+
+      - kubectl taint nodes node1 key1=value1:NoSchedule-         :- To remove the previously set taint from node1
+
+      - kubectl describe nodes | grep -E 'Name:|Taints'           :- View the current taints on your nodes
+
+      - kubectl edit deployment nginx-depl                        :-  To edit the config file of the deployment nginx-depl.
 
       - kubectl set image deployment nginx-depl <container_name>=image
-                                                            :- This command will change the image associated with container specified by 
-                                                               'container_name' in the deployment named 'nginx-depl'.
+                                                                  :-  This command will change the image associated with container specified by 
+                                                                      'container_name' in the deployment named 'nginx-depl'.
 
-      - kubectl rollout deployment nginx-depl               :- When you change the image associated with the container inside a deployment,
-                                                               you will have rollout a new change making kubernetes to fetch the new image,
-                                                               terminate old pods and launch new pods. This command will give the status of 
-                                                               this rollout.
+      - kubectl rollout deployment nginx-depl               :-  When you change the image associated with the container inside a deployment,
+                                                                you will have rollout a new change making kubernetes to fetch the new image,
+                                                                terminate old pods and launch new pods. This command will give the status of 
+                                                                this rollout.
 
-      - kubectl rollout undo deployment nginx-depl          :- If the earlier rollout is pending because of reasons such as wrong image name
-                                                               or something else, and you want to cancel that rollout, then issue this command.
+      - kubectl rollout undo deployment nginx-depl          :-  If the earlier rollout is pending because of reasons such as wrong image name
+                                                                or something else, and you want to cancel that rollout, then issue this command.
 
-      - kubectl scale deployment nginx-depl --replicas=2    :- Makes 2 copies of 'nginx-depl' named deployment. Kubernetes will restart the pod
-                                                               when it goes down/crashes. However, if we have only one copy then in that short
-                                                               time website will go down. To avoid this we can have multiple replicas inside 
-                                                               the deployment. 
+      - kubectl scale deployment nginx-depl --replicas=2    :-  Makes total copies to 2 in total of the deployment named 'nginx-depl'. Kubernetes will 
+                                                                restart the pod when it goes down/crashes. However, if we have only one copy then in 
+                                                                that short time website will go down. To avoid this we can have multiple replicas 
+                                                                inside the deployment. 
   
-      - kubectl logs {pod-name}                             :- Get logs of specified deployment.
+      - kubectl scale --help                                :-  Get help about the 'kubectl scale' command.
+      - kubectl scale --replicas=10 rs/nginx-rs             :-  increases total copies of pods mentioned in 'nginx-rs' replicaSet to 10.
+      - kubectl scale --replicas=10 rc/nginx-rc             :-  increases total copies of pods mentioned in 'nginx-rc' replicationController to 10.
 
-      - kubectl describe pod mongo-depl-{pod-name}          :- Get the details of the given pod named 'mongo-depl-{pod-name}' mentioned in 
-                                                               the instruction.
+      - kubectl autoscale deploy php-apache --cpu-percent=50 --min=1 --max=10
+                                                            :-  Auto-scale the deployment named 'php-apache' when the cpu usage percentage crosses 50%. Maintain minimum 
+                                                                1 pod and scale upto 10 pods.
 
-      - kubectl describe deployment nginx-depl              :- Get the details of the deployment named 'nginx-depl'.
+      - kubectl cluster-info --context kind-cka-cluster1    :-  It returns the cluster information of the specified context. 
 
-      - kubectl describe replicaset nginx-depl-5c9554ccd7   :- Get the details of the replicaset named 'nginx-depl-5c9554ccd7'.
+      - kubectl logs {pod-name}                             :-  Get Logs from a Single Container Pod.
+      - kubectl logs my-pod -c my-container                 :-  Get Logs from a Specific Container named 'my-container' in a Multi-Container Pod named 'my-pod'.
+      - kubectl logs my-pod -f                              :-  Stream Logs in Real-Time for pod 'my-pod'.
+      - kubectl logs my-pod --all-containers=true           :-  Get logs of all the Containers' from pod 'my-pod'.
+      - kubectl logs {pod-name} --tail=100                  :-  Limit the logs of the pod to the last 100 lines.
+
+      - kubectl logs -p my-pod                              :-  View Previous Pod Logs. If a container has crashed and restarted, you can view the logs from the 
+        (OR) kubectl logs --previous {pod-name}                 previous instance
+
+      - kubectl describe pod mongo-depl-{pod-name} 
+        (OR) kubectl describe po/mongo-depl-{pod-name}      :-  Get the details of the given pod named 'mongo-depl-{pod-name}'
+
+      - kubectl describe cm                                 :-  Get the details of all the configmaps
+        (OR) kubectl describe cm {cm-name}                  :-  Get the details of the configmap named 'cm-name' 
+
+      - kubectl describe csr adam                           :- Get the details of the Certificate Signing Request named 'adam'
+
+      - kubectl edit pod nginx-pod                          :-  Directly edit the running pod configuration  
+
+      - kubectl explain <kind>                              :-  Is used to retrieve documentation about the kinds such as ReplicationController/ReplicaSet 
+                                                                resource in Kubernetes, 
+      - kubectl explain pods                                :-  Explains/Gives details of the Pods. Useful to know the apiVersion. 
+      - kubectl explain rc                                  :-  Explains/Gives details of the Replication Controller. Useful to know the apiVersion. 
+      - kubectl explain rs                                  :-  Explains/Gives details of the ReplicaSet. Useful to know the apiVersion. 
+
+      - kubectl api-resources                               :-  Lists out all the apiVersion values for all the resources in kubernetes.
+      - kubectl api-resources --namespaced=true             :-  Lists out all the apiVersion values for all the resources in kubernetes at Namespaced Level.
+      - kubectl api-resources --namespaced=false            :-  Lists out all the apiVersion values for all the resources in kubernetes at Cluster Level.
+
+      - kubectl describe deployment nginx-depl              :-  Get the details of the deployment named 'nginx-depl'.
+
+      - kubectl describe replicaset nginx-depl-5c9554ccd7   :-  Get the details of the ReplicaSet named 'nginx-depl-5c9554ccd7'.
 
       - kubectl expose deployment nginx-depl --type=LoadBalancer --port=3000 --name=nginx-my-service
-                                                            
-                                                            :- Creates a service of type 'LoadBalancer' for exposing port '3000' for the 
-                                                               deployment 'nginx-depl' with name 'nginx-my-service'.
+                                                            :-  Creates a service of type 'LoadBalancer' for exposing port '3000' for the 
+                                                                deployment 'nginx-depl' with name 'nginx-my-service'. The default '--type' will be 'ClusterIP'
 
-      - minikube service nginx-my-service                   :- This will assign an IP address to the service and will return an URL to access
-                                                               this service. You need to execute this command after you have created the service
-                                                               by executing command 'kubectl expose'.  
+      - kubectl port-forward pod/nginx-pod 8080:80          :-  To access your Nginx server running in Pod 'pod/nginx-pod', you may need to expose it via a Service 
+                                                                or use port forwarding. Then, you can access Nginx by navigating to http://localhost:8080 
+                                                                in your web browser.
 
-      - kubectl exec -it {pod-name} -- bin/bash             :- Open a 'bash' terminal in interactive mode on specified pod.
+      - minikube service nginx-my-service                   :-  This will assign an IP address to the service and will return an URL to access
+                                                                this service. You need to execute this command after you have created the service
+                                                                by executing command 'kubectl expose'.  
 
-      - kubectl delete deployment mongo-depl                :- Delete the deployment named 'mongo-depl'
+      - kubectl exec -it {pod-name} -- bin/bash             :-  Open a 'bash' terminal in interactive mode on specified pod.
 
-      - kubectl delete deployment nginx-depl                :- Delete the deployment named 'nginx-depl'
+      - kubectl delete pod 'my_pod'                         :-  Delete the pod named 'my_pod'
+        (OR) kubectl delete pod 'my_pod' --grace-period=0   :-  Delete the pod named 'my_pod' quickly
+        (OR) kubectl delete pod 'my_pod' --force            :-  Delete the pod named 'my_pod' forcefully
 
-      - kubectl delete -f nginx-deployment.yaml             :- Delete the deployment specified in file 'nginx-deployment.yaml'
+      - kubectl delete deployment mongo-depl                :-  Delete the deployment named 'mongo-depl'
+      - kubectl delete rc/nginx-rc                          :-  Delete the Replication Controller named 'nginx-rc'
+      - kubectl delete rs/nginx-rs                          :-  Delete the ReplicaSet named 'nginx-rs'
 
-      - kubectl version                                     :- Get version of Kubectl client and server. The client version is the version
-                                                               of kubectl being used. The server version is the version of the Kubernetes 
-                                                               cluster being connected to.
+      - kubectl delete ns demo-namespace 
+        (OR) kubectl delete ns/demo-namespace               :-  Delete the namespace named 'demo-namespace' 
+
+      - kubectl delete deployment nginx-depl                :-  Delete the deployment named 'nginx-depl'
+
+      - kubectl delete -f nginx-deployment.yaml             :-  Delete the deployment specified in file 'nginx-deployment.yaml'
+
+      - kubectl run nginx --image=nginx --dry-run=client    :-  Dry run but do not launch the pod with name 'nginx' and image 'nginx' This flag indicates that the command should 
+                                                                not be executed on the server. Instead, it will validate the command and print the resulting object that would be 
+                                                                sent to the server. The client option means that this validation occurs on the client side, allowing you to see what 
+                                                                would happen without making any changes to the cluster. This command can be used as 'syntax validator', 'YAML generator' 
+                                                                or 'Learning tool' 
+
+      - kubectl run nginx --image=nginx --dry-run=client  -o yaml > pod.yaml    :-  Dry run the specified configuration and output to 'pod.yaml' file in yaml format.
+      
+      - kubectl run nginx --image=nginx --dry-run=client  -o json > pod.json    :-  Dry run the specified configuration and output to 'pod.json' file in json format.
+
+      - kubectl version                                     :-  Get version of Kubectl client and server. The client version is the version
+                                                                of kubectl being used. The server version is the version of the Kubernetes 
+                                                                cluster being connected to.
 
       - Minikube Version: Refers to the version of the Minikube tool.
 
@@ -455,5 +716,5 @@ CHAPTER 6 :-
       Metrics
         - kubectl top 
           The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular 
+          ______________________________________________________________________________________________________________________________
           pod or node if specified.
-    ______________________________________________________________________________________________________________________________

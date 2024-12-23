@@ -1,0 +1,104 @@
+%!TEX program = lualatex
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{kantlipsum}
+\usepackage{imakeidx}
+
+\makeindex[columns=1, title=Back Index, intoc]           
+
+% Set default font to sans serif
+% \renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{helvet} % Use Helvetica
+\renewcommand{\rmdefault}{phv} % Set sans serif to Helvetica
+
+% \usepackage{fontspec}
+% \setmainfont{Arial} % Set main font to Arial
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+  \Huge
+  \textbf{Title of the Project}
+  \vfill 
+  \LARGE
+  \textbf{Submitted by} \\
+  \medskip
+  Author 1
+  \vfill 
+  Under the guidance of \\
+  \vfill 
+  Prof. XYZ Name
+  \vfill 
+  \includegraphics[width=1in]{iit-madras.png} 
+  \vfill
+  Department Name
+  \vfill
+  Institute Name
+  \vfill
+  Year
+\end{center}
+\end{titlepage}
+  
+  \section{Introduction}
+  \kant[4]
+  
+  \section{Hyperlinks and Urls}
+  \url{https://www.google.com/} is one of the best search engines. \\ 
+  I use \href{https://www.overleaf.com/}{Overleaf} for online editing of the 
+  \LaTeX documents. Also, you can refer the subsection \ref{subsec:Requirements} for 
+  further details. 
+
+  \section{Background}
+  \label{sec:Background}
+  The rapid advancement of technology has transformed various sectors, with education being one 
+  of the most significantly affected areas. Online learning, once considered a supplementary 
+  educational tool, has now become a primary mode of instruction for many institutions worldwide, 
+  especially in the wake of the COVID-19 pandemic. \index{pandemic} This shift has prompted 
+  researchers to investigate how this mode of learning influences student performance and engagement.
+  Prior to the widespread adoption of online learning, traditional classroom settings dominated
+  education. However, studies have shown that online learning environments can offer flexibility
+  and accessibility that traditional methods may lack (Moore \& Kearsley, 2012). The ability to 
+  access course materials from anywhere at any time has made education more inclusive for 
+  students with varying needs and schedules. Despite these advantages, concerns have been 
+  raised regarding the effectiveness of online learning compared \index{pandemic!learning} to 
+  face-to-face instruction.
+  Research indicates mixed outcomes regarding student performance in online learning environments.
+  Some studies suggest that students in online courses perform equally well or better than their
+  peers in traditional settings (Bernard et al., 2004), while others highlight challenges such as
+  reduced motivation and higher dropout rates (Lee \& Choi, 2011). These conflicting findings 
+  underscore the necessity for further investigation into the factors that contribute to student
+  success in online learning.
+  This study aims to explore the impact of online learning on student performance by examining key
+  variables such as engagement, motivation, and academic achievement. Specifically, it seeks to 
+  identify which aspects of online learning environment \index{learning environments} facilitate
+  or hinder student success. By addressing these questions, this research will contribute to a 
+  deeper understanding of how educational institutions can optimize online learning experiences 
+  to enhance student outcomes. In conclusion, as online learning \index{pandemic|see{learning environments}} continues to evolve and expand 
+  its reach, it is crucial to 
+  assess its implications for student performance. This study will not only fill existing gaps
+  in the literature but also provide actionable insights for educators and policymakers aiming 
+  to improve online education \index{pandemic!Online Education} frameworks.
+  Key Elements Explained
+  
+  \section{Specification}
+  \label{sec:Specification}
+  As per the section \ref{sec:Background}, \nameref{sec:Background} from page number \pageref{sec:Background}, we have \kant[4]
+  
+  \subsection{Requirements}
+  It is given in the section \ref{sec:Specification} \label{subsec:Requirements}
+  \kant[4]
+
+  \subsection{Experimental setup}
+  This section contains experimental setup \cite{ullman} 
+
+  \printindex
+
+  \bibliographystyle{plain}           % Styles - plain, alpha, unsrt, acm 
+  \bibliography{7_biblio.bib}             % Specify the bib file in .tex file 
+
+\end{document}

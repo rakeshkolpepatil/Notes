@@ -1,0 +1,13 @@
+apiVersion: v1 
+kind: Pod
+metadata: 
+  name: configmap-pod
+spec:
+  containers:
+  - name: test-container1
+    image: busybox
+    command: ["/bin/sh", "-c", "env"]
+    envFrom:
+    - configMapRef: 
+      name: app-cm 
+  restartPolicy: Never

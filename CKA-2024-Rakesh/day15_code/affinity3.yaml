@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis3
+  labels:
+    app: demo
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: tty 
+            operator: Exists
+  containers:
+  - name: redis 
+    image: redis 
+    imagePullPolicy: IfNotPresent

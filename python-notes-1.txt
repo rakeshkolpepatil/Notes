@@ -24,14 +24,14 @@
 
 1) For opening a file and reading it line by line.
 
-    fp = open(r'C:\Users\shailesh\Desktop\tty.txt','r')
+    fp = open(r'C:\Users\Ram\Desktop\tty.txt','r')
     for i in fp:
         print (i.strip())
     ------------------------------------------------------------------------------------------------------------------------------------------------
 
 2) For opening a file and splitting it at a specific word to form records.
 
-    with open(r'C:\Users\shailesh\Desktop\tty.txt') as f:
+    with open(r'C:\Users\Ram\Desktop\tty.txt') as f:
         for i in f.read().split("\nhere"):
             print (i + "\n----------")
 
@@ -332,7 +332,7 @@
       split_string   = my_string.split(", ")           # ['Hello', 'World!']
 
     - Joining strings
-      joined_string  = ", ".join(split_string)         # 'Hello, World!'
+      joined_string  = ", ".join(split_string)         # 'Hello, World!'z
 
     - Stripping characters
       stripped       = "   Hello, World!   ".strip()   # 'Hello, World!'
@@ -360,7 +360,7 @@
   ♣♣♣♣♣♣ fStrings - String Formatting in Python ♣♣♣♣♣♣♣
 ===================================================================================================================================================
   # Trick 1 - Format integers
-    n: int         = 1_000_000_000              # Underscores can be added to the lengthy numbers for more redability. They are ignored by compiler.
+    n: int         = 1_000_000_000              # Underscores can be added to the lengthy numbers for more readability. They are ignored by compiler.
     n: float       = 1e9                        # In case of 'float' numbers, number of zeros after '1' can be specified after 'e' as a shortcut.
     print(f"{n:_}")                             # This will add 'underscores' to the big number while printing it for the sake of readability.
     print(f"{n:,}")                             # This will add ',' to the big number while printing it for the sake of readability.
