@@ -1,0 +1,6 @@
+{
+  "watch": ["bin"],
+  "ext": "dart",
+  "exec": "dart run bin/dummy.dart",
+  "rakeshComment" : "Strangely, the settings are not working for nodemon from this file. For tracking changes I need to issue following command - nodemon -x 'dart run bin/operators.dart' -e dart"
+}
