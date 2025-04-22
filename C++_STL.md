@@ -20,11 +20,11 @@
 
 ```cpp
 std::vector<int> v;                    // empty vector
-std::vector<int> v(5);                 // 5 default-initialized elements
+std::vector<int> v(5);                 // 5 default-initialized elements (in this case initialized to `0`)
 std::vector<int> v(5, 10);             // 5 elements with value 10
 std::vector<int> v2 = {1, 2, 3};       // initializer list
 ```
-- The `std::vector<int>` creates a vector of size 5, and initializes all elements to 0.
+- The `std::vector<int>` creates a vector of size 5, and **initializes all elements to 0**.
   
   ```cpp
   std::vector<int> v(5);
@@ -258,6 +258,9 @@ std::list<int> lst7(std::move(lst6));
 7. **Use `reverse()` when order needs to be reversed in-place efficiently**.
     - `std::reverse()` from `<algorithm>` won't work with `std::list` since it requires random access.
 
+8. `std::list` does not support random-access iterators, so you can't do things like `it + 2` or `it[3]`.
+
+9. But simple `++` or `--` works perfectly (forward and backward traversal).
 
 ```cpp
 #include <iostream>
@@ -388,17 +391,23 @@ int main() {
 
     dq.push_front(5);   // Adds 5 at the beginning
     dq.push_back(40);   // Adds 40 at the end
+    // 5 10 20 30 40 
 
     dq.pop_front();     // Removes the first element (5)
     dq.pop_back();      // Removes the last element (40)
+    // 10 20 30 
 
-    std::cout << "Front: " << dq.front() << "\n";   // Access first element
-    std::cout << "Back: " << dq.back() << "\n";     // Access last element
-
+    std::cout << "Front: " << dq.front() << "\n";   // Access first element : 10
+    std::cout << "Back: " << dq.back() << "\n";     // Access last element : 30
+    
     dq.insert(dq.begin() + 1, 25);                  // Inserts 25 at position 1
+    // 10 25 20 30
+
     dq.erase(dq.begin());                           // Erases the first element
+    // 25 20 30
 
     std::cout << "Size: " << dq.size() << "\n";     // Returns number of elements
+    // 3
 
     dq.clear();                                     // Removes all elements from deque
 
@@ -412,7 +421,7 @@ int main() {
 
 /*
 Output:
-        Front: 20
+        Front: 10
         Back: 30
         Size: 3
         Deque after clear:
@@ -518,7 +527,79 @@ for (int val : s)
 - Efficient membership testing (`find()` is faster than linear search).
 
 
-## `std::unordered_set` 
+## ✅ STL Containers and `Iterator Invalidation` on Modification
+- Iterator invalidation occurs when modifications to a container render existing iterators unsafe to use, potentially leading to undefined behavior. 
+- The rules vary significantly across STL containers due to their underlying data structures. Below is a detailed breakdown:
+
+### Vector
+- Insertion:
+  - Adding elements may cause reallocation if capacity is exceeded, invalidating all iterators.
+  - Insertions before the end invalidate iterators to elements after the insertion point.
+
+- Deletion:
+  - Removing elements invalidates iterators to elements after the erased position.
+
+#### Example:
+
+  ```cpp
+  std::vector<int> v = {1, 2, 3};
+  auto it = v.begin() + 1;
+  v.push_back(4);  // May reallocate, invalidating `it`
+  ```
+
+### Deque
+- Insertion at ends (push_back, push_front):
+  - Only the end() iterator is invalidated.
+  - Existing iterators to elements remain valid.
+
+- Deletion at ends (pop_back, pop_front):
+  - Invalidates end() and iterators to the erased element.
+
+- Mid-container modifications:
+  - Inserting/erasing in the middle invalidates all iterators.
+
+#### Example:
+
+  ```cpp
+  std::deque<int> d = {1, 2, 3};
+  auto it = d.begin() + 1;
+  d.push_back(4);  // `it` remains valid, `end()` invalidated
+  ```
+
+### List/Forward List
+- Insertion/Deletion:
+  - Only iterators to the erased element are invalidated.
+  - Other iterators remain valid.
+
+### Associative Containers (Set/Map, etc.)
+- Insertion/Deletion:
+  - Only iterators to erased elements are invalidated.
+  - Insertions do not affect existing iterators.
+
+### String
+- Modifications:
+  - Resizing or appending beyond capacity invalidates all iterators.
+  - References/iterators to unaffected regions may remain valid if no reallocation occurs.
+
+### Key Comparisons
+-
+  | Operation	    | Vector	                |  Deque	           | List/Forward List	 | Set/Map            |
+  | -------------- | ----------------------- | ------------------ | ------------------- | ------------------ |
+  | Insert at end	| May invalidate all	    |  Invalidates end() | No invalidation	   | No invalidation    |
+  | Erase at end	  | Invalidates end()	      |  Invalidates end() | No invalidation	   | Invalidates erased |
+  | Mid-container	| Invalidates subsequent	|  Invalidates all	 | Invalidates erased	 | Invalidates erased |
+
+### Why Deque Differs from Vector
+- Deques use a segmented array structure, allowing growth at both ends without reallocating all elements. 
+- Vectors, being contiguous, require full reallocation when capacity is exceeded.
+
+### To avoid issues:
+- Reacquire iterators after modifications.
+- Prefer range-based for or algorithms like std::for_each when possible.
+- Use reserve() for vectors to minimize reallocations.
+
+
+## ✅ `std::unordered_set` 
 
 ### 🔑 Key Features
 - Stores **unique elements** in **no particular order**.
@@ -608,7 +689,7 @@ for (const auto& val : uset)
 - Useful for solving algorithm problems involving unique items.
 
 
-## `std::map`
+## ✅ `std::map`
 
 ### 🔑 Key Features:
 - Stores **key-value pairs** in **sorted order** by key.
@@ -719,7 +800,7 @@ int main() {
 - `operator[]` will **insert** the key with default value if it doesn’t exist.
 
 
-## `std::unordered_map` 
+## ✅ `std::unordered_map` 
 
 ### 🔑 Key Features
 - An **associative container** that stores elements in **key-value pairs** (`std::pair<const Key, T>`).
@@ -815,7 +896,7 @@ Empty? Yes
 - Count frequency of elements (`map[element]++`).
 - Grouping, mapping, or categorization tasks.
 
-## `std::multimap`
+## ✅ `std::multimap`
 
 ### 🔑 Key Features
 - Stores **key-value pairs**, like a `map`.
@@ -884,7 +965,7 @@ for (const auto& [key, value] : mm)
 // 1 => Avocado
 ```
 
-## `std::unordered_multimap` 
+## ✅ `std::unordered_multimap` 
 
 ### 🔑 Key Features
 - Stores **key-value pairs** with **duplicate keys allowed**.
@@ -956,7 +1037,7 @@ for (const auto& [key, value] : umm)
   | Underlying Structure	  | Balanced BST	               |  Hash Table                     |
   | Best Use Case	          | Ordered data with duplicates |	Fast access with duplicates    |
 
-## `std::multiset` 
+## ✅  `std::multiset` 
 
 ### 🔑 Key Features
 - A sorted associative container that allows duplicate elements.
@@ -1053,7 +1134,7 @@ if (it != ms.end())
 - Cannot modify elements directly — erase and reinsert to "modify".
 - All elements are automatically **sorted**, no need to call `sort()`.
 
-## `std::unordered_multiset` 
+## ✅ `std::unordered_multiset` 
 
 ### 🔑 Key Features:
 - Stores **unordered** collection of elements.
@@ -1148,7 +1229,7 @@ int main() {
 }
 ```
 
-## `std::stack` 
+## ✅ `std::stack` 
 
 ### 🔑 Key Features 
 - **LIFO (Last In, First Out)** data structure.
@@ -1234,7 +1315,7 @@ int main() {
 - Prefer `deque` or `vector` when you need random access or iteration.
 - `top()` is unsafe if the stack is empty — check `empty()` before calling it.
 
-## `std::queue`
+## ✅ `std::queue`
 
 ### 🔑 Key Features:
 - **FIFO (First In, First Out)** data structure.
@@ -1323,7 +1404,7 @@ int main() {
 - `front()` and `back()` are **unsafe** if the queue is empty — check `empty()` before using them.
 
 
-## `std::priority_queue` 
+## ✅ `std::priority_queue` 
 
 ### 🔑 Key Features:
 - Implements a Max-Heap by default (largest element at top).
@@ -1410,7 +1491,7 @@ int main() {
 
 - Ideal for problems involving **greedy algorithms, Dijkstra's shortest path**, etc.
 
-## `std::bitset` 
+## ✅ `std::bitset` 
 
 ### 🔑 Key Features:
 - Represents a fixed-size sequence of N bits.
@@ -1602,7 +1683,7 @@ To string:            10110101
 - For runtime-sized bit sequences, use `std::vector<bool>` or Boost’s `dynamic_bitset`.
 
 
-## `std::array` 
+## ✅ `std::array` 
 
 ### 🔑 Key Features:
 - Fixed-size **container** (like C-style arrays) but **with STL support**.
@@ -1673,7 +1754,7 @@ int main() {
 - Can be used with all standard algorithms (sort, find, etc.).
 - Supports aggregate initialization (`= {1, 2, 3}`).
 
-## `std::vector<bool>`
+## ✅ `std::vector<bool>`
 
 ### 🔎 What Is It?
 - A specialized version of std::vector that stores bool values efficiently by packing them as bits instead of separate bytes.
@@ -1756,7 +1837,7 @@ int main() {
   - Size is fixed at compile-time → use `std::bitset`.
 
 
-# STL Algorithms
+# ✅ STL Algorithms
 
 ## 🔧 Non-Modifying Sequence Algorithms
 - These algorithms inspect elements without altering them.
