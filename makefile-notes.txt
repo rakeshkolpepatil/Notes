@@ -17,8 +17,8 @@ ________________________________________________________________________________
 _____________________________________________________________________________________________________________________________________________________
      1.1] To tell make command ignore the erros and continue, compilation process use -i flag after make command.
 
-          If you want to skip over the failed builds. That is if you are building so many files and some of the files throw some 
-          error, in such cases compilation is aborted. so, if you do the following command compilation will continue till end.
+          If you want to skip over the failed builds. That is if you are building many files and some of them threw errors 
+          then in such cases compilation is aborted. so, if you use following command compilation will continue till end.
 
           make -i
 _____________________________________________________________________________________________________________________________________________________

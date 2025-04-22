@@ -121,26 +121,26 @@
                                   --until or -u       : To view logs before a specific timestamp
                                   docker logs <container_id> | grep <pattern>
 
-      docker exec -it <container_name> sh	                     :- Open a shell inside a running container. This executes the program like 'sh' specified 
-                                                                  in the command after running the container. 
-                                                                  '-it' switch stands for 'interactive terminal' which binds to terminal to the running container.
+      docker exec -it <container_name> sh	                      :-  Open a shell inside a running container. This executes the program like 'sh' specified 
+                                                                    in the command after running the container. 
+                                                                    '-it' switch stands for 'interactive terminal' which binds to terminal to the running container.
 
-      docker ps		                                             :- To list currently running containers
+      docker ps		                                              :-  To list currently running containers
       docker ps --all	
       (Or) docker ps -a
-      (Or) docker ps -q	                                       :- List all docker containers (running and stopped)
+      (Or) docker ps -q	                                        :-  List all docker containers (running and stopped)
 
-      docker diff                                              :- View the differences between the container's filesystem and its base image
-                                                                  Output indicates -
+      docker diff                                               :-  View the differences between the container's filesystem and its base image
+                                                                    Output indicates -
                                                                                     'A' for added files or directories
                                                                                     'C' for changed files or directories
                                                                                     'D' for deleted files or directories
 
-      docker container stats	                                  :- View resource usage stats
+      docker container stats	                                  :-  View resource usage stats
 
-      docker port <containerId>                                 :- Display the port mappings for the container with the ID 'containerId'
+      docker port <containerId>                                 :-  Display the port mappings for the container with the ID 'containerId'
 
-      docker rename Old_name New_name                           :- Rename the container named 'Old_name' to 'New_name'
+      docker rename Old_name New_name                           :-  Rename the container named 'Old_name' to 'New_name'
 
       docker commit ad9f71ce3a04 myNewImage:latest              :-  This command will create a new Docker image named 'myNewImage:latest' from the changes made to 
                                                                     the container with the ID 'ad9f71ce3a04'
@@ -164,8 +164,11 @@
                                                                     storage space that Docker might be using unnecessarily. 
                                                                     
                                                                     Using docker system prune -a can be quite destructive, especially on systems where multiple projects 
-                                                                    are using shared resources. It is advisable to ensure that no critical images or containers are inadvertently removed. 
-
+                                                                    are using shared resources. It is advisable to ensure that no critical images or containers are 
+                                                                    inadvertently removed. 
+                                                                  
+      docker container prune                                    :-  To remove stopped containers.
+      
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Docker Volumes  :- Nice Video for file sharing between computer and container - https://www.youtube.com/watch?v=gyddZyc8r48
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------

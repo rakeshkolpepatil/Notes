@@ -70,13 +70,11 @@
 </div> <br>
 
 - 'Dockerfile' (default name) is usually stored on version control systems such as github.
-- 'docker build' command is issued to the docker daemon - dockerd, which builds the image and stores it locally (on the host where your docker is running), 
-- 'docker push' command is issued to the docker daemon - docker, which pushes command from local registry to image registry such as DockerHub, 
-  Artifact registry, JFrog artifactory or Nexus registry.
-- 'docker pull' command is issued to the docker daemon - docker, on the machine where you want to run the container, which pulls the image from the global 
-  registries to the local registry.
-- 'docker run' command is issued to the docker daemon - docker, which instructs the 'container runtime' to spin up the container based on the image pulled 
-  and command issued to it.
+- 'docker build' command is issued to the docker daemon - dockerd, which builds an image from Dockerfile and stores it locally (on the host where docker is running), 
+- 'docker push' command is issued to the docker daemon - dockerd, which pushes image from the local registry to the image registry such as DockerHub /
+ Artifact registry / JFrog artifactory or Nexus registry.
+- 'docker pull' command is issued to the docker daemon - dockerd, on the machine where you want to run the container. It pulls the image from the global registry to the local registry.
+- 'docker run' command is issued to the docker daemon - dockerd, which instructs the 'container runtime' to spin up the container based on the image pulled and command issued to it.
   
 <br>
 <!-----------------------------------------------------------------------  This is comment   --------------------------------------------------------------------->
@@ -88,19 +86,18 @@
 ## <span style="color: #e1881c"> How to Dockerize a Project ? </span>
 - Go to [play-with-docker.com](https://labs.play-with-docker.com/) website and sign up using docker credentials. It will provide you with a sandbox 
   environment to do docker coding. Or else you can install Docker desktop on your machine and practice there.
-- 'docker build' while creating an image from the dockerfile, it creates images in layers and combines when required. While shipping i.e. pushing the images docker 
-  disintegrate the images into layers, ship them and again recombines them.
-- when you push the image using 'docker push' command, the image is compressed and stored on dockerhub.
+- While creating an image from a dockerfile, `docker build` command creates images in layers and combines when required. While shipping or pushing these images, docker disintegrates the images into layers, ships them and again recombines them.
+- when you push the image using `docker push` command, the image is compressed and stored on DockerHub.
 - Flow :- 
   1. Create docker file
-  2. Build the image from 'Dockerfile' using 'docker build' command 
-  3. Tag the image as per the repo name from 'dockerhub.com' 
+  2. Build the image from `Dockerfile` using `docker build` command 
+  3. Tag the image as per the repo name from `dockerhub.com`
   4. Login to docker from your terminal
-  5. Push the image to 'dockerhub.com'
-  6. You can pull this image from 'dockerhub.com' to your work environment
-  7. Check the downloaded images using 'docker images' command
-  8. Run the image to create a container using 'docker run' command, you can run in detached mode and also expose the container ports to host machine to access the app 
-  9. Run 'localhost:3000' in your browser to access the app.
+  5. Push the image to `dockerhub.com`
+  6. You can pull this image from `dockerhub.com` to your work environment
+  7. Check the downloaded images using `docker images` command
+  8. Run the image to create a container using `docker run` command, you can run in detached mode and also expose the container ports to host machine to access the app 
+  9. Run `localhost:3000` in your browser to access the app.
 - For docker commands check file 'Docker-commands.txt' file from notes.
 
 <br>

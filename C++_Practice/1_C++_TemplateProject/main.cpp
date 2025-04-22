@@ -1,7 +1,21 @@
 #include <iostream>
+#include <iomanip>   // for manipulators like setw, setprecision
+#include <unordered_map>
+#include <bits/stdc++.h>
+
+using namespace std;
 
 int main(){
-  auto result = (10 <=> 20) > 0;    // This syntax is used to check whether C++-20 is supported or not.
-  std::cout << result << std::endl;
+  unordered_map<int, int> ump;
+    int count = 0;
+    unsigned int A = 0;
+    unsigned int t;
+    t = A & (A-1);
+    cout << "A = " << A << ", (A-1) = " << A-1;
+    while(t){
+        count++;
+        t = A & (A-1);
+    }
+    cout << "\n count = " << count << endl;
+    cout << "HI" << endl;
 }
-

@@ -2463,6 +2463,7 @@
 1) Create Virtual environments using Anaconda and adding that virtual environment to the Jupyter Notebook.
 
     ◙ It is recommended to install packages using conda and not using pip.
+    
     ◙ conda create -n yourEnvName          
       (OR) conda create --name yourEnvName                          → Creates conda virtual environment with name 'yourEnvName'.
       (OR) conda create --name yourEnvName python=3.9 flask=2.1.3   → Creates conda virtual environment and install specified dependencies.
@@ -2473,7 +2474,10 @@
     ◙ conda install nameOfTheLibrary=2.1.3   → Install 2.1.3 version of library with name 'nameOfTheLibrary'.
     ◙ conda search nameOfTheLibrary          → Search the library with name 'nameOfTheLibrary'.
     ◙ conda list                             → Lists all the packages installed in the current conda virtual environment.
-
+    
+    ◙ conda env list                         
+      (OR) conda info --envs                 → Lists all conda virtual environments on your system.
+      
     ◙ All the dependencies of a virtual environment can be added inside a .yml file like below -
         1) vim requirements.yml  →  Open file
         2) Add following text to this file. 'name' is virtual environment name. Each dependency should have 2 leading spaces, 1 hyphen, 1 space 
@@ -2501,7 +2505,30 @@
 
     ◙ jupyter-lab  → This is command to launch jupyter Lab from the terminal (or) from python virtual environment.
 
-2) To create a python virtual environment for a new project follow this video - https://www.youtube.com/watch?v=RUGm1Lwc55s
+2) conda channels
+    - In Conda, channels are locations (URLs or directories) where packages are stored and managed. 
+    - When you install or update a package, Conda searches these channels to find the required package. 
+    - Channels allow users to access curated and community-maintained repositories of software packages.
+    e.g. - 
+        default     - channel is included by default in Conda installations, maintained by Anaconda, Inc., and is curated for stability and compatibility
+        
+        conda-forge, bioconda    - channels maintained by the community and often contain newer or specialized packages
+
+    - Channel Priority:
+      1. Conda prioritizes higher-ranked channels when resolving package versions.
+      2. You can configure strict channel priority to ensure that packages from lower-priority channels are ignored if they exist in higher-priority ones
+
+      conda config --show channels
+      conda config --add channels conda-forge           -> Add new channel, Adds 'conda-forge' to the list of channels.
+      conda config --set channel_priority strict        -> Ensures that packages from higher-priority channels are always preferred
+      conda install scipy -c conda-forge                -> Specify a channel for a single command using the -c option
+      conda install scipy -c conda-forge -c defaults    -> Explicitly prioritize channels during installation, the first channel has the highest priority.
+      conda config --prepend channels <channel>	        -> Add a channel with high priority globally.
+      conda config --append channels <channel>	        -> Add a channel with low priority globally.
+      conda config --show channels                      -> View your current channel configuration
+
+
+3) To create a python virtual environment for a new project follow this video - https://www.youtube.com/watch?v=RUGm1Lwc55s
 
     ◙ python -m venv pathToYourPythonProject/yourEnvironmentName →  Here, 'python -m venv' is a command for creating virtual environment where as 
                                                                     'venv' is the name of virtual environment which obviously you can change as per you     
