@@ -470,8 +470,11 @@ int main() {
     std::set<int> s = {10, 20, 30};
 
     s.insert(25);  // Inserts 25 into the set
-    s.insert(20);  // No effect, 20 already exists (duplicates not allowed)
 
+    // Returns a "pair< Iterator, bool>", 'bool' specified whether element was inserted or not.
+    auto res = s.insert(20);  // No effect, 20 already exists (duplicates not allowed) 
+
+    std::cout << std::boolalpha << "\n *res->first = " << res->first << " res->second = " << res->second << std::endl;
     s.erase(10);   // Removes element with value 10
 
     auto it = s.find(30); // Returns iterator to 30 if found, else s.end()
@@ -522,9 +525,9 @@ for (int val : s)
 - Set does not allow modification of existing elements via iterator. You must erase and reinsert.
 
 ### 📌 Use Cases
-- Store unique values in sorted order.
-- Remove duplicates from a collection.
-- Efficient membership testing (`find()` is faster than linear search).
+- **Store unique values in sorted order**.
+- **Remove duplicates** from a collection.
+- **Efficient membership testing** (`find()` is faster than linear search).
 
 
 ## ✅ STL Containers and `Iterator Invalidation` on Modification
@@ -718,11 +721,23 @@ for (const auto& val : uset)
   | `empty()`	       | Checks if container is empty                  |
   | `begin(), end()` | Iterators for traversal                       |
 
+### Difference Between `.at()` and `[]` in `std::map`
+
+#### `.at(key)`
+  - Provides bounds-checked access to the value associated with key.
+  - If key is not present, it throws a `std::out_of_range` exception, making it safer for lookups where accidental insertion is undesired.
+  - Can be called on a `const std::map`, returning a const reference.
+
+#### `operator[] (i.e., map[key])`
+  - If key exists, returns a reference to its value.
+  - If key does not exist, inserts a new element with that key and a default-constructed value, then returns a reference to it.
+  - Cannot be used on a `const std::map` because it may modify the container by inserting a new element.
+
 ### 📦 Declaration Styles:
 ```cpp
-std::map<int, std::string> m1;                       // empty map
-std::map<int, std::string> m2 = {{1, "a"}, {2, "b"}}; // initializer
-std::map<int, std::string> m3(m2);                    // copy constructor
+std::map<int, std::string> m1;                          // empty map
+std::map<int, std::string> m2 = {{1, "a"}, {2, "b"}};   // initializer
+std::map<int, std::string> m3(m2);                      // copy constructor
 ```
 
 ### 🧪 Example Code with Comments and Output:
@@ -748,9 +763,25 @@ int main() {
     // 2 => Cherry
     // 3 => Banana
 
-    // at(k): Access value (throws if key not present)
+    // Using Iterator to iterate over map.
+    for(auto it= myMap.begin(); it != myMap.end(); it++){
+      cout << it->first << " - " << it->second << ", " ;
+    }
+    cout << endl;
+
+    // Using `pair` to iterate over the map.
+    for(const auto& pair: m)
+      cout << pair.first << " - "<< pair.second << ", ";
+    cout << endl;
+
+    // at(k): Access value (throws `std::out_of_range` exception if key not present), 
+    // Safe lookup (no accidental insertion)
     std::cout << "Element at key 2: " << myMap.at(2) << "\n";
     // Output: Cherry
+
+    // Key Present - Returns reference to value, Key Absent - Inserts a new key with default value
+    // Lookup and insertion, Cannot be used on `const std::map`
+    std::cout << "Element at key 2: " << myMap[2] << "\n";
 
     // insert({k,v}): Insert new key-value pair
     myMap.insert({4, "Date"});
@@ -762,7 +793,7 @@ int main() {
     // Output: Key 3 found: Banana
 
     // count(k): Returns 1 if key exists
-    std::cout << "Count of key 5: " << myMap.count(5) << "\n";
+    std::cout << "myMap.count(5): " << myMap.count(5) << "\n";
     // Output: 0
 
     // erase(k): Removes key
@@ -843,6 +874,9 @@ int main() {
     if (umap.find("grape") == umap.end())
         std::cout << "grape not found\n"; // grape not found
 
+    // count(k): Returns 1 if key exists
+    std::cout << "umap.count("apple"): " << umap.count("apple") << "\n";
+
     std::cout << "Size: " << umap.size() << "\n"; // Size: 2
 
     umap.clear(); // Removes all elements
@@ -892,7 +926,7 @@ Empty? Yes
   ```
 
 ### 📌 Use Cases
-- Fast lookup with arbitrary keys (e.g. string, int).
+- Fast lookup with arbitrary keys (e.g. `string`, `int`).
 - Count frequency of elements (`map[element]++`).
 - Grouping, mapping, or categorization tasks.
 
@@ -1118,6 +1152,7 @@ int main() {
 ```cpp
 for (auto it = ms.begin(); it != ms.end(); ++it)
     std::cout << *it << " ";
+
 // Output (always sorted):
 // 20 30 40 40 40
 ```
@@ -1274,6 +1309,13 @@ int main() {
     st.push("second");
     st.push("third");
 
+    // Copy constructor
+    std::stack<int> s2(st);
+
+    // Or assignment
+    // std::stack<int> s2 = st;
+
+    // Now `s2` is a copy of `st`
     // Stack now: top -> "third", "second", "first"
 
     std::cout << "Top element: " << st.top() << "\n";
@@ -1399,7 +1441,7 @@ int main() {
 ```
 
 ### ⚠️ Tips:
-- No direct iteration is allowed. Use a loop that pops elements if needed.
+- `No direct iteration is allowed`. Use a loop that pops elements if needed.
 - Useful in **BFS algorithms**, **producer-consumer problems**, and **order processing**.
 - `front()` and `back()` are **unsafe** if the queue is empty — check `empty()` before using them.
 
@@ -1415,8 +1457,8 @@ int main() {
 
 ### 📦 Declaration:
 ```cpp
-std::priority_queue<int> pq;                              // max-heap (default)
-std::priority_queue<int, std::vector<int>, std::greater<>> min_pq; // min-heap
+std::priority_queue<int> pq;                                        // max-heap (default)
+std::priority_queue<int, std::vector<int>, std::greater<>> min_pq;  // min-heap
 ```
 
 ### 🛠️ Common Member Functions:
@@ -1757,17 +1799,18 @@ int main() {
 ## ✅ `std::vector<bool>`
 
 ### 🔎 What Is It?
-- A specialized version of std::vector that stores bool values efficiently by packing them as bits instead of separate bytes.
-- Optimized for memory, but behaves slightly differently from std::vector<T>.
+- A specialized version of `std::vector` that stores `bool` values efficiently by **packing them as bits instead of separate bytes**.
+- **Optimized for memory**, but behaves slightly differently from `std::vector<T>`.
 
 ### 🔑 Key Features
-Feature	Description
-Feature	Description
-Bit-packed	Stores values as bits (1 bit per bool), unlike other vector<T> types.
-Proxy reference	Returns a proxy object, not a real bool& reference.
-Space-efficient	Memory optimization — 8x smaller than vector<char> for boolean data.
-Slower access	Due to proxy-based element access.
-Caution with addresses	You cannot take address of an element using &vec[i].
+- 
+  | Feature	        | Description                                                            |
+  | --------------- | ---------------------------------------------------------------------  |
+  | Bit-packed	    | Stores values as bits (1 bit per bool), unlike other `vector<T>` types.|
+  | Proxy reference	| Returns a proxy object, not a real `bool&` reference.                  |
+  | Space-efficient	| Memory optimization — 8x smaller than `vector<char>` for boolean data. |
+  | Slower access	  | Due to proxy-based element access.                                     |
+  | Caution with    | addresses	You cannot take address of an element using `&vec[i]`.       |
 
 ### 📦 Declaration
 ```cpp
