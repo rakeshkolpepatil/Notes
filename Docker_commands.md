@@ -168,11 +168,10 @@
 
 - Once you create a docker file as described above inside a directory, to build it and create an image, execute following commands in same directory
   ```bash
-  docker build .                  :- '.' means 'Dockerfile' is present in the current directory. or else specify the path of the directory where 'dockerfile' 
-                                    is present. Create an image from docker file.
+  docker build .              # '.' means 'Dockerfile' is present in the current directory. or else specify the path of the directory where 'dockerfile' is present. Create an image from docker file.
 
-  docker image ls                 :- To list out the created images.
-  docker run <IMAGE_ID>           :- Command to create a container by running the image created by 'docker build .' command. 
+  docker image ls             # To list out the created images.
+  docker run <IMAGE_ID>       # Command to create a container by running the image created by 'docker build .' command. 
   ```
 
 ## CONTAINERS 
@@ -185,8 +184,10 @@
 
   # Get help with Docker. Can also use –help on all subcommands
   docker --help                                                 
-  (OR) docker ps --help                                         # Get help on 'ps' command of docker.
-  (OR) docker image --help                                      # Get help on 'image' command of docker.
+  # (OR) 
+  docker ps --help                                              # Get help on 'ps' command of docker.
+  # (OR) 
+  docker image --help                                           # Get help on 'image' command of docker.
   
   docker info                                                   # Display system-wide information
   docker stats                                                  # Display a live stream of resource usage statistics for running Docker containers. 
