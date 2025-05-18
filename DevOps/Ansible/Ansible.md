@@ -5,8 +5,10 @@
 - Ansible is open source tool which helps in following 3 tasks -
   1. **Software Installation** - With Ansible the task of software installation on various servers can be automated.
   2. **Server Configuration** - Helps in managing server configuration i.e. addition, updating or deletion of the server configuration.
-  3. **Deployment** - Helps in deployment of a web application on the server.
-
+  3. **Deployment** - Helps in deployment of a web application on the server in CI/CD pipeline.
+  4. **Provisioning** - Ansible can also be used for creating EC2 instances, s3 buckets or Azure Virtual machines like Terraform.
+  5. **Network Automation** - Ansible can also be used for Network automation.
+  
 <br> <div style="text-align: center;">
 <img src="images/Ansible1.png" alt="what is Ansible ?" style="width:60%; height:auto;"> 
 </div> <br>
@@ -17,7 +19,8 @@
 - CM tools ensure **consistency, reliability, and scalability** in managing server environments, particularly as the number of servers increases.
 
 ### 👨‍💻 Traditional Approach (Before DevOps)
-- Previously, **System Administrators** or **Build & Release Engineers** managed infrastructure manually. Their typical tasks included:
+- Previously, **System Administrators** or **Build & Release Engineers** managed infrastructure manually. 
+- Their typical tasks included:
 
   - Software installations
   - OS upgrades
@@ -42,7 +45,8 @@ With the adoption of **microservices architecture**, applications now run on **m
 | **Ansible** | **Red Hat**            |
 | SaltStack   | VMware (formerly Salt) |
 
-> Among these, **Ansible** has become the most popular due to its **simplicity, agentless architecture, and YAML-based syntax**.
+> Among these, **Ansible** has become the most popular due to its **simplicity, agentless architecture, and YAML-based syntax**. 
+> `Puppet` and `Chef` have steeper learning curve as they use Ruby language.
 
 
 ### 🥊 Puppet vs Ansible – Feature Comparison
@@ -72,6 +76,34 @@ With the adoption of **microservices architecture**, applications now run on **m
   - Limited debugging features
   - Performance may lag for very large-scale deployments
   - Logging and error handling can be improved
+- Shell and Python scripts can also be used for configuration management instead of Ansible if API integration is required like while interacting with Jira and Github.
+- Whereas Ansible is preferred over Shell and Python scripts as core skill of ansible is configuration management.
+- Though Ansible can also be used for provisioning infrastructure, `Terraform` should be preferred for this task as infrastructure provisioning is its core skill.  
+- Ansible requires `Python` to be installed on both `control node` and `managed nodes`, as it converts .yaml files into python modules and executes them to perform its tasks.
+- Any linux based machine or windows machine with WSL can be set as `Ansible control node`.
+- However, windows machine without WSL is not natively supported as control node.
+
+### Comparison with Shell Scripting
+- Shell Scripting works only for Linux.
+
+- Becomes complex and less readable(for non-experts) as the script size goes high.
+
+- **Idempotence and predictability**
+  - When the system is in the state your playbook describes `Ansible` **does not change anything**, even if the **playbook runs multiple times**.
+  - for example, run the below shell script twice and you will notice the script will fail. Which means **shell scripting is not idempotent in nature**.
+
+    ```
+    #/bin/bash
+    
+    set -e 
+    
+    mkdir test-demo
+    echo "hi"
+    ```
+
+- **Scalability and flexibility**
+  - Easily and quickly scale the systems you automate through a modular design that supports a large range of operating systems, cloud platforms, and network devices.
+
 
 ### 💼 Real-World Use Cases of Ansible
 1. **Provisioning** new cloud servers (e.g., AWS EC2)
@@ -81,186 +113,18 @@ With the adoption of **microservices architecture**, applications now run on **m
 5. **Multi-cloud infrastructure setup** from a single playbook
 
 
-## Day-14.2 | Answers to Ansible Interview Questions | DevOps FAQ | DevOps Interview Q&A
-
-### ❓ **What is Configuration Management?**
-- Configuration Management is the **automated process of managing and maintaining consistency of a system's configuration** (hardware, OS, software, network settings, etc.).
-- Manual setup or shell scripts are **error-prone and inefficient** in large-scale deployments.
-- Tools like Ansible, Puppet, and Chef are used to **automate, standardize, and enforce desired states** of infrastructure.
-
-### ❓ **Is Ansible better than other Configuration Management tools? If yes, why?**
-- Yes, Ansible has several advantages:
-
-  - **Agentless:** No need to install agents on target nodes. Uses standard SSH/WinRM.
-  - **Simple Syntax:** Uses **YAML** for playbooks (easy to learn and readable).
-  - **Python-Based:** Written in Python and easily extensible.
-  - **Backed by Red Hat:** Actively maintained and supported.
-  - **Cross-Platform Support:** Works on Linux and Windows.
-  - **Lightweight & Scalable:** Easy to get started but powerful for large environments.
-
-### ❓ **Write an Ansible Playbook to install and start `httpd` service (Apache)**
-- Step 1 : Install http service
-- Step 2 : Start http service
-- Step 3 : Start http service
-
-  ```yaml
-  ---
-  - name: Install and start Apache httpd service
-    hosts: webservers
-    become: true
-  
-    tasks:
-      - name: Install httpd
-        yum:
-          name: httpd
-          state: present
-  
-      - name: Start and enable httpd service
-        service:
-          name: httpd
-          state: started
-          enabled: yes
-  ```
-
-### ❓ **How has Ansible helped in your organization?**
-
-**Example scenario:**
-
-> In our organization, we used Ansible to automate provisioning of 50+ EC2 instances with required software stacks (Nginx, Docker, Prometheus). Manual setup used to take hours, but with Ansible playbooks, we reduced provisioning time to just a few minutes, with 100% consistency and zero configuration drift.
-
-### ❓ **What is Ansible Dynamic Inventory?**
-- Dynamic inventory allows Ansible to **automatically fetch hosts from cloud providers (e.g., AWS, Azure, GCP)** instead of manually listing them in `hosts` files.
-- Example: Use a Python script or AWS plugin to pull EC2 IPs with specific tags.
-- Useful in **auto-scaling environments** where IPs change frequently.
-- Ansible will track the EC2 instances that are being created and will auto-configure them.
-
-### ❓ **What is Ansible Tower? Have you used it?**
-- **Ansible Tower** is the **enterprise GUI and REST API** interface for Ansible by Red Hat.
-- Key Features:
-
-  - Visual dashboard
-  - Role-based access control (RBAC)
-  - Centralized logging & auditing
-  - Scheduling playbooks
-  - Integration with LDAP, GitHub, and external vaults
-- Yes, I’ve used Tower to provide **access control and scheduling** for multiple teams, avoiding manual CLI usage.
-
-### ❓ **How do you manage RBAC in Ansible Tower?**
-- Ansible Tower supports **granular RBAC** via user roles:
-
-  - **Admin**: Full control
-  - **Auditor**: Read-only
-  - **Operator**: Run existing playbooks
-- You can assign users/groups different **permissions per project, inventory, job template**, etc.
-- Integrates with **LDAP/AD** for centralized identity management.
-
-### ❓ **What is the `ansible-galaxy` command and why is it used?**
-- `ansible-galaxy` is a CLI tool to **download, create, share, and manage Ansible roles** from [Ansible Galaxy](https://galaxy.ansible.com/).
-- Example:
-
-  ```bash
-  ansible-galaxy install geerlingguy.apache
-  ```
-
-### ❓ **Explain the structure of an Ansible Playbook using Roles**
-- Ansible role structure:
-
-  ```
-  roles/
-    webserver/
-      tasks/
-      handlers/
-      files/
-      templates/
-      vars/
-      defaults/
-      meta/
-  ```
-
-- Usage in playbook:
-
-  ```yaml
-  - hosts: webservers
-    roles:
-      - webserver
-  ```
-
-> Roles promote **modularity, reusability, and clean organization** of complex playbooks.
-
-### ❓ **What are Handlers in Ansible and why are they used?**
-- Handlers are **tasks triggered only when notified** by another task.
-- Use-case: Restart service **only when a config file changes**.
-
-  ```yaml
-  - name: Copy config
-    copy:
-      src: my.conf
-      dest: /etc/my.conf
-    notify: Restart service
-  
-  handlers:
-    - name: Restart service
-      service:
-        name: myservice
-        state: restarted
-  ```
-
-### ❓ **How to run tasks on Windows VMs and not on Linux VMs?**
-- Use **`when` conditions** with **`ansible_os_family`** or **`ansible_system`** facts.
-
-  ```yaml
-  - name: Run on Windows only
-    win_shell: echo "Running on Windows"
-    when: ansible_system == "Windows"
-  ```
-
-### ❓ **Does Ansible support parallel execution of tasks?**
-- Yes. Ansible runs tasks **in parallel across multiple hosts** by default.
-- Parallelism is controlled using the `forks` setting in `ansible.cfg`.
-
-  ```ini
-  [defaults]
-  forks = 10
-  ```
-
-### ❓ **What is Variable Precedence in Ansible?**
-- Ansible resolves variables in the following order (high to low priority):
-
-  1. Extra vars (`ansible-playbook play.yml -e var=value`)
-  2. Task vars (set\_fact)
-  3. Block vars
-  4. Role defaults
-  5. Inventory vars
-  6. Playbook vars
-  7. Facts
-  8. Defaults (lowest)
-
-> The **last defined value with highest precedence** is the one applied.
-
-### ❓ **How does Ansible handle secrets?**
-- Ansible uses **Ansible Vault** to encrypt secrets like passwords or API keys.
-
-  ```bash
-  ansible-vault create secrets.yml
-  ansible-vault edit secrets.yml
-  ansible-playbook site.yml --ask-vault-pass
-  ```
-- Secrets can be embedded in vars files or role defaults securely.
-
-### ❓ **Can Ansible be used for Infrastructure as Code (IaC)?**
-- Yes. Ansible can **provision servers, install software, configure environments, and manage infrastructure states**, just like Terraform or CloudFormation.
-- While Terraform is declarative and focuses more on infrastructure provisioning, **Ansible can manage both provisioning and configuration**.
-
-<br>
-
 ## Day-15 | Ansible Zero to Hero 
 
 ### ✅ Install Ansible on Linux
   ```bash
-  sudo apt update                     # Update the package list
+  sudo apt update                    # Update the package list
   sudo apt install ansible -y        # Install Ansible
+  (OR)
+  pip install ansible                # If you are using python3 then you can use this command
+
   ansible --version                  # Check Ansible version and confirm installation
   ```
+- For editing ansible files use `VS Code editor` with `YAML` and `Ansible` extensions from Redhat enabled.
 
 ### 🧠 Basic Concepts
 - **Control Node**: The machine from which Ansible commands are run. It manages other nodes (target machines).
@@ -274,28 +138,63 @@ With the adoption of **microservices architecture**, applications now run on **m
 - You can also create a custom inventory file.
 - Inventory file stores IP addresses of the machines that need to be configured.
 
-#### **Example: `inventory`**
-
+#### **Example 1 : `inventory.ini`**
   ```ini
   [dbservers]
   172.31.62.28
   
   [webservers]
   172.31.62.100
+
+  [all:vars]
+  ansible_user=admin
+  ansible_ssh_private_key_file=/path/to/key
+  ```
+
+#### **Example 2 : `inventory.ini`**
+  ```ini
+  [dbservers]
+  ubuntu@172.31.62.28
+  
+  [webservers]
+  ubuntu@172.31.62.100
+
+  [all:vars]
+  ansible_ssh_private_key_file=/path/to/key
   ```
 
 ### ⚡ Ad-Hoc Commands
 - Ad-hoc commands are quick commands you run from the terminal.
 - Playbooks are the files written in Ansible which contain commands/instructions for configuring the servers.
 
+- Syntax for `Ansible Ad-Hoc Commands `
+  
   ```bash
-  ansible -i inventory all -m shell -a "touch filename"
+  ansible [inventoryFile] [-m module] [-a arguments_to_module] [servers_on_which_to_run_commands]
   ```
 
-- `-i inventory`: Specifies the inventory file.
-- `all`: Run the command on all hosts listed in inventory file.
-- `-m shell`: Use the shell module.
-- `-a`: Specify the shell command to execute, an argument to the module.
+- Example Commands
+  ```bash
+  # Create a file named 'filename'
+  ansible -i inventory all -m shell -a "touch filename"
+
+  # Ping each host from inventory file.
+  ansible -i inventory.ini -m ping all
+
+  # Execute the 'sudo apt update' command on all hosts.
+  ansible -v -i ./inventory.ini -m shell -a "sudo apt update" all
+
+  # Change the permissions, owner and group of the file
+  ansible webservers -m ansible.builtin.file -a "dest=/srv/foo/b.txt mode=600 owner=maya group=maya"
+
+  # Ensure a service is started on all webservers:
+  ansible webservers -m ansible.builtin.service -a "name=httpd state=started"
+  ```
+
+- `-i inventory` : Specifies the inventory file.
+- `all` : Run the command on all hosts listed in inventory file.
+- `-m shell` : Use the shell module.
+- `-a` : Specify the shell command to execute, an argument to the module.
 
 ### **Color Legend:**
 - The color of the Ansible command output tells about the status of the operation
@@ -362,7 +261,7 @@ Filename: `install_nginx.yml`
         enabled: yes
 ```
 ### 🧾 Inventory Entry for EC2 and categorizing servers in Inventory file 
-- Servers can be categorized from 'inventory' file as follows 
+- Servers can be categorized from 'inventory.ini' file as follows 
   
   ```ini
   [webservers]
@@ -374,7 +273,8 @@ Filename: `install_nginx.yml`
 - Now, Ansible command can be run on particular type of servers as follows -
 
   ```bash
-  ansible -i inventory webserver -m shell -a df
+  ansible -i inventory.ini webserver -m shell -a df
+  ansible -i inventory.ini -m ping all
   ```
 - Refer documentation for knowing more about Ansible modules and their arguments.
   
@@ -656,3 +556,174 @@ ansible all -i inventory -m ping
 - Always use `--become` for tasks requiring root.
 - Use `-k` for password-based SSH and `--ask-become-pass` if sudo password is required.
 - Use inventory groups to organize hosts by purpose.
+
+
+## Day-14 | Answers to Ansible Interview Questions | DevOps FAQ | DevOps Interview Q&A
+
+### ❓ **What is Configuration Management?**
+- Configuration Management is the **automated process of managing and maintaining consistency of a system's configuration** (hardware, OS, software, network settings, etc.).
+- Manual setup or shell scripts are **error-prone and inefficient** in large-scale deployments.
+- Tools like Ansible, Puppet, and Chef are used to **automate, standardize, and enforce desired states** of infrastructure.
+
+### ❓ **Is Ansible better than other Configuration Management tools? If yes, why?**
+- Yes, Ansible has several advantages:
+
+  - **Agentless:** No need to install agents on target nodes. Uses standard SSH/WinRM.
+  - **Simple Syntax:** Uses **YAML** for playbooks (easy to learn and readable).
+  - **Python-Based:** Written in Python and easily extensible.
+  - **Backed by Red Hat:** Actively maintained and supported.
+  - **Cross-Platform Support:** Works on Linux and Windows.
+  - **Lightweight & Scalable:** Easy to get started but powerful for large environments.
+
+### ❓ **Write an Ansible Playbook to install and start `httpd` service (Apache)**
+- Step 1 : Install http service
+- Step 2 : Start http service
+- Step 3 : Start http service
+
+  ```yaml
+  ---
+  - name: Install and start Apache httpd service
+    hosts: webservers
+    become: true
+  
+    tasks:
+      - name: Install httpd
+        yum:
+          name: httpd
+          state: present
+  
+      - name: Start and enable httpd service
+        service:
+          name: httpd
+          state: started
+          enabled: yes
+  ```
+
+### ❓ **How has Ansible helped in your organization?**
+
+**Example scenario:**
+
+> In our organization, we used Ansible to automate provisioning of 50+ EC2 instances with required software stacks (Nginx, Docker, Prometheus). Manual setup used to take hours, but with Ansible playbooks, we reduced provisioning time to just a few minutes, with 100% consistency and zero configuration drift.
+
+### ❓ **What is Ansible Dynamic Inventory?**
+- Dynamic inventory allows Ansible to **automatically fetch hosts from cloud providers (e.g., AWS, Azure, GCP)** instead of manually listing them in `hosts` files.
+- Example: Use a Python script or AWS plugin to pull EC2 IPs with specific tags.
+- Useful in **auto-scaling environments** where IPs change frequently.
+- Ansible will track the EC2 instances that are being created and will auto-configure them.
+
+### ❓ **What is Ansible Tower? Have you used it?**
+- **Ansible Tower** is the **enterprise GUI and REST API** interface for Ansible by Red Hat.
+- Key Features:
+
+  - Visual dashboard
+  - Role-based access control (RBAC)
+  - Centralized logging & auditing
+  - Scheduling playbooks
+  - Integration with LDAP, GitHub, and external vaults
+- Yes, I’ve used Tower to provide **access control and scheduling** for multiple teams, avoiding manual CLI usage.
+
+### ❓ **How do you manage RBAC in Ansible Tower?**
+- Ansible Tower supports **granular RBAC** via user roles:
+
+  - **Admin**: Full control
+  - **Auditor**: Read-only
+  - **Operator**: Run existing playbooks
+- You can assign users/groups different **permissions per project, inventory, job template**, etc.
+- Integrates with **LDAP/AD** for centralized identity management.
+
+### ❓ **What is the `ansible-galaxy` command and why is it used?**
+- `ansible-galaxy` is a CLI tool to **download, create, share, and manage Ansible roles** from [Ansible Galaxy](https://galaxy.ansible.com/).
+- Example:
+
+  ```bash
+  ansible-galaxy install geerlingguy.apache
+  ```
+
+### ❓ **Explain the structure of an Ansible Playbook using Roles**
+- Ansible role structure:
+
+  ```
+  roles/
+    webserver/
+      tasks/
+      handlers/
+      files/
+      templates/
+      vars/
+      defaults/
+      meta/
+  ```
+
+- Usage in playbook:
+
+  ```yaml
+  - hosts: webservers
+    roles:
+      - webserver
+  ```
+
+> Roles promote **modularity, reusability, and clean organization** of complex playbooks.
+
+### ❓ **What are Handlers in Ansible and why are they used?**
+- Handlers are **tasks triggered only when notified** by another task.
+- Use-case: Restart service **only when a config file changes**.
+
+  ```yaml
+  - name: Copy config
+    copy:
+      src: my.conf
+      dest: /etc/my.conf
+    notify: Restart service
+  
+  handlers:
+    - name: Restart service
+      service:
+        name: myservice
+        state: restarted
+  ```
+
+### ❓ **How to run tasks on Windows VMs and not on Linux VMs?**
+- Use **`when` conditions** with **`ansible_os_family`** or **`ansible_system`** facts.
+
+  ```yaml
+  - name: Run on Windows only
+    win_shell: echo "Running on Windows"
+    when: ansible_system == "Windows"
+  ```
+
+### ❓ **Does Ansible support parallel execution of tasks?**
+- Yes. Ansible runs tasks **in parallel across multiple hosts** by default.
+- Parallelism is controlled using the `forks` setting in `ansible.cfg`.
+
+  ```ini
+  [defaults]
+  forks = 10
+  ```
+
+### ❓ **What is Variable Precedence in Ansible?**
+- Ansible resolves variables in the following order (high to low priority):
+
+  1. Extra vars (`ansible-playbook play.yml -e var=value`)
+  2. Task vars (set\_fact)
+  3. Block vars
+  4. Role defaults
+  5. Inventory vars
+  6. Playbook vars
+  7. Facts
+  8. Defaults (lowest)
+
+> The **last defined value with highest precedence** is the one applied.
+
+### ❓ **How does Ansible handle secrets?**
+- Ansible uses **Ansible Vault** to encrypt secrets like passwords or API keys.
+
+  ```bash
+  ansible-vault create secrets.yml
+  ansible-vault edit secrets.yml
+  ansible-playbook site.yml --ask-vault-pass
+  ```
+- Secrets can be embedded in vars files or role defaults securely.
+
+### ❓ **Can Ansible be used for Infrastructure as Code (IaC)?**
+- Yes. Ansible can **provision servers, install software, configure environments, and manage infrastructure states**, just like Terraform or CloudFormation.
+- While Terraform is declarative and focuses more on infrastructure provisioning, **Ansible can manage both provisioning and configuration**.

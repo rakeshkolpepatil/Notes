@@ -105,9 +105,9 @@
   in each project again and again.
 
 - There are few websites where you can compile your C/C++ programs online 
-  1. Wandbox - You can choose compiler versions, C++ versions and share the code  
-  2. Coliru   
-  3. Compiler Explorer    
+  1. `Wandbox` - You can choose compiler versions, C++ versions and share the code  
+  2. `Coliru`   
+  3. `Compiler Explorer`    
 
 
 ##	Chapter 2: Diving in (1:43:01)
@@ -125,24 +125,25 @@
 - `Multiline`/`Block` comments can not be nested
 
 ###	Errors 
-1. Compilation Errors
-  - Compilation will fail. 
-  - Compiler will point out syntax errors.
+#### 1. Compilation Errors
+- Compilation will fail. 
+- Compiler will point out syntax errors.
     
-      ```TEXT
-      e.g. - 'missing semicolon ';' error'
-      ```
+    ```TEXT
+    e.g. - 'missing semicolon ';' error'
+    ```
 
-2. Runtime Error
-    - Program will crash at runtime
+#### 2. Runtime Error
+- Program will crash at runtime
 
-3. Warnings 
-  - Program compiles successfully, but compiler gives warnings regarding possible chances of program failure at runtime.
+#### 3. Warnings 
+- Program compiles successfully, but compiler gives warnings regarding possible chances of program failure at runtime.
 
 ###	Statements and functions 
-- A statement is a basic unit of computation in a C++ program
-- Every C++ program is a collection of statements organized in a certain way to achieve some goal.
-- Statements end with ';'
+- A statement is a **basic unit of computation** in a C++ program
+- Every **C++ program is a collection of statements** organized in a certain way to achieve some goal.
+
+- Statements end with `;`
 - Statements are executed from top to bottom when program is run.
 - Execution continues until there is a statement that causes the program to terminate, or run another sequence of statements.
 - `'Function'` is like a machine which takes some input (arguments) and gives an output.
@@ -164,25 +165,30 @@
 
 ###	Input and Output
 - In the following statement, the data `"Hi Rakesh"` is sent from the program to the standard output stream (`std::cout`), which typically displays text on the console.
+  
   ```cpp
   std::cout << "Hi Rakesh"; 
   ```
 ### Common I/O Streams in C++
 - C++ provides different I/O stream objects for different types of console input and output:
+  
   ```cpp
   std::cout  // Standard output (for general messages), printing to console
   std::cin   // Standard input (for reading user input), reading from console
   std::cerr  // Standard error (for displaying error messages), 
   std::clog  // Standard log (for diagnostic/logging messages)
   ```
-- Using separate output streams allows programs and developers to distinguish between normal output, error messages, and logs. 
+- Using separate output streams **allows programs and developers to distinguish between normal output, error messages, and logs**. 
+
 - For example, in a terminal or logging system, errors (`std::cerr`) can be redirected separately from standard output (`std::cout`).	
-- There are these many way of printing because different programs format these output streams differently.
+- There are these many ways of printing because different programs format these output streams differently.
 - These are the different ways of conveying the messages and intent behind them to the user.
 
 ### Chaining `std::cin` and `std::cout`  
 - You can chain multiple inputs and outputs in a single statement
+
 - Note: Chaining works left to right. Each input operator (>>) reads one token (space-separated word) at a time.
+
     ```cpp
     int age;
     std::string name:
@@ -199,36 +205,42 @@
   ```
 
 - If `std::getline` is used immediately after `std::cin >>`, use `std::cin.ignore()` before `std::getline()` to consume the leftover newline
+
   ```cpp
   std::cin.ignore(); 						// consume leftover newline
   std::getline(std::cin, fullName);
   ```
 
 - You can span `cout` or `cin` statements over multiple lines for clarity like below
+
   ```cpp
   cout << "Hello, " << name << "! You care " 
        << age << " years old." 
        << endl;
   ```
 
-- Line breaks in code don’t affect how the output is displayed; only the presence of \n or std::endl does.
+- Line breaks in code **don’t affect** how the output is displayed; only the presence of `\n` or `std::endl` does.
 
-###		C++ Program Execution Model and Memory Model
+###	C++ Program Execution Model and Memory Model
 - The C++ program is compiled into binary file which is loaded into RAM and executed by CPU by reading from RAM.
 
-##		C++ core language Vs Standard library Vs STL
-- C++ core language features define how variables, statements or function should be defined.
-- STL is a part of the C++ standard library but it is a collection of container types. It contains set of types which allows us to store collections, algorithms that work on these collections, and have specialized types called iterators.
+## C++ core language Vs Standard library Vs STL
+- **C++ core language features define** how **variables**, **statements** or **functions** should be defined.
+
+- **STL** is a part of the **C++ standard library** but it is a collection of container types. 
+- It contains set of types which allows us to store collections, algorithms that work on these collections, and have specialized types called iterators.
 - STL is specialized part of standard C++ library.
 
 ### 1. C++ Core Language
-- Defines the syntax and semantics of the C++ language (e.g., how to declare variables, write functions, control flow statements like if, while, for, etc.).
-- Covers fundamental types (int, char, bool, etc.), pointers, references, functions, templates, and basic memory management.
+- Defines the syntax and semantics of the C++ language (e.g., how to declare **variables**, **write functions**, **control flow statements** like `if`, `while`, `for`, etc.).
+- Covers fundamental types (`int`, `char`, `bool`, etc.), `pointers`, `references`, `functions`, `templates`, and `basic memory management`.
 
 ### 2. Standard Library
-- A collection of ready-to-use classes and functions built on top of the core language.
+- A collection of **ready-to-use classes** and **functions** built on top of the core language.
+
 - Includes
   1. I/O libraries (`iostream`, `fstream`, etc.)
+  
   2. String and character manipulation (`<string>`, `<cstring>`)
   3. Math utilities (`<cmath>`)
   4. Time functions, and more.
@@ -238,30 +250,30 @@
 - Composed of 
   
   1. **Containers** -  
-    vector, list, deque, set, map, etc.
+    `vector`, `list`, `deque`, `set`, `map`, etc.
   
   2. **Algorithms** -  
-    sort(), find(), accumulate(), etc.
+    `sort()`, `find()`, `accumulate()`, etc.
   
   3. **Iterators** -  
-    bridge between algorithms and containers.
+    Bridge between algorithms and containers.
   
   4. STL allows generic programming through templates.
 
 ### Fundamental Data Types in C++
   
--  Use auto when type inference makes code clearer, especially with iterators or complex types.
+-  Use `auto` keyword, when type inference makes code clearer, especially with iterators or complex types.
 
 -
-  |Type   |	Description                               |
-  |-------|	------------------------------------------|
-  |int    |	Integer (whole numbers)                   |
-  |float  |	Floating-point number (single-precision)  |
-  |double |	Double-precision floating-point number    |
-  |char   |	Character data                            |
-  |bool   |	Boolean values (true / false)             |
-  |void   |	No value / used in function return        |
-  |auto   |	Automatically deduce type (C++11+)        |
+  |Type     |	Description                               |
+  |-------- |	------------------------------------------|
+  |`int`    |	Integer (whole numbers)                   |
+  |`float`  |	Floating-point number (single-precision)  |
+  |`double` |	Double-precision floating-point number    |
+  |`char`   |	Character data                            |
+  |`bool`   |	Boolean values (true / false)             |
+  |`void`   |	No value / used in function return        |
+  |`auto`   |	Automatically deduce type (C++11+)        |
 
 
 ## Number system in C++
@@ -276,28 +288,31 @@
   cout<< "num4 = " << num4 << endl;
   ```
 - In computer, all the data is represented by a bunch of grouped cells `0's` and `1's` in memory.
+
 - As the range of your data grows so does the number of digits you need to represent the data in the memory.
 - `Hexadecimal system` makes it easier for humans to handle streams of data with `0's` and `1's`.
 - `Hexadecimal` is preferred for compact binary representation (1 hex digit = 4 bits).
 - `Octal` was historically used, but it's largely obsolete today. 
 
 ## `int` and Integer Initialization
-- variable is a named memory location that is used to store a specific type of data.
-- Declaring a variable means asking the OS to allocate memory for that type.
-- `int` stores `decimals` i.e. whole numbers.
-- typically occupies `4 bytes` or more in the memory.
+
+- A **variable** is a **named memory location** used to store a specific type of data.
+- **Declaring** a variable means requesting the operating system to allocate memory for that variable of the specified type.
+- The `int` type in C++ is used to store **integers** (i.e., whole numbers, both positive and negative, including zero).  
+
+- An `int` variable typically occupies **4 bytes** (32 bits) of memory on most modern systems, but the size can vary depending on the system and compiler.
 
 ### Initializing integer Variables - braced initialization (Uniform Initialization - C++11)
 
-- Use braced initialization to prevent narrowing conversions and uninitialized variables.
+- Use **braced initialization** to prevent **narrowing conversions** and **uninitialized variables**.
 
   ```cpp
   // Variable may contain some random garbage value. Warning
 
   int elephant_count;           // May contain garbage value
-  int lion_count {};  					// Initializes the variable to 0
-  int dog_count {10}; 					// Initializes the variable to 10
-  int cat_count {15}; 					// Initializes the variable to 15
+  int lion_count {};            // Initializes the variable to 0
+  int dog_count {10};           // Initializes the variable to 10
+  int cat_count {15};           // Initializes the variable to 15
 
   // can use expression as initializer
   int domesticated_animals = {dog_count + cat_count};        // OK
@@ -310,9 +325,9 @@
   ```
 
 ### Initializing integer Variables - functional variable initialization
-
 - In functional variable initialization we use parenthesis instead of curly braces for initialization.
-- ⚠️ No narrowing check here – functional and assignment initialization allow implicit narrowing.
+
+- `⚠️ No narrowing check here` – **functional** and **assignment initialization allow implicit narrowing.**
 
   ```cpp
   int apple_count(5)
@@ -325,7 +340,7 @@
   ```
 
 ### Initializing integer Variables - assignment initialization
-- Assignment initialization allow implicit narrowing.
+- **Assignment initialization allow implicit narrowing**.
   
   ```cpp        
   cout << "\n---------- Integer variable initialization ---------" << endl;
@@ -338,7 +353,7 @@
   ```
 
 ### `sizeof()` function returns the size of the argument in bytes
-- `sizeof()` returns the number of bytes occupied by a type or variable.
+- `sizeof()` returns the number of bytes occupied by a **type** or **variable**.
 - Use it to write portable code, especially in low-level or embedded C++.
 
   ```cpp 
@@ -348,7 +363,7 @@
 
 ### Integer modifiers
 - C++ provides type modifiers to control the size and range of integer types. 
-- These modifiers are applied only to integral types (like int, short, long), not to floating-point types.
+- These modifiers are applied only to integral types (like `int`, `short`, `long`), **not to floating-point types**.
 
 - **signed int**   
   ```cpp
@@ -398,29 +413,27 @@
   unsigned long long,
   unsigned long long int,
   ```
-- These modifiers are applicable only to integral type: those in which you can store decimal numbers.
-- From C++14 or newer compilers, apostrophes (`'`) can be used to improve the readability of large numeric literals.
+
+- These type modifiers are applicable only to integral type: those in which you can store integer numbers.
+- `From C++14` or newer compilers, `apostrophes` (`'`) can be used to improve the readability of large numeric literals.
   
   ```cpp
   long long int a = 100'000'000'000'000;
   ```
 
 ## Fractional Numbers/ Floating Point Numbers
-- Used to represent real numbers (numbers with fractional parts) in C++
+- **Used to represent real numbers (numbers with fractional parts) in C++**
+
 - There are 3 types of fractional numbers
-  ```cpp
-  1. float        : 4 bytes   	 : recommended 7 precision by default
-  2. double				: 8 bytes			 : recommended 15 precision  by default
-  3. long double  : 12/16 bytes  : more precision than double
-  ```
-- 
-  |Type         |	Typical Size|	Precision (digits) |	Notes               |
-  |------------ |	------------|	-------------------| -------------------  |
-  |float        |	4 bytes     |	~7 digits	         | Single precision     |
-  |double       |	8 bytes     |	~15 digits         | Double precision     |
-  |long  double |	12/16 bytes |	15+ digits         | Extended precision   |
+
+  |Type          | Typical Size |	Precision (total digits in number ) |	Notes               |
+  |------------- | ------------ | ----------------------------------- |-------------------  |
+  |`float`       | 4 bytes      |	~7 digits                           | Single precision    |
+  |`double`      | 8 bytes      |	~15 digits                          | Double precision    |
+  |`long double` | 12/16 bytes  |	15+ digits                          | Extended precision  |
 
 ### Declaration and Initialization of floating point variables
+- 
   ```cpp
   float number1 {1.12345546467467456f};            // 'f' is optional but clarifies it's float
   double number2 {1.423556567754534523};
@@ -437,8 +450,9 @@
 
 ### Scientific Notation (Exponential Form) 
 - Use `e` or `E` to represent powers of 10. 
+
 - scientific notation - `e8` means `10^8`, `e-11` means `10^-11`
-- The number5, number6 and number7 are roughly the same.
+- The `number5`, `number6` and `number7` are roughly the same.
   
   ```cpp
   double number5 {192400023};
@@ -446,15 +460,16 @@
   double number7 {1.924e8};
   ```
 
-- The number8 and number9 are roughly the same.
+- The **number8** and **number9** are roughly the same.
   
   ```cpp
   double number8 {0.00000000003948};
   double number9 {3.948e-11};
   ```
 
-- IEEE 754 standard is followed to represent the floating point numbers in binary format.
-- Narrowing errors will happen when user tries to assign bigger numbers than those supported by the data type.
+- **IEEE 754 standard** is followed to **represent the floating point numbers in binary format**.
+
+- Narrowing errors happen **when user tries to assign bigger numbers than those supported by the data type**.
 - Precision for `float` should be 7 digits i.e. it can handle at max 7 digits including before and after decimal point.
 - `double` can handle 15 digits precision safely 
 - `long double` can handle 15+ digits precision safely (varies by compiler)
@@ -474,7 +489,7 @@
   
 2. When you combine `std::setprecision()` with `std::fixed`, the `setprecision` value now controls the number of digits after the decimal point, rather than the total number of significant digits.
   
-3. `#include <iomanip>` - Do not forget to add this library if you want to use setprecision() function.
+3. `#include <iomanip>` - **Do not forget to add this** library if you want to use **setprecision()** function.
 
     ```cpp
     #include <iostream>
@@ -500,10 +515,10 @@
     //         123.45679
     ```	
 
-### Special Behavior of Floating Point Numbers (vs Integers)
-- There are few things that you can do with floating point numbers that can not be done with integers such as
+### `Special Behavior of Floating Point Numbers (vs Integers)`
+There are few things that you can do with floating point numbers that can not be done with integers such as
 
-1. Diving by zero -  
+#### 1. Diving by zero -  
 - In integer arithmetic, division by zero causes a runtime error or crash.
 - In floating-point arithmetic, dividing by zero yields Infinity (positive or negative):
   
@@ -520,7 +535,7 @@
 -  The result depends on the sign of the numerator.
 
 
-2. Zero Divided by Zero  
+#### 2. Zero Divided by Zero  
 - This operation is undefined in mathematics.
 - In C++, when using floating-point types, this yields `NaN` (Not a Number), not a crash:
 - A `0` floating point number can be divided by another `0` floating point number. 

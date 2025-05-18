@@ -149,14 +149,31 @@ ping localhost
 ### ✅ **Use `ssh-copy-id` When:**
 - You already have a public key (`~/.ssh/id_rsa.pub`) and want to **enable passwordless SSH login** to a remote server.
 - It **appends** your public key to the remote user’s `authorized_keys` file inside `/home/user/.ssh/` safely.
-- Example:
+- Example 1:
 
     ```bash
     ssh-copy-id user@remote-server
     # You will enter the remote password once; after that, SSH becomes passwordless.
     ```
 
+- Example 2:
+  
+  ```
+  # IdentityFile should be 'private key'
+  ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
+  
+  # OR 
+  ssh-copy-id -f -o IdentityFile=~/.ssh/mykey user@hostname
+
+  # OR = copy key for the AWS server for setting up passwordless server access. Generate 'AnsibleNode1.pem' file while creating EC2 instance. 
+  ssh-copy-id -f -o IdentityFile=/mnt/c/Users/John/aws_server/AnsibleNode1.pem  ubuntu@172.90.91.150
+  ```
+
+  - `ssh-copy-id` : This is the command used to copy your public key to a remote machine.
+  - `-f` : This flag forces the copying of keys, which can be useful if you have keys already set up and want to overwrite them.
+  - `"-o IdentityFile <PATH TO PEM FILE>"` : This option specifies the identity file (private key) to use for the connection. The -o flag passes this option to the underlying ssh command.
+  - `ubuntu@<INSTANCE-IP>` : This is the username (ubuntu) and the IP address of the remote server you want to access.
+
 ### 🔁 **Typical Workflow:**
 1. Generate key with `ssh-keygen` (once per machine).
 2. Copy key to server with `ssh-copy-id`.
-
