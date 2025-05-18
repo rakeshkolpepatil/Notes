@@ -519,8 +519,8 @@
 There are few things that you can do with floating point numbers that can not be done with integers such as
 
 #### 1. Diving by zero -  
-- In integer arithmetic, division by zero causes a runtime error or crash.
-- In floating-point arithmetic, dividing by zero yields Infinity (positive or negative):
+- In **integer arithmetic, division by zero causes a runtime error or crash**.
+- In **floating-point arithmetic, dividing by zero yields Infinity (positive or negative)**:
   
   ```cpp
   n(floating point number)/0 = (+/-) Infinity  
@@ -534,9 +534,8 @@ There are few things that you can do with floating point numbers that can not be
   ```
 -  The result depends on the sign of the numerator.
 
-
 #### 2. Zero Divided by Zero  
-- This operation is undefined in mathematics.
+- This operation is **undefined in mathematics**.
 - In C++, when using floating-point types, this yields `NaN` (Not a Number), not a crash:
 - A `0` floating point number can be divided by another `0` floating point number. 
 
@@ -546,30 +545,32 @@ There are few things that you can do with floating point numbers that can not be
   ```
 
 ### Type Suffixes for Floating-Point Literals
-- If no suffix is used, a floating-point literal is considered a double by default.
-- You must use suffixes to specify the intended type explicitly.
+- If no suffix is used, **a floating-point literal is considered a double by default**.
+- You **must use suffixes to specify the intended type** explicitly.
 
-  |Suffix  |	Type        |	Example                   |
-  |------- |------------- |---------------------------|
-  |   f    |	float	      | float num = 3.14f;        |
-  | (none) |	double      |	double num = 3.14;        |
-  |    L   |	long double	| long double num = 3.14L;  |
+  | Suffix  |	Type        |	Example                   |
+  |---------|-------------|---------------------------|
+  |   `f`   |	float	      | float num = 3.14f;        |
+  | `(none)`|	double      |	double num = 3.14;        |
+  |    `L`  |	long double	| long double num = 3.14L;  |
 
 - Double data type works very well in many situations, so it is more often used.
 
   ```cpp
   float num1 {1.123456789010f};
-  float num2 {1.1234567890190};     // No suffix is used, so '1.12345678901d234567890' is considered as 'double'     
+  float num2 {1.1234567890190};           // No suffix is used, so '1.12345678901d234567890' is considered as 'double'     
 
-  double num3 {1.12345678901890};   // No suffix is used so the number is assumed as 'double' and anyways we want it to be double.
+  double num3 {1.12345678901890};         // No suffix is used so the number is assumed as 'double' and anyways we want it to be double.
 
   long double num4 {1.12345678901890L};
   long double num5 {1.123456789017890};   // No suffix is used, so '1.12345678901d234567890' is considered as 'double' 
   ```	
+
 - Narrowing warnings/errors occur when using braced initialization with a double literal assigned to a float.
 
 ### Float Precision Issues
 - `float` provides only about 7 digits of precision.
+
 - This precision is too limited to handle lot of common applications.
 - Using values with more digits can result in narrowing conversions or truncated data.
   
@@ -590,39 +591,141 @@ There are few things that you can do with floating point numbers that can not be
 
 - A bool typically occupies 1 byte (8 bits) in memory, even though it only needs 1 bit to store its value.
 - Though a byte of memory can store 256 different values, storing just two is a waste of resources especially in case of devices with hard memory constraints, such as embedded devices.
+
 - ⚠️ This can lead to memory inefficiency on devices with limited resources (e.g. embedded systems).
-- Techniques such as bit-fields and bit manipulation can be used to pack multiple boolean values into a single byte.
+- Techniques such as `bit-fields` and `bit manipulation` can be used to pack multiple boolean values into a single byte.
 - When printing a boolean:
 
-  - By default, true prints as 1 and false as 0:
+  - By default, `true` prints as `1` and `false` as `0`:
 
     ```cpp
     std::cout << true << " " << false << std::endl;  // Output: 1 0
     ```
 
-  - Use std::boolalpha to print true / false as text:
+  - Use `std::boolalpha` to print `true` / `false` as text:
 
     ```cpp
     std::cout << std::boolalpha;
     std::cout << true << " " << false << std::endl;  // Output: true false
     ```
 
-- Similarly, you can revert to numeric output using std::noboolalpha.
+- Similarly, you can revert to numeric output using `std::noboolalpha`.
+  
+  ```cpp
+  std::cout << std::noboolalpha;
+  std::cout << true << " " << false << std::endl;    // Output: 1 0
+  ```
 
+### **1. Using Bit-Fields**
+`Bit-fields` allow you to explicitly specify how many bits a `struct`/`class` member should occupy. For example:
+
+  ```cpp
+  struct PackedBools {
+      unsigned int flag1 : 1;  // 1 bit for flag1
+      unsigned int flag2 : 1;  // 1 bit for flag2
+      unsigned int flag3 : 1;  // 1 bit for flag3
+      // ... up to 8 flags
+  };
+  ```
+
+- **Size:** `sizeof(PackedBools)` will typically be **1 byte** (if all members are `unsigned int` and `total bits ≤ 8`).
+- **Access:**
+  
+  ```cpp
+  PackedBools flags;
+  flags.flag1 = true;
+  flags.flag2 = false;
+  ```
+
+#### ⚠️ **Caveats:**
+- **Compiler-dependent packing**: The C++ standard allows compilers to pad bit-fields. Use `#pragma pack(1)` to enforce tight packing if needed.
+- Avoid mixing types (e.g., `bool` and `int`) in bit-fields, as this can lead to unexpected padding.
+- **Bit-fields may be slower** due to extra instructions for bit masking.
+
+### **2. Using `std::bitset`**
+- For a safer and more portable approach, use `std::bitset`:
+
+  ```cpp
+  #include <bitset>
+  
+  std::bitset<8> flags;     // 8 bits (1 byte)
+  
+  flags.set(0, true);       // Set bit 0 (flag1)
+  flags.set(1, false);      // Set bit 1 (flag2)
+  bool val = flags.test(0); // Read bit 0
+  ```
+
+- **Advantages:** Portable, no manual bit manipulation, supports dynamic operations.
+
+### **3. Manual Bit Manipulation**
+- Use bitwise operations to `pack`/`unpack` booleans into a single byte:
+  
+  ```cpp
+  unsigned char flags = 0;
+  
+  // Set bit 0 (flag1)
+  flags |= (1 << 0);        // Set to 1 (true)
+  
+  // Reset bit 1 (flag2)
+  flags &= ~(1 << 1);       // Set to 0 (false)
+  
+  // Read bit 0
+  bool flag1 = (flags & (1 << 0)) != 0;
+  ```
+
+- **Advantages**: Full control, no padding issues.
+- **Disadvantages**: More error-prone.
+
+#### Key Considerations
+- **Portability** : Use CHAR_BIT (from `<climits>`) to check if a byte is 8 bits on your system.
+- **Efficiency** : `Bit-fields` and `std::bitset` trade memory efficiency for slightly slower access.
+- **Use Cases** : Ideal for embedded systems, network protocols, or large boolean arrays.
+
+### **Example with Bit-Fields and `std::bitset`:**  
+
+  ```cpp
+  #include <iostream>
+  #include <bitset>
+  
+  struct PackedBools {
+      unsigned int flag1 : 1;
+      unsigned int flag2 : 1;
+      // ...
+  };
+  
+  int main() {
+      PackedBools b;
+      b.flag1 = true;
+      b.flag2 = false;
+      std::cout << "Size: " << sizeof(b) << " byte\n";                     // Output: 4 byte
+      std::cout << "PackedBools: " << static_cast<bool>(b.flag1) << "\n";  // PackedBools: 1
+      std::cout << "PackedBools: " << b.flag2 << "\n";                     // PackedBools: 0
+      
+      std::bitset<8> flags;
+      flags.set(0, true);
+      std::cout << "Flags: " << flags << "\n";                             // Output: 00000001
+  }
+  ```
+
+### **Final Recommendation:**  
+- Use `std::bitset` for most cases (simpler and safer). 
+- Use `bit-fields` or manual bit manipulation only when you need explicit control over memory layout.
 
 ## Characters
-- are defined by 'char' keyword
+- are defined by `'char'` keyword
+  
   ```cpp
   char letter = 'A';
   ```
 
-- A single char occupies `1 byte` in memory allowing it to store '256' values in total (0 to 255). 
-- This is based on 'ASCII' encoding where each combination of 8 bits in a byte represents a separate character.
+- A single char occupies `1 byte` in memory allowing it to store `'256'` values in total (`0` to `255`). 
+- This is based on `'ASCII'` encoding **where each combination of 8 bits in a byte represents a separate character**.
 
 ### ASCII Basics
 - ASCII maps numeric codes to characters (e.g., `65` = `'A'`, `97` = `'a'`, `48` = `'0'`).
+
 - You can assign a numeric value to a `char` and print it
-- You can also print the ascii value associated with the character by using 'static_cast' method.
+- You can also print the ascii value associated with the character by using `'static_cast'` method.
   
   ```cpp
   char a = 65;
@@ -632,10 +735,12 @@ There are few things that you can do with floating point numbers that can not be
 
 ### Unicode & UTF-8
 - `ASCII` only supports English characters and basic symbols.
+
 - For international characters (e.g., Hindi, Marathi, Japanese), we use `Unicode encodings` like `UTF-8`.
 - `UTF-8` is a variable-length encoding system that can store thousands of characters (emojis, scripts, symbols) and is widely used in modern applications.
 - ⚠️ To handle non-ASCII characters in C++, you may need:
   - `wchar_t` or `char16_t`, `char32_t` for wide characters.
+
   - Proper console/font support.
   - String literals like `u8"…"`, `u"…"`, or `U"…"`.
   - `std::wstring`, `std::u16string`, etc.
@@ -643,6 +748,7 @@ There are few things that you can do with floating point numbers that can not be
 
 ## `std::string` vs `std::string_view`  
 - In C++, both `std::string` and `std::string_view` are used to represent sequences of characters. 
+
 - However, they differ significantly in `ownership`, `mutability`, `performance`, and use cases.
 
 1. `std::string`  
@@ -650,24 +756,24 @@ There are few things that you can do with floating point numbers that can not be
     |  Aspect				 |	Description                                                      |
     |--------------------|----------------------------------------------------------------------------------------------------------------------------------|
     |  Definition				 |	A dynamically allocated, mutable string class that manages its own memory.                                                      |
-    |  Ownership				 |	`'std::string'` owns the string data it holds. When you create a `'std::string'`, it allocates memory to store the characters.          |
-    |  Mutability				 |	`Fully mutable` - You can modify the contents of a `'std::string'` (e.g., append, erase, replace characters).                                               |
-    |  Memory Management |	Performs dynamic memory allocation and deallocation. Copies involve deep copying of the string data.                                                              |
+    |  Ownership				 |	`'std::string'` owns the string data it holds. When you create a `'std::string'`, it allocates memory to store the characters.  |
+    |  Mutability				 |	`Fully mutable` - You can modify the contents of a `'std::string'` (e.g., **append**, **erase**, **replace** characters).       |
+    |  Memory Management |	Performs dynamic memory allocation and deallocation. Copies involve deep copying of the string data.                            |
     |  Performance			 |	Since it involves dynamic memory allocation, it can be `relatively slower`, especially when copying or passing strings by value.  Use references (`const std::string&`) for performance. |
-    |  Use Case					 |	Use `'std::string'` when you need to own and modify the string, or when you need to store a string for a longer duration.         |
+    |  Use Case					 |	Use `'std::string'` when you need to own and modify the string, or when you need to store a string for a longer duration.       |
     
 
 2. `std::string_view` 
     
     |	Aspect					     | Description.                                        |
     |----------------------| ----------------------------------------------------|
-    |	Definition					 | A lightweight, non-owning read-only view of a character sequence — typically over a std::string, C-string, or character array. Introduced in C++17.                                        |
-    |	Ownership						 | `'std::string_view'` does not own the string data. It simply points to an existing character sequence, meaning it references memory owned by someone else.  |
-    |	Mutability					|	`Immutable` - You cannot modify the contents of a `'std::string_view'`. It is a `read-only` view.                                                                                    |
-    |	Memory Management    |  `No Memory Allocation or Deallocation`. `'std::string_view'` does not allocate or manage memory, making it lightweight and efficient for passing around string data without copying.                         |
-    |	Performance					 | Much faster than `'std::string'` when passing or using substrings since it avoids memory allocation and copying.                                                     |
-    |	Safety							 | You must be cautious when using `'std::string_view'` to ensure the underlying data it references remains valid during the lifetime of the `'string_view'`. If the underlying string is destroyed, the `'string_view'` becomes a dangling reference.                                                                             |
-    |	Use Case						 | Use `'std::string_view'` when you need to efficiently pass or access a string without copying, especially for temporary operations, string parsing, or read-only scenarios. |
+    |	Definition           | A lightweight, non-owning read-only view of a character sequence — typically over a `std::string`, `C-string`, or `character array`. **Introduced in C++17**.                       |
+    |	Ownership            | `'std::string_view'` does not own the string data. It simply points to an existing character sequence, meaning it references memory owned by someone else.                          |
+    |	Mutability           |	`Immutable` - You cannot modify the contents of a `'std::string_view'`. It is a `read-only` view.                                                                                    |
+    |	Memory Management    |  `No Memory Allocation or Deallocation`. `'std::string_view'` does not allocate or manage memory, making it lightweight and efficient for passing around string data without copying. |
+    |	Performance          | Much faster than `'std::string'` when passing or using substrings since it avoids memory allocation and copying. |
+    |	Safety               | You must be cautious when using `'std::string_view'` to ensure the underlying data it references remains valid during the lifetime of the `'string_view'`. If the underlying string is destroyed, the `'string_view'` becomes a dangling reference.|
+    |	Use Case             | Use `'std::string_view'` when you need to efficiently pass or access a string without copying, **especially for temporary operations, string parsing, or read-only scenarios**. |
 
 3. `Key Differences`  
 
@@ -677,7 +783,7 @@ There are few things that you can do with floating point numbers that can not be
     |	Mutability						| Mutable																		| Immutable                             |
     |	Memory Management			| Manages Allocation and Deallocation 			| No memory allocation                  |
     |	Performance						| Can be slower due to allocation						| Lightweight and efficient             |
-    |	Safety								| Safe, self-contained											| Risky if used after source is invalidated, dangling refs  |
+    |	Safety								| Safe, self-contained											| Risky if used after source is invalidated, `dangling refs`  |
     |	Use Case							| When you need to own/modify	strings				| When only viewing or parsing strings  |
 
     ```cpp
@@ -687,9 +793,10 @@ There are few things that you can do with floating point numbers that can not be
 
     int main() {
         std::string str = "Hello, world!";
+
         // std::string (owns and manages the string)
         std::string str_copy = str;
-        str_copy[0] = 'h';  									                          // Can Mutate the string
+        str_copy[0] = 'h';                                              // Can Mutate the string
         std::cout << "Modified copy: " << str_copy << std::endl;        // Output - Modified copy: hello, world!
     
         // std::string_view (non-owning view)
@@ -706,15 +813,16 @@ There are few things that you can do with floating point numbers that can not be
     ```
 
   -	In above example:
-      
-    `'str_copy'` is a deep copy of the string and can be modified.
-    `'str_view'` is a non-owning view of the original `'str'`, and changes to `'str'` would reflect in `'str_view'`, but you cannot modify `'str_view'` itself.
+    - `'str_copy'` is a deep copy of the string and can be modified.
+    - `'str_view'` is a non-owning view of the original `'str'`, and changes to `'str'` would reflect in `'str_view'`, but you cannot modify `'str_view'` itself.
 
-### Important Notes on std::string_view
-- Does not perform bounds checking — slicing outside valid range is undefined behavior.
+### Important Notes on `std::string_view`
+- Does not perform bounds checking — **slicing outside valid range is undefined behavior**.
 - Be careful not to return or store a `string_view` referencing a local `std::string` (which will go out of scope).
+
 - Use `std::string_view` in APIs where:
   - Performance is critical
+
   - You want to accept inputs from different sources (`std::string`, `C-string`, etc.)
   - You don't need to modify the string
 
@@ -724,50 +832,50 @@ There are few things that you can do with floating point numbers that can not be
 ### `Comparison Table`
 
   | Feature / Aspect      | `std::string`                        | `std::string_view`                      | `const char*` (C-style string)            |
-  |----------------------|--------------------------------------|-----------------------------------------|-------------------------------------------|
+  |----------------------|--------------------------------------|----------------------------------------- |-------------------------------------------|
   | **Ownership**         | Owns the string data                 | Does not own                            | Does not own                              |
   | **Mutability**        | Mutable                              | Immutable (read-only view)              | Mutable (but should treat `const char*` as immutable) |
   | **Null-termination**  | Not required                         | Not required                            | Required (`\0` marks end of string)       |
   | **Memory Management** | Handles allocation/deallocation      | No allocation                           | Must be managed manually (prone to leaks) |
-  | **Safety**            | Safe and RAII-compliant              | Dangerous if original data goes out of scope | Dangerous if memory is not properly managed |
-  | **Performance**       | Slower than `string_view` due to copying | Very fast (no copy)                   | Fast (if managed carefully)               |
-  | **Interoperability**  | Can be converted to/from C-strings   | Can view C-strings or `std::string`     | Low-level C functions                     |
-  | **Best Use Case**     | When you need ownership or mutation  | When passing substrings or read-only views | Interfacing with C APIs or legacy code   |
+  | **Safety**            | Safe and RAII-compliant              | Dangerous if original data goes out of scope | Dangerous if memory is not properly managed      |
+  | **Performance**       | Slower than `string_view` due to copying | Very fast (no copy)                   | Fast (if managed carefully)                         |
+  | **Interoperability**  | Can be converted to/from C-strings   | Can view `C-strings` or `std::string`     | Low-level C functions                               |
+  | **Best Use Case**     | When you need ownership or mutation  | When passing `substrings` or `read-only` views | Interfacing with **C APIs** or **legacy code** |
 
 ### `std::string_view` and `Substrings`
-- `std::string_view` makes it **extremely easy to create substrings** without copying memory, unlike `std::string::substr` which allocates a new string.
+`std::string_view` makes it **extremely easy to create substrings** without copying memory, unlike `std::string::substr` which allocates a new string.
 
-### ✅ Example: Efficient Substring with `string_view`
-
-```cpp
-#include <iostream>
-#include <string_view>
-
-int main() {
-    std::string_view text = "Hello, World!";
-    
-    // Create a substring (view of first 5 characters)
-    std::string_view hello = text.substr(0, 5);
-    
-    std::cout << "Substring: " << hello << std::endl; // Output: Hello
-}
-```
+#### ✅ Example: Efficient Substring with `string_view`
+-
+  ```cpp
+  #include <iostream>
+  #include <string_view>
+  
+  int main() {
+      std::string_view text = "Hello, World!";
+      
+      // Create a substring (view of first 5 characters)
+      std::string_view hello = text.substr(0, 5);
+      
+      std::cout << "Substring: " << hello << std::endl;     // Output: Hello
+  }
+  ```
 - 🔍 `substr(start, length)` returns a new view, not a new string.
 - ✅ No memory is copied or allocated — it just adjusts internal pointers.
 
-### ⚠️ Caution with `string_view` and Lifetimes
-
-```cpp
-std::string_view create_view() {
-    std::string local = "temporary";
-    return std::string_view(local);  // ❌ BAD! local is destroyed at end of function
-}
-```
+#### ⚠️ Caution with `string_view` and Lifetimes
+-
+  ```cpp
+  std::string_view create_view() {
+      std::string local = "temporary";
+      return std::string_view(local);                       // ❌ BAD! local is destroyed at end of function
+  }
+  ```
 - The returned `string_view` becomes a **dangling reference**.
 - ✅ Always make sure the source string **outlives** the `string_view`.
 
-
-### ✅ Safe Interoperability
+#### ✅ Safe Interoperability
+-
   ```cpp
   void print_message(std::string_view msg) {
       std::cout << msg << std::endl;
@@ -778,32 +886,36 @@ std::string_view create_view() {
       print_message(std::string("Hello string"));   // std::string
   }
   ```
+
 - You can **safely accept multiple string types** as parameters with `std::string_view`.
 
-
-## 'auto' keyword
+## `'auto'` keyword
 - The `auto` keyword tells the compiler to automatically deduce the variable’s data type based on the initializer value.
-- This improves readability and helps avoid verbose type declarations, especially with complex types.
+- This improves readability and **helps avoid verbose type declarations, especially with complex types**.
 
-### Type Deduction Rules:
-- If an integer literal is assigned, auto deduces it as int (which is signed by default).
-- If a floating-point literal is assigned (e.g., 1.23), it is deduced as double by default.
+### Type Deduction Rules
+- If an integer literal is assigned, auto deduces it as `int` (which is signed by default).
+
+- If a floating-point literal is assigned (e.g., 1.23), it is deduced as `double` by default.
 - Use `suffixes` to influence type deduction:
 
-  |Literal  | Suffix  | Deduced Type        |
-  |-------  | ------- | ------------------  |
-  | 1.0f    | f       | float               |
-  | 10u     | u       | unsigned int        |
-  | 100l    | l       | long int            |
-  | 100ll   | ll      | long long int       |
-  | 100ul   | ul      | unsigned long int   |
-  | 100ull  | ull     | unsigned long long  |
+  | Literal | Suffix  | Deduced Type          |
+  |-------- | ------- | --------------------  |
+  | 1.0f    | `f`     | `float`               |
+  | 1.0L    | `L`     | `long double`         |
+  | 10u     | `u`     | `unsigned int`        |
+  | 100l    | `l`     | `long int`            |
+  | 100ll   | `ll`    | `long long int`       |
+  | 100ul   | `ul`    | `unsigned long int`   |
+  | 100ull  | `ull`   | `unsigned long long`  |
 
-- default of integer is 'signed integer'
-- default of floating point is 'double'
+- default of integer is `'signed integer'`
+- default of floating point is `'double'`
+  
   ```cpp
   auto x = 42;        // int
   auto y = 3.14;      // double
+  auto d = 3.14L;     // long double
   auto z = 3.14f;     // float
   auto u = 42u;       // unsigned int
   auto l = 100l;      // long int
@@ -812,17 +924,20 @@ std::string_view create_view() {
 
 ## Variable Assignments in C++
 - Declaration and Initialization
+
   ```cpp
   int var {22}        // declaration and initialization of a variable 'var'
   std::cout << "var = "  << var << endl;
   ```
 
 - Re-assignment 
+
   ```cpp
   var = 44            // Reassign a new value to var
   ```
 
 - Important Note on Type Safety
+
   ```cpp
   auto var {212u};                // Deduces 'var' as unsigned int
 
@@ -835,9 +950,10 @@ std::string_view create_view() {
 
 ## Basic Operations in C++
 - (`+`) Addition, (`-`) Subtraction, (`*`) Multiplication, (`/`) Division, (`%`) Modulus - remainder for integers. 
-- (`*`) Mul, (`/`) Div, (`%`) Mod operations have higher precedence than Plus, Minus
+
+- (`*`) Mul, (`/`) Div, (`%`) Mod operations have higher precedence than `Plus`, `Minus`
 - Precedence determines which operation should be performed first.
-- Associativity determines evaluation order when operators have the same precedence.
+- **Associativity determines evaluation order when operators have the same precedence**.
 - 🔗 Operator precedence chart:  
 👉 cppreference.com - [Operator Precedence]( https://en.cppreference.com/w/cpp/language/operator_precedence)
 - Brackets are used to perform low precedence operations before higher precedence operations i.e. to override precedence and improve readability.
@@ -849,6 +965,7 @@ std::string_view create_view() {
 - Compound Assignment operators - `+=`, `-=`, `*=`, `/=`, `%=` which are equivalent to `val = val + x`
 - Relational operators  
   - `<` - Less Than
+
   - `>` - Greater Than
   - `<=` - Less Than Equal To
   - `>=` - Greater Than Equal To
@@ -872,7 +989,7 @@ std::string_view create_view() {
 ## 🖨️ Output Formatting in C++
 - In C++, two main headers/libraries are used for output formatting:
   - `#include <ios>`      – for stream format flags
-  - `#include <iomanip>`  – for manipulators like setw, setprecision, etc.
+  - `#include <iomanip>`  – for manipulators like **setw**, **setprecision**, etc.
 
 ### 🔁 Stream Manipulators  
 - |     Manipulator                    | Description                                                                |
@@ -880,7 +997,7 @@ std::string_view create_view() {
   |`std::endl`                         | Outputs a newline (`\n`) and flushes the output buffer.                    |
   |`std::flush`                        | Forces immediate flush of the output buffer without newline.               |
   |`std::showpos / std::noshowpos`     | Shows or hides the `+` sign for positive numbers.                          |
-  |`std::dec, std::hex, std::oct`      | Sets number base (decimal, hexadecimal, octal).                            |
+  |`std::dec, std::hex, std::oct`      | Sets number base (**decimal**, **hexadecimal**, **octal**).                |
   |`std::showbase / std::noshowbase`   | Shows base prefix like `0x` for hex, `0` for octal.                        |
   |`std::uppercase / std::nouppercase` | Outputs `hex/scientific` exponents in uppercase.                           |
   |`std::boolalpha / std::noboolalpha` | Controls boolean output: `true/false` vs. `1/0`.                           |
@@ -984,7 +1101,8 @@ std::string_view create_view() {
 
 ## `#include <limits>`
 - This library is used to get range of any given datatype.
-- The `<limits>` header provides a standardized way to access properties (such as min, max, etc.) of fundamental data types.
+
+- The `<limits>` header provides a standardized way to access properties (such as **min**, **max**, etc.) of fundamental data types.
 - Key Members of `std::numeric_limits<T>`
 
   ```cpp
@@ -1007,15 +1125,15 @@ std::string_view create_view() {
 
 Notes:
 - `min()`
-  - For integral types: minimum (most negative for signed types)
-  - For floating-point types: smallest positive normalized value
+  - For integral types : **minimum (most negative for signed types)**
+  - For floating-point types : **smallest positive normalized value**
 
 - `lowest()`
-  - For integral types: same as `min()`
-  - For floating-point types: most negative finite value
+  - For integral types : **same as `min()`**
+  - For floating-point types : **most negative finite value**
 
-- `max()`: Largest finite representable value
-- `is_integer`: Returns `true` if the type is an integer type, `false` otherwise
+- `max()` : Largest finite representable value
+- `is_integer` : Returns `true` if the type is an integer type, `false` otherwise
 
 ## `<cmath>` library
 - The <cmath> library provides mathematical functions. Here's a reference for commonly used ones:
@@ -1036,20 +1154,33 @@ Notes:
       std::cout << "round(2.4)    = " << std::round(2.4) << "\n";
       std::cout << "sqrt(49)      = " << std::sqrt(49) << "\n";
   }
+  
+  // Output :-
+   
+  // floor(8.6)    = 8
+  // ceil(8.1)     = 9
+  // abs(-8.6)     = 8.6
+  // exp(2)        = 7.38906  // e^2
+  // pow(3, 4)     = 81
+  // log(34)       = 3.52636  // natural log
+  // log10(1000)   = 3
+  // round(34.754) = 35
+  // round(2.4)    = 2
+  // sqrt(49)      = 7
   ```
 - Common Functions Summary  
 
-  | Function | Description                  |
-  | ---------| -----------------------------|
-  | floor(x) | Largest integer ≤ x          |
-  | ceil(x)  | Smallest integer ≥ x         |
-  | abs(x)   | Absolute value               |
-  | exp(x)   | e^x                          |
-  | pow(x,y) | x^y                          |
-  | log(x)   | Natural logarithm (base e)   |
-  | log10(x) | Base 10 logarithm            |
-  | round(x) | Rounds to nearest integer    |
-  | sqrt(x)  | Square root                  |
+  | Function   | Description                  |
+  | -----------| -----------------------------|
+  | `floor(x)` | Largest integer ≤ x          |
+  | `ceil(x)`  | Smallest integer ≥ x         |
+  | `abs(x)`   | Absolute value               |
+  | `exp(x)`   | e^x                          |
+  | `pow(x,y)` | x^y                          |
+  | `log(x)`   | Natural logarithm (base e)   |
+  | `log10(x)` | Base 10 logarithm            |
+  | `round(x)` | Rounds to nearest integer    |
+  | `sqrt(x)`  | Square root                  |
   
   ```cpp
   floor(8.6)     = 8
@@ -1066,6 +1197,7 @@ Notes:
     
 ## Weird Integral types
 - Integral types of size less than 4 bytes do not support arithmetic operations. 
+
 - Compiler smartly converts them into int data types which is of 4 bytes.  
 - `char` and `short int` do not support arithmetic operations.
 - Similarly, integral types of size less than 4 bytes also do not support bitwise operations and same behavior can also be observed in case of other operations.
@@ -1090,8 +1222,8 @@ Notes:
 
 ## Conditional Statements
     
-### Switch statement
-  1. The break statement after each case is crucial. It prevents fallthrough—where execution continues into subsequent cases even after a match.
+### `Switch` statement
+  1. The `break` statement after each `case` is crucial. It prevents fallthrough — where execution continues into subsequent cases even after a match.
 
   2. Only Integral types: `int`, `char`, `short int`, `long int` etc. and enums are allowed as a condition in case statements. 
   
@@ -1109,6 +1241,7 @@ Notes:
     std::cout << "Other\n";
   }
   ```
+
 ### Ternary Operator  
 - A compact if-else expression that returns either option1 or option2 depending on the boolean result of condition.
 - Both options should be of the same or compatible types.
@@ -1174,7 +1307,7 @@ Notes:
   }
   ```
 
-### while loop
+### `while` loop
   ```cpp
   const unsigned int COUNTER {10};
   size_t iter {};
@@ -1184,7 +1317,7 @@ Notes:
   }
   ```
 
-### do while loop
+### `do-while` loop
 - It will execute the loop body at least once.
   
   ```cpp
@@ -1202,7 +1335,7 @@ Notes:
 - Array elements are accessed using zero-based indexing.
   
   ```cpp
-  int arr[10];                                          // Declare an array of size 10 (elements uninitialized)
+  int arr[10];                                       // Declare an array of size 10 (elements uninitialized)
 
   //Declare and initialize an array. Array size is automatically deduced by compiler.
   double salaries[] {12.6, 143.4, 145.44, 67.0, 134}    
