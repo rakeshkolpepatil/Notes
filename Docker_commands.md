@@ -7,9 +7,9 @@
 
 ## INSTALLATION 
   ```
-  https://docs.docker.com/desktop             :- Docker Desktop is available for Mac, Linux and Windows
-  https://docs.docker.com                     :- Check out our docs for information on using Docker
-  https://github.com/docker/awesome-compose   :- View example projects that use Docker
+  https://docs.docker.com/desktop             # Docker Desktop is available for Mac, Linux and Windows
+  https://docs.docker.com                     # Check out our docs for information on using Docker
+  https://github.com/docker/awesome-compose   # View example projects that use Docker
   ```
 ##  IMAGES 
 - Docker file describes all the dependencies/things that a container needs.
@@ -203,33 +203,33 @@
 
   sudo usermod -aG docker $USER                                 # Add your user to the Docker group to avoid permission issues.
 
-  docker run --name <container_name> <image_name>		            :- Create and run a container from an image 'image_name', with a custom name 'container_name'
-  docker run --rm  <image_name>		                              :- '--rm' switch will remove the container immediately after it is stopped, so that we will not be 
+  docker run --name <container_name> <image_name>		            # Create and run a container from an image 'image_name', with a custom name 'container_name'
+  docker run --rm  <image_name>		                              # '--rm' switch will remove the container immediately after it is stopped, so that we will not be 
                                                                   required it to remove manually, by issuing command 'docker rm <container_name>'
 
-  docker top <containerId/Name>                                 :- Display the running processes within a Docker container
+  docker top <containerId/Name>                                 # Display the running processes within a Docker container
 
-  docker run -p <host_port>:<container_port> <image_name>	      :- Run a container with and publish a container’s port(s) to the host
-  (Or) docker run -P <image_name>	                              :- Run a container from image 'image_name' and publish its all ports to the host
+  docker run -p <host_port>:<container_port> <image_name>	      # Run a container with and publish a container’s port(s) to the host
+  (Or) docker run -P <image_name>	                              # Run a container from image 'image_name' and publish its all ports to the host
 
-  docker start|stop <container_name> (or <container-id>)	      :- Start or stop an existing container
+  docker start|stop <container_name> (or <container-id>)	      # Start or stop an existing container
 
-  docker inspect <container_name> (or <container_id>)	          :-  To inspect a running container. Returns low level details of a container in JSON format. System administrators 
-                                                                    can use this command to monitor resource usage and configurations of running containers. By using the "--format" 
-                                                                    option, scripts can automate tasks based on specific attributes of Docker objects.
+  docker inspect <container_name> (or <container_id>)	          #  To inspect a running container. Returns low level details of a container in JSON format. System administrators 
+                                                                   can use this command to monitor resource usage and configurations of running containers. By using the "--format" 
+                                                                   option, scripts can automate tasks based on specific attributes of Docker objects.
 
-  docker run -d <image_name>		                                :- Run a container in the background i.e. detached mode
-  docker rm <container_name>		                                :- Remove a stopped container
+  docker run -d <image_name>		                                # Run a container in the background i.e. detached mode
+  docker rm <container_name>		                                # Remove a stopped container
 
-  docker logs -f <container_name>	                              :- Fetch and follow the logs of a container named <container_name> in real-time
+  docker logs -f <container_name>	                              # Fetch and follow the logs of a container named <container_name> in real-time
   (OR) docker logs <container_id> --follow
   (OR) docker logs <container_id> -f
   
   Switches with logs command - 
-                                  --tail or -n                  : To view the last N number of log lines
-                                  --timestamps or -t            : To include timestamps
-                                  --since or -s                 : To view logs since a specific timestamp
-                                  --until or -u                 : To view logs before a specific timestamp
+                                  --tail or -n                  # To view the last N number of log lines
+                                  --timestamps or -t            # To include timestamps
+                                  --since or -s                 # To view logs since a specific timestamp
+                                  --until or -u                 # To view logs before a specific timestamp
                                   docker logs <container_id> | grep <pattern>
 
   docker exec -it <container_name> sh	                          # Open a shell inside a running container. This executes the program like 'sh' specified 
@@ -305,35 +305,35 @@
 
   docker ps --last <number>                                     # Shows details of a specified number of recently created containers.
 
-  docker diff                                                   :-  View the differences between the container's filesystem and its base image
+  docker diff                                                   # View the differences between the container's filesystem and its base image
                                                                     Output indicates -
                                                                                     'A' for added files or directories
                                                                                     'C' for changed files or directories
                                                                                     'D' for deleted files or directories
 
-  docker container stats	                                      :-  View resource usage stats
+  docker container stats	                                      #   View resource usage stats
 
-  docker port <containerId>                                     :-  Display the port mappings for the container with the ID 'containerId'
+  docker port <containerId>                                     #   Display the port mappings for the container with the ID 'containerId'
 
-  docker rename Old_name New_name                               :-  Rename the container named 'Old_name' to 'New_name'
+  docker rename Old_name New_name                               #   Rename the container named 'Old_name' to 'New_name'
 
-  docker commit ad9f71ce3a04 myNewImage:latest                  :-  This command will create a new Docker image named 'myNewImage:latest' from the changes made to 
+  docker commit ad9f71ce3a04 myNewImage:latest                  #   This command will create a new Docker image named 'myNewImage:latest' from the changes made to 
                                                                     the container with the ID 'ad9f71ce3a04'
  
-  docker run --add-host myhost:192.168.1.100 myimage            :-  Create a new Docker container from the myimage image and add a host entry for myhost with the IP 
+  docker run --add-host myhost:192.168.1.100 myimage            #   Create a new Docker container from the myimage image and add a host entry for myhost with the IP 
                                                                     address 192.168.1.100
                                                                     - Host entries are used to map hostnames to IP addresses.
                                                                     - They are stored in the '/etc/hosts' file within the container.
  
-  docker tag <imageId> name:version                             :-  Gives name 'name' and version 'version' to the image with id 'imageId'.
+  docker tag <imageId> name:version                             #   Gives name 'name' and version 'version' to the image with id 'imageId'.
                                                                     You can also use this command to change the tag/name associated with the existing image.
                                                                     I think it will not rename the tag but create a copy of the existing image with new tag.
 
-  docker scout quickview <user_name>/<repo_name>:<tag>          :-  View a summary of image vulnerabilities and recommendations 
+  docker scout quickview <user_name>/<repo_name>:<tag>          #   View a summary of image vulnerabilities and recommendations 
   e.g. -
           docker scout quickview rakeshpatil/kubetutorial:v1
 
-  docker system prune -a                                    :-  This command is used to clean up unused Docker resources and reclaim disk space.
+  docker system prune -a                                    #   This command is used to clean up unused Docker resources and reclaim disk space.
                                                                 Purpose: The command is designed to remove all unused containers, networks, images
                                                                 (both dangling and unreferenced), and optionally volumes. This helps in freeing up 
                                                                 storage space that Docker might be using unnecessarily. 
@@ -342,7 +342,21 @@
                                                                 are using shared resources. It is advisable to ensure that no critical images or containers are 
                                                                 inadvertently removed. 
                                                                   
-  docker container prune                                    :-  To remove stopped containers.
+  docker container prune                                    #   To remove stopped containers.
+
+  docker attach <container_id_or_name>                      # To attach to a running Docker container's terminal session.
+  docker exec -it <container_name_or_id> bash               # Open a new shell with docker
+  
+  # Detach from container without stopping
+  ctrl+P, ctrl+Q
+
+  # Reattach to container later
+  docker attach my-container
+
+  # Exit and stop the container
+       exit
+  (or) ctrl + d
+  (or) ctrl + c, ctrl + d                                   # stop the running process and exit.
   ```    
 ## Docker Filter 
 
